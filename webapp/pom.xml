@@ -46,7 +46,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>lalala</finalName>
+		<finalName>DinoMercadito</finalName>
 	</build>
 
 </project>
