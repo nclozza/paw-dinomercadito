@@ -15,14 +15,6 @@
 		<module>persistence</module>
 	</modules>
 
-	<properties>
-		<maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
-		<org.springframework.version>4.2.5.RELEASE</org.springframework.version>
-		<servlet-api.version>2.5</servlet-api.version>
-		<jstl.version>1.2</jstl.version>
-	</properties>
-
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -49,17 +41,4 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>${maven-eclipse-plugin.version}</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>true</downloadJavadocs>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
