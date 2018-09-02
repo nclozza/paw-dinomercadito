@@ -31,3 +31,6 @@ out/
 */target/
 */.project
 .project
+
+*/.classpath
+*/.settings
