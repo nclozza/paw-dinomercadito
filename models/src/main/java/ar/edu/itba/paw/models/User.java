@@ -4,12 +4,13 @@ import java.util.Date;
 
 public class User {
 
-    private String username;
-    private String password;
-    private String email;
-    private String phone;
-    private Address address;
-    private Date birthdate;
+	private String name;
+	private String password;
+	private String email;
+	private String phone;
+	private Address address;
+	private Date birthdate;
+	private Double funds;
 
     public User(String username, String password, String email, String phone, Address address, Date birthdate) {
         this.username = username;
@@ -52,27 +53,15 @@ public class User {
         this.phone = phone;
     }
 
-    public Address getAddress() {
-        return address;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public Double getFunds() {
+		return funds;
+	}
 
-    public Date getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setFunds(Double funds) {
+		this.funds = funds;
+	}
 }
