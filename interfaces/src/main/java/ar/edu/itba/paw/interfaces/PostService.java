@@ -5,11 +5,11 @@ import ar.edu.itba.paw.models.Product;
 
 public interface PostService {
 
-    public void getPost(final Integer postId);
+    public void getPost(Integer postId);
 
-    public Post createPost(final Product product, final Double price, final String username, final String description);
+    public Post createPost(Product product, Double price, String username, String description);
 
-    public boolean deletePost(final Integer postId);
+    public boolean deletePost(String username);
 
-    public boolean updatePost(final Product product, final Double price, final String username, final String description);
+    public boolean updatePost(Product product, Double price, String username, String description);
 }
