@@ -4,55 +4,75 @@ import java.util.Date;
 
 public class User {
 
-	private String name;
-	private String password;
-	private String email;
-	private String phone;
-	private Address address;
-	private Date birthdate;
+    private String username;
+    private String password;
+    private String email;
+    private String phone;
+    private Address address;
+    private Date birthdate;
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public User(String username, String password, String email, String phone, Address address, Date birthdate) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.birthdate = birthdate;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public User(String username, String password, String email, String phone, String address, Date birthdate) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.birthdate = birthdate;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public Date getBirthdate() {
-		return birthdate;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

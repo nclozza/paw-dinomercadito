@@ -1,5 +1,3 @@
-package ar.edu.itba.paw;
-
 /**
  * Hello world!
  *

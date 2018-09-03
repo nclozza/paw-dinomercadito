@@ -52,6 +52,8 @@
 	</dependencyManagement>
 
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 		<org.springframework.version>4.2.5.RELEASE</org.springframework.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jstl.version>1.2</jstl.version>
