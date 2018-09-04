@@ -10,6 +10,7 @@ public class User {
     private String phone;
     private Address address;
     private LocalDate birthdate;
+    private Double funds;
 
     public User(String username, String password, String email, String phone, Address address, LocalDate birthdate) {
         this.username = username;
@@ -61,6 +62,14 @@ public class User {
         this.address = address;
     }
 
+    public Double getFunds() {
+	return funds;
+    }
+
+    public void setFunds(Double funds) {
+	this.funds = funds;
+    }
+
     public LocalDate getBirthdate() {
         return birthdate;
     }
@@ -76,5 +85,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }
