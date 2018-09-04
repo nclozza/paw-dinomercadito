@@ -6,6 +6,7 @@ import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ar.edu.itba.paw.interfaces.UserDAO;
+import ar.edu.itba.paw.interfaces.PostService;
 
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.User;
@@ -23,8 +24,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PostService postService;
 
-    public User findUserByUsername(String username) {
-        return userDAO.findUserByUsername(username);
+    public User findUserById(final Integer userId) {
+        return userDAO.findUserById(userId);
     }
 
     @Override
@@ -32,12 +33,8 @@ public class UserServiceImpl implements UserService {
         return userDAO.createUser(username, password, email, phone, address, birthdate);
     }
 
-	public User getUser(String username) {
-		return null;
-	}
-
-	public boolean deleteUser(String username) {
-		return userDAO.deleteUser(username);
+	public boolean deleteUser(final Integer userId) {
+		return userDAO.deleteUser(userId);
 	}
 
 
@@ -46,25 +43,25 @@ public class UserServiceImpl implements UserService {
 		return userDAO.updateUser(username, password, email, phone, address, birthdate);
 	}
 
-	public boolean buy(final String buyerUsername, final String sellerUsername, final Integer postId) {
+	public boolean buy(final Integer buyerId, final Integer sellerId, final Integer postId) {
 		boolean transactionSucceded;
-		Double price = postService.getPost(postId).getPrice();
-		Double buyerFunds = userDAO.getUser(buyerUsername).getFunds();
-		Double sellerFunds = userDAO.getUser(sellerUsername).getFunds();
+		Double price = postService.findPostById(postId).getPrice();
+		Double buyerFunds = userDAO.findUserById(buyerId).getFunds();
+		Double sellerFunds = userDAO.findUserById(sellerId).getFunds();
 
 
 		if (buyerFunds - price < 0.00) {
 			transactionSucceded = false;
 		} else {
-			userDAO.getUser(buyerUsername).setFunds(buyerFunds - price);
-			userDAO.getUser(sellerUsername).setFunds(sellerFunds + price);
+			userDAO.findUserById(buyerId).setFunds(buyerFunds - price);
+			userDAO.findUserById(sellerId).setFunds(sellerFunds + price);
 			transactionSucceded = true;
 		}
 
 		return transactionSucceded;
 	}
 
-	public Post postProduct(final Product product, final Double price, final String username, final String description) {
-		return postService.createPost(product, price, username, description);
+	public Post postProduct(final Product product, final Double price, final Integer userId, final String description) {
+		return postService.createPost(product, price, userId, description);
 	}
 }

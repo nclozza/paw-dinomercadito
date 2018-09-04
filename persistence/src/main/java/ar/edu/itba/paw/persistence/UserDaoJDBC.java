@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.UserDAO;
+import ar.edu.itba.paw.models.Post;
+import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,13 +34,33 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     @Override
-    public User findUserByUsername(final String username) {
-        final List<User> list = jdbcTemplate.query("SELECT * FROM dinouser WHERE username = ?", ROW_MAPPER, username);
+    public User findUserById(final Integer userId) {
+        final List<User> list = jdbcTemplate.query("SELECT * FROM dinouser WHERE userId = ?", ROW_MAPPER, userId);
         if (list.isEmpty()) {
             return null;
         }
 
         return list.get(0);
+    }
+
+    @Override
+    public boolean deleteUser(final Integer userId) {
+        return false;
+    }
+
+    @Override
+    public boolean updateUser(String username, String password, String email, String phone, String address, LocalDate birthdate) {
+        return false;
+    }
+
+    @Override
+    public boolean buyProduct(String buyerUsername, String sellerUsername, Integer postId) {
+        return false;
+    }
+
+    @Override
+    public Post postProduct(Product product, Double price, String username, String description) {
+        return null;
     }
 
     @Override
@@ -55,4 +77,6 @@ public class UserDaoJDBC implements UserDAO {
 
         return new User(username, password, email, phone, address, birthdate);
     }
+
+
 }

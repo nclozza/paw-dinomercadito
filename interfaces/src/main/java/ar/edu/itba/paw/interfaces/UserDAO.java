@@ -1,18 +1,24 @@
 package ar.edu.itba.paw.interfaces;
 
+import ar.edu.itba.paw.models.Post;
+import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
 
 import java.time.LocalDate;
 
 public interface UserDAO {
 
-    User findUserByUsername(String username);
-
     /**
      * Create a new user.
      *
-     * @param username The user.
+     * @param username The user's username.
      * @return The created user.
      */
-    User createUser(String username, String password, String email, String phone, String address, LocalDate birthdate);
+    public User createUser(final String username, final String password, final String email, final String phone,
+                           final String address, final LocalDate birthdate);
+    public User findUserById(final Integer userId);
+    public boolean deleteUser(final Integer userId);
+    public boolean updateUser(final String username, final String password, final String email, final String phone, final String address, final LocalDate birthdate);
+    public boolean buyProduct(final String buyerUsername, final String sellerUsername, final Integer postId);
+    public Post postProduct(final Product product, final Double price, final String username, final String description);
 }
