@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.PostDAO;
 import ar.edu.itba.paw.interfaces.UserDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
@@ -21,9 +22,15 @@ public class UserDaoJDBC implements UserDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+
+    @Autowired
+    private final PostDAO postDaoJDBC;
+
     private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) -> {
         LocalDate birthdate = LocalDate.parse(rs.getString("birthdate"));
-        return new User(rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), birthdate);
+        return new User(rs.getString("username"), rs.getString("password"),
+                rs.getString("email"), rs.getString("phone"),
+                rs.getString("address"), birthdate);
     };
 
     @Autowired
@@ -31,36 +38,6 @@ public class UserDaoJDBC implements UserDAO {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("dinouser");
-    }
-
-    @Override
-    public User findUserById(final Integer userId) {
-        final List<User> list = jdbcTemplate.query("SELECT * FROM dinouser WHERE userId = ?", ROW_MAPPER, userId);
-        if (list.isEmpty()) {
-            return null;
-        }
-
-        return list.get(0);
-    }
-
-    @Override
-    public boolean deleteUser(final Integer userId) {
-        return false;
-    }
-
-    @Override
-    public boolean updateUser(String username, String password, String email, String phone, String address, LocalDate birthdate) {
-        return false;
-    }
-
-    @Override
-    public boolean buyProduct(String buyerUsername, String sellerUsername, Integer postId) {
-        return false;
-    }
-
-    @Override
-    public Post postProduct(Product product, Double price, String username, String description) {
-        return null;
     }
 
     @Override
@@ -78,5 +55,36 @@ public class UserDaoJDBC implements UserDAO {
         return new User(username, password, email, phone, address, birthdate);
     }
 
+    @Override
+    public User findUserById(final Integer userId) {
+        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userId = ?", ROW_MAPPER, userId);
+        if (list.isEmpty()) {
+            return null;
+        }
 
+        return list.get(0);
+    }
+
+    @Override
+    public boolean deleteUser(final Integer userId) {
+        jdbcTemplate.query("DELETE * FROM users WHERE userId = ?", ROW_MAPPER, userId);
+        // falta hacer la query para eliminar los posts de ese user
+        return false;
+    }
+
+    @Override
+    public boolean updateUser(String username, String password, String email, String phone, String address,
+                              LocalDate birthdate) {
+        return false;
+    }
+
+    @Override
+    public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId) {
+        return false;
+    }
+
+    @Override
+    public Post postProduct(final Product product, final Double price, final Integer userId, final String description) {
+        return postDaoJDBC.createPost(product, price, userId, description);
+    }
 }

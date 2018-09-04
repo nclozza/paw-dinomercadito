@@ -6,7 +6,9 @@ import ar.edu.itba.paw.interfaces.PostService;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PostServiceImpl implements PostService {
 
     @Autowired

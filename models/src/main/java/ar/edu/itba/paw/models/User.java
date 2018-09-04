@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class User {
 
+    private Integer userId;
     private String username;
     private String password;
     private String email;
@@ -28,6 +29,14 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
