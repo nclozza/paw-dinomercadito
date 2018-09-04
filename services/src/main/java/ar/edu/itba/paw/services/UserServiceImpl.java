@@ -7,7 +7,7 @@ import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(final String username, final String password, final String email, final String phone, final String address, final Date birthdate) {
+    public User createUser(final String username, final String password, final String email, final String phone, final String address, final LocalDate birthdate) {
         return userDAO.createUser(username, password, email, phone, address, birthdate);
     }
 
