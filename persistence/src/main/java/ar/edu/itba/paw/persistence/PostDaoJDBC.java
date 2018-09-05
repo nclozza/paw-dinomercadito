@@ -25,12 +25,12 @@ public class PostDaoJDBC implements PostDAO {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("posts")
-                .usingGeneratedKeyColumns("postId");
+                .usingGeneratedKeyColumns("postid");
     }
 
     private final static RowMapper<Post> ROW_MAPPER = (resultSet, rowNum) -> new Post(
-            resultSet.getInt("postId"),
-            resultSet.getInt("productId"),
+            resultSet.getInt("postid"),
+            resultSet.getInt("productid"),
             resultSet.getDouble("price"),
             resultSet.getInt("userId"),
             resultSet.getString("description")
@@ -40,8 +40,8 @@ public class PostDaoJDBC implements PostDAO {
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {
 
         final Map<String, Object> args = new HashMap<>();
-        args.put("productId", productId);
-        args.put("userId", userId);
+        args.put("productid", productId);
+        args.put("userid", userId);
         args.put("price", price);
         args.put("description", description);
 

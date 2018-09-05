@@ -22,12 +22,12 @@ public class UserDaoJDBC implements UserDAO {
     private final SimpleJdbcInsert jdbcInsert;
 
     private final static RowMapper<User> ROW_MAPPER = (resultSet, rowNum) -> new User(
-            resultSet.getInt("userId"),
+            resultSet.getInt("userid"),
             resultSet.getString("username"),
             resultSet.getString("password"),
             resultSet.getString("email"),
             resultSet.getString("phone"),
-            resultSet.getInt("addressId"),
+            resultSet.getInt("addressid"),
             resultSet.getDate("birthdate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
             resultSet.getDouble("funds")
     );
@@ -37,7 +37,7 @@ public class UserDaoJDBC implements UserDAO {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
-                .usingGeneratedKeyColumns("userId");
+                .usingGeneratedKeyColumns("userid");
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
@@ -47,7 +47,7 @@ public class UserDaoJDBC implements UserDAO {
         args.put("password", password);
         args.put("email", email);
         args.put("phone", phone);
-        args.put("addressId", addressId);
+        args.put("addressid", addressId);
         args.put("birthdate", birthdate.toString());
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
