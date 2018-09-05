@@ -32,11 +32,10 @@ public class PostDaoJDBC implements PostDAO {
             resultSet.getInt("postid"),
             resultSet.getInt("productid"),
             resultSet.getDouble("price"),
-            resultSet.getInt("userId"),
+            resultSet.getInt("userid"),
             resultSet.getString("description")
     );
 
-    // TODO Change this method's query with some other
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {
 
         final Map<String, Object> args = new HashMap<>();
@@ -52,7 +51,7 @@ public class PostDaoJDBC implements PostDAO {
 
     // TODO Check this method's if case for the query
     public boolean deletePost(final Integer postId) {
-        final List<Post> postsList = jdbcTemplate.query("DELETE * FROM posts WHERE postId = ?", ROW_MAPPER, postId);
+        final List<Post> postsList = jdbcTemplate.query("DELETE * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
 
         if (postsList.isEmpty()) {
             return false;
@@ -67,7 +66,7 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     public Post findPostById(final Integer postId) {
-        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE postId = ?", ROW_MAPPER, postId);
+        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
 
         if (postsList.isEmpty()) {
             return null;
@@ -77,7 +76,7 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     public List<Post> findPostsByUserId(final Integer userId) {
-        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE userId = ?", ROW_MAPPER, userId);
+        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
         if (postsList.isEmpty()) {
             return null;

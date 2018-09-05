@@ -57,21 +57,21 @@ public class UserDaoJDBC implements UserDAO {
 
     @Override
     public User findUserById(final Integer userId) {
-        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userId = ?", ROW_MAPPER, userId);
+        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId);
 
         return usersList.get(0);
     }
 
     @Override
     public boolean deleteUser(final Integer userId) {
-        final List<User> usersList = jdbcTemplate.query("DELETE * FROM users WHERE userId = ?", ROW_MAPPER, userId);
+        final List<User> usersList = jdbcTemplate.query("DELETE * FROM users WHERE userid = ?", ROW_MAPPER, userId);
 
         return true;
     }
 
     @Override
     public boolean updateUserByFunds(final Integer userId, final Double funds) {
-        final List<User> usersList = jdbcTemplate.query("UPDATE users SET funds = ? WHERE userId = ?", ROW_MAPPER, funds, userId);
+        final List<User> usersList = jdbcTemplate.query("UPDATE users SET funds = ? WHERE userid = ?", ROW_MAPPER, funds, userId);
 
         return true;
     }
