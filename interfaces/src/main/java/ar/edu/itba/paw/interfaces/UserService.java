@@ -20,5 +20,5 @@ public interface UserService {
     public boolean deleteUser(final Integer userId);
     public boolean updateUserByFunds(final Integer userId, final Double funds);
     public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId);
-    public Post postProduct(final Product product, final Double price, final Integer userId, final String description);
+    public Post postProduct(final Integer productId, final Double price, final Integer userId, final String description);
 }

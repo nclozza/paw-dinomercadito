@@ -3,13 +3,14 @@ package ar.edu.itba.paw.models;
 public class Post {
 
     // TODO Generate each post's ID
-    private Integer postId = 5;
+    private Integer postId;
     private Integer productId;
     private Double price;
     private Integer userId;
     private String description;
 
-    public Post(Integer productId, Double price, Integer userId, String description) {
+    public Post(Integer postId, Integer productId, Double price, Integer userId, String description) {
+        this.postId = postId;
         this.productId = productId;
         this.price = price;
         this.userId = userId;

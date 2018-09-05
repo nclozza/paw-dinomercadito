@@ -16,11 +16,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostDAO postDaoJDBC;
 
-    @Autowired
-    public PostServiceImpl() {
-
-    }
-
     public Post findPostById(Integer postId) {
         return postDaoJDBC.findPostById(postId);
     }
@@ -30,8 +25,8 @@ public class PostServiceImpl implements PostService {
         return postDaoJDBC.findPostsByUserId(userId);
     }
 
-    public Post createPost(final Product product, final Double price, final Integer userId, final String description) {
-        return postDaoJDBC.createPost(product, price, userId, description);
+    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {
+        return postDaoJDBC.createPost(productId, price, userId, description);
     }
 
     public boolean updatePost(final Integer postId, Product product, Double price, final Integer userId, String description) {

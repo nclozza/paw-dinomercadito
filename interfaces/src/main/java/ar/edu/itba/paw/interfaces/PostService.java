@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostService {
 
-    public Post createPost(final Product product, final Double price, final Integer userId, final String description);
+    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description);
 
     public boolean deletePost(final Integer postId);
 

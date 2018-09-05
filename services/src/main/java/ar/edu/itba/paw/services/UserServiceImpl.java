@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 		return transactionSucceeded;
 	}
 
-	public Post postProduct(final Product product, final Double price, final Integer userId, final String description) {
-		return postService.createPost(product, price, userId, description);
+	public Post postProduct(final Integer productId, final Double price, final Integer userId, final String description) {
+		return postService.createPost(productId, price, userId, description);
 	}
 }
