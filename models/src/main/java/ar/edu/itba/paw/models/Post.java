@@ -2,34 +2,34 @@ package ar.edu.itba.paw.models;
 
 public class Post {
 
-    private Integer id;
-    private Product product;
+    // TODO Generate each post's ID
+    private Integer postId = 5;
+    private Integer productId;
     private Double price;
-    private String username;
+    private Integer userId;
     private String description;
 
-    public Post(Integer id, Product product, Double price, String username, String description) {
-        this.id = id;
-        this.product = product;
+    public Post(Integer productId, Double price, Integer userId, String description) {
+        this.productId = productId;
         this.price = price;
-        this.username = username;
+        this.userId = userId;
         this.description = description;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPostId() {
+        return postId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPostId(Integer postId) {
+        this.postId = postId;
     }
 
-    public Product getProduct() {
-        return product;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Integer ProductId) {
+        this.productId = productId;
     }
 
     public Double getPrice() {
@@ -40,12 +40,12 @@ public class Post {
         this.price = price;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {

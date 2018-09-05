@@ -8,6 +8,8 @@ import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class PostServiceImpl implements PostService {
 
@@ -21,6 +23,11 @@ public class PostServiceImpl implements PostService {
 
     public Post findPostById(Integer postId) {
         return postDaoJDBC.findPostById(postId);
+    }
+
+
+    public List<Post> findPostsByUserId(Integer userId) {
+        return postDaoJDBC.findPostsByUserId(userId);
     }
 
     public Post createPost(final Product product, final Double price, final Integer userId, final String description) {

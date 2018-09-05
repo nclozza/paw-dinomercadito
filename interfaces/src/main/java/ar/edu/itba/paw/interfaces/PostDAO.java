@@ -3,9 +3,9 @@ package ar.edu.itba.paw.interfaces;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 
-public interface PostDAO {
+import java.util.List;
 
-    public Post findPostById(Integer postId);
+public interface PostDAO {
 
     public Post createPost(final Product product, final Double price, final Integer userId, final String description);
 
@@ -13,4 +13,8 @@ public interface PostDAO {
 
     public boolean updatePost(final Integer postId, final Product product, final Double price, final Integer userId,
                               final String description);
+
+    public Post findPostById(final Integer postId);
+
+    public List<Post> findPostsByUserId(final Integer userId);
 }

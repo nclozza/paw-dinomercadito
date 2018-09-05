@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 public class User {
 
@@ -9,26 +10,29 @@ public class User {
     private String password;
     private String email;
     private String phone;
-    private Address address;
+    private Integer addressId;
     private LocalDate birthdate;
     private Double funds;
 
-    public User(String username, String password, String email, String phone, Address address, LocalDate birthdate) {
+    public User(String username, String password, String email, String phone, Integer addressId, LocalDate birthdate) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.address = address;
+        this.addressId = addressId;
         this.birthdate = birthdate;
+        funds = 0.0;
     }
 
-    //TODO delete this
-    public User(String username, String password, String email, String phone, String address, LocalDate birthdate) {
+    public User(String username, String password, String email, String phone, Integer addressId, LocalDate birthdate,
+                Double funds) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.addressId = addressId;
         this.birthdate = birthdate;
+        this.funds = funds;
     }
 
     public Integer getUserId() {
@@ -63,12 +67,12 @@ public class User {
         this.phone = phone;
     }
 
-    public Address getAddress() {
-        return address;
+    public Integer getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public Double getFunds() {

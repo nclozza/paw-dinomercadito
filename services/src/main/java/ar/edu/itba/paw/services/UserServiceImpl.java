@@ -11,6 +11,7 @@ import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,22 +23,33 @@ public class UserServiceImpl implements UserService {
 	private PostService postService;
 
 
-    public User createUser(final String username, final String password, final String email, final String phone, final String address, final LocalDate birthdate) {
-        return userDAO.createUser(username, password, email, phone, address, birthdate);
+    public User createUser(final String username, final String password, final String email, final String phone,
+						   final Integer addressId, final LocalDate birthdate) {
+        return userDAO.createUser(username, password, email, phone, addressId, birthdate);
     }
 
 	public User findUserById(final Integer userId) {
 		return userDAO.findUserById(userId);
 	}
 
+	// TODO See what to do with this method's return value
 	public boolean deleteUser(final Integer userId) {
-		return userDAO.deleteUser(userId);
+    	List<Post> postsList = postService.findPostsByUserId(userId);
+
+    	if (!postsList.isEmpty()) {
+			for (Post post : postsList) {
+				postService.deletePost(post.getPostId());
+			}
+		}
+
+		userDAO.deleteUser(userId);
+
+    	return true;
 	}
 
-
-	public boolean updateUser(final String username, final String password, final String email, final String phone,
-							  final String address, final LocalDate birthdate) {
-		return userDAO.updateUser(username, password, email, phone, address, birthdate);
+	@Override
+	public boolean updateUserByFunds(Integer userId, Double funds) {
+		return userDAO.updateUserByFunds(userId, funds);
 	}
 
 	public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId) {
@@ -49,8 +61,8 @@ public class UserServiceImpl implements UserService {
 		if (buyerFunds - price < 0.00) {
 			transactionSucceeded = false;
 		} else {
-			userDAO.findUserById(buyerId).setFunds(buyerFunds - price);
-			userDAO.findUserById(sellerId).setFunds(sellerFunds + price);
+			userDAO.updateUserByFunds(buyerId, buyerFunds - price);
+			userDAO.updateUserByFunds(sellerId, sellerFunds + price);
 			transactionSucceeded = true;
 		}
 
