@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR(32) NOT NULL,
    email VARCHAR(32),
    phone VARCHAR(16),
-   addressId INT REFERENCES addresses(addressId) NOT NULL,
    birthdate DATE,
    funds NUMERIC(5, 2)
 );
