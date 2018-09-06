@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.AddressDAO;
+import ar.edu.itba.paw.interfaces.DAO.AddressDAO;
 import ar.edu.itba.paw.models.Address;
-import ar.edu.itba.paw.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -32,14 +32,14 @@ public class AddressDaoJDBC implements AddressDAO {
             resultSet.getInt("number"),
             resultSet.getString("city"),
             resultSet.getString("province"),
-            resultSet.getString("zipcode"),
+            resultSet.getInt("zipcode"),
             resultSet.getString("country")
     );
 
 
     @Override
     public Address createAddress(final String street, final Integer number, final String city, final String province,
-                                 final String zipCode, final String country) {
+                                 final Integer zipCode, final String country) {
         final Map<String, Object> args = new HashMap<>();
         args.put("street", street);
         args.put("number", number);
@@ -60,7 +60,10 @@ public class AddressDaoJDBC implements AddressDAO {
 
     @Override
     public Address findAddressByAddressId(Integer addressId) {
-        return null;
+        final List<Address> productList = jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
+                ROW_MAPPER, addressId);
+
+        return productList.get(0);
     }
 
     @Override

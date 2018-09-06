@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.Services;
 
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;

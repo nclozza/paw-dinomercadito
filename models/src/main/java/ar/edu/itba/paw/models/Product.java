@@ -11,11 +11,28 @@ public class Product {
     private String storage;
     private String operativeSystem;
     private String processor;
-    private Rectangle bodySize;
-    private Rectangle screenSize;
+    private String bodySize; // inches diagonally
+    private String screenSize; // inches diagonally
     private String screenRatio;
     private String rearCamera;
     private String frontCamera;
+
+    public Product(Integer productId, String productName, String brand, String ram, String storage,
+                   String operativeSystem, String processor, String bodySize, String screenSize,
+                   String screenRatio, String rearCamera, String frontCamera) {
+        this.productId = productId;
+        this.productName = productName;
+        this.brand = brand;
+        this.ram = ram;
+        this.storage = storage;
+        this.operativeSystem = operativeSystem;
+        this.processor = processor;
+        this.bodySize = bodySize;
+        this.screenSize = screenSize;
+        this.screenRatio = screenRatio;
+        this.rearCamera = rearCamera;
+        this.frontCamera = frontCamera;
+    }
 
     public Integer getProductId() {
         return productId;
@@ -73,19 +90,19 @@ public class Product {
         this.processor = processor;
     }
 
-    public Rectangle getBodySize() {
+    public String getBodySize() {
         return bodySize;
     }
 
-    public void setBodySize(Rectangle bodySize) {
+    public void setBodySize(String bodySize) {
         this.bodySize = bodySize;
     }
 
-    public Rectangle getScreenSize() {
+    public String getScreenSize() {
         return screenSize;
     }
 
-    public void setScreenSize(Rectangle screenSize) {
+    public void setScreenSize(String screenSize) {
         this.screenSize = screenSize;
     }
 

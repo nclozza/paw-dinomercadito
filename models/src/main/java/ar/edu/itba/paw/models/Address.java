@@ -7,10 +7,10 @@ public class Address {
     private Integer number;
     private String city;
     private String province;
-    private String zipCode;
+    private Integer zipCode;
     private String country;
 
-    public Address(Integer addressId, String street, Integer number, String city, String province, String zipCode,
+    public Address(Integer addressId, String street, Integer number, String city, String province, Integer zipCode,
                    String country) {
         this.addressId = addressId;
         this.street = street;
@@ -61,11 +61,11 @@ public class Address {
         this.province = province;
     }
 
-    public String getZipCode() {
+    public Integer getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(String zipCode) {
+    public void setZipCode(Integer zipCode) {
         this.zipCode = zipCode;
     }
 

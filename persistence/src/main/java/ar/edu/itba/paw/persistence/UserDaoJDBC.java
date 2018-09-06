@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.UserDAO;
+import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -56,7 +56,7 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     @Override
-    public User findUserById(final Integer userId) {
+    public User findUserByUserId(final Integer userId) {
         final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId);
 
         return usersList.get(0);

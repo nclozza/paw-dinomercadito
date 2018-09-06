@@ -1,14 +1,14 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.AddressService;
-import ar.edu.itba.paw.interfaces.PostService;
+import ar.edu.itba.paw.interfaces.Services.AddressService;
+import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.models.Address;
 import ar.edu.itba.paw.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ar.edu.itba.paw.interfaces.UserDAO;
+import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 
-import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
 
 import java.time.LocalDate;
@@ -29,14 +29,14 @@ public class UserServiceImpl implements UserService {
 
     public User createUser(final String username, final String password, final String email, final String phone,
 						   final Integer addressId, final LocalDate birthdate, final String street,
-						   final Integer number,final String city, final String province, final String zipCode,
+						   final Integer number,final String city, final String province, final Integer zipCode,
 						   final String country) {
     	Address address = addressService.createAddress(street, number, city, province, zipCode, country);
         return userDAO.createUser(username, password, email, phone, address.getAddressId(), birthdate);
     }
 
-	public User findUserById(final Integer userId) {
-		return userDAO.findUserById(userId);
+	public User findUserByUserId(final Integer userId) {
+		return userDAO.findUserByUserId(userId);
 	}
 
 	// TODO See what to do with this method's return value
@@ -71,8 +71,8 @@ public class UserServiceImpl implements UserService {
 	public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId) {
 		boolean transactionSucceeded = true;
 		Double price = postService.findPostById(postId).getPrice();
-		Double buyerFunds = userDAO.findUserById(buyerId).getFunds();
-		Double sellerFunds = userDAO.findUserById(sellerId).getFunds();
+		Double buyerFunds = userDAO.findUserByUserId(buyerId).getFunds();
+		Double sellerFunds = userDAO.findUserByUserId(sellerId).getFunds();
 
 		if (buyerId < 0 || sellerId < 0 || postId < 0)
 			return !transactionSucceeded;

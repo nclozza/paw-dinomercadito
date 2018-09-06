@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,13 +21,15 @@ public class UserController {
     @RequestMapping("/user")
     public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId) {
         final ModelAndView mav = new ModelAndView("index");
-        mav.addObject("user", us.findUserById(userId).getUsername());
+        mav.addObject("user", us.findUserByUserId(userId).getUsername());
         return mav;
     }
 
     @RequestMapping("/create")
     public ModelAndView create(@RequestParam(value = "username", required = true) final String username) {
-        final User u = us.createUser(username, "asd", "asd", "asd", 1245, LocalDate.parse("2000-11-09"));
+        final User u = us.createUser(username, "asd", "asd", "asd", 1245,
+                LocalDate.parse("2000-11-09"), "Av. Madero", 1245, "CABA", "CABA",
+                1245, "ARG");
         return new ModelAndView("redirect:/?username=" + u.getUsername());
     }
 }

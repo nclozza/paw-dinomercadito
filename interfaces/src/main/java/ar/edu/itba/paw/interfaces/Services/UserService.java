@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.Services;
 
 import ar.edu.itba.paw.models.User;
 
@@ -14,9 +14,9 @@ public interface UserService {
      */
     public User createUser(final String username, final String password, final String email, final String phone,
                            final Integer addressId, final LocalDate birthdate, final String street,
-                           final Integer number,final String city, final String province, final String zipCode,
+                           final Integer number,final String city, final String province, final Integer zipCode,
                            final String country);
-    public User findUserById(final Integer userId);
+    public User findUserByUserId(final Integer userId);
     public boolean deleteUser(final Integer userId);
     public boolean updateUserFunds(final Integer userId, final Double funds);
     public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId);
