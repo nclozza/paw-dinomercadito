@@ -21,18 +21,26 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Autowired
-	private PostService postService;
-
-	@Autowired
 	private AddressService addressService;
 
+	@Autowired
+	private PostService postService;
+
+    public User createUserWithAddress(final String username, final String password, final String email, final String phone,
+						   final LocalDate birthdate, final String street, final Integer number,final String city,
+						   final String province, final String zipCode, final String country) {
+
+        User user = userDAO.createUser(username, password, email, phone, birthdate);
+
+        addressService.createAddress(user.getUserId(), street, number, city, province, zipCode,country);
+
+        return user;
+    }
 
     public User createUser(final String username, final String password, final String email, final String phone,
-						   final Integer addressId, final LocalDate birthdate, final String street,
-						   final Integer number,final String city, final String province, final Integer zipCode,
-						   final String country) {
-    	Address address = addressService.createAddress(street, number, city, province, zipCode, country);
-        return userDAO.createUser(username, password, email, phone, address.getAddressId(), birthdate);
+                           final LocalDate birthdate) {
+
+        return userDAO.createUser(username, password, email, phone, birthdate);
     }
 
 	public User findUserByUserId(final Integer userId) {

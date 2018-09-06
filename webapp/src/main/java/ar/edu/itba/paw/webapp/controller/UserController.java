@@ -27,9 +27,7 @@ public class UserController {
 
     @RequestMapping("/create")
     public ModelAndView create(@RequestParam(value = "username", required = true) final String username) {
-        final User u = us.createUser(username, "asd", "asd", "asd", 1245,
-                LocalDate.parse("2000-11-09"), "Av. Madero", 1245, "CABA", "CABA",
-                1245, "ARG");
+        final User u = us.createUser(username, "asd", "asd", "asd", LocalDate.parse("2000-11-09"));
         return new ModelAndView("redirect:/?username=" + u.getUsername());
     }
 }
