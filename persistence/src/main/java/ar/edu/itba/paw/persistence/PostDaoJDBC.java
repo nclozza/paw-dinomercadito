@@ -53,10 +53,6 @@ public class PostDaoJDBC implements PostDAO {
     public boolean deletePost(final Integer postId) {
         final List<Post> postsList = jdbcTemplate.query("DELETE * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
 
-        if (postsList.isEmpty()) {
-            return false;
-        }
-
         return true;
     }
 

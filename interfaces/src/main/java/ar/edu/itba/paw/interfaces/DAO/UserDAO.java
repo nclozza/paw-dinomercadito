@@ -16,6 +16,5 @@ public interface UserDAO {
                            final Integer addressId, final LocalDate birthdate);
     public User findUserById(final Integer userId);
     public boolean deleteUser(final Integer userId);
-    public boolean updateUserByFunds(final Integer userId, final Double funds);
-    public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId);
+    public boolean updateUserFunds(final Integer userId, final Double funds);
 }

@@ -20,9 +20,14 @@ public class PostServiceImpl implements PostService {
         return postDaoJDBC.findPostById(postId);
     }
 
-
     public List<Post> findPostsByUserId(Integer userId) {
-        return postDaoJDBC.findPostsByUserId(userId);
+        List<Post> postsList = postDaoJDBC.findPostsByUserId(userId);
+
+        if (postsList.isEmpty()) {
+            return null;
+        }
+
+        return postsList;
     }
 
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {

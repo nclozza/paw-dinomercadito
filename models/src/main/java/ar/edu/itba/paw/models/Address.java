@@ -1,12 +1,33 @@
 package ar.edu.itba.paw.models;
 
 public class Address {
+
+    private Integer addressId;
     private String street;
     private Integer number;
     private String city;
     private String province;
     private String zipCode;
     private String country;
+
+    public Address(Integer addressId, String street, Integer number, String city, String province, String zipCode,
+                   String country) {
+        this.addressId = addressId;
+        this.street = street;
+        this.number = number;
+        this.city = city;
+        this.province = province;
+        this.zipCode = zipCode;
+        this.country = country;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
 
     public String getStreet() {
         return street;

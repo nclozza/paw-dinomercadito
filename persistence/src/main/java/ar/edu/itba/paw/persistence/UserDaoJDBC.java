@@ -70,13 +70,9 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     @Override
-    public boolean updateUserByFunds(final Integer userId, final Double funds) {
+    public boolean updateUserFunds(final Integer userId, final Double funds) {
         final List<User> usersList = jdbcTemplate.query("UPDATE users SET funds = ? WHERE userid = ?", ROW_MAPPER, funds, userId);
 
         return true;
-    }
-
-    public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId) {
-        return false;
     }
 }
