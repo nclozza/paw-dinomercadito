@@ -28,6 +28,7 @@ public class AddressDaoJDBC implements AddressDAO {
 
     private final static RowMapper<Address> ROW_MAPPER = (resultSet, rowNum) -> new Address(
             resultSet.getInt("addressid"),
+            resultSet.getInt("userid"),
             resultSet.getString("street"),
             resultSet.getInt("number"),
             resultSet.getString("city"),
@@ -38,9 +39,10 @@ public class AddressDaoJDBC implements AddressDAO {
 
 
     @Override
-    public Address createAddress(final String street, final Integer number, final String city, final String province,
-                                 final String zipCode, final String country) {
+    public Address createAddress(final Integer userId, final String street, final Integer number, final String city,
+                                 final String province, final String zipCode, final String country) {
         final Map<String, Object> args = new HashMap<>();
+        args.put("userid", userId);
         args.put("street", street);
         args.put("number", number);
         args.put("city", city);
@@ -50,7 +52,7 @@ public class AddressDaoJDBC implements AddressDAO {
 
         final Number addressId = jdbcInsert.executeAndReturnKey(args);
 
-        return new Address(addressId.intValue(), street, number, city, province, zipCode, country);
+        return new Address(addressId.intValue(), userId, street, number, city, province, zipCode, country);
     }
 
     @Override

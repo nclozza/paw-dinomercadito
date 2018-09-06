@@ -27,7 +27,6 @@ public class UserDaoJDBC implements UserDAO {
             resultSet.getString("password"),
             resultSet.getString("email"),
             resultSet.getString("phone"),
-            resultSet.getInt("addressid"),
             resultSet.getDate("birthdate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
             resultSet.getDouble("funds")
     );
@@ -41,18 +40,17 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final Integer addressId, final LocalDate birthdate) {
+                           final LocalDate birthdate) {
         final Map<String, Object> args = new HashMap<>();
         args.put("username", username); // la key es el nombre de la columna
         args.put("password", password);
         args.put("email", email);
         args.put("phone", phone);
-        args.put("addressid", addressId);
         args.put("birthdate", birthdate.toString());
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
-        return new User(userId.intValue(), username, password, email, phone, addressId, birthdate);
+        return new User(userId.intValue(), username, password, email, phone, birthdate);
     }
 
     @Override

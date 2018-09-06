@@ -3,6 +3,7 @@ package ar.edu.itba.paw.models;
 public class Address {
 
     private Integer addressId;
+    private Integer userId;
     private String street;
     private Integer number;
     private String city;
@@ -10,9 +11,10 @@ public class Address {
     private String zipCode;
     private String country;
 
-    public Address(Integer addressId, String street, Integer number, String city, String province, String zipCode,
-                   String country) {
+    public Address(Integer addressId, Integer userId, String street, Integer number, String city, String province,
+                   String zipCode, String country) {
         this.addressId = addressId;
+        this.userId = userId;
         this.street = street;
         this.number = number;
         this.city = city;
@@ -27,6 +29,14 @@ public class Address {
 
     public void setAddressId(Integer addressId) {
         this.addressId = addressId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getStreet() {

@@ -13,9 +13,9 @@ public class AddressServiceImpl implements AddressService {
     private AddressDAO addressDAO;
 
     @Override
-    public Address createAddress(final String street, final Integer number, final String city,
+    public Address createAddress(final Integer userId, final String street, final Integer number, final String city,
                                  final String province, final String zipCode, final String country) {
-        return addressDAO.createAddress(street, number, city, province, zipCode, country);
+        return addressDAO.createAddress(userId, street, number, city, province, zipCode, country);
     }
 
     @Override
