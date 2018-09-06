@@ -9,30 +9,26 @@ public class User {
     private String password;
     private String email;
     private String phone;
-    private Integer addressId;
     private LocalDate birthdate;
     private Double funds;
 
-    public User(Integer userId, String username, String password, String email, String phone, Integer addressId,
-                LocalDate birthdate) {
+    public User(Integer userId, String username, String password, String email, String phone, LocalDate birthdate) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.addressId = addressId;
         this.birthdate = birthdate;
         funds = 0.0;
     }
 
-    public User(Integer userId, String username, String password, String email, String phone, Integer addressId,
-                LocalDate birthdate, Double funds) {
+    public User(Integer userId, String username, String password, String email, String phone, LocalDate birthdate,
+                Double funds) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.addressId = addressId;
         this.birthdate = birthdate;
         this.funds = funds;
     }
@@ -69,13 +65,6 @@ public class User {
         this.phone = phone;
     }
 
-    public Integer getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
-    }
 
     public Double getFunds() {
         return funds;

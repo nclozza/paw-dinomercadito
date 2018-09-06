@@ -3,6 +3,8 @@ package ar.edu.itba.paw.models;
 import java.awt.*;
 
 public class Product {
+
+    private Integer productId;
     private String productName;
     private String brand;
     private String ram;
@@ -14,6 +16,14 @@ public class Product {
     private String screenRatio;
     private String rearCamera;
     private String frontCamera;
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
