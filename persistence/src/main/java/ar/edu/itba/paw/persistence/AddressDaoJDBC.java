@@ -2,7 +2,6 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.AddressDAO;
 import ar.edu.itba.paw.models.Address;
-import ar.edu.itba.paw.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -56,21 +55,42 @@ public class AddressDaoJDBC implements AddressDAO {
         return new Address(addressId.intValue(), userId, street, number, city, province, zipCode, country);
     }
 
-    @Override
-    public boolean deleteAddress(Integer addressId) {
-        return false;
+    public boolean deleteAddressByAddressId(Integer addressId) {
+        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM addresses WHERE addressid = ?",
+                addressId);
+
+        return deletedRows == 1;
     }
 
-    @Override
+    public boolean deleteAddressByUserId(Integer userId) {
+        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM addresses WHERE userid = ?",
+                userId);
+
+        return deletedRows == 1;
+    }
+
     public Address findAddressByAddressId(Integer addressId) {
-        final List<Address> productList = jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
+        final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
                 ROW_MAPPER, addressId);
 
-        return productList.get(0);
+        return addressList.get(0);
+    }
+
+    public List<Address> findAddressesByUserId(Integer userId) {
+        final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE userid = ?",
+                ROW_MAPPER, userId);
+
+        return addressList;
     }
 
     @Override
-    public Address updateAddress(String street, Integer number, String city, String province, String zipCode, String country) {
-        return null;
+    public Address updateAddress(final Integer addressId, final Integer userId, final String street,
+                                 final Integer number, final String city, final String province, final String zipCode,
+                                 final String country) {
+       jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?," +
+                        "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
+                zipCode, country, addressId);
+
+        return findAddressByAddressId(addressId);
     }
 }

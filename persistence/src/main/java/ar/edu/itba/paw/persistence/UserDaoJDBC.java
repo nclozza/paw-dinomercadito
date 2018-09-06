@@ -27,8 +27,7 @@ public class UserDaoJDBC implements UserDAO {
             resultSet.getString("password"),
             resultSet.getString("email"),
             resultSet.getString("phone"),
-            resultSet.getDate("birthdate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-            resultSet.getDouble("funds")
+            resultSet.getDate("birthdate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
     );
 
     @Autowired
@@ -53,24 +52,23 @@ public class UserDaoJDBC implements UserDAO {
         return new User(userId.intValue(), username, password, email, phone, birthdate);
     }
 
-    @Override
     public User findUserByUserId(final Integer userId) {
         final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId);
 
         return usersList.get(0);
     }
 
-    @Override
     public boolean deleteUser(final Integer userId) {
-        final List<User> usersList = jdbcTemplate.query("DELETE * FROM users WHERE userid = ?", ROW_MAPPER, userId);
+        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM users WHERE userid = ?", userId);
 
-        return true;
+        return deletedRows == 1;
     }
 
-    @Override
-    public boolean updateUserFunds(final Integer userId, final Double funds) {
-        final List<User> usersList = jdbcTemplate.query("UPDATE users SET funds = ? WHERE userid = ?", ROW_MAPPER, funds, userId);
+    public User updateUser(final Integer userId, final String username, final String password, final String email,
+                              final String phone, final LocalDate birthdate) {
+        jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ? WHERE userid = ?",
+                password, email, phone, birthdate, userId);
 
-        return true;
+        return findUserByUserId(userId);
     }
 }

@@ -10,7 +10,6 @@ public class User {
     private String email;
     private String phone;
     private LocalDate birthdate;
-    private Double funds;
 
     public User(Integer userId, String username, String password, String email, String phone, LocalDate birthdate) {
         this.userId = userId;
@@ -19,18 +18,6 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        funds = 0.0;
-    }
-
-    public User(Integer userId, String username, String password, String email, String phone, LocalDate birthdate,
-                Double funds) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.birthdate = birthdate;
-        this.funds = funds;
     }
 
     public Integer getUserId() {
@@ -63,15 +50,6 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-
-    public Double getFunds() {
-        return funds;
-    }
-
-    public void setFunds(Double funds) {
-        this.funds = funds;
     }
 
     public LocalDate getBirthdate() {

@@ -6,29 +6,31 @@ import ar.edu.itba.paw.models.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressDAO addressDAO;
 
-    @Override
     public Address createAddress(final Integer userId, final String street, final Integer number, final String city,
                                  final String province, final String zipCode, final String country) {
         return addressDAO.createAddress(userId, street, number, city, province, zipCode, country);
     }
 
-    @Override
     public Address findAddressByAddressId(final Integer addressId) {
-        return null;
+        return addressDAO.findAddressByAddressId(addressId);
     }
 
-    @Override
+    public List<Address> findAddressByUserId(Integer userId) {
+        return addressDAO.findAddressesByUserId(userId);
+    }
+
     public boolean deleteAddress(final Integer addressId) {
-        return false;
+        return addressDAO.deleteAddressByAddressId(addressId);
     }
 
-    @Override
     public Address updateAddress(final String street, final Integer number, final String city, final String province,
                                  final String zipCode, final String country) {
         return null;

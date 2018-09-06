@@ -48,7 +48,6 @@ public class ProductDaoJDBC implements ProductDAO {
                 .usingGeneratedKeyColumns("postid");
     }
 
-    @Override
     public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
                                  String processor, String bodySize, String screenSize, String screenRatio,
                                  String rearCamera, String frontCamera) {
@@ -71,12 +70,12 @@ public class ProductDaoJDBC implements ProductDAO {
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
-    @Override
     public boolean deleteProduct(Integer productId) {
-        return false;
+        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM products WHERE productid = ?", productId);
+
+        return deletedRows == 1;
     }
 
-    @Override
     public Product findProductByProductId(Integer productId) {
         final List<Product> productList = jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
                 productId);
@@ -84,8 +83,10 @@ public class ProductDaoJDBC implements ProductDAO {
         return productList.get(0);
     }
 
-    @Override
-    public Product updateProduct(String productName, String brand, String ram, String storage, String operativeSystem, String processor, Rectangle bodySize, Rectangle screenSize, String screenRatio, String rearCamera, String frontCamera) {
+    public Product updateProduct(final String productName, final String brand, final String ram, final String storage,
+                                 final String operativeSystem, final String processor, final Rectangle bodySize,
+                                 final Rectangle screenSize, final String screenRatio, final String rearCamera,
+                                 final String frontCamera) {
         return null;
     }
 }

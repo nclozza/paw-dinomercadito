@@ -19,5 +19,6 @@ public interface UserDAO {
 
     public boolean deleteUser(final Integer userId);
 
-    public boolean updateUserFunds(final Integer userId, final Double funds);
+    public User updateUser(final Integer userId, final String username, final String password, final String email,
+                              final String phone, final LocalDate birthdate);
 }

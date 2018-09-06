@@ -49,19 +49,21 @@ public class PostDaoJDBC implements PostDAO {
         return new Post(postId.intValue(), productId, price, userId, description);
     }
 
-    // TODO Check this method's if case for the query
     public boolean deletePost(final Integer postId) {
-        final List<Post> postsList = jdbcTemplate.query("DELETE * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
+        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM posts WHERE postid = ?", postId);
 
-        return true;
+        return deletedRows == 1;
     }
 
-    public boolean updatePost(final Integer postId, final Product product, final Double price, final Integer userId,
+    public Post updatePost(final Integer postId, final Integer productId, final Double price, final Integer userId,
                               final String description) {
-        return false;
+        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ? WHERE postid = ?",
+                productId, price, description, postId);
+
+        return findPostByPostId(postId);
     }
 
-    public Post findPostById(final Integer postId) {
+    public Post findPostByPostId(final Integer postId) {
         final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
 
         if (postsList.isEmpty()) {
@@ -71,13 +73,13 @@ public class PostDaoJDBC implements PostDAO {
         return postsList.get(0);
     }
 
-    public List<Post> findPostsByUserId(final Integer userId) {
-        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
+    public List<Post> findPostByUserId(final Integer userId) {
+        final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
-        if (postsList.isEmpty()) {
+        if (postList.isEmpty()) {
             return null;
         }
 
-        return postsList;
+        return postList;
     }
 }
