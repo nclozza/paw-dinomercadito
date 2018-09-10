@@ -15,7 +15,7 @@ public interface AddressDAO {
 
     public Address findAddressByAddressId(final Integer addressId);
 
-    public Address updateAddress(final Integer addressId, final Integer userId, final String street,
+    public Address updateAddress(final Integer addressId, final String street,
                                  final Integer number, final String city, final String province, final String zipCode,
                                  final String country);
 

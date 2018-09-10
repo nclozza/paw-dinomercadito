@@ -22,8 +22,8 @@ public class AddressDaoJDBC implements AddressDAO {
     public AddressDaoJDBC(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("posts")
-                .usingGeneratedKeyColumns("postid");
+                .withTableName("addresses")
+                .usingGeneratedKeyColumns("addressid");
     }
 
     private final static RowMapper<Address> ROW_MAPPER = (resultSet, rowNum) -> new Address(
@@ -56,14 +56,14 @@ public class AddressDaoJDBC implements AddressDAO {
     }
 
     public boolean deleteAddressByAddressId(Integer addressId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM addresses WHERE addressid = ?",
+        final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE addressid = ?",
                 addressId);
 
         return deletedRows == 1;
     }
 
     public boolean deleteAddressByUserId(Integer userId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM addresses WHERE userid = ?",
+        final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE userid = ?",
                 userId);
 
         return deletedRows == 1;
@@ -84,11 +84,11 @@ public class AddressDaoJDBC implements AddressDAO {
     }
 
     @Override
-    public Address updateAddress(final Integer addressId, final Integer userId, final String street,
+    public Address updateAddress(final Integer addressId, final String street,
                                  final Integer number, final String city, final String province, final String zipCode,
                                  final String country) {
-       jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?," +
-                        "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
+       jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
+                       "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
                 zipCode, country, addressId);
 
         return findAddressByAddressId(addressId);

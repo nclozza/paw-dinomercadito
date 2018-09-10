@@ -70,7 +70,7 @@ public class UserDaoJDBCTest {
     }
 
     @Test
-    public void testUserFindUserByUserId() {
+    public void testUserFind() {
         final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 
         User userFound = userDao.findUserByUserId(user.getUserId());
