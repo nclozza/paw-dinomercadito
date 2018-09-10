@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS products (
    storage VARCHAR(8),
    operativeSystem VARCHAR(32),
    processor VARCHAR(32),
-   bodySize NUMERIC(5, 2),
-   screenSize NUMERIC (5, 2),
+   bodySize VARCHAR(8),
+   screenSize VARCHAR(8),
    screenRatio VARCHAR(8),
    rearCamera VARCHAR(16),
    frontCamera VARCHAR(16)

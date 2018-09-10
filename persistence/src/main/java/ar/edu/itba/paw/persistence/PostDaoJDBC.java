@@ -50,7 +50,7 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     public boolean deletePost(final Integer postId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM posts WHERE postid = ?", postId);
+        final Integer deletedRows = jdbcTemplate.update("DELETE FROM posts WHERE postid = ?", postId);
 
         return deletedRows == 1;
     }

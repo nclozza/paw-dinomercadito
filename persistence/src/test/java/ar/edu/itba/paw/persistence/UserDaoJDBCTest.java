@@ -73,7 +73,7 @@ public class UserDaoJDBCTest {
     public void testUserFind() {
         final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 
-        User userFound = userDao.findUserByUserId(user.getUserId());
+        final User userFound = userDao.findUserByUserId(user.getUserId());
         assertNotNull(userFound);
         assertEquals(user.getUserId(), userFound.getUserId());
     }

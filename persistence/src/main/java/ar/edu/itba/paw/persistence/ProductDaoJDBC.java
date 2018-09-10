@@ -44,8 +44,8 @@ public class ProductDaoJDBC implements ProductDAO {
     public ProductDaoJDBC(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("posts")
-                .usingGeneratedKeyColumns("postid");
+                .withTableName("products")
+                .usingGeneratedKeyColumns("productid");
     }
 
     public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
@@ -55,6 +55,7 @@ public class ProductDaoJDBC implements ProductDAO {
 
         args.put("productname", productName);
         args.put("brand", brand);
+        args.put("ram", ram);
         args.put("storage", storage);
         args.put("operativeSystem", operativeSystem);
         args.put("processor", processor);
@@ -71,7 +72,7 @@ public class ProductDaoJDBC implements ProductDAO {
     }
 
     public boolean deleteProduct(Integer productId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM products WHERE productid = ?", productId);
+        final Integer deletedRows = jdbcTemplate.update("DELETE FROM products WHERE productid = ?", productId);
 
         return deletedRows == 1;
     }
@@ -83,10 +84,15 @@ public class ProductDaoJDBC implements ProductDAO {
         return productList.get(0);
     }
 
-    public Product updateProduct(final String productName, final String brand, final String ram, final String storage,
-                                 final String operativeSystem, final String processor, final Rectangle bodySize,
-                                 final Rectangle screenSize, final String screenRatio, final String rearCamera,
+    public Product updateProduct(final Integer productId, final String productName, final String brand, final String ram, final String storage,
+                                 final String operativeSystem, final String processor, final String bodySize,
+                                 final String screenSize, final String screenRatio, final String rearCamera,
                                  final String frontCamera) {
-        return null;
+        jdbcTemplate.update("UPDATE products SET productName = ?, brand = ?, ram = ?, storage = ?, " +
+                "operativeSystem = ?, processor = ?, bodySize = ?, screenSize = ?, screenRatio = ?, rearCamera = ?, " +
+                "frontCamera = ? WHERE productId = ?", productName, brand, ram, storage, operativeSystem, processor,
+                bodySize, screenSize, screenRatio, rearCamera, frontCamera, productId);
+
+        return findProductByProductId(productId);
     }
 }

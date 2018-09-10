@@ -68,10 +68,6 @@ public class UserDaoJDBC implements UserDAO {
         jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ? WHERE userId = ?",
                 password, email, phone, birthdate, userId);
 
-        User u = findUserByUserId(userId);
-
-        u.getUserId();
-
         return findUserByUserId(userId);
     }
 }

@@ -11,6 +11,6 @@ public interface ProductService {
     public boolean deleteProduct(Integer productId);
     public Product findProductByProductId(Integer productId);
     public Product updateProduct(String productName, String brand, String ram, String storage,
-                          String operativeSystem, String processor, Rectangle bodySize, Rectangle screenSize,
+                          String operativeSystem, String processor, String bodySize, String screenSize,
                           String screenRatio, String rearCamera, String frontCamera);
 }
