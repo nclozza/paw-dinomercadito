@@ -58,7 +58,7 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     public boolean deleteUser(final Integer userId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE * FROM users WHERE userid = ?", userId);
+        final Integer deletedRows = jdbcTemplate.update("DELETE FROM users WHERE userid = ?", userId);
 
         return deletedRows == 1;
     }
