@@ -11,7 +11,6 @@ import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService {
 	private PostService postService;
 
     public User createUserWithAddress(final String username, final String password, final String email,
-									  final String phone, final LocalDate birthdate, final String street,
+									  final String phone, final String birthdate, final String street,
 									  final Integer number,final String city, final String province,
 									  final String zipCode, final String country) {
 
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final LocalDate birthdate) {
+                           final String birthdate) {
 
         return userDAO.createUser(username, password, email, phone, birthdate);
     }
@@ -78,8 +77,8 @@ public class UserServiceImpl implements UserService {
 			return !deletionSucceeded;
 	}
 
-	public User updateUser(Integer userId, String username, String password, String email, String phone, LocalDate birthdate) {
-		return userDAO.updateUser(userId, username, password, email, phone, birthdate);
+	public User updateUser(Integer userId, String password, String email, String phone, String birthdate) {
+		return userDAO.updateUser(userId, password, email, phone, birthdate);
 	}
 
 	public boolean postProduct(final Integer productId, final Double price, final Integer userId, final String description) {

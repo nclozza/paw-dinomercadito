@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 
 @Controller
 public class UserController {
@@ -27,7 +26,8 @@ public class UserController {
 
     @RequestMapping("/create")
     public ModelAndView create(@RequestParam(value = "username", required = true) final String username) {
-        final User u = us.createUser(username, "asd", "asd", "asd", LocalDate.parse("2000-11-09"));
+        final User u = us.createUser(username, "123", "mail", "123435", "2000-11-09");
+
         return new ModelAndView("redirect:/?username=" + u.getUsername());
     }
 }

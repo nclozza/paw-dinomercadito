@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR(32) NOT NULL,
    email VARCHAR(32),
    phone VARCHAR(16),
-   birthdate DATE
+   birthdate VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (

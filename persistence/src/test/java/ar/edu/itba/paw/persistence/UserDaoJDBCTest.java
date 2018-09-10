@@ -13,8 +13,6 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
-import java.time.LocalDate;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
@@ -26,8 +24,12 @@ public class UserDaoJDBCTest {
     private static final String USERNAME = "Username";
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
-    private static final LocalDate BIRTHDATE = LocalDate.parse("1995-09-01");
-    private static final Double FOUNDS = 0.0;
+    private static final String BIRTHDATE = "1995-09-01";
+    private static final String USERNAMEUPDATE = "UsernameUpdate";
+    private static final String PASSWORDUPDATE = "123";
+    private static final String EMAILUPDATE = "mail";
+    private static final String PHONEUPDATE = "13579";
+    private static final String BIRTHDATEUPDATE = "1996-09-01";
 
     @Autowired
     private DataSource ds;
@@ -43,7 +45,7 @@ public class UserDaoJDBCTest {
     }
 
     @Test
-    public void testCreate() {
+    public void testUserCreate() {
         final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
         assertNotNull(user);
         assertEquals(USERNAME, user.getUsername());
@@ -51,7 +53,19 @@ public class UserDaoJDBCTest {
         assertEquals(EMAIL, user.getEmail());
         assertEquals(PHONE, user.getPhone());
         assertEquals(BIRTHDATE, user.getBirthdate());
-        assertEquals(FOUNDS, user.getFunds());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
+
+    @Test
+    public void testUserUpdate(){
+        final User user = userDao.createUser(USERNAMEUPDATE, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+
+        final User userUpdate = userDao.updateUser(user.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE);
+        assertNotNull(userUpdate);
+        assertEquals(PASSWORDUPDATE, userUpdate.getPassword());
+        assertEquals(EMAILUPDATE, userUpdate.getEmail());
+        assertEquals(PHONEUPDATE, userUpdate.getPhone());
+        assertEquals(BIRTHDATEUPDATE, userUpdate.getBirthdate());
+    }
+
 }

@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,7 @@ public class UserDaoJDBC implements UserDAO {
             resultSet.getString("password"),
             resultSet.getString("email"),
             resultSet.getString("phone"),
-            resultSet.getDate("birthdate").toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            resultSet.getString("birthdate")
     );
 
     @Autowired
@@ -39,7 +38,7 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final LocalDate birthdate) {
+                           final String birthdate) {
         final Map<String, Object> args = new HashMap<>();
         args.put("username", username); // la key es el nombre de la columna
         args.put("password", password);
@@ -64,10 +63,14 @@ public class UserDaoJDBC implements UserDAO {
         return deletedRows == 1;
     }
 
-    public User updateUser(final Integer userId, final String username, final String password, final String email,
-                              final String phone, final LocalDate birthdate) {
-        jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ? WHERE userid = ?",
+    public User updateUser(final Integer userId, final String password, final String email,
+                              final String phone, final String birthdate) {
+        jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ? WHERE userId = ?",
                 password, email, phone, birthdate, userId);
+
+        User u = findUserByUserId(userId);
+
+        u.getUserId();
 
         return findUserByUserId(userId);
     }
