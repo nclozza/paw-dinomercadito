@@ -1,8 +1,6 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.Services;
 
 import ar.edu.itba.paw.models.User;
-
-import java.time.LocalDate;
 
 public interface UserService {
 
@@ -12,20 +10,20 @@ public interface UserService {
      * @param username The name of the user.
      * @return The created user.
      */
-    public User createUserWithAddress(final String username, final String password, final String email, final String phone,
-                           final LocalDate birthdate, final String street, final Integer number, final String city,
-                           final String province, final String zipCode, final String country);
+    public User createUserWithAddress(final String username, final String password, final String email,
+                                      final String phone, final String birthdate, final String street,
+                                      final Integer number, final String city, final String province,
+                                      final String zipCode, final String country);
 
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final LocalDate birthdate);
+                           final String birthdate);
 
-    public User findUserById(final Integer userId);
+    public User findUserByUserId(final Integer userId);
 
     public boolean deleteUser(final Integer userId);
 
-    public boolean updateUserFunds(final Integer userId, final Double funds);
-
-    public boolean buyProduct(final Integer buyerId, final Integer sellerId, final Integer postId);
+    public User updateUser(final Integer userId, final String password, final String email,
+                              final String phone, final String birthdate);
 
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
                                final String description);

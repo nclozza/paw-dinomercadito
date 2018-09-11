@@ -1,10 +1,16 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.Services;
 
 import ar.edu.itba.paw.models.Product;
 
+import java.awt.*;
+
 public interface ProductService {
-    boolean createProduct(Product product);
-    boolean deleteProduct(String productName);
-    Product getProduct(String productName);
-    Product updateProduct(Product product);
+    public Product createProduct(String productName, String brand, String ram, String storage,
+                          String operativeSystem, String processor, String bodySize, String screenSize,
+                          String screenRatio, String rearCamera, String frontCamera);
+    public boolean deleteProduct(Integer productId);
+    public Product findProductByProductId(Integer productId);
+    public Product updateProduct(String productName, String brand, String ram, String storage,
+                          String operativeSystem, String processor, String bodySize, String screenSize,
+                          String screenRatio, String rearCamera, String frontCamera);
 }
