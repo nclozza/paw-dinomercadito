@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.Product;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ import static junit.framework.Assert.*;
 
 public class ProductDaoJDBCTest {
 
-    private static final String PRODUCTNAME = "name";
+    private static final String PRODUCTNAME = "nameProduct";
     private static final String BRAND = "brand";
     private static final String RAM = "ram";
     private static final String STORAGE = "storage";
@@ -34,7 +35,7 @@ public class ProductDaoJDBCTest {
     private static final String SCREENRATIO = "40 p";
     private static final String REARCAMERA = "16 mpx";
     private static final String FRONTCAMERA = "8 mpx";
-    private static final String PRODUCTNAMEUPDATE = "namee";
+    private static final String PRODUCTNAMEUPDATE = "nameeProduct";
     private static final String BRANDUPDATE = "brandd";
     private static final String RAMUPDATE = "ramm";
     private static final String STORAGEUPDATE = "storaage";
@@ -57,11 +58,15 @@ public class ProductDaoJDBCTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+    }
+
+    @After
+    public void cleanTables(){
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "products");
     }
 
     @Test
-    public void productTestCreate(){
+    public void testProductCreate(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
 
@@ -78,11 +83,10 @@ public class ProductDaoJDBCTest {
         assertEquals(REARCAMERA, product.getRearCamera());
         assertEquals(FRONTCAMERA, product.getFrontCamera());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
-
     }
 
     @Test
-    public void productTestUpdate(){
+    public void testProductUpdate(){
         Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
 
@@ -106,7 +110,7 @@ public class ProductDaoJDBCTest {
     }
 
     @Test
-    public void productTestFind(){
+    public void testProductFind(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
 
@@ -116,7 +120,7 @@ public class ProductDaoJDBCTest {
     }
 
     @Test
-    public void productTestDelete(){
+    public void testProductDelete(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
 

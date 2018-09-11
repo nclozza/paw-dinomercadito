@@ -55,7 +55,7 @@ public class PostDaoJDBC implements PostDAO {
         return deletedRows == 1;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final Integer userId,
+    public Post updatePost(final Integer postId, final Integer productId, final Double price,
                               final String description) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ? WHERE postid = ?",
                 productId, price, description, postId);

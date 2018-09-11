@@ -37,6 +37,6 @@ CREATE TABLE IF NOT EXISTS posts (
    postId INTEGER IDENTITY PRIMARY KEY,
    productId INTEGER REFERENCES products(productId) NOT NULL,
    userId INT REFERENCES users(userId) NOT NULL,
-   price NUMERIC(5, 2) NOT NULL,
+   price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128)
 );

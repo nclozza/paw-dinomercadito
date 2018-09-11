@@ -11,7 +11,7 @@ public interface PostService {
 
     public boolean deletePost(final Integer postId);
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final Integer userId,
+    public Post updatePost(final Integer postId, final Integer productId, final Double price,
                            final String description);
 
     public Post findPostByPostId(final Integer postId);

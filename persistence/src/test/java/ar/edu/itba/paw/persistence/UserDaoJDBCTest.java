@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.models.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import static junit.framework.Assert.*;
 public class UserDaoJDBCTest {
 
     private static final String PASSWORD = "Password";
-    private static final String USERNAME = "Username";
+    private static final String USERNAME = "UsernameUser";
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
     private static final String BIRTHDATE = "1995-09-01";
@@ -41,6 +42,10 @@ public class UserDaoJDBCTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+    }
+
+    @After
+    public void cleanTables(){
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
     }
 
@@ -84,7 +89,6 @@ public class UserDaoJDBCTest {
 
         assertTrue(userDao.deleteUser(user.getUserId()));
         assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
-
     }
 
 }

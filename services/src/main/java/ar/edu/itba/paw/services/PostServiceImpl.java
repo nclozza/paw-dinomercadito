@@ -33,9 +33,9 @@ public class PostServiceImpl implements PostService {
         return postDAO.createPost(productId, price, userId, description);
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final Integer userId,
+    public Post updatePost(final Integer postId, final Integer productId, final Double price,
                            final String description) {
-        return postDAO.updatePost(postId, productId, price, userId, description);
+        return postDAO.updatePost(postId, productId, price, description);
     }
 
     public boolean deletePost(final Integer postId) {

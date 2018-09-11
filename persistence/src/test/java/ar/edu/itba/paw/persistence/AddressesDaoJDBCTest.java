@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.Address;
 import ar.edu.itba.paw.models.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ import static junit.framework.Assert.*;
 
 public class AddressesDaoJDBCTest {
 
-    private static final String STREET = "calle";
+    private static final String STREET = "calleAddre";
     private static final Integer NUMBER = 34;
     private static final String CITY = "ciudad";
     private static final String PROVINCE = "provincia";
@@ -36,7 +37,7 @@ public class AddressesDaoJDBCTest {
     private static final String ZIPCODEUPDATE = "12A5";
     private static final String COUNTRYUPDATE = "paiss";
     private static final String PASSWORD = "Password";
-    private static final String USERNAME = "Username";
+    private static final String USERNAME = "UsernameAddress";
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
     private static final String BIRTHDATE = "1995-09-01";
@@ -55,6 +56,10 @@ public class AddressesDaoJDBCTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+    }
+
+    @After
+    public void cleanTables(){
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "addresses");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
     }
