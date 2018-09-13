@@ -92,7 +92,6 @@ public class PostServiceImplTest {
                 FUNDS_SELLER);
         final Post post = postService.createPost(product.getProductId(), PRICE, seller.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
-        Integer productQuantity = post.getProductQuantity();
 
         assertTrue(postService.makeProductTransaction(buyer.getUserId(), post.getPostId()));
 
@@ -102,6 +101,8 @@ public class PostServiceImplTest {
         assertEquals(FUNDS_BUYER - PRICE, newBuyerFunds);
         assertEquals(FUNDS_SELLER + PRICE, newSellerFunds);
 
-        assertEquals(java.util.Optional.of(productQuantity - 1), postService.findPostByPostId(post.getPostId()).getProductQuantity());
+        Integer newProductQuantity = postService.findPostByPostId(post.getPostId()).getProductQuantity();
+
+        assertEquals(PRODUCTQUANTITY - 1, (int)newProductQuantity);
     }
 }
