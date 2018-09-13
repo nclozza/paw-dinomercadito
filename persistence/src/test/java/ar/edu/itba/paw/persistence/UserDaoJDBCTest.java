@@ -31,6 +31,8 @@ public class UserDaoJDBCTest {
     private static final String EMAILUPDATE = "mail";
     private static final String PHONEUPDATE = "13579";
     private static final String BIRTHDATEUPDATE = "1996-09-01";
+    private static final Double FUNDS = 20000.0;
+    private static final Double FUNDSUPDATE = 40000.0;
 
     @Autowired
     private DataSource ds;
@@ -51,7 +53,7 @@ public class UserDaoJDBCTest {
 
     @Test
     public void testUserCreate() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         assertNotNull(user);
         assertEquals(USERNAME, user.getUsername());
@@ -59,6 +61,7 @@ public class UserDaoJDBCTest {
         assertEquals(EMAIL, user.getEmail());
         assertEquals(PHONE, user.getPhone());
         assertEquals(BIRTHDATE, user.getBirthdate());
+        assertEquals(FUNDS, user.getFunds());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
 
@@ -66,12 +69,14 @@ public class UserDaoJDBCTest {
     public void testUserUpdate() {
         User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 
-        user = userDao.updateUser(user.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE);
+        user = userDao.updateUser(user.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE,
+                FUNDSUPDATE);
         assertNotNull(user);
         assertEquals(PASSWORDUPDATE, user.getPassword());
         assertEquals(EMAILUPDATE, user.getEmail());
         assertEquals(PHONEUPDATE, user.getPhone());
         assertEquals(BIRTHDATEUPDATE, user.getBirthdate());
+        assertEquals(FUNDSUPDATE, user.getFunds());
     }
 
     @Test
@@ -90,5 +95,4 @@ public class UserDaoJDBCTest {
         assertTrue(userDao.deleteUser(user.getUserId()));
         assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
-
 }
