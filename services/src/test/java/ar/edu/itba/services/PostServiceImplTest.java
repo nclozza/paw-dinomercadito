@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.services;
 
 import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
+
+import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -39,7 +41,6 @@ public class PostServiceImplTest {
     private static final Double FUNDS_BUYER = 125000.0;
 
     private static final String PRODUCTNAME = "namePost";
-    private static final String PRODUCTNAMEUPDATE = "nameePost";
     private static final String BRAND = "brand";
     private static final String RAM = "ram";
     private static final String STORAGE = "storage";
@@ -52,10 +53,7 @@ public class PostServiceImplTest {
     private static final String FRONTCAMERA = "8 mpx";
     private static final Double PRICE = 10000.50;
     private static final String DESCRIPTION = "esta es la descripcion";
-    private static final Double PRICEUPDATE = 15000.50;
-    private static final String DESCRIPTIONUPDATE = "esta es la segunda descripcion";
     private static final Integer PRODUCTQUANTITY = 15;
-    private static final Integer PRODUCTQUANTITYUPDATE = 500;
 
 
     @Autowired
@@ -94,7 +92,16 @@ public class PostServiceImplTest {
                 FUNDS_SELLER);
         final Post post = postService.createPost(product.getProductId(), PRICE, seller.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
+        Integer productQuantity = post.getProductQuantity();
 
-        assertTrue();
+        assertTrue(postService.makeProductTransaction(buyer.getUserId(), post.getPostId()));
+
+        Double newBuyerFunds = userService.findUserByUserId(buyer.getUserId()).getFunds();
+        Double newSellerFunds = userService.findUserByUserId(seller.getUserId()).getFunds();
+
+        assertEquals(FUNDS_BUYER - PRICE, newBuyerFunds);
+        assertEquals(FUNDS_SELLER + PRICE, newSellerFunds);
+
+        assertEquals(java.util.Optional.of(productQuantity - 1), postService.findPostByPostId(post.getPostId()).getProductQuantity());
     }
 }

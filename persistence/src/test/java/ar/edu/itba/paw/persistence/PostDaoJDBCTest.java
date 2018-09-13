@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.DAO.ProductDAO;
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.Post;
@@ -62,7 +63,7 @@ public class PostDaoJDBCTest {
     private ProductDAO productDao;
 
     @Autowired
-    private PostDaoJDBC postDao;
+    private PostDAO postDao;
 
     private JdbcTemplate jdbcTemplate;
 
