@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.models;
 
-import java.time.LocalDate;
 
 public class User {
 
@@ -9,28 +8,15 @@ public class User {
     private String password;
     private String email;
     private String phone;
-    private LocalDate birthdate;
-    private Double funds;
+    private String birthdate;
 
-    public User(Integer userId, String username, String password, String email, String phone, LocalDate birthdate) {
+    public User(Integer userId, String username, String password, String email, String phone, String birthdate) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        funds = 0.0;
-    }
-
-    public User(Integer userId, String username, String password, String email, String phone, LocalDate birthdate,
-                Double funds) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.birthdate = birthdate;
-        this.funds = funds;
     }
 
     public Integer getUserId() {
@@ -65,20 +51,11 @@ public class User {
         this.phone = phone;
     }
 
-
-    public Double getFunds() {
-        return funds;
-    }
-
-    public void setFunds(Double funds) {
-        this.funds = funds;
-    }
-
-    public LocalDate getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
