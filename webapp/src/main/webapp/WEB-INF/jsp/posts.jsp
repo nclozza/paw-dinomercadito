@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DinoMercadito | Home</title>
+    <title>DinoMercadito | Posts</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 </head>
@@ -31,16 +31,15 @@
 </nav>
 
 <div class="row">
-    <c:forEach items="${products}" var="product" varStatus="loop">
+    <c:forEach items="${posts}" var="post" varStatus="loop">
         <div class="col-md-3">
             <div class="thumbnail">
-                <a href="<c:url value="/posts?productId=${product.productId}"/>">
-                    <img src="#" alt="Phone ${loop.index + 1}" style="width:100%">
+                <a href="#">
                     <div class="caption">
-                        <p>Phone #${loop.index + 1}</p>
-                        <p><c:out value="${product.productName}"/></p>
+                        <p><c:out value="${post.description}"/></p>
                     </div>
                 </a>
+                <button type="button" class="btn btn-success" onclick="">Buy</button>
             </div>
         </div>
     </c:forEach>

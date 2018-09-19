@@ -59,7 +59,7 @@ public class PostDaoJDBC implements PostDAO {
                               final String description, final Integer productQuantity) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
                         productId, price, description, productQuantity, postId);
-
+ 
         return findPostByPostId(postId);
     }
 
@@ -76,9 +76,12 @@ public class PostDaoJDBC implements PostDAO {
     public List<Post> findPostByUserId(final Integer userId) {
         final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
-        if (postList.isEmpty()) {
-            return null;
-        }
+        return postList;
+    }
+
+    @Override
+    public List<Post> findPostsByProductId(Integer productId) {
+        final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE productid = ?", ROW_MAPPER, productId);
 
         return postList;
     }

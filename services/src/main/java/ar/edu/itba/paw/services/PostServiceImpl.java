@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
+import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,17 @@ public class PostServiceImpl implements PostService {
 
     public List<Post> findPostByUserId(Integer userId) {
         List<Post> postsList = postDAO.findPostByUserId(userId);
+
+        if (postsList.isEmpty()) {
+            return null;
+        }
+
+        return postsList;
+    }
+
+    @Override
+    public List<Post> findPostsByProductId(Integer productId) {
+        List<Post> postsList = postDAO.findPostsByProductId(productId);
 
         if (postsList.isEmpty()) {
             return null;
