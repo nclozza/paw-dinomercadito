@@ -32,20 +32,21 @@ public class PostDaoJDBC implements PostDAO {
             resultSet.getInt("productid"),
             resultSet.getDouble("price"),
             resultSet.getInt("userid"),
-            resultSet.getString("description")
+            resultSet.getString("description"),
+            resultSet.getInt("productquantity")
     );
 
-    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {
-
+    public Post createPost(Integer productId, Double price, Integer userId, String description, Integer productQuantity) {
         final Map<String, Object> args = new HashMap<>();
         args.put("productid", productId);
         args.put("userid", userId);
         args.put("price", price);
         args.put("description", description);
+        args.put("productquantity", productQuantity);
 
         final Number postId = jdbcInsert.executeAndReturnKey(args);
 
-        return new Post(postId.intValue(), productId, price, userId, description);
+        return new Post(postId.intValue(), productId, price, userId, description, productQuantity);
     }
 
     public boolean deletePost(final Integer postId) {
@@ -55,10 +56,10 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     public Post updatePost(final Integer postId, final Integer productId, final Double price,
-                           final String description) {
-        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ? WHERE postid = ?",
-                productId, price, description, postId);
-
+                              final String description, final Integer productQuantity) {
+        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
+                        productId, price, description, productQuantity, postId);
+ 
         return findPostByPostId(postId);
     }
 
