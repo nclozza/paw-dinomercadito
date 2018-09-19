@@ -30,4 +30,6 @@ public interface UserService {
 
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
                                final String description, final Integer productQuantity);
+
+    public User findUserByUsername(String username);
 }

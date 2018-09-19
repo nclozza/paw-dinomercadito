@@ -67,6 +67,12 @@ public class UserDaoJDBC implements UserDAO {
         return new User(userId.intValue(), username, password, email, phone, birthdate, funds);
     }
 
+    public User findUserByUsername(String username) {
+        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
+
+        return usersList.get(0);
+    }
+
     public User findUserByUserId(final Integer userId) {
         final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId);
 

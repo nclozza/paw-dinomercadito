@@ -22,4 +22,6 @@ public interface UserDAO {
 
     public User updateUser(final Integer userId, final String password, final String email,
                               final String phone, final String birthdate, final Double funds);
+
+    public User findUserByUsername(String username);
 }

@@ -49,6 +49,10 @@ public class UserServiceImpl implements UserService {
         return userDAO.createUser(username, password, email, phone, birthdate, funds);
     }
 
+	public User findUserByUsername(String username) {
+		return userDAO.findUserByUsername(username);
+	}
+
 	public User findUserByUserId(final Integer userId) {
 		return userDAO.findUserByUserId(userId);
 	}
@@ -88,7 +92,7 @@ public class UserServiceImpl implements UserService {
 		return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
 	}
 
-	public boolean postProduct(final Integer productId, final Double price, final Integer userId,
+    public boolean postProduct(final Integer productId, final Double price, final Integer userId,
 							   final String description, final Integer productQuantity) {
     	boolean postProductSucceeded = true;
     	if (productId < 0 || price < 0.0 || userId < 0 || description == null)
