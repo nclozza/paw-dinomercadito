@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DinoMercadito | Home</title>
+    <title>DinoMercadito | Posts</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 </head>
@@ -39,6 +39,7 @@
                         <p><c:out value="${post.description}"/></p>
                     </div>
                 </a>
+                <button type="button" class="btn btn-success" onclick="">Buy</button>
             </div>
         </div>
     </c:forEach>
