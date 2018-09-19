@@ -43,6 +43,10 @@ public class UserServiceImpl implements UserService {
         return userDAO.createUser(username, password, email, phone, birthdate);
     }
 
+	public User findUserByUsername(String username) {
+		return userDAO.findUserByUsername(username);
+	}
+
 	public User findUserByUserId(final Integer userId) {
 		return userDAO.findUserByUserId(userId);
 	}
