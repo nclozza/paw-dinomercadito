@@ -8,6 +8,7 @@ public class Post {
     private Double price;
     private Integer userId;
     private String description;
+    private Integer productQuantity = 1;
 
     public Post(Integer postId, Integer productId, Double price, Integer userId, String description) {
         this.postId = postId;
@@ -15,6 +16,15 @@ public class Post {
         this.price = price;
         this.userId = userId;
         this.description = description;
+    }
+
+    public Post(Integer postId, Integer productId, Double price, Integer userId, String description, Integer productQuantity) {
+        this.postId = postId;
+        this.productId = productId;
+        this.price = price;
+        this.userId = userId;
+        this.description = description;
+        this.productQuantity = productQuantity;
     }
 
     public Integer getPostId() {
@@ -55,5 +65,13 @@ public class Post {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(Integer productQuantity) {
+        this.productQuantity = productQuantity;
     }
 }

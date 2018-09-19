@@ -43,6 +43,12 @@ public class UserServiceImpl implements UserService {
         return userDAO.createUser(username, password, email, phone, birthdate);
     }
 
+    public User createUser(final String username, final String password, final String email, final String phone,
+                           final String birthdate, final Double funds) {
+
+        return userDAO.createUser(username, password, email, phone, birthdate, funds);
+    }
+
 	public User findUserByUsername(String username) {
 		return userDAO.findUserByUsername(username);
 	}
@@ -81,16 +87,18 @@ public class UserServiceImpl implements UserService {
 			return !deletionSucceeded;
 	}
 
-	public User updateUser(Integer userId, String password, String email, String phone, String birthdate) {
-		return userDAO.updateUser(userId, password, email, phone, birthdate);
+	public User updateUser(final Integer userId, final String password, final String email, final String phone,
+                           final String birthdate, final Double funds) {
+		return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
 	}
 
-	public boolean postProduct(final Integer productId, final Double price, final Integer userId, final String description) {
+    public boolean postProduct(final Integer productId, final Double price, final Integer userId,
+							   final String description, final Integer productQuantity) {
     	boolean postProductSucceeded = true;
     	if (productId < 0 || price < 0.0 || userId < 0 || description == null)
     		throw new IllegalArgumentException();
 
-		if (postService.createPost(productId, price, userId, description) == null)
+		if (postService.createPost(productId, price, userId, description, productQuantity) == null)
 			return !postProductSucceeded;
 		else
 			return postProductSucceeded;

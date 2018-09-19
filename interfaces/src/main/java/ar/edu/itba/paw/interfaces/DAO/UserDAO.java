@@ -13,12 +13,15 @@ public interface UserDAO {
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate);
 
+    public User createUser(final String username, final String password, final String email, final String phone,
+                           final String birthdate, final Double funds);
+
     public User findUserByUserId(final Integer userId);
 
     public boolean deleteUser(final Integer userId);
 
     public User updateUser(final Integer userId, final String password, final String email,
-                              final String phone, final String birthdate);
+                              final String phone, final String birthdate, final Double funds);
 
     public User findUserByUsername(String username);
 }
