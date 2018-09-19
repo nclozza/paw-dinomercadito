@@ -2,7 +2,6 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -56,7 +55,7 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     public Post updatePost(final Integer postId, final Integer productId, final Double price,
-                              final String description) {
+                           final String description) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ? WHERE postid = ?",
                 productId, price, description, postId);
 
@@ -76,9 +75,12 @@ public class PostDaoJDBC implements PostDAO {
     public List<Post> findPostByUserId(final Integer userId) {
         final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
-        if (postList.isEmpty()) {
-            return null;
-        }
+        return postList;
+    }
+
+    @Override
+    public List<Post> findPostsByProductId(Integer productId) {
+        final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE productid = ?", ROW_MAPPER, productId);
 
         return postList;
     }
