@@ -4,9 +4,6 @@
     <title>DinoMercadito | Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <link href="webapp/src/main/resources/css/index.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/memenu.css" rel="stylesheet" type="text/css" media="all" />
-
 </head>
 <body>
 
@@ -30,54 +27,49 @@
     </div>
 </nav>
 
-<div class="items">
-    <div class="container">
-        <div class="items-sec">
-            <div class="col-md-3 feature-grid">
-                <a href="#"><img src="images/img1.jpg" alt=""/>
-                    <div class="arrival-info">
-                        <h4>Phone #1</h4>
-                        <p>$12000</p>
-                    </div>
-                    <div class="viw">
-                        <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 feature-grid">
-                <a href="#"><img src="images/img2.jpg" alt=""/>
-                    <div class="arrival-info">
-                        <h4>Phone #2</h4>
-                        <p>$45634</p>
-                    </div>
-                    <div class="viw">
-                        <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 feature-grid">
-                <a href="#"><img src="images/img3.jpg" alt=""/>
-                    <div class="arrival-info">
-                        <h4>Phone #3</h4>
-                        <p>$13255</p>
-                    </div>
-                    <div class="viw">
-                        <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 feature-grid">
-                <a href="#"><img src="images/img4.jpg" alt=""/>
-                    <div class="arrival-info">
-                        <h4>Phone #4</h4>
-                        <p>$23654</p>
-                    </div>
-                    <div class="viw">
-                        <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
-                    </div>
-                </a>
-            </div>
-            <div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a href="#">
+                <img src="#" alt="Phone 1" style="width:100%">
+                <div class="caption">
+                    <p>Phone #1</p>
+                    <p>$12346</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a href="/w3images/nature.jpg">
+                <img src="/w3images/nature.jpg" alt="Phone 2" style="width:100%">
+                <div class="caption">
+                    <p>Phone #2</p>
+                    <p>$32437</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a href="#">
+                <img src="#" alt="Phone 3" style="width:100%">
+                <div class="caption">
+                    <p>Phone #3</p>
+                    <p>$24567</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <a href="#">
+                <img src="#" alt="Phone 4" style="width:100%">
+                <div class="caption">
+                    <p>Phone #4</p>
+                    <p>$23577</p>
+                </div>
+            </a>
         </div>
     </div>
 </div>
