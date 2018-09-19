@@ -30,7 +30,7 @@
     </div>
 </nav>
 
-<div class="row">
+<div class="row" style="flex-wrap: wrap">
     <c:forEach items="${products}" var="product" varStatus="loop">
         <div class="col-md-3">
             <div class="thumbnail">
