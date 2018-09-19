@@ -35,11 +35,10 @@
         <div class="col-md-3">
             <div class="thumbnail">
                 <a href="#">
-                    <img src="#" alt="Phone 1" style="width:100%">
+                    <img src="#" alt="Phone ${loop.index + 1}" style="width:100%">
                     <div class="caption">
-                        <p>Phone #1</p>
+                        <p>Phone #${loop.index + 1}</p>
                         <p><c:out value="${product.productName}"/></p>
-                        <p>${loop.index}</p>
                     </div>
                 </a>
             </div>
