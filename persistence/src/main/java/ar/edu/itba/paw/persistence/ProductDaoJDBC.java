@@ -95,4 +95,11 @@ public class ProductDaoJDBC implements ProductDAO {
 
         return findProductByProductId(productId);
     }
+
+    @Override
+    public List<Product> findAllProducts() {
+        final List<Product> productList = jdbcTemplate.query("SELECT * FROM products", ROW_MAPPER);
+
+        return productList;
+    }
 }
