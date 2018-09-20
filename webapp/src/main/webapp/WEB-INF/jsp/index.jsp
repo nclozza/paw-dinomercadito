@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,109 +10,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-    <style>
-        html {
-            height: 100%;
-            width: 100%;
-        }
-
-        body {
-            font: 20px Montserrat, sans-serif;
-            line-height: 1.8;
-            color: #f5f6f7;
-            height: 100%;
-            width: 100%;
-        }
-
-        p {
-            font-size: 16px;
-        }
-
-        .margin {
-            margin-bottom: 45px;
-        }
-
-        .bg-1 {
-            background-color: #1abc9c; /* Green */
-            color: #ffffff;
-            height: 100%;
-        }
-
-        .bg-2 {
-            background-color: #474e5d; /* Dark Blue */
-            color: #ffffff;
-        }
-
-        .bg-3 {
-            background-color: #ffffff; /* White */
-            color: #555555;
-        }
-
-        .bg-4 {
-            background-color: #2f2f2f; /* Black Gray */
-            color: #fff;
-        }
-
-        .container-fluid {
-            padding-top: 70px;
-            padding-bottom: 70px;
-        }
-
-        .navbar {
-            padding-top: 15px;
-            padding-bottom: 15px;
-            border: 0;
-            border-radius: 0;
-            margin-bottom: 0;
-            font-size: 12px;
-            letter-spacing: 5px;
-        }
-
-        .navbar-nav li a:hover {
-            color: #1abc9c !important;
-        }
-
-        .first-container {
-            height: 100%;
-            width: 100%;
-        }
-
-        .multi-item-carousel .carousel-inner > .item {
-            transition: 500ms ease-in-out left;
-        }
-
-        .multi-item-carousel .carousel-inner .active.left {
-            left: -33%;
-        }
-
-        .multi-item-carousel .carousel-inner .active.right {
-            left: 33%;
-        }
-
-        .multi-item-carousel .carousel-inner .next {
-            left: 33%;
-        }
-
-        .multi-item-carousel .carousel-inner .prev {
-            left: -33%;
-        }
-
-        @media all and (transform-3d), (-webkit-transform-3d) {
-            .multi-item-carousel .carousel-inner > .item {
-                transition: 500ms ease-in-out left;
-                transition: 500ms ease-in-out all;
-                -webkit-backface-visibility: visible;
-                backface-visibility: visible;
-                -webkit-transform: none !important;
-                transform: none !important;
-            }
-        }
-
-        .multi-item-carousel .carouse-control.left,
-        .multi-item-carousel .carouse-control.right {
-            background-image: none;
-        }
+    <style type="text/css">
+        <%@ include file="../assets/css/loginModal.css" %>
     </style>
+    <style type="text/css">
+        <%@ include file="../assets/css/index.css" %>
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -128,12 +37,96 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Menu</a></li>
-                    <li><a href="#">Sign Up</a></li>
-                    <li><a href="#">Login</a></li>
+                    <li><a onclick="document.getElementById('signUpModal').style.display='block'">Sign Up</a></li>
+                    <li><a onclick="document.getElementById('loginModal').style.display='block'">Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <%-- LOGIN MODAL--%>
+    <c:url value="/login" var="loginUrl"/>
+    <div id="loginModal" class="modal">
+
+        <form class="modal-content animate" action="${loginUrl}" method="post"
+              enctype="application/x-www-form-urlencoded">
+            <div class="container">
+                <label><b><spring:message code="username"/></b></label>
+                <input class="loginInput" type="text" placeholder="<spring:message code="enterUsername"/>"
+                       name="j_username">
+
+                <label><b><spring:message code="password"/></b></label>
+                <input class="loginInput" type="password" placeholder="<spring:message code="enterUsername"/>"
+                       name="j_password" required>
+
+                <button class="loginButton" type="submit">
+                    <spring:message code="login"/>
+                </button>
+                <label>
+                    <input class="loginInput" type="checkbox" name="j_rememberme">
+                    <spring:message code="remember_me"/>
+                </label>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('loginModal').style.display='none'"
+                        class="cancelbtn">
+                    <spring:message code="cancel"/>
+                </button>
+            </div>
+        </form>
+    </div>
+    <%-- END LOGIN MODAL--%>
+
+    <%-- SIGN UP MODAL --%>
+    <div id="signUpModal" class="modal">
+        <span onclick="document.getElementById('signUpModal').style.display='none'" class="close"
+              title="Close Modal">&times;</span>
+        <form class="modal-content" action="">
+            <div class="container">
+                <h1>Sign Up</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                <label><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+
+                <label><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                <label><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+                <label>
+                    <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                </label>
+
+                <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+                <div class="clearfix">
+                    <button type="button" onclick="document.getElementById('signUpModal').style.display='none'"
+                            class="signUpCancelbtn">Cancel
+                    </button>
+                    <button type="submit" class="signupbtn">Sign Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <%-- END SIGN UP MODAL--%>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('loginModal');
+        var signUpModal = document.getElementById('signUpModal');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal || event.target == signUpModal) {
+                modal.style.display = "none";
+                signUpModal.style.display = "none";
+            }
+        }
+    </script>
+
 
     <!-- First Container -->
     <div class="container-fluid bg-1 text-center ">
