@@ -41,6 +41,7 @@ public class AddressesDaoJDBCTest {
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
     private static final String BIRTHDATE = "1995-09-01";
+    private static final Double FUNDS = 0.0;
 
     @Autowired
     private DataSource ds;
@@ -66,7 +67,7 @@ public class AddressesDaoJDBCTest {
 
     @Test
     public void testAddressCreate() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 
@@ -82,7 +83,7 @@ public class AddressesDaoJDBCTest {
 
     @Test
     public void testAddressUpdate(){
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
         address = addressDao.updateAddress(address.getAddressId(), STREETUPDATE, NUMBERUPDATE, CITYUPDATE, PROVINCEUPDATE, ZIPCODEUPDATE, COUNTRYUPDATE);
 
@@ -98,7 +99,7 @@ public class AddressesDaoJDBCTest {
 
     @Test
     public void testAddressFind(){
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 
         Address addressFound = addressDao.findAddressByAddressId(address.getAddressId());
@@ -108,7 +109,7 @@ public class AddressesDaoJDBCTest {
 
     @Test
     public void testAddressDelete(){
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 
         assertTrue(addressDao.deleteAddressByAddressId(address.getAddressId()));

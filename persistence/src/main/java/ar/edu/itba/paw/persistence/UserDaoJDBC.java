@@ -39,20 +39,6 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate) {
-        final Map<String, Object> args = new HashMap<>();
-        args.put("username", username); // la key es el nombre de la columna
-        args.put("password", password);
-        args.put("email", email);
-        args.put("phone", phone);
-        args.put("birthdate", birthdate);
-
-        final Number userId = jdbcInsert.executeAndReturnKey(args);
-
-        return new User(userId.intValue(), username, password, email, phone, birthdate);
-    }
-
-    public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
         final Map<String, Object> args = new HashMap<>();
         args.put("username", username); // la key es el nombre de la columna

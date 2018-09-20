@@ -37,96 +37,12 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Menu</a></li>
-                    <li><a onclick="document.getElementById('signUpModal').style.display='block'">Sign Up</a></li>
-                    <li><a onclick="document.getElementById('loginModal').style.display='block'">Login</a></li>
+                    <li><a href="#">Sign Up</a></li>
+                    <li><a href="#">Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
-    <%-- LOGIN MODAL--%>
-    <c:url value="/login" var="loginUrl"/>
-    <div id="loginModal" class="modal">
-
-        <form class="modal-content animate" action="${loginUrl}" method="post"
-              enctype="application/x-www-form-urlencoded">
-            <div class="container">
-                <label><b><spring:message code="username"/></b></label>
-                <input class="loginInput" type="text" placeholder="<spring:message code="enterUsername"/>"
-                       name="j_username">
-
-                <label><b><spring:message code="password"/></b></label>
-                <input class="loginInput" type="password" placeholder="<spring:message code="enterUsername"/>"
-                       name="j_password" required>
-
-                <button class="loginButton" type="submit">
-                    <spring:message code="login"/>
-                </button>
-                <label>
-                    <input class="loginInput" type="checkbox" name="j_rememberme">
-                    <spring:message code="remember_me"/>
-                </label>
-            </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="document.getElementById('loginModal').style.display='none'"
-                        class="cancelbtn">
-                    <spring:message code="cancel"/>
-                </button>
-            </div>
-        </form>
-    </div>
-    <%-- END LOGIN MODAL--%>
-
-    <%-- SIGN UP MODAL --%>
-    <div id="signUpModal" class="modal">
-        <span onclick="document.getElementById('signUpModal').style.display='none'" class="close"
-              title="Close Modal">&times;</span>
-        <form class="modal-content" action="">
-            <div class="container">
-                <h1>Sign Up</h1>
-                <p>Please fill in this form to create an account.</p>
-                <hr>
-                <label><b>Email</b></label>
-                <input type="text" placeholder="Enter Email" name="email" required>
-
-                <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-
-                <label><b>Repeat Password</b></label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-
-                <label>
-                    <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-                </label>
-
-                <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-
-                <div class="clearfix">
-                    <button type="button" onclick="document.getElementById('signUpModal').style.display='none'"
-                            class="signUpCancelbtn">Cancel
-                    </button>
-                    <button type="submit" class="signupbtn">Sign Up</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <%-- END SIGN UP MODAL--%>
-
-    <script>
-        // Get the modal
-        var modal = document.getElementById('loginModal');
-        var signUpModal = document.getElementById('signUpModal');
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal || event.target == signUpModal) {
-                modal.style.display = "none";
-                signUpModal.style.display = "none";
-            }
-        }
-    </script>
-
 
     <!-- First Container -->
     <div class="container-fluid bg-1 text-center ">

@@ -11,9 +11,6 @@ public interface UserDAO {
      * @return The created user.
      */
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate);
-
-    public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate, final Double funds);
 
     public User findUserByUserId(final Integer userId);
