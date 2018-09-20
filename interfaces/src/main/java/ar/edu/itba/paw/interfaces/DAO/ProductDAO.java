@@ -14,6 +14,5 @@ public interface ProductDAO {
     public Product updateProduct(Integer productId, String productName, String brand, String ram, String storage,
                                  String operativeSystem, String processor, String bodySize, String screenSize,
                                  String screenRatio, String rearCamera, String frontCamera);
-
-    List<Product> findAllProducts();
+    public List<Product> findAllProducts();
 }
