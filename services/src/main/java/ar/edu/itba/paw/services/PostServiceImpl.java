@@ -3,7 +3,10 @@ package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.Services.PostService;
+import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
+import ar.edu.itba.paw.models.Product;
+import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +17,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostDAO postDAO;
+
+    @Autowired
+    private UserService userService;
 
     public Post findPostByPostId(Integer postId) {
         return postDAO.findPostByPostId(postId);
@@ -29,16 +35,51 @@ public class PostServiceImpl implements PostService {
         return postsList;
     }
 
-    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {
-        return postDAO.createPost(productId, price, userId, description);
+    @Override
+    public List<Post> findPostsByProductId(Integer productId) {
+        List<Post> postsList = postDAO.findPostsByProductId(productId);
+
+        if (postsList.isEmpty()) {
+            return null;
+        }
+
+        return postsList;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price,
-                           final String description) {
-        return postDAO.updatePost(postId, productId, price, description);
+    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
+                           final Integer productQuantity) {
+        return postDAO.createPost(productId, price, userId, description, productQuantity);
+    }
+
+    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+                           final Integer productQuantity) {
+        return postDAO.updatePost(postId, productId, price, description, productQuantity);
     }
 
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
+    }
+
+    public boolean makeProductTransaction(final Integer buyerId, final Integer postId) {
+        Post post = postDAO.findPostByPostId(postId);
+        Integer productQuantity = post.getProductQuantity();
+        Double price = post.getPrice();
+        User seller = userService.findUserByUserId(post.getUserId());
+        User buyer = userService.findUserByUserId(buyerId);
+        Double buyerFunds = buyer.getFunds();
+
+        if (buyer.getFunds() - price < 0.0)
+            return false;
+
+        if (productQuantity - 1 < 0)
+            return false;
+
+        userService.updateUser(seller.getUserId(), seller.getPassword(), seller.getEmail(), seller.getPhone(),
+                seller.getBirthdate(), seller.getFunds() + price);
+        userService.updateUser(buyer.getUserId(), buyer.getPassword(), buyer.getEmail(), buyer.getPhone(),
+                buyer.getBirthdate(), buyerFunds - price);
+        postDAO.updatePost(postId, post.getProductId(), price, post.getDescription(), productQuantity - 1);
+
+        return true;
     }
 }

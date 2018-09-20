@@ -38,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
+    @Override
     public List<Product> findAllProducts() {
         return productDAO.findAllProducts();
     }
