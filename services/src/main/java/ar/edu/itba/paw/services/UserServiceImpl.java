@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 									  final Integer number,final String city, final String province,
 									  final String zipCode, final String country) {
 
-        User user = userDAO.createUser(username, password, email, phone, birthdate);
+        User user = userDAO.createUser(username, password, email, phone, birthdate, 0.0);
 
         addressService.createAddress(user.getUserId(), street, number, city, province, zipCode,country);
 
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
 
-        return userDAO.createUser(username, password, email, phone, birthdate);
+        return userDAO.createUser(username, password, email, phone, birthdate, 0.0);
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,

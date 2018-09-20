@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,109 +10,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-    <style>
-        html {
-            height: 100%;
-            width: 100%;
-        }
-
-        body {
-            font: 20px Montserrat, sans-serif;
-            line-height: 1.8;
-            color: #f5f6f7;
-            height: 100%;
-            width: 100%;
-        }
-
-        p {
-            font-size: 16px;
-        }
-
-        .margin {
-            margin-bottom: 45px;
-        }
-
-        .bg-1 {
-            background-color: #1abc9c; /* Green */
-            color: #ffffff;
-            height: 100%;
-        }
-
-        .bg-2 {
-            background-color: #474e5d; /* Dark Blue */
-            color: #ffffff;
-        }
-
-        .bg-3 {
-            background-color: #ffffff; /* White */
-            color: #555555;
-        }
-
-        .bg-4 {
-            background-color: #2f2f2f; /* Black Gray */
-            color: #fff;
-        }
-
-        .container-fluid {
-            padding-top: 70px;
-            padding-bottom: 70px;
-        }
-
-        .navbar {
-            padding-top: 15px;
-            padding-bottom: 15px;
-            border: 0;
-            border-radius: 0;
-            margin-bottom: 0;
-            font-size: 12px;
-            letter-spacing: 5px;
-        }
-
-        .navbar-nav li a:hover {
-            color: #1abc9c !important;
-        }
-
-        .first-container {
-            height: 100%;
-            width: 100%;
-        }
-
-        .multi-item-carousel .carousel-inner > .item {
-            transition: 500ms ease-in-out left;
-        }
-
-        .multi-item-carousel .carousel-inner .active.left {
-            left: -33%;
-        }
-
-        .multi-item-carousel .carousel-inner .active.right {
-            left: 33%;
-        }
-
-        .multi-item-carousel .carousel-inner .next {
-            left: 33%;
-        }
-
-        .multi-item-carousel .carousel-inner .prev {
-            left: -33%;
-        }
-
-        @media all and (transform-3d), (-webkit-transform-3d) {
-            .multi-item-carousel .carousel-inner > .item {
-                transition: 500ms ease-in-out left;
-                transition: 500ms ease-in-out all;
-                -webkit-backface-visibility: visible;
-                backface-visibility: visible;
-                -webkit-transform: none !important;
-                transform: none !important;
-            }
-        }
-
-        .multi-item-carousel .carouse-control.left,
-        .multi-item-carousel .carouse-control.right {
-            background-image: none;
-        }
+    <style type="text/css">
+        <%@ include file="../assets/css/loginModal.css" %>
     </style>
+    <style type="text/css">
+        <%@ include file="../assets/css/index.css" %>
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 

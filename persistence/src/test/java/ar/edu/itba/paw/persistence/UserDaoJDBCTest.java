@@ -67,7 +67,7 @@ public class UserDaoJDBCTest {
 
     @Test
     public void testUserUpdate() {
-        User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         user = userDao.updateUser(user.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE,
                 FUNDSUPDATE);
@@ -81,7 +81,7 @@ public class UserDaoJDBCTest {
 
     @Test
     public void testUserFind() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         final User userFound = userDao.findUserByUserId(user.getUserId());
         assertNotNull(userFound);
@@ -90,7 +90,7 @@ public class UserDaoJDBCTest {
 
     @Test
     public void testUserDelete() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         assertTrue(userDao.deleteUser(user.getUserId()));
         assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
