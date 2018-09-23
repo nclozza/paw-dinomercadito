@@ -36,7 +36,12 @@
             <div class="thumbnail">
                 <a href="#">
                     <div class="caption">
-                        <p><c:out value="${post.description}"/></p>
+                        <p><c:out value="description: ${post.description}"/></p>
+                        <p><c:out value="price: ${post.price}"/></p>
+                        <p><c:out value="productQuantity: ${post.productQuantity}"/></p>
+                        <p><c:out value="postId: ${post.postId}"/></p>
+                        <p><c:out value="productId: ${post.productId}"/></p>
+                        <p><c:out value="userId: ${post.userId}"/></p>
                     </div>
                 </a>
                 <button type="button" class="btn btn-success" onclick="">Buy</button>
