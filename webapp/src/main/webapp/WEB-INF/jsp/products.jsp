@@ -6,18 +6,15 @@
 <head>
     <title>DinoMercadito | Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+    <style type="text/css">
+        <%@ include file="../assets/css/products.css" %>
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="#">DinoMercadito</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
@@ -30,20 +27,33 @@
     </div>
 </nav>
 
-<div class="row" style="flex-wrap: wrap">
-    <c:forEach items="${products}" var="product" varStatus="loop">
-        <div class="col-md-3">
-            <div class="thumbnail">
-                <a href="#">
-                    <img src="#" alt="Phone ${loop.index + 1}" style="width:100%">
-                    <div class="caption">
-                        <p>Phone #${loop.index + 1}</p>
-                        <p><c:out value="${product.productName}"/></p>
+<div class="container">
+    <h2 class="title">Products</h2>
+    <hr>
+    <div class="sidenav col-md-2">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <div class="col-md-10">
+        <div class="row product-row">
+            <c:forEach items="${products}" var="product" varStatus="loop">
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <a href="#">
+                            <img class="product img-responsive" src="" alt="Phone ${loop.index + 1}">
+                            <div class="caption">
+                                <h4><c:out value="${product.productName}"/></h4>
+                                <p><c:out value="${product.brand}"/></p>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
+                </div>
+            </c:forEach>
         </div>
-    </c:forEach>
+    </div>
 </div>
 
 </body>
