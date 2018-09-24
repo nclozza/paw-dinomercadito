@@ -15,4 +15,5 @@ public interface ProductService {
                           String operativeSystem, String processor, String bodySize, String screenSize,
                           String screenRatio, String rearCamera, String frontCamera);
     public List<Product> findAllProducts();
+    public List<Product> filterProducts(Integer filterCount, final String filters[]);
 }

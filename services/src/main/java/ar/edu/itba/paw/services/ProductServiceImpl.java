@@ -33,13 +33,15 @@ public class ProductServiceImpl implements ProductService {
         return productDAO.findProductByProductId(productId);
     }
 
-    @Override
     public Product updateProduct(String productName, String brand, String ram, String storage, String operativeSystem, String processor, String bodySize, String screenSize, String screenRatio, String rearCamera, String frontCamera) {
         return null;
     }
 
-    @Override
     public List<Product> findAllProducts() {
         return productDAO.findAllProducts();
+    }
+
+    public List<Product> filterProducts(final Integer filterCount, final String filters[]) {
+        return productDAO.filterProducts(filterCount, filters);
     }
 }

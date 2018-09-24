@@ -20,11 +20,6 @@ public class ProductDaoJDBC implements ProductDAO {
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    /*
-    String productName, String brand, String ram, String storage, String operativeSystem,
-                                 String processor, String bodySize, String screenSize, String screenRatio,
-                                 String rearCamera, String frontCamera
-    */
     private final static RowMapper<Product> ROW_MAPPER = (resultSet, rowNum) -> new Product(
             resultSet.getInt("productId"),
             resultSet.getString("productName"),
@@ -96,10 +91,23 @@ public class ProductDaoJDBC implements ProductDAO {
         return findProductByProductId(productId);
     }
 
-    @Override
     public List<Product> findAllProducts() {
-        final List<Product> productList = jdbcTemplate.query("SELECT * FROM products", ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM products", ROW_MAPPER);
+    }
 
-        return productList;
+    public List<Product> filterProducts(final Integer filterCount, final String filters[]) {
+        String sqlQuery = "SELECT * FROM products";
+
+        for (int i = 0; i < filterCount - 1; i++)
+            sqlQuery.concat(" WHERE " + filters[i] + "= ?,");
+
+        // The last query filter should not have a comma
+        if (filterCount > 1)
+            sqlQuery.concat(" WHERE " + filters[filterCount - 1] + "= ?");
+
+        if (filterCount > 0)
+            return jdbcTemplate.query(sqlQuery, ROW_MAPPER, filters);
+        else
+            return jdbcTemplate.query(sqlQuery, ROW_MAPPER);
     }
 }
