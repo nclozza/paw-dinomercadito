@@ -9,11 +9,19 @@ public interface ProductDAO {
     public Product createProduct(String productName, String brand, String ram, String storage,
                                  String operativeSystem, String processor, String bodySize, String screenSize,
                                  String screenRatio, String rearCamera, String frontCamera);
+
     public boolean deleteProduct(Integer productId);
+
     public Product findProductByProductId(Integer productId);
+
     public Product updateProduct(Integer productId, String productName, String brand, String ram, String storage,
                                  String operativeSystem, String processor, String bodySize, String screenSize,
                                  String screenRatio, String rearCamera, String frontCamera);
+
     public List<Product> findAllProducts();
-    public List<Product> filterProducts(Integer filterCount, final String filters[]);
+
+    public List<Product> filterProducts(final Integer filterCount, final String attribute[],
+                                        final String attributeValue[]);
+
+    public List<String> findAllAttributeValuesForFilter(final String attribute);
 }

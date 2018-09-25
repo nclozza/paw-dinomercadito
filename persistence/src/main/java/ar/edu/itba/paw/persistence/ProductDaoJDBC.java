@@ -5,11 +5,13 @@ import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +69,7 @@ public class ProductDaoJDBC implements ProductDAO {
     }
 
     public boolean deleteProduct(Integer productId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE FROM products WHERE productid = ?", productId);
+        final int deletedRows = jdbcTemplate.update("DELETE FROM products WHERE productId = ?", productId);
 
         return deletedRows == 1;
     }
@@ -95,19 +97,24 @@ public class ProductDaoJDBC implements ProductDAO {
         return jdbcTemplate.query("SELECT * FROM products", ROW_MAPPER);
     }
 
-    public List<Product> filterProducts(final Integer filterCount, final String filters[]) {
+    public List<Product> filterProducts(final Integer filterCount, final String attributes[],
+                                        final String attributeValue[]) {
         String sqlQuery = "SELECT * FROM products";
 
         for (int i = 0; i < filterCount - 1; i++)
-            sqlQuery.concat(" WHERE " + filters[i] + "= ?,");
+            sqlQuery = sqlQuery.concat(" WHERE " + attributes[i] + "= ?,");
 
         // The last query filter should not have a comma
-        if (filterCount > 1)
-            sqlQuery.concat(" WHERE " + filters[filterCount - 1] + "= ?");
-
-        if (filterCount > 0)
-            return jdbcTemplate.query(sqlQuery, ROW_MAPPER, filters);
-        else
+        if (filterCount > 0) {
+            sqlQuery = sqlQuery.concat(" WHERE " + attributes[filterCount - 1] + "= ?");
+            return jdbcTemplate.query(sqlQuery, ROW_MAPPER, attributeValue);
+        } else {
             return jdbcTemplate.query(sqlQuery, ROW_MAPPER);
+        }
+    }
+
+    public List<String> findAllAttributeValuesForFilter(final String attribute) {
+        return jdbcTemplate.query("SELECT DISTINCT " + attribute + " FROM products",
+                new SingleColumnRowMapper(String.class));
     }
 }

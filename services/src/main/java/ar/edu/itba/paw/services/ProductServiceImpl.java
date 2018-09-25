@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +42,15 @@ public class ProductServiceImpl implements ProductService {
         return productDAO.findAllProducts();
     }
 
-    public List<Product> filterProducts(final Integer filterCount, final String filters[]) {
-        return productDAO.filterProducts(filterCount, filters);
+    public List<Product> filterProducts(final Integer filterCount, final String attributes[],
+                                        final String attributeValue[]) {
+        if ((filterCount != attributes.length) || (filterCount != attributeValue.length))
+            return null;
+
+        return productDAO.filterProducts(filterCount, attributes, attributeValue);
+    }
+
+    public List<String> findAllAttributeValuesForFilter(final String attribute) {
+        return productDAO.findAllAttributeValuesForFilter(attribute);
     }
 }
