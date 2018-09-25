@@ -25,7 +25,7 @@ hr {
     overflow-x: hidden;
     padding: 8px 0;
     margin-left: 30px;
-
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .sidenav a {
@@ -44,3 +44,26 @@ hr {
 .thumbnail {
     height: 100px;
 }
+
+.thumbnail {
+    width: 100%;
+    background-color: ghostwhite;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 25px;
+}
+
+.thumbnail:hover div.view{
+    display:block;
+}
+
+.view{
+    position: absolute;
+    background: #eee;
+    padding: 0.5em 2.3em;
+    font-size:.9em;
+    font-weight: 500;
+    top: 35%;
+    left:30%;
+    display: none;
+}
+

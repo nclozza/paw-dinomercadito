@@ -42,13 +42,14 @@
             <c:forEach items="${products}" var="product" varStatus="loop">
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <a href="#">
                             <img class="product img-responsive" src="" alt="Phone ${loop.index + 1}">
                             <div class="caption">
                                 <h4><c:out value="${product.productName}"/></h4>
                                 <p><c:out value="${product.brand}"/></p>
                             </div>
-                        </a>
+                            <div class="view">
+                                <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a>
+                            </div>
                     </div>
                 </div>
             </c:forEach>
