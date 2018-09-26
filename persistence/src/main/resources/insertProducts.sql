@@ -57,11 +57,3 @@ VALUES('Pocophone F1', 'Xiaomi', '8GB', '256GB',
 	'Android', 'Qualcomm Snapdragon 845', '155.5 x 75.3 x 8.8 mm',
 	'96.2 cm2', '18.7:9', '12 MP, f/1.9, 1/2.55", 1.4µm, dual pixel PDAF ---
 	5 MP, f/2.0, 1.12µm, depth sensor', '20 MP, f/2.0, 0.9µm');
-
-INSERT INTO products (productname, brand, ram, storage, operativesystem, processor, bodysize, screensize, screenratio, rearcamera, frontcamera)
-VALUES('P20 Pro', 'Huawei', '8GB', '256GB',
-	'Android', 'Qualcomm Snapdragon 845', '155 x 73.9 x 7.8 mm',
-	'93.9 cm2', '18.7:9', '40 MP, f/1.8, 27mm, 1/1.7", OIS, PDAF/Laser AF ---
-	20 MP B/W, f/1.6, 27mm, 1/2.7", OIS, PDAF/Laser AF ---
-	8 MP, f/2.4, 80mm, 1/4", 3x optical zoom, OIS, PDAF/Laser AF',
-	'24 MP, f/2.0, 26mm');

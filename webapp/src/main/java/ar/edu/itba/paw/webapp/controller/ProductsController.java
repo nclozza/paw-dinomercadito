@@ -20,6 +20,7 @@ public class ProductsController {
         ModelAndView mav = new ModelAndView("products");
         List<Product> productList = productService.findAllProducts();
         mav.addObject("products", productList);
+
         return mav;
     }
 }

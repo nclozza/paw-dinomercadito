@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+
 import ar.edu.itba.paw.models.Product;
 import org.junit.After;
 import org.junit.Before;
@@ -14,12 +15,14 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:testProducts.sql")
-
 public class ProductDaoJDBCTest {
 
     private static final String PRODUCTNAME = "nameProduct";
@@ -156,6 +159,7 @@ public class ProductDaoJDBCTest {
     @Test
     public void testFindAllAttributeValuesForOperativeSystemFilter() {
         final List<String> operativeSystemValues = productDao.findAllAttributeValuesForFilter(OS_ATTRIBUTE);
+        assertNotNull(operativeSystemValues);
 
         for (String operativeSystem : operativeSystemValues)
             assertTrue(Arrays.asList(OPERATIVE_SYSTEMS).contains(operativeSystem));

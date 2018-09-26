@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private static final String attributesToFilter[] = {"brand", "operativeSystem", "ram", "storage"};
 
     @Autowired
     private ProductDAO productDAO;
@@ -52,5 +55,9 @@ public class ProductServiceImpl implements ProductService {
 
     public List<String> findAllAttributeValuesForFilter(final String attribute) {
         return productDAO.findAllAttributeValuesForFilter(attribute);
+    }
+
+    public List<String> getAllAttributesForFiltering() {
+        return Arrays.asList(attributesToFilter);
     }
 }
