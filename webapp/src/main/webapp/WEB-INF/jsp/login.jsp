@@ -8,15 +8,15 @@
 </style>
 <c:url value="/login" var="loginUrl"/>
 <div class="central-wrapper">
-    <div class="center">
+    <div class="signInCenter">
         <form class="form" action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
             <div>
-                <label class="label" for="username">Username</label>
+                <label class="label" for="username"><spring:message code="username"/></label>
                 <p/>
                 <input id="username" name="j_username" type="text"/>
             </div>
             <div>
-                <label class="label" for="password">Password</label>
+                <label class="label" for="password"><spring:message code="password"/></label>
                 <p/>
                 <input id="password" name="j_password" type="password"/>
             </div>
@@ -27,7 +27,7 @@
                 </label>
             </div>
             <div>
-                <button class="buttons" type="submit">Submit</button>
+                <button class="submitButton" type="submit"><spring:message code="submit"/></button>
             </div>
         </form>
     </div>
