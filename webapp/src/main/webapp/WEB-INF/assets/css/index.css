@@ -4,11 +4,9 @@ html {
 }
 
 body {
-    font: 20px Montserrat, sans-serif;
-    line-height: 1.8;
-    color: #f5f6f7;
     height: 100%;
     width: 100%;
+    background-color: #000000;
 }
 
 p {
@@ -19,9 +17,28 @@ p {
     margin-bottom: 45px;
 }
 
+h1{
+    color: white;
+    font-size: 70px;
+    text-shadow: -1px 0 darkgrey, 0 1px darkgrey, 1px 0 darkgrey, 0 -1px darkgrey;
+}
+
+h2{
+    color: white;
+    font-size: 30px;
+}
+
+h4{
+    color: white;
+}
+
+hr{
+    width: 30%;
+}
+
 .bg-1 {
-    background-color: #1abc9c; /* Green */
-    color: #ffffff;
+    background-image: url("https://s3.amazonaws.com/urgeio-versus/landing/background_retina_2.jpg");
+    background-repeat: no-repeat;
     height: 100%;
 }
 
@@ -40,19 +57,10 @@ p {
     color: #fff;
 }
 
-.container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
-}
-
 .navbar {
-    padding-top: 15px;
-    padding-bottom: 15px;
     border: 0;
     border-radius: 0;
     margin-bottom: 0;
-    font-size: 12px;
-    letter-spacing: 5px;
 }
 
 .navbar-nav li a:hover {
@@ -62,6 +70,20 @@ p {
 .first-container {
     height: 100%;
     width: 100%;
+}
+
+.searchTerm{
+    width: 100%;
+}
+
+.vertical-align{
+    display: flex;
+    align-items: center;
+    min-height: 100%;
+}
+
+.horizontal-align{
+    margin: auto;
 }
 
 .multi-item-carousel .carousel-inner > .item {
