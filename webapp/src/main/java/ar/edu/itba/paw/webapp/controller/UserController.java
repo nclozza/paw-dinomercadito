@@ -29,7 +29,7 @@ public class UserController {
     private UserService us;
 
     @RequestMapping("/user")
-    public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId) {
+    public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId, final HttpSession session) {
         final ModelAndView mav = new ModelAndView("user");
         User user = us.findUserByUserId(userId);
         mav.addObject("username", user.getUsername());
@@ -37,7 +37,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method={RequestMethod.GET})
     public ModelAndView login() {
         return new ModelAndView("login");
     }

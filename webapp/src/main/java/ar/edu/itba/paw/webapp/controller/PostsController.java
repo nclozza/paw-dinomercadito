@@ -74,10 +74,10 @@ public class PostsController {
         }
 
         // TODO get the session user ID
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //User user = userService.findUserByUsername(authentication.getName());
-        //Integer userId = user.getUserId();
-        final Post post = postService.createPost(form.getProductId(), Double.valueOf(form.getPrice()), 1,
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(authentication.getName());
+        Integer userId = user.getUserId();
+        final Post post = postService.createPost(form.getProductId(), Double.valueOf(form.getPrice()), userId,
                 form.getDescription(), form.getProductQuantity());
 
         // TODO change the redirect
