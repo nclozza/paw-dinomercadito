@@ -48,7 +48,7 @@
                     <div class="search input-group-sm">
                         <input type="text" class="searchTerm form-control" placeholder="What are you looking for?">
                         <br>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default search-button">
                             Search
                         </button>
                     </div>

@@ -76,6 +76,10 @@ hr{
     width: 100%;
 }
 
+.search-button{
+    font-weight: bold;
+}
+
 .vertical-align{
     display: flex;
     align-items: center;
