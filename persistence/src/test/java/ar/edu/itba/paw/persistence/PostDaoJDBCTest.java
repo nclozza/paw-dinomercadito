@@ -34,6 +34,7 @@ public class PostDaoJDBCTest {
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
     private static final String BIRTHDATE = "1995-09-01";
+    private static final Double FUNDS = 0.0;
     private static final String PRODUCTNAME = "namePost";
     private static final String PRODUCTNAMEUPDATE = "nameePost";
     private static final String BRAND = "brand";
@@ -83,7 +84,7 @@ public class PostDaoJDBCTest {
     public void testPostCreate(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
@@ -103,7 +104,7 @@ public class PostDaoJDBCTest {
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
         final Product productUpdate = productDao.createProduct(PRODUCTNAMEUPDATE, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION, PRODUCTQUANTITY);
 
         post = postDao.updatePost(post.getPostId(), productUpdate.getProductId(), PRICEUPDATE, DESCRIPTIONUPDATE,
@@ -119,7 +120,7 @@ public class PostDaoJDBCTest {
     public void testPostFindByPost(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
 
@@ -132,7 +133,7 @@ public class PostDaoJDBCTest {
     public void testPostFindByUser(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
 
@@ -145,7 +146,7 @@ public class PostDaoJDBCTest {
     public void testPostDelete(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
 

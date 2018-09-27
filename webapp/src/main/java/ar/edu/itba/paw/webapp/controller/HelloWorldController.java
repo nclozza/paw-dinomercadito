@@ -18,9 +18,4 @@ public class HelloWorldController {
         mav.addObject("greeting", "PAW");
         return mav;
     }
-
-    @RequestMapping("/login")
-    public ModelAndView login() {
-        return new ModelAndView("login");
-    }
 }
