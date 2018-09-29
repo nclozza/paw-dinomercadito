@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,5 +114,12 @@ public class ProductDaoJDBC implements ProductDAO {
     public List<String> findAllAttributeValuesForFilter(final String attribute) {
         return jdbcTemplate.query("SELECT DISTINCT " + attribute + " FROM products",
                 new SingleColumnRowMapper(String.class));
+    }
+
+    @Override
+    public List<Product> findProductsByFilter(String filter) {
+        String filterFormatted = "%" + filter.toLowerCase() + "%";
+        return jdbcTemplate.query("SELECT DISTINCT * FROM products WHERE LOWER(productName) LIKE ? " +
+                "OR LOWER(brand) LIKE ? OR LOWER(operativeSystem) LIKE ?", ROW_MAPPER, filterFormatted, filterFormatted, filterFormatted);
     }
 }

@@ -116,7 +116,7 @@ hr{
         transition: 500ms ease-in-out all;
         -webkit-backface-visibility: visible;
         backface-visibility: visible;
-        -webkit-transform: none !important;
+        -webkit-transformborder: none !important;
         transform: none !important;
     }
 }
