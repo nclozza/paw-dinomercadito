@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.Services.EmailService;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
