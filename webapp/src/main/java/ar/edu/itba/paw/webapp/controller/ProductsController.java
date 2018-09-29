@@ -19,7 +19,22 @@ public class ProductsController {
     public ModelAndView index() {
         ModelAndView mav = new ModelAndView("products");
         List<Product> productList = productService.findAllProducts();
+        List<String> brandsList = productService.findAllAttributeValuesForFilter("brand");
+        List<String> operativeSystemsList = productService.findAllAttributeValuesForFilter("operativeSystem");
+        List<String> ramList = productService.findAllAttributeValuesForFilter("ram");
+        List<String> storageList = productService.findAllAttributeValuesForFilter("storage");
+        List<String> attributesList = productService.getAllAttributesForFiltering();
+
         mav.addObject("products", productList);
+        mav.addObject("brands", brandsList);
+        mav.addObject("operativeSystems", operativeSystemsList);
+        mav.addObject("ramSizes", ramList);
+        mav.addObject("storageSizes", storageList);
+        mav.addObject("attributesToFilter", attributesList);
+
+        //for (String attribute : attributes)
+        //    mav.addObject(attribute + "s", productService.findAllAttributeValuesForFilter(attribute));
+
         return mav;
     }
 }

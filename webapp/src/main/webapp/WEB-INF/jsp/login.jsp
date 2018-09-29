@@ -4,6 +4,7 @@
 <html>
 <body>
 <c:url value="/login" var="loginUrl"/>
+${loginUrl}
 <form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
     <div>
         <label for="username">Username: </label>

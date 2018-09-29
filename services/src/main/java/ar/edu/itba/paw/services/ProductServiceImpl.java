@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private static final String attributesToFilter[] = {"brand", "operativeSystem", "ram", "storage"};
 
     @Autowired
     private ProductDAO productDAO;
@@ -33,13 +37,27 @@ public class ProductServiceImpl implements ProductService {
         return productDAO.findProductByProductId(productId);
     }
 
-    @Override
     public Product updateProduct(String productName, String brand, String ram, String storage, String operativeSystem, String processor, String bodySize, String screenSize, String screenRatio, String rearCamera, String frontCamera) {
         return null;
     }
 
-    @Override
     public List<Product> findAllProducts() {
         return productDAO.findAllProducts();
+    }
+
+    public List<Product> filterProducts(final Integer filterCount, final String attributes[],
+                                        final String attributeValue[]) {
+        if ((filterCount != attributes.length) || (filterCount != attributeValue.length))
+            return null;
+
+        return productDAO.filterProducts(filterCount, attributes, attributeValue);
+    }
+
+    public List<String> findAllAttributeValuesForFilter(final String attribute) {
+        return productDAO.findAllAttributeValuesForFilter(attribute);
+    }
+
+    public List<String> getAllAttributesForFiltering() {
+        return Arrays.asList(attributesToFilter);
     }
 }
