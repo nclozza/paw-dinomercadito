@@ -24,14 +24,9 @@
 
 <div class="first-container">
     <!-- Navbar -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="#">DinoMercadito</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -43,94 +38,77 @@
             </div>
         </div>
     </nav>
-
     <!-- First Container -->
     <div class="container-fluid bg-1 text-center ">
-        <h3 class="margin">Search products</h3>
-        <div class="wrap">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="What are you looking for?">
-                <button type="button" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Second Container -->
-<div class="container-fluid bg-2 text-center">
-    <div class="container">
-        <h1>New Releases</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="carousel slide multi-item-carousel" id="theCarousel">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/f44336/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/e91e63/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/9c27b0/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/673ab7/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/4caf50/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-                        <!-- add  more items here -->
-                        <!-- Example item start:  -->
-
-                        <div class="item">
-                            <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000"
-                                                                    class="img-responsive"></a></div>
-                        </div>
-
-                        <!--  Example item end -->
+        <div class="vertical-align">
+            <div class="horizontal-align">
+                <h1 >Search products</h1>
+                <h4>Iphone, Samsung Galaxy, OnePlus and much more</h4>
+                <div class="wrap">
+                    <div class="search input-group-sm">
+                        <input type="text" class="searchTerm form-control" placeholder="What are you looking for?">
+                        <br>
+                        <button type="button" class="btn btn-default search-button">
+                            Search
+                        </button>
                     </div>
-                    <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i
-                            class="glyphicon glyphicon-chevron-left"></i></a>
-                    <a class="right carousel-control" href="#theCarousel" data-slide="next"><i
-                            class="glyphicon glyphicon-chevron-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Third Container (Grid) -->
-<div class="container-fluid bg-3 text-center">
-    <h3 class="margin">Where To Find Me?</h3><br>
-    <div class="row">
-        <div class="col-sm-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            <img src="#" class="img-responsive margin" style="width:100%" alt="Image">
-        </div>
-        <div class="col-sm-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            <img src="#" class="img-responsive margin" style="width:100%" alt="Image">
-        </div>
-        <div class="col-sm-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            <img src="#" class="img-responsive margin" style="width:100%" alt="Image">
+    <!-- Second Container -->
+    <div class="container-fluid bg-2 text-center">
+        <div class="container">
+            <h2>New Releases</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="carousel slide multi-item-carousel" id="theCarousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/f44336/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/e91e63/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/9c27b0/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/673ab7/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/4caf50/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+                            <!-- add  more items here -->
+                            <!-- Example item start:  -->
+
+                            <div class="item">
+                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000"
+                                                                        class="img-responsive"></a></div>
+                            </div>
+
+                            <!--  Example item end -->
+                        </div>
+                        <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i
+                                class="glyphicon glyphicon-chevron-left"></i></a>
+                        <a class="right carousel-control" href="#theCarousel" data-slide="next"><i
+                                class="glyphicon glyphicon-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </body>
 <script>
     // Instantiate the Bootstrap carousel
