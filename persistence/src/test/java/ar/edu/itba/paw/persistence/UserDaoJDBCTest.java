@@ -39,6 +39,7 @@ public class UserDaoJDBCTest {
 
     @Autowired
     private UserDaoJDBC userDao;
+
     private JdbcTemplate jdbcTemplate;
 
     @Before
