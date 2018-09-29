@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.models.Address;
 import ar.edu.itba.paw.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PostService postService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User createUserWithAddress(final String username, final String password, final String email,
 									  final String phone, final String birthdate, final String street,
 									  final Integer number,final String city, final String province,
@@ -40,13 +44,14 @@ public class UserServiceImpl implements UserService {
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
 
-        return userDAO.createUser(username, password, email, phone, birthdate, 0.0);
+        return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, 0.0);
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
 
-        return userDAO.createUser(username, password, email, phone, birthdate, funds);
+
+        return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, funds);
     }
 
 	public User findUserByUsername(String username) {
@@ -89,7 +94,7 @@ public class UserServiceImpl implements UserService {
 
 	public User updateUser(final Integer userId, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
-		return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
+		return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
 	}
 
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
