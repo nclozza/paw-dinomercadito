@@ -42,12 +42,12 @@ public class UserController {
         return new ModelAndView("login");
     }
 
-    @RequestMapping("/signUp")
+    @RequestMapping(value = "/signUp", method = {RequestMethod.GET})
     public ModelAndView signUp(@ModelAttribute("registerForm") final UserForm form) {
         return new ModelAndView("signUp");
     }
 
-    @RequestMapping(value = "/create", method = {RequestMethod.POST})
+    @RequestMapping(value = "/signUp", method = {RequestMethod.POST})
     public ModelAndView create(@Valid @ModelAttribute("registerForm") final UserForm form, final BindingResult errors) {
         if (errors.hasErrors() || !form.checkPassword()) {
             return signUp(form);

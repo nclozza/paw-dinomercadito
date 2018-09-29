@@ -7,7 +7,7 @@
     <%@ include file="../assets/css/login.css" %>
 </style>
 <body>
-<c:url value="/create" var="postPath"/>
+<c:url value="/signUp" var="postPath"/>
 <div class="central-wrapper">
     <div class="signUpCenter">
         <form:form class="form" modelAttribute="registerForm" action="${postPath}" method="post">

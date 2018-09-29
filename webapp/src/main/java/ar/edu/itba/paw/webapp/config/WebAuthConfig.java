@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -22,11 +23,13 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService)
                 .sessionManagement()
-                .invalidSessionUrl("/login")
+                .invalidSessionUrl("/index")
             .and().authorizeRequests()
-                .antMatchers("/login").anonymous()
+                .antMatchers("/index", "/products", "/posts").permitAll()
+                .antMatchers("/login", "/signUp").anonymous()
+                .antMatchers("/buy", "/profile").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").authenticated()
+                .antMatchers("/**").denyAll()
             .and().formLogin()
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
@@ -45,8 +48,8 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
             .and().csrf().disable();
     }
 
-//    @Override
-//    public void configure(final WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/WEB-INF/assets/css/**", "/js/**", "/img/**", "/favicon.ico", "/403");
-//    }
+    @Override
+    public void configure(final WebSecurity web) {
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403");
+    }
 }
