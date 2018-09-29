@@ -44,7 +44,7 @@ public class PostsController {
         return mav;
     }
 
-    @RequestMapping("/newPost")
+    @RequestMapping(value = "/newPost", method = {RequestMethod.GET})
     public ModelAndView newPost(@ModelAttribute("registerForm") final PostForm form) {
         ModelAndView mav = new ModelAndView("newPost");
         List<Product> productList = productService.findAllProducts();
@@ -54,7 +54,7 @@ public class PostsController {
         return mav;
     }
 
-    @RequestMapping(value = "/createPost", method = {RequestMethod.POST})
+    @RequestMapping(value = "/newPost", method = {RequestMethod.POST})
     public ModelAndView create(@Valid @ModelAttribute("registerForm") final PostForm form, final BindingResult errors) {
         if (errors.hasErrors()) {
             return newPost(form);
@@ -68,5 +68,19 @@ public class PostsController {
 
         // TODO change the redirect
         return new ModelAndView("redirect:/posts?productId=" + post.getProductId());
+    }
+
+    @RequestMapping("/post")
+    public ModelAndView post(@RequestParam(value = "postId") final Integer postId) {
+        ModelAndView mav = new ModelAndView("post");
+        Post post = postService.findPostByPostId(postId);
+        User user = userService.findUserByUserId(post.getUserId());
+        Product product = productService.findProductByProductId(post.getProductId());
+
+        mav.addObject("post", post);
+        mav.addObject("user", user);
+        mav.addObject("product", product);
+
+        return mav;
     }
 }
