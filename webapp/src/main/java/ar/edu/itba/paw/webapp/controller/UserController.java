@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.Services.EmailService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.UserForm;
@@ -28,6 +29,9 @@ public class UserController {
     @Qualifier("userServiceImpl")
     private UserService us;
 
+    @Autowired
+    private EmailService emailService;
+
     @RequestMapping("/user")
     public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId, final HttpSession session) {
         final ModelAndView mav = new ModelAndView("user");
@@ -52,7 +56,10 @@ public class UserController {
         if (errors.hasErrors() || !form.checkPassword()) {
             return signUp(form);
         }
-        final User user = us.createUser(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone(), form.getBirthdate());
+
+        final User user = us.createUser(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone(),
+                form.getBirthdate());
+        emailService.sendSuccessfulRegistrationEmail(user.getEmail(), user.getUsername());
 
         return new ModelAndView("redirect:/user?userId=" + user.getUserId());
     }
