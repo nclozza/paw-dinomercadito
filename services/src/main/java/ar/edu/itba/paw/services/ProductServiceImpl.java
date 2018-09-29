@@ -6,8 +6,6 @@ import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,5 +57,10 @@ public class ProductServiceImpl implements ProductService {
 
     public List<String> getAllAttributesForFiltering() {
         return Arrays.asList(attributesToFilter);
+    }
+
+    @Override
+    public List<Product> findProductsByFilter(String filter) {
+        return productDAO.findProductsByFilter(filter);
     }
 }

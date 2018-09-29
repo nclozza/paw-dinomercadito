@@ -2,7 +2,6 @@ package ar.edu.itba.paw.interfaces.DAO;
 
 import ar.edu.itba.paw.models.Product;
 
-import java.awt.*;
 import java.util.List;
 
 public interface ProductDAO {
@@ -24,4 +23,6 @@ public interface ProductDAO {
                                         final String attributeValue[]);
 
     public List<String> findAllAttributeValuesForFilter(final String attribute);
+
+    List<Product> findProductsByFilter(String filter);
 }

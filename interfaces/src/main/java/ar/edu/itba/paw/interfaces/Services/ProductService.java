@@ -2,7 +2,6 @@ package ar.edu.itba.paw.interfaces.Services;
 
 import ar.edu.itba.paw.models.Product;
 
-import java.awt.*;
 import java.util.List;
 
 public interface ProductService {
@@ -39,4 +38,6 @@ public interface ProductService {
     public List<String> findAllAttributeValuesForFilter(final String attribute);
 
     public List<String> getAllAttributesForFiltering();
+
+    List<Product> findProductsByFilter(String filter);
 }

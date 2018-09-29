@@ -11,9 +11,6 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
     <style type="text/css">
-        <%@ include file="../assets/css/loginModal.css" %>
-    </style>
-    <style type="text/css">
         <%@ include file="../assets/css/index.css" %>
     </style>
 
@@ -42,15 +39,18 @@
     <div class="container-fluid bg-1 text-center ">
         <div class="vertical-align">
             <div class="horizontal-align">
-                <h1 >Search products</h1>
-                <h4>Iphone, Samsung Galaxy, OnePlus and much more</h4>
+                <h1><spring:message code="search_products"/></h1>
+                <h4><spring:message code="products"/></h4>
                 <div class="wrap">
                     <div class="search input-group-sm">
-                        <input type="text" class="searchTerm form-control" placeholder="What are you looking for?">
-                        <br>
-                        <button type="button" class="btn btn-default search-button">
-                            Search
-                        </button>
+                        <c:url value="/index" var="searchUrl"/>
+                        <form class="form" action="${searchUrl}" method="post" enctype="application/x-www-form-urlencoded">
+                            <input id="search" name="search" type="text" class="searchTerm form-control" placeholder="<spring:message code="looking_for"/>">
+                            <br>
+                            <button type="submit" class="btn btn-default search-button">
+                                <spring:message code="search"/>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
