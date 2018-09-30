@@ -21,4 +21,6 @@ public interface UserDAO {
                               final String phone, final String birthdate, final Double funds);
 
     public User findUserByUsername(String username);
+
+    public boolean checkUsername(final String username);
 }

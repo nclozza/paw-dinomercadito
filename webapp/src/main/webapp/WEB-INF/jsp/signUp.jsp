@@ -16,6 +16,9 @@
                 <form:input type="text" path="username"/>
                 <form:errors path="username" element="p"><p/><spring:message
                         code="username_error"/></form:errors>
+                <c:if test="${username_repeated}">
+                    <p><spring:message code="username_repeated_error"/></p>
+                </c:if>
             </div>
             <div>
                 <form:label class="label" path="password"><spring:message code="password"/></form:label>
@@ -44,7 +47,7 @@
             </div>
             <div>
                 <form:label class="label" path="birthdate"><spring:message code="birthdate"/></form:label>
-                <form:input type="text" path="birthdate"/>
+                <form:input type="text" path="birthdate" placeholder = "dd-mm-yyyy"/>
                 <form:errors class="error" path="birthdate" element="p"><p/><spring:message
                         code="birthdate_error"/></form:errors>
             </div>

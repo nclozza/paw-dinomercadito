@@ -108,4 +108,6 @@ public class UserServiceImpl implements UserService {
 		else
 			return postProductSucceeded;
 	}
+
+	public boolean checkUsername (final String username){ return userDAO.checkUsername(username); }
 }
