@@ -50,3 +50,15 @@ CREATE TABLE IF NOT EXISTS buys (
    productQuantity INT NOT NULL,
    price NUMERIC(10, 2) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS usersNotAuthenticated (
+   userId SERIAL PRIMARY KEY,
+   username VARCHAR(32) UNIQUE NOT NULL,
+   password VARCHAR(60) NOT NULL,
+   email VARCHAR(32),
+   phone VARCHAR(16),
+   birthdate VARCHAR(10),
+   funds NUMERIC(10, 2),
+   signUpDate VARCHAR(10),
+   code INT
+);
