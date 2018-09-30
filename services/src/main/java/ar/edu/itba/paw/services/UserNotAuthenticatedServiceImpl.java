@@ -32,4 +32,6 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
 
     public boolean deleteUser(final Integer userId) { return userDAO.deleteUser(userId);};
 
+    @Override
+    public UserNotAuthenticated findUserByCode(final Integer code) { return userDAO.findUserByCode(code); }
 }

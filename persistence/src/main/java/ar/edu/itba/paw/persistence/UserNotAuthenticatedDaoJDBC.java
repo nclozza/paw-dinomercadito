@@ -72,4 +72,13 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
         return deletedRows == 1;
     }
+
+    public UserNotAuthenticated findUserByCode(final Integer code){
+        final List<UserNotAuthenticated> usersList = jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE code = ?",ROW_MAPPER, code);
+
+        if (usersList.isEmpty())
+            return null;
+
+        return usersList.get(0);
+    }
 }

@@ -1,12 +1,12 @@
-CREATE TABLE IF NOT EXISTS users (
-   userId SERIAL PRIMARY KEY,
-   username VARCHAR(32) UNIQUE NOT NULL,
-   password VARCHAR(60) NOT NULL,
-   email VARCHAR(32),
-   phone VARCHAR(16),
-   birthdate VARCHAR(10),
-   funds NUMERIC(10, 2)
-);
+  CREATE TABLE IF NOT EXISTS users (
+     userId SERIAL PRIMARY KEY,
+     username VARCHAR(32) UNIQUE NOT NULL,
+     password VARCHAR(60) NOT NULL,
+     email VARCHAR(32),
+     phone VARCHAR(16),
+     birthdate VARCHAR(10),
+     funds NUMERIC(10, 2)
+  );
 
 CREATE TABLE IF NOT EXISTS addresses (
    addressId SERIAL PRIMARY KEY,

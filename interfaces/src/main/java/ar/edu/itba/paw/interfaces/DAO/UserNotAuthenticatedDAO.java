@@ -12,4 +12,6 @@ public interface UserNotAuthenticatedDAO {
     public boolean deleteUser(final Integer userId);
 
     public UserNotAuthenticated findUserByUsername(String username);
+
+    public UserNotAuthenticated findUserByCode(final Integer code);
 }
