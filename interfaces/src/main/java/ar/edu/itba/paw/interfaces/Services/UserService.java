@@ -31,5 +31,10 @@ public interface UserService {
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
                                final String description, final Integer productQuantity);
 
-    public User findUserByUsername(String username);
+    public User findUserByUsername(final String username);
+
+    public User updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
+                                                 final String phone, final String birthdate, final Double funds);
+    
+    public boolean checkUsername(final String username);
 }

@@ -17,26 +17,26 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserDAO userDAO;
+    @Autowired
+    private UserDAO userDAO;
 
-	@Autowired
-	private AddressService addressService;
+    @Autowired
+    private AddressService addressService;
 
-	@Autowired
-	private PostService postService;
+    @Autowired
+    private PostService postService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public User createUserWithAddress(final String username, final String password, final String email,
-									  final String phone, final String birthdate, final String street,
-									  final Integer number,final String city, final String province,
-									  final String zipCode, final String country) {
+                                      final String phone, final String birthdate, final String street,
+                                      final Integer number, final String city, final String province,
+                                      final String zipCode, final String country) {
 
         User user = userDAO.createUser(username, password, email, phone, birthdate, 0.0);
 
-        addressService.createAddress(user.getUserId(), street, number, city, province, zipCode,country);
+        addressService.createAddress(user.getUserId(), street, number, city, province, zipCode, country);
 
         return user;
     }
@@ -44,68 +44,79 @@ public class UserServiceImpl implements UserService {
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
 
-        return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, 0.0);
+        return userDAO.createUser(username, password, email, phone, birthdate, 0.0);
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
 
 
-        return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, funds);
+        return userDAO.createUser(username, password, email, phone, birthdate, funds);
     }
 
-	public User findUserByUsername(String username) {
-		return userDAO.findUserByUsername(username);
-	}
+    public User findUserByUsername(String username) {
+        return userDAO.findUserByUsername(username);
+    }
 
-	public User findUserByUserId(final Integer userId) {
-		return userDAO.findUserByUserId(userId);
-	}
+    @Override
+    public User updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
+                                                 final String phone, final String birthdate, final Double funds) {
 
-	// TODO See what to do with this method's return value
-	public boolean deleteUser(final Integer userId) {
-    	boolean deletionSucceeded = true;
+        return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
+    }
 
-    	List<Post> postsList = postService.findPostByUserId(userId);
+    public User findUserByUserId(final Integer userId) {
+        return userDAO.findUserByUserId(userId);
+    }
 
-    	if (postsList != null && !postsList.isEmpty()) {
-			for (Post post : postsList) {
-				postService.deletePost(post.getPostId());
-			}
-		} else {
-    		return !deletionSucceeded;
-		}
+    // TODO See what to do with this method's return value
+    public boolean deleteUser(final Integer userId) {
+        boolean deletionSucceeded = true;
 
-		List<Address> addressesList = addressService.findAddressByUserId(userId);
+        List<Post> postsList = postService.findPostByUserId(userId);
 
-		if (addressesList != null && !addressesList.isEmpty()) {
-			for (Address address : addressesList) {
-				addressService.deleteAddress(address.getAddressId());
-			}
-		} else {
-			return !deletionSucceeded;
-		}
+        if (postsList != null && !postsList.isEmpty()) {
+            for (Post post : postsList) {
+                postService.deletePost(post.getPostId());
+            }
+        } else {
+            return !deletionSucceeded;
+        }
 
-		if (userDAO.deleteUser(userId) == deletionSucceeded)
-			return deletionSucceeded;
-		else
-			return !deletionSucceeded;
-	}
+        List<Address> addressesList = addressService.findAddressByUserId(userId);
 
-	public User updateUser(final Integer userId, final String password, final String email, final String phone,
+        if (addressesList != null && !addressesList.isEmpty()) {
+            for (Address address : addressesList) {
+                addressService.deleteAddress(address.getAddressId());
+            }
+        } else {
+            return !deletionSucceeded;
+        }
+
+        if (userDAO.deleteUser(userId) == deletionSucceeded)
+            return deletionSucceeded;
+        else
+            return !deletionSucceeded;
+    }
+
+    public User updateUser(final Integer userId, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
-		return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
-	}
+        return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
+    }
 
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
-							   final String description, final Integer productQuantity) {
-    	boolean postProductSucceeded = true;
-    	if (productId < 0 || price < 0.0 || userId < 0 || description == null)
-    		throw new IllegalArgumentException();
+                               final String description, final Integer productQuantity) {
+        boolean postProductSucceeded = true;
+        if (productId < 0 || price < 0.0 || userId < 0 || description == null)
+            throw new IllegalArgumentException();
 
-		if (postService.createPost(productId, price, userId, description, productQuantity) == null)
-			return !postProductSucceeded;
-		else
-			return postProductSucceeded;
-	}
+        if (postService.createPost(productId, price, userId, description, productQuantity) == null)
+            return !postProductSucceeded;
+        else
+            return postProductSucceeded;
+    }
+
+    public boolean checkUsername(final String username) {
+        return userDAO.checkUsername(username);
+    }
 }
