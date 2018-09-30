@@ -32,4 +32,6 @@ public interface UserService {
                                final String description, final Integer productQuantity);
 
     public User findUserByUsername(String username);
+
+    public boolean checkUsername(final String username);
 }

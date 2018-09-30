@@ -55,7 +55,7 @@ public class UserController {
 
     @RequestMapping(value = "/signUp", method = {RequestMethod.GET})
     public ModelAndView signUp(@ModelAttribute("registerForm") final UserForm form) {
-        return new ModelAndView("signUp");
+        return new ModelAndView("signUp").addObject("username_repeated", false);
     }
 
     @RequestMapping(value = "/signUp", method = {RequestMethod.POST})
@@ -64,10 +64,13 @@ public class UserController {
             return signUp(form);
         }
 
+        if (!us.checkUsername(form.getUsername()) || !usn.checkUsername(form.getUsername())){
+            return signUp(form).addObject("username_repeated", true);
+        }
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyy");
         LocalDateTime now = LocalDateTime.now();
         String date = dtf.format(now);
-
 
         Integer code = usn.generateCode();
 

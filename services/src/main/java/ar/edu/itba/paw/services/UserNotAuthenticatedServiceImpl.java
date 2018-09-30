@@ -52,4 +52,6 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
 
         return code;
     }
+
+    public boolean checkUsername (final String username){ return userDAO.checkUsername(username); }
 }
