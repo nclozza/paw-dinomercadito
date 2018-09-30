@@ -59,27 +59,4 @@ public class PostServiceImpl implements PostService {
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
     }
-
-    public boolean makeProductTransaction(final Integer buyerId, final Integer postId) {
-        Post post = postDAO.findPostByPostId(postId);
-        Integer productQuantity = post.getProductQuantity();
-        Double price = post.getPrice();
-        User seller = userService.findUserByUserId(post.getUserId());
-        User buyer = userService.findUserByUserId(buyerId);
-        Double buyerFunds = buyer.getFunds();
-
-        if (buyer.getFunds() - price < 0.0)
-            return false;
-
-        if (productQuantity - 1 < 0)
-            return false;
-
-        userService.updateUser(seller.getUserId(), seller.getPassword(), seller.getEmail(), seller.getPhone(),
-                seller.getBirthdate(), seller.getFunds() + price);
-        userService.updateUser(buyer.getUserId(), buyer.getPassword(), buyer.getEmail(), buyer.getPhone(),
-                buyer.getBirthdate(), buyerFunds - price);
-        postDAO.updatePost(postId, post.getProductId(), price, post.getDescription(), productQuantity - 1);
-
-        return true;
-    }
 }

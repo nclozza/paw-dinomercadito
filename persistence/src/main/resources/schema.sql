@@ -42,3 +42,11 @@ CREATE TABLE IF NOT EXISTS posts (
    description VARCHAR(128),
    productQuantity INT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS buys (
+   buyId SERIAL PRIMARY KEY,
+   postId INT REFERENCES posts(postId) NOT NULL,
+   buyerUserId INT REFERENCES users(userId) NOT NULL,
+   productQuantity INT NOT NULL,
+   price NUMERIC(10, 2) NOT NULL
+);
