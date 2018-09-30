@@ -17,9 +17,9 @@ public interface PostService {
 
     public Post findPostByPostId(final Integer postId);
 
-    public List<Post> findPostByUserId(final Integer userId);
+    public List<Post> findPostsByUserId(final Integer userId);
 
     List<Post> findPostsByProductId(Integer productId);
 
-    public boolean makeProductTransaction(final Integer buyerId, final Integer postId);
+    public void buyProduct(final Integer buyerId, final Integer postId);
 }

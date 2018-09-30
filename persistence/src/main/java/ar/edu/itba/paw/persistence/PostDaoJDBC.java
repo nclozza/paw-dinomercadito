@@ -18,6 +18,7 @@ public class PostDaoJDBC implements PostDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final int FAILED_POST = -1;
 
     @Autowired
     public PostDaoJDBC(final DataSource ds) {
@@ -55,34 +56,32 @@ public class PostDaoJDBC implements PostDAO {
         return deletedRows == 1;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price,
+    public Post updatePost(final Integer postId, final Integer productId, final Double price, final Integer userId,
                               final String description, final Integer productQuantity) {
-        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
-                        productId, price, description, productQuantity, postId);
+        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? " +
+                        "WHERE postid = ?", productId, price, description, productQuantity, postId);
  
-        return findPostByPostId(postId);
+        return new Post(postId.intValue(), productId, price, userId, description, productQuantity);
     }
 
     public Post findPostByPostId(final Integer postId) {
         final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
 
-        if (postsList.isEmpty()) {
-            return null;
-        }
+        if (postsList.isEmpty())
+            throw new IllegalStateException();
 
         return postsList.get(0);
     }
 
-    public List<Post> findPostByUserId(final Integer userId) {
-        final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
+    public List<Post> findPostsByUserId(final Integer userId) {
+        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
-        return postList;
+        return postsList;
     }
 
-    @Override
     public List<Post> findPostsByProductId(Integer productId) {
-        final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE productid = ?", ROW_MAPPER, productId);
+        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE productid = ?", ROW_MAPPER, productId);
 
-        return postList;
+        return postsList;
     }
 }

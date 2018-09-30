@@ -12,12 +12,12 @@ public interface PostDAO {
 
     public boolean deletePost(final Integer postId);
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                           final Integer productQuantity);
+    public Post updatePost(final Integer postId, final Integer productId, final Double price, final Integer userId,
+                           final String description, final Integer productQuantity);
 
     public Post findPostByPostId(final Integer postId);
 
-    public List<Post> findPostByUserId(final Integer userId);
+    public List<Post> findPostsByUserId(final Integer userId);
 
     List<Post> findPostsByProductId(Integer productId);
 }

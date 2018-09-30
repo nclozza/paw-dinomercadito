@@ -9,9 +9,11 @@ import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Repository
 public class PostServiceImpl implements PostService {
 
@@ -21,46 +23,41 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserService userService;
 
-    public Post findPostByPostId(Integer postId) {
-        return postDAO.findPostByPostId(postId);
-    }
-
-    public List<Post> findPostByUserId(Integer userId) {
-        List<Post> postsList = postDAO.findPostByUserId(userId);
-
-        if (postsList.isEmpty()) {
-            return null;
-        }
-
-        return postsList;
-    }
-
-    @Override
-    public List<Post> findPostsByProductId(Integer productId) {
-        List<Post> postsList = postDAO.findPostsByProductId(productId);
-
-        if (postsList.isEmpty()) {
-            return null;
-        }
-
-        return postsList;
-    }
-
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
                            final Integer productQuantity) {
         return postDAO.createPost(productId, price, userId, description, productQuantity);
     }
 
+    @Transactional (readOnly = true)
+    public Post findPostByPostId(Integer postId) throws IllegalStateException {
+        return postDAO.findPostByPostId(postId);
+    }
+
+    @Transactional (readOnly = true)
+    public List<Post> findPostsByUserId(Integer userId) {
+        List<Post> postsList = postDAO.findPostsByUserId(userId);
+
+        return postsList;
+    }
+
+    @Transactional (readOnly = true)
+    public List<Post> findPostsByProductId(Integer productId) {
+        List<Post> postsList = postDAO.findPostsByProductId(productId);
+
+        return postsList;
+    }
+
     public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
                            final Integer productQuantity) {
-        return postDAO.updatePost(postId, productId, price, description, productQuantity);
+        Post post = postDAO.findPostByPostId(postId);
+        return postDAO.updatePost(postId, productId, price, post.getUserId(), description, productQuantity);
     }
 
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
     }
 
-    public boolean makeProductTransaction(final Integer buyerId, final Integer postId) {
+    public void buyProduct(final Integer buyerId, final Integer postId) {
         Post post = postDAO.findPostByPostId(postId);
         Integer productQuantity = post.getProductQuantity();
         Double price = post.getPrice();
@@ -68,18 +65,11 @@ public class PostServiceImpl implements PostService {
         User buyer = userService.findUserByUserId(buyerId);
         Double buyerFunds = buyer.getFunds();
 
-        if (buyer.getFunds() - price < 0.0)
-            return false;
-
-        if (productQuantity - 1 < 0)
-            return false;
-
         userService.updateUser(seller.getUserId(), seller.getPassword(), seller.getEmail(), seller.getPhone(),
                 seller.getBirthdate(), seller.getFunds() + price);
         userService.updateUser(buyer.getUserId(), buyer.getPassword(), buyer.getEmail(), buyer.getPhone(),
                 buyer.getBirthdate(), buyerFunds - price);
-        postDAO.updatePost(postId, post.getProductId(), price, post.getDescription(), productQuantity - 1);
-
-        return true;
+        postDAO.updatePost(postId, post.getProductId(), price, seller.getUserId(), post.getDescription(),
+                productQuantity - 1);
     }
 }

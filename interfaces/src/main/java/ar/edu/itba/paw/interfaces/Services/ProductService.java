@@ -10,7 +10,7 @@ public interface ProductService {
                           String screenRatio, String rearCamera, String frontCamera);
     public boolean deleteProduct(Integer productId);
     public Product findProductByProductId(Integer productId);
-    public Product updateProduct(String productName, String brand, String ram, String storage,
+    public Product updateProduct(Integer productId, String productName, String brand, String ram, String storage,
                           String operativeSystem, String processor, String bodySize, String screenSize,
                           String screenRatio, String rearCamera, String frontCamera);
     public List<Product> findAllProducts();

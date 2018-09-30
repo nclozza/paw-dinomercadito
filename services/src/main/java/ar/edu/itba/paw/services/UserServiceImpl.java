@@ -11,6 +11,7 @@ import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteUser(final Integer userId) {
     	boolean deletionSucceeded = true;
 
-    	List<Post> postsList = postService.findPostByUserId(userId);
+    	List<Post> postsList = postService.findPostsByUserId(userId);
 
     	if (postsList != null && !postsList.isEmpty()) {
 			for (Post post : postsList) {
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
 			return !deletionSucceeded;
 	}
 
+	@Transactional
 	public User updateUser(final Integer userId, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
 		return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);

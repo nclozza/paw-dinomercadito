@@ -5,10 +5,12 @@ import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Transactional
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -17,7 +19,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 
-    @Override
     public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
                                  String processor, String bodySize, String screenSize, String screenRatio,
                                  String rearCamera, String frontCamera) {
@@ -25,24 +26,28 @@ public class ProductServiceImpl implements ProductService {
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
-    @Override
     public boolean deleteProduct(Integer productId) {
-        return false;
+        return productDAO.deleteProduct(productId);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public Product findProductByProductId(Integer productId) {
         return productDAO.findProductByProductId(productId);
     }
 
-    public Product updateProduct(String productName, String brand, String ram, String storage, String operativeSystem, String processor, String bodySize, String screenSize, String screenRatio, String rearCamera, String frontCamera) {
-        return null;
+    public Product updateProduct(Integer productId, String productName, String brand, String ram, String storage,
+                                 String operativeSystem, String processor, String bodySize, String screenSize,
+                                 String screenRatio, String rearCamera, String frontCamera) {
+        return productDAO.updateProduct(productId, productName, brand, ram, storage, operativeSystem, processor,
+                bodySize, screenSize, screenRatio, rearCamera, frontCamera);
     }
 
+    @Transactional (readOnly = true)
     public List<Product> findAllProducts() {
         return productDAO.findAllProducts();
     }
 
+    @Transactional (readOnly = true)
     public List<Product> filterProducts(final Integer filterCount, final String attributes[],
                                         final String attributeValue[]) {
         if ((filterCount != attributes.length) || (filterCount != attributeValue.length))
@@ -51,15 +56,17 @@ public class ProductServiceImpl implements ProductService {
         return productDAO.filterProducts(filterCount, attributes, attributeValue);
     }
 
+    @Transactional (readOnly = true)
     public List<String> findAllAttributeValuesForFilter(final String attribute) {
         return productDAO.findAllAttributeValuesForFilter(attribute);
     }
 
+    @Transactional (readOnly = true)
     public List<String> getAllAttributesForFiltering() {
         return Arrays.asList(attributesToFilter);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<Product> findProductsByFilter(String filter) {
         return productDAO.findProductsByFilter(filter);
     }
