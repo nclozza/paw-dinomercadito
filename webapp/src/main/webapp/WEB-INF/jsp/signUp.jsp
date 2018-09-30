@@ -29,7 +29,9 @@
             <div>
                 <form:label class="label" path="repeatPassword"><spring:message code="repeat_password"/></form:label>
                 <form:input type="password" path="repeatPassword"/>
-                <form:errors class="error" path="repeatPassword" element="p"/>
+                <c:if test="${repeat_password}">
+                    <p><spring:message code="repeat_password_error"/></p>
+                </c:if>
             </div>
             <div>
                 <form:label class="label" path="email">

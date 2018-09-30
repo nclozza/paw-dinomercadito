@@ -1,12 +1,12 @@
-  CREATE TABLE IF NOT EXISTS users (
-     userId SERIAL PRIMARY KEY,
-     username VARCHAR(32) UNIQUE NOT NULL,
-     password VARCHAR(60) NOT NULL,
-     email VARCHAR(32),
-     phone VARCHAR(16),
-     birthdate VARCHAR(10),
-     funds NUMERIC(10, 2)
-  );
+CREATE TABLE IF NOT EXISTS users (
+   userId SERIAL PRIMARY KEY,
+   username VARCHAR(32) UNIQUE NOT NULL,
+   password VARCHAR(60) NOT NULL,
+   email VARCHAR(32),
+   phone VARCHAR(16),
+   birthdate VARCHAR(10),
+   funds NUMERIC(10, 2)
+);
 
 CREATE TABLE IF NOT EXISTS addresses (
    addressId SERIAL PRIMARY KEY,
@@ -48,7 +48,8 @@ CREATE TABLE IF NOT EXISTS buys (
    postId INT REFERENCES posts(postId) NOT NULL,
    buyerUserId INT REFERENCES users(userId) NOT NULL,
    productQuantity INT NOT NULL,
-   price NUMERIC(10, 2) NOT NULL
+   price NUMERIC(10, 2) NOT NULL,
+   productName VARCHAR(32) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS usersNotAuthenticated (

@@ -3,9 +3,11 @@ package ar.edu.itba.paw.services;
 import ar.edu.itba.paw.interfaces.DAO.BuyDAO;
 import ar.edu.itba.paw.interfaces.Services.BuyService;
 import ar.edu.itba.paw.interfaces.Services.PostService;
+import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Buy;
 import ar.edu.itba.paw.models.Post;
+import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,10 +27,13 @@ public class BuyServiceImpl implements BuyService {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private ProductService productService;
+
     @Override
     public Buy createBuy(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-                         final Double price) {
-        return buyDAO.createBuy(postId, buyerUserId, productQuantity, price);
+                         final Double price, final String productName) {
+        return buyDAO.createBuy(postId, buyerUserId, productQuantity, price, productName);
     }
 
     @Override
@@ -50,8 +55,10 @@ public class BuyServiceImpl implements BuyService {
     public Integer buyTransaction(Integer buyerUserId, Integer postId, Integer productQuantity) {
         User buyerUser = userService.findUserByUserId(buyerUserId);
         Post post = postService.findPostByPostId(postId);
+        Product product = productService.findProductByProductId(post.getProductId());
 
-        if (buyerUser == null || post == null) {
+
+        if (buyerUser == null || post == null || product == null) {
             return -1;
         }
 
@@ -69,7 +76,7 @@ public class BuyServiceImpl implements BuyService {
         postService.updatePost(post.getPostId(), post.getProductId(), post.getPrice(), post.getDescription(),
                 post.getProductQuantity() - productQuantity);
 
-        createBuy(postId, buyerUserId, productQuantity, post.getPrice());
+        createBuy(postId, buyerUserId, productQuantity, post.getPrice(), product.getProductName());
 
         return 2;
     }

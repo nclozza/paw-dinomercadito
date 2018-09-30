@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public interface BuyService {
 
-    public Buy createBuy(final Integer postId, final Integer buyerUserId, final Integer productQuantity, final Double price);
+    public Buy createBuy(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
+                         final Double price, final String productName);
 
     public boolean deleteBuy(final Integer buyId);
 

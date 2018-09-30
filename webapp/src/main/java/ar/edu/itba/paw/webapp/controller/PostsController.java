@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -98,7 +97,7 @@ public class PostsController {
             return post(form.getPostId(), form);
         }
 
-        Integer error = buyService.buyTransaction(1, form.getPostId(), form.getProductQuantity());
+        Integer error = buyService.buyTransaction(2, form.getPostId(), form.getProductQuantity());
 
         if (error == -1) {
             return new ModelAndView("redirect:/500");

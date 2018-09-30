@@ -33,21 +33,23 @@ public class BuyDaoJDBC implements BuyDAO {
             resultSet.getInt("postid"),
             resultSet.getInt("buyeruserid"),
             resultSet.getInt("productquantity"),
-            resultSet.getDouble("price")
+            resultSet.getDouble("price"),
+            resultSet.getString("productname")
     );
 
     @Override
     public Buy createBuy(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-                         final Double price) {
+                         final Double price, final String productName) {
         final Map<String, Object> args = new HashMap<>();
         args.put("postid", postId);
         args.put("buyeruserid", buyerUserId);
         args.put("productquantity", productQuantity);
         args.put("price", price);
+        args.put("productname", productName);
 
         final Number buyId = jdbcInsert.executeAndReturnKey(args);
 
-        return new Buy(buyId.intValue(), postId, buyerUserId, productQuantity, price);
+        return new Buy(buyId.intValue(), postId, buyerUserId, productQuantity, price, productName);
     }
 
     @Override

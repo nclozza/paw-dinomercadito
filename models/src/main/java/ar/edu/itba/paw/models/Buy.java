@@ -7,14 +7,16 @@ public class Buy {
     private Integer buyerUserId;
     private Integer productQuantity;
     private Double price;
+    private String productName;
 
     public Buy(final Integer buyId, final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-               final Double price) {
+               final Double price, final String productName) {
         this.buyId = buyId;
         this.postId = postId;
         this.buyerUserId = buyerUserId;
         this.productQuantity = productQuantity;
         this.price = price;
+        this.productName = productName;
     }
 
     public Integer getBuyId() {
@@ -55,5 +57,13 @@ public class Buy {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }
