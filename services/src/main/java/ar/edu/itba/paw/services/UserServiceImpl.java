@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService {
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
 
-        return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, 0.0);
+        return userDAO.createUser(username, password, email, phone, birthdate, 0.0);
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
 
 
-        return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, funds);
+        return userDAO.createUser(username, password, email, phone, birthdate, funds);
     }
 
 	public User findUserByUsername(String username) {
