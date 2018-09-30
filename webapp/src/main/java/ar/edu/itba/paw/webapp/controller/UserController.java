@@ -1,13 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.Services.TransactionService;
 import ar.edu.itba.paw.interfaces.Services.UserNotAuthenticatedService;
-import ar.edu.itba.paw.interfaces.Services.BuyService;
-import ar.edu.itba.paw.interfaces.Services.PostService;
-import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
-import ar.edu.itba.paw.models.Buy;
-import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
+import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
@@ -32,7 +28,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 import java.util.List;
 
 
@@ -46,7 +41,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private BuyService buyService;
+    private TransactionService transactionService;
 
     @Autowired
     @Qualifier("userNotAuthenticatedServiceImpl")
@@ -102,7 +97,7 @@ public class UserController {
         return (Integer) session.getAttribute("userid");
     }
 
-    public User getLoggedUser() {
+    private User getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userService.findUserByUsername(authentication.getName());
     }
@@ -113,14 +108,14 @@ public class UserController {
 
         User user = getLoggedUser();
         Integer userId = user.getUserId();
-        List<Buy> buyList = buyService.findBuysByBuyerUserId(userId);
+        List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
         mav.addObject("password_error", false);
         mav.addObject("user", user);
 
-        mav.addObject("buys", buyList);
+        mav.addObject("transactions", transactionList);
 
         return mav;
     }

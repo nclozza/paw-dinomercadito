@@ -46,7 +46,7 @@
             <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
 
             <c:url value="/post" var="postPath"/>
-            <form:form modelAttribute="buyForm" action="${postPath}" method="post" autocomplete="off">
+            <form:form modelAttribute="transactionForm" action="${postPath}" method="post" autocomplete="off">
 
                 <form:label path="productQuantity"><spring:message code="product_quantity"/></form:label>
                 <form:input type="number" path="productQuantity"/>

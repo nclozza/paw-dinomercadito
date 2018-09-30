@@ -48,7 +48,7 @@
 
         <div id="transactions" >
             TRANSACTIONS
-            <c:forEach items="${buys}" var="post" varStatus="loop">
+            <c:forEach items="${transactions}" var="post" varStatus="loop">
                     <div class="post">
                         <p><spring:message code="product_name"/><c:out value="${post.productName}"/></p>
                         <p><spring:message code="product_quantity"/><c:out value="${post.productQuantity}"/></p>

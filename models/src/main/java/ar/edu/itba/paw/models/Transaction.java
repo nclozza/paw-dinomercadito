@@ -1,17 +1,22 @@
 package ar.edu.itba.paw.models;
 
-public class Buy {
+public class Transaction {
 
-    private Integer buyId;
+    public static final Integer INCOMPLETE = -1;
+    public static final Integer OUT_OF_STOCK_FAIL = 0;
+    public static final Integer INSUFFICIENT_FUNDS_FAIL = 1;
+    public static final Integer SUCCEEDED = 2;
+
+    private Integer transactionId;
     private Integer postId;
     private Integer buyerUserId;
     private Integer productQuantity;
     private Double price;
     private String productName;
 
-    public Buy(final Integer buyId, final Integer postId, final Integer buyerUserId, final Integer productQuantity,
+    public Transaction(final Integer transactionId, final Integer postId, final Integer buyerUserId, final Integer productQuantity,
                final Double price, final String productName) {
-        this.buyId = buyId;
+        this.transactionId = transactionId;
         this.postId = postId;
         this.buyerUserId = buyerUserId;
         this.productQuantity = productQuantity;
@@ -19,12 +24,12 @@ public class Buy {
         this.productName = productName;
     }
 
-    public Integer getBuyId() {
-        return buyId;
+    public Integer getTransactionId() {
+        return transactionId;
     }
 
-    public void setBuyId(Integer buyId) {
-        this.buyId = buyId;
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Integer getPostId() {

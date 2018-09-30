@@ -18,9 +18,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostDAO postDAO;
 
-    @Autowired
-    private UserService userService;
-
     public Post findPostByPostId(Integer postId) {
         return postDAO.findPostByPostId(postId);
     }

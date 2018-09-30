@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS posts (
    productQuantity INT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS buys (
-   buyId SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS transactions (
+   transactionId SERIAL PRIMARY KEY,
    postId INT REFERENCES posts(postId) NOT NULL,
    buyerUserId INT REFERENCES users(userId) NOT NULL,
    productQuantity INT NOT NULL,
