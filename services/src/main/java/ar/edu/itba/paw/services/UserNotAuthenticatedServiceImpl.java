@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 
 @Service
 public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedService {
@@ -34,4 +36,20 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
 
     @Override
     public UserNotAuthenticated findUserByCode(final Integer code) { return userDAO.findUserByCode(code); }
+
+    public Integer generateCode() {
+
+        boolean check = true;
+        Integer code;
+
+        do {
+            Random rand = new Random();
+            code = rand.nextInt(900000) + 100000;
+
+            if (userDAO.checkCode(code))
+                check = false;
+        } while(check);
+
+        return code;
+    }
 }

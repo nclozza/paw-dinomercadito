@@ -68,9 +68,8 @@ public class UserController {
         LocalDateTime now = LocalDateTime.now();
         String date = dtf.format(now);
 
-        //Random rand = new Random();
-        //Integer code = rand.nextInt(900000) + 100000;
-        Integer code = 111111;
+
+        Integer code = usn.generateCode();
 
         final UserNotAuthenticated user = usn.createUser(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone(), form.getBirthdate(), date, code);
 

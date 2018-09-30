@@ -15,4 +15,6 @@ public interface UserNotAuthenticatedService {
     public UserNotAuthenticated findUserByUsername(String username);
 
     public UserNotAuthenticated findUserByCode(final Integer code);
+
+    public Integer generateCode();
 }

@@ -81,4 +81,14 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
         return usersList.get(0);
     }
+
+    public boolean checkCode(final Integer code){
+
+        final List<UserNotAuthenticated> userList = jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE code = ?", ROW_MAPPER,code);
+
+        if (userList.isEmpty())
+            return true;
+        else
+            return false;
+    }
 }

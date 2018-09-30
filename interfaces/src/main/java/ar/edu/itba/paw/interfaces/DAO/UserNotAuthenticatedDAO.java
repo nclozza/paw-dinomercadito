@@ -14,4 +14,6 @@ public interface UserNotAuthenticatedDAO {
     public UserNotAuthenticated findUserByUsername(String username);
 
     public UserNotAuthenticated findUserByCode(final Integer code);
+
+    public boolean checkCode(final Integer code);
 }
