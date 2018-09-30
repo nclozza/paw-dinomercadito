@@ -2,10 +2,9 @@ package ar.edu.itba.paw.models;
 
 public class Transaction {
 
-    public static final Integer INCOMPLETE = -1;
-    public static final Integer OUT_OF_STOCK_FAIL = 0;
-    public static final Integer INSUFFICIENT_FUNDS_FAIL = 1;
-    public static final Integer SUCCEEDED = 2;
+    public static final Integer INCOMPLETE = -3;
+    public static final Integer OUT_OF_STOCK_FAIL = -2;
+    public static final Integer INSUFFICIENT_FUNDS_FAIL = -1;
 
     private Integer transactionId;
     private Integer postId;

@@ -1,9 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.Services.PostService;
-import ar.edu.itba.paw.interfaces.Services.ProductService;
-import ar.edu.itba.paw.interfaces.Services.TransactionService;
-import ar.edu.itba.paw.interfaces.Services.UserService;
+import ar.edu.itba.paw.interfaces.Services.*;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.Transaction;
@@ -24,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PostsController {
@@ -39,6 +37,9 @@ public class PostsController {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping("/posts")
     public ModelAndView index(@RequestParam(value = "productId") final Integer productId) {
@@ -119,6 +120,13 @@ public class PostsController {
         } else if (status.equals(Transaction.INSUFFICIENT_FUNDS_FAIL)) {
             return post(form.getPostId(), form).addObject("found_error", true);
         }
+
+        Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(status);
+        Post post = postService.findPostByPostId(transaction.get().getPostId());
+        User seller = userService.findUserByUserId(post.getUserId());
+
+        emailService.sendSuccessfulPurchaseEmail(user.getEmail(), transaction.get().getProductName(), form.getPostId());
+        emailService.sendSuccesfulSaleEmail(seller.getEmail(), transaction.get().getProductName(), form.getPostId());
 
         return new ModelAndView("redirect:/");
     }

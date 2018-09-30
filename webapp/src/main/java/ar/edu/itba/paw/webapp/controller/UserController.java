@@ -2,7 +2,6 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.Services.TransactionService;
 import ar.edu.itba.paw.interfaces.Services.UserNotAuthenticatedService;
-import ar.edu.itba.paw.interfaces.Services.BuyService;
 import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.interfaces.Services.EmailService;
@@ -46,9 +45,6 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
-
-    @Autowired
-    private BuyService buyService;
     
     @Autowired
     private TransactionService transactionService;
@@ -98,7 +94,7 @@ public class UserController {
 
         final UserNotAuthenticated user = usn.createUser(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone(), form.getBirthdate(), date, code);
         
-        emailService.sendSuccessfulRegistrationEmail(user.getEmail(), user.getUsername());
+        emailService.sendCodeEmail(user.getEmail(), code);
 
         return new ModelAndView("redirect:/authentication");
     }
@@ -186,6 +182,7 @@ public class UserController {
         } else {
             User userAuthenticated = userService.createUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(), user.getBirthdate());
             usn.deleteUser(user.getUserId());
+            emailService.sendSuccessfulRegistrationEmail(userAuthenticated.getEmail(), userAuthenticated.getUsername());
             return new ModelAndView("redirect:/index");
         }
 

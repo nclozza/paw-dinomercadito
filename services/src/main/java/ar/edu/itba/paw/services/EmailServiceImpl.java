@@ -39,7 +39,12 @@ public class EmailServiceImpl implements EmailService {
     private void sendSuccessfulTransactionEmail(final String to, final String productModel, final Integer postId,
                                                 final int transactionType) {
         sendSimpleMessage(to, "Congratulations on your " + (transactionType == PURCHASE? "purchase" : "sale") +
-                        "!", "You have successfully " + (transactionType == PURCHASE? "purchased" : "sold") +
+                        "!", "You have successfully " + (transactionType == PURCHASE? "purchased " : "sold ") +
                         "a brand new " + productModel + " from the post #" + postId.toString() + ".");
+    }
+
+    public void sendCodeEmail(final String to, final Integer code){
+
+        sendSimpleMessage(to, "Authentication code", "Here is your authentication code: " + code);
     }
 }

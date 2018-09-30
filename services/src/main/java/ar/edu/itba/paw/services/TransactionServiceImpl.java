@@ -77,8 +77,8 @@ public class TransactionServiceImpl implements TransactionService {
         postService.updatePost(post.getPostId(), post.getProductId(), post.getPrice(), post.getDescription(),
                 post.getProductQuantity() - productQuantity);
 
-        createTransaction(postId, buyerUserId, productQuantity, post.getPrice(), product.getProductName());
+        Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.getPrice(), product.getProductName());
 
-        return Transaction.SUCCEEDED;
+        return transaction.getTransactionId();
     }
 }
