@@ -2,7 +2,6 @@ package ar.edu.itba.paw.models;
 
 public class Post {
 
-    // TODO Generate each post's ID
     private Integer postId;
     private Integer productId;
     private Double price;

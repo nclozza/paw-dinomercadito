@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,18 +35,36 @@
     </nav>
 
     <div class="posts-center">
-        <a href="#">
-            <div>
-                <p><spring:message code="product_name"/><c:out value="${product.productName}"/></p>
-                <p><spring:message code="price_"/><c:out value="${post.price}"/></p>
-                <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
-                <p><spring:message code="product_quantity"/><c:out value="${post.productQuantity}"/></p>
-                <p><spring:message code="username_"/><c:out value="${user.username}"/></p>
-                <button type="button" class="btn btn-success"><spring:message code="buy"/></button>
-            </div>
-        </a>
-    </div>
+        <div>
+            <p><spring:message code="product_name"/><c:out value="${product.productName}"/></p>
+            <p><spring:message code="price_"/><c:out value="${post.price}"/></p>
+            <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
+            <p><spring:message code="product_quantity"/><c:out value="${post.productQuantity}"/></p>
+            <p><spring:message code="seller_username_"/><c:out value="${user.username}"/></p>
 
+            <%--TODO Ask this--%>
+            <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
+
+            <c:url value="/post" var="postPath"/>
+            <form:form modelAttribute="buyForm" action="${postPath}" method="post" autocomplete="off">
+
+                <form:label path="productQuantity"><spring:message code="product_quantity"/></form:label>
+                <form:input type="number" path="productQuantity"/>
+
+                <form:hidden path="postId" value="${post.postId}"/>
+
+                <input type="submit" class="btn btn-success" value="<spring:message code="buy"/>"/>
+
+                <form:errors class="error" path="productQuantity" element="p"><p/><spring:message
+                        code="product_quantity_error"/></form:errors>
+
+                <c:if test="${found_error}">
+                    <p><spring:message code="found_error"/></p>
+                </c:if>
+            </form:form>
+
+        </div>
+    </div>
 </div>
 </body>
 </html>
