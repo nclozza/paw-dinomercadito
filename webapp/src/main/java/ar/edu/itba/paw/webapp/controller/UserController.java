@@ -33,6 +33,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -58,7 +59,7 @@ public class UserController {
     private UserNotAuthenticatedService usn;
 
     @RequestMapping("/user")
-    public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId, final HttpSession session) {
+    public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId) {
         final ModelAndView mav = new ModelAndView("user");
         User user = userService.findUserByUserId(userId);
         mav.addObject("username", user.getUsername());
@@ -191,7 +192,26 @@ public class UserController {
             emailService.sendSuccessfulRegistrationEmail(userAuthenticated.getEmail(), userAuthenticated.getUsername());
             return new ModelAndView("redirect:/index");
         }
-
     }
 
+    @RequestMapping("/sellerInformation")
+    public ModelAndView sellerInformation(@RequestParam(value = "transactionId") final Integer transactionId) {
+        User user = getLoggedUser();
+        Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(transactionId);
+
+        if (!transaction.isPresent()) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        Post post = postService.findPostByPostId(transaction.get().getPostId());
+        User sellerUser = userService.findUserByUserId(post.getUserId());
+
+        if (post == null || sellerUser == null || !transaction.get().getBuyerUserId().equals(user.getUserId())) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        ModelAndView mav = new ModelAndView("sellerInformation");
+        mav.addObject("sellerUser", sellerUser);
+        return mav;
+    }
 }

@@ -19,5 +19,5 @@ public interface PostService {
 
     public List<Post> findPostByUserId(final Integer userId);
 
-    List<Post> findPostsByProductId(Integer productId);
+    List<Post> findPostsByProductId(final Integer productId);
 }

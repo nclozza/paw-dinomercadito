@@ -129,7 +129,7 @@ public class PostsController {
         emailService.sendSuccessfulPurchaseEmail(user.getEmail(), transaction.get().getProductName(), form.getPostId());
         emailService.sendSuccesfulSaleEmail(seller.getEmail(), transaction.get().getProductName(), form.getPostId());
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/sellerInformation?transactionId=" + transaction.get().getTransactionId());
     }
 
     @RequestMapping(value = "/editPost", method = {RequestMethod.GET})
@@ -154,7 +154,7 @@ public class PostsController {
 
     @RequestMapping(value = "/editPost", method = {RequestMethod.POST})
     public ModelAndView editPost(@Valid @ModelAttribute("editPost") final EditPostForm form,
-                               final BindingResult errors) {
+                                 final BindingResult errors) {
 
         if (errors.hasErrors()) {
             return edit(form.getPostId(), form);
