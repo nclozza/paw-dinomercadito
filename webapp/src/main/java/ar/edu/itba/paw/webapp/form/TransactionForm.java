@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
-import javax.validation.constraints.Pattern;
-
-public class BuyForm {
+public class TransactionForm {
 
     private Integer postId;
 
