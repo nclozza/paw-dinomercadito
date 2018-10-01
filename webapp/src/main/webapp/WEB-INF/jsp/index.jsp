@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DinoMercadito</title>
+    <title><spring:message code="DinoMercadito"/></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -24,23 +24,25 @@
     <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">DinoMercadito</a>
+                <a class="navbar-brand" href="#"><spring:message code="DinoMercadito"/></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Menu</a></li>
-                    <li><a href="#">Sign Up</a></li>
-                    <li><a href="#">Login</a></li>
+                    <li><a href="<c:url value='/products'/>"><spring:message code="products"/></a></li>
+                    <li><a href="<c:url value='/signUp'/>"><spring:message code="signUp"/></a></li>
+                    <li><a href="<c:url value='/login'/>"><spring:message code="login"/></a></li>
+                    <li><a href="<c:url value='/logout'/>"><spring:message code="logout"/></a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
     <!-- First Container -->
     <div class="container-fluid bg-1 text-center ">
         <div class="vertical-align">
             <div class="horizontal-align">
                 <h1><spring:message code="search_products"/></h1>
-                <h4><spring:message code="products"/></h4>
+                <h4><spring:message code="products_types"/></h4>
                 <div class="wrap">
                     <div class="search input-group-sm">
                         <c:url value="/index" var="searchUrl"/>

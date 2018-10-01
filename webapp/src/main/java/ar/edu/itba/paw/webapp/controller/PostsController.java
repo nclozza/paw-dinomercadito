@@ -1,14 +1,16 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.Services.BuyService;
 import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
+import ar.edu.itba.paw.interfaces.Services.TransactionService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
+import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.form.BuyForm;
+import ar.edu.itba.paw.webapp.form.EditPostForm;
 import ar.edu.itba.paw.webapp.form.PostForm;
+import ar.edu.itba.paw.webapp.form.TransactionForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +39,7 @@ public class PostsController {
     UserService userService;
 
     @Autowired
-    private BuyService buyService;
+    private TransactionService transactionService;
 
     @RequestMapping("/posts")
     public ModelAndView index(@RequestParam(value = "productId") final Integer productId) {
@@ -65,8 +67,7 @@ public class PostsController {
             return newPost(form);
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUsername(authentication.getName());
+        User user = getLoggedUser();
         Integer userId = user.getUserId();
         final Post post = postService.createPost(form.getProductId(), Double.valueOf(form.getPrice()), userId,
                 form.getDescription(), form.getProductQuantity());
@@ -77,7 +78,7 @@ public class PostsController {
 
     @RequestMapping(value = "/post", method = {RequestMethod.GET})
     public ModelAndView post(@RequestParam(value = "postId") final Integer postId,
-                             @ModelAttribute("buyForm") final BuyForm form) {
+                             @ModelAttribute("transactionForm") final TransactionForm form) {
         ModelAndView mav = new ModelAndView("post");
         Post post = postService.findPostByPostId(postId);
         User user = userService.findUserByUserId(post.getUserId());
@@ -87,29 +88,74 @@ public class PostsController {
         mav.addObject("user", user);
         mav.addObject("product", product);
 
+        mav.addObject("found_error", false);
+
         return mav;
     }
 
-    @RequestMapping(value = "/post", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("buyForm") final BuyForm form, final BindingResult errors) {
+    private User getLoggedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userService.findUserByUsername(authentication.getName());
+    }
 
-        if (errors.hasErrors()) {
+    @RequestMapping(value = "/post", method = {RequestMethod.POST})
+    public ModelAndView create(@Valid @ModelAttribute("transactionForm") final TransactionForm form,
+                               final BindingResult errors) {
+
+        if (errors.hasErrors() || form.getProductQuantity() <= 0) {
             return post(form.getPostId(), form);
         }
 
-        Integer error = buyService.buyTransaction(2, form.getPostId(), form.getProductQuantity());
+        User user = getLoggedUser();
 
-        if (error == -1) {
+        Integer status = transactionService.makeTransaction(user.getUserId(), form.getPostId(), form.getProductQuantity());
+
+        if (status.equals(Transaction.INCOMPLETE)) {
             return new ModelAndView("redirect:/500");
 
-        } else if (error == 0) {
-            errors.addError(new FieldError("buyForm", "productQuantity", "ASD"));
+        } else if (status.equals(Transaction.OUT_OF_STOCK_FAIL)) {
+            errors.addError(new FieldError("transactionForm", "productQuantity", ""));
             return post(form.getPostId(), form);
 
-        } else if (error == 1) {
+        } else if (status.equals(Transaction.INSUFFICIENT_FUNDS_FAIL)) {
             return post(form.getPostId(), form).addObject("found_error", true);
         }
 
         return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/editPost", method = {RequestMethod.GET})
+    public ModelAndView edit(@RequestParam(value = "postId") final Integer postId,
+                             @ModelAttribute("editPost") final EditPostForm form) {
+
+        Post post = postService.findPostByPostId(postId);
+        User user = getLoggedUser();
+
+        if (!user.getUserId().equals(post.getUserId())) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        ModelAndView mav = new ModelAndView("editPost");
+        List<Product> productList = productService.findAllProducts();
+
+        mav.addObject("productList", productList);
+        mav.addObject("post", post);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/editPost", method = {RequestMethod.POST})
+    public ModelAndView editPost(@Valid @ModelAttribute("editPost") final EditPostForm form,
+                               final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return edit(form.getPostId(), form);
+        }
+
+        postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
+                form.getDescription(), form.getProductQuantity());
+
+        // TODO change the redirect
+        return new ModelAndView("redirect:/post?postId=" + form.getPostId());
     }
 }
