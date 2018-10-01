@@ -26,7 +26,7 @@ public class IndexController {
     @RequestMapping("/index")
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form) {
 
-        return new ModelAndView("index").addObject("loggedIn", isLogged());
+        return new ModelAndView("index");
     }
 
     @RequestMapping(value = "/index", method = {RequestMethod.POST})
