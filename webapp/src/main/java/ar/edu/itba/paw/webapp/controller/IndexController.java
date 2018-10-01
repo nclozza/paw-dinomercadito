@@ -1,12 +1,14 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.Services.EmailService;
-import ar.edu.itba.paw.interfaces.Services.ProductService;
+import ar.edu.itba.paw.interfaces.Services.UserService;
+import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,13 +23,10 @@ public class IndexController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    @Qualifier("productServiceImpl")
-    private ProductService productService;
-
     @RequestMapping("/index")
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form) {
-        return new ModelAndView("index");
+
+        return new ModelAndView("index").addObject("loggedIn", isLogged());
     }
 
     @RequestMapping(value = "/index", method = {RequestMethod.POST})
@@ -37,5 +36,10 @@ public class IndexController {
         }
 
         return new ModelAndView("redirect:/products?filter=" + form.getSearch());
+    }
+
+    private boolean isLogged() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !authentication.getPrincipal().equals("anonymousUser");
     }
 }

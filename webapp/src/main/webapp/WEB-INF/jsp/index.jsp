@@ -21,21 +21,15 @@
 
 <div class="first-container">
     <!-- Navbar -->
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#"><spring:message code="DinoMercadito"/></a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="<c:url value='/products'/>"><spring:message code="products"/></a></li>
-                    <li><a href="<c:url value='/signUp'/>"><spring:message code="signUp"/></a></li>
-                    <li><a href="<c:url value='/login'/>"><spring:message code="login"/></a></li>
-                    <li><a href="<c:url value='/logout'/>"><spring:message code="logout"/></a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <c:choose>
+        <c:when test="${loggedIn}">
+            <%@ include file="navbarLogout.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@ include file="navbarLogin.jsp" %>
+        </c:otherwise>
+    </c:choose>
+
 
     <!-- First Container -->
     <div class="container-fluid bg-1 text-center ">
@@ -46,8 +40,10 @@
                 <div class="wrap">
                     <div class="search input-group-sm">
                         <c:url value="/index" var="searchUrl"/>
-                        <form class="form" action="${searchUrl}" method="post" enctype="application/x-www-form-urlencoded">
-                            <input id="search" name="search" type="text" class="searchTerm form-control" placeholder="<spring:message code="looking_for"/>">
+                        <form class="form" action="${searchUrl}" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input id="search" name="search" type="text" class="searchTerm form-control"
+                                   placeholder="<spring:message code="looking_for"/>">
                             <br>
                             <button type="submit" class="btn btn-default search-button">
                                 <spring:message code="search"/>
