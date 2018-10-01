@@ -5,6 +5,7 @@ import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.webapp.form.EditPostForm;
 import ar.edu.itba.paw.webapp.form.PostForm;
 import ar.edu.itba.paw.webapp.form.TransactionForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,5 +130,40 @@ public class PostsController {
         emailService.sendSuccesfulSaleEmail(seller.getEmail(), transaction.get().getProductName(), form.getPostId());
 
         return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/editPost", method = {RequestMethod.GET})
+    public ModelAndView edit(@RequestParam(value = "postId") final Integer postId,
+                             @ModelAttribute("editPost") final EditPostForm form) {
+
+        Post post = postService.findPostByPostId(postId);
+        User user = getLoggedUser();
+
+        if (!user.getUserId().equals(post.getUserId())) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        ModelAndView mav = new ModelAndView("editPost");
+        List<Product> productList = productService.findAllProducts();
+
+        mav.addObject("productList", productList);
+        mav.addObject("post", post);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/editPost", method = {RequestMethod.POST})
+    public ModelAndView editPost(@Valid @ModelAttribute("editPost") final EditPostForm form,
+                               final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return edit(form.getPostId(), form);
+        }
+
+        postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
+                form.getDescription(), form.getProductQuantity());
+
+        // TODO change the redirect
+        return new ModelAndView("redirect:/post?postId=" + form.getPostId());
     }
 }

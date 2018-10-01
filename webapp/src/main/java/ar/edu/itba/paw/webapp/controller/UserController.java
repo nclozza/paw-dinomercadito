@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.interfaces.Services.EmailService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
+import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.UpdateUserForm;
@@ -48,6 +49,9 @@ public class UserController {
     
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private PostService postService;
 
     @Autowired
     @Qualifier("userNotAuthenticatedServiceImpl")
@@ -117,6 +121,7 @@ public class UserController {
         User user = getLoggedUser();
         Integer userId = user.getUserId();
         List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
+        List<Post> postList = postService.findPostByUserId(userId);
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
@@ -124,6 +129,7 @@ public class UserController {
         mav.addObject("user", user);
 
         mav.addObject("transactions", transactionList);
+        mav.addObject("posts", postList);
 
         return mav;
     }
