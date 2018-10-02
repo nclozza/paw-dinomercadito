@@ -119,4 +119,9 @@ public class UserServiceImpl implements UserService {
     public boolean checkUsername(final String username) {
         return userDAO.checkUsername(username);
     }
+
+    @Override
+    public boolean addFundsToUserId(final Double funds, final Integer userId) {
+        return userDAO.addFundsToUserId(funds, userId);
+    }
 }

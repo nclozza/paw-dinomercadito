@@ -87,4 +87,11 @@ public class UserDaoJDBC implements UserDAO {
         else
             return false;
     }
+
+    @Override
+    public boolean addFundsToUserId(final Double funds, final Integer userId) {
+        final Integer updatedRows = jdbcTemplate.update("UPDATE users SET funds = ? WHERE userId = ?", funds, userId);
+
+        return updatedRows == 1;
+    }
 }
