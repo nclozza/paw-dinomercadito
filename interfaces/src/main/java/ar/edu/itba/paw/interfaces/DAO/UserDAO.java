@@ -2,6 +2,8 @@ package ar.edu.itba.paw.interfaces.DAO;
 
 import ar.edu.itba.paw.models.User;
 
+import java.util.Optional;
+
 public interface UserDAO {
 
     /**
@@ -13,14 +15,14 @@ public interface UserDAO {
     User createUser(final String username, final String password, final String email, final String phone,
                     final String birthdate, final Double funds);
 
-    User findUserByUserId(final Integer userId);
+    Optional<User> findUserByUserId(final Integer userId);
 
     boolean deleteUser(final Integer userId);
 
-    User updateUser(final Integer userId, final String password, final String email,
+    Optional<User> updateUser(final Integer userId, final String password, final String email,
                     final String phone, final String birthdate, final Double funds);
 
-    User findUserByUsername(final String username);
+    Optional<User> findUserByUsername(final String username);
 
     boolean checkUsername(final String username);
 

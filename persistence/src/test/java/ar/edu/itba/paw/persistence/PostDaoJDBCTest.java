@@ -20,6 +20,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import javax.sql.DataSource;
 
 import java.util.List;
+import java.util.Optional;
 
 import static junit.framework.Assert.*;
 
@@ -105,15 +106,17 @@ public class PostDaoJDBCTest {
         final Product productUpdate = productDao.createProduct(PRODUCTNAMEUPDATE, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
         final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
-        Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION, PRODUCTQUANTITY);
+        Post newPost = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION, PRODUCTQUANTITY);
 
-        post = postDao.updatePost(post.getPostId(), productUpdate.getProductId(), PRICEUPDATE, DESCRIPTIONUPDATE,
-                PRODUCTQUANTITYUPDATE);
-        assertNotNull(post);
-        assertEquals(productUpdate.getProductId(), post.getProductId());
-        assertEquals(PRICEUPDATE, post.getPrice());
-        assertEquals(DESCRIPTIONUPDATE, post.getDescription());
-        assertEquals(PRODUCTQUANTITYUPDATE, post.getProductQuantity());
+        Optional<Post> post = postDao.updatePost(newPost.getPostId(), productUpdate.getProductId(), PRICEUPDATE,
+                DESCRIPTIONUPDATE, PRODUCTQUANTITYUPDATE);
+
+        assertTrue(post.isPresent());
+        assertNotNull(post.get());
+        assertEquals(productUpdate.getProductId(), post.get().getProductId());
+        assertEquals(PRICEUPDATE, post.get().getPrice());
+        assertEquals(DESCRIPTIONUPDATE, post.get().getDescription());
+        assertEquals(PRODUCTQUANTITYUPDATE, post.get().getProductQuantity());
     }
 
     @Test
@@ -124,9 +127,9 @@ public class PostDaoJDBCTest {
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
 
-        final Post postFound = postDao.findPostByPostId(post.getPostId());
-        assertNotNull(postFound);
-        assertEquals(post.getPostId(), postFound.getPostId());
+        final Optional<Post> postFound = postDao.findPostByPostId(post.getPostId());
+        assertTrue(postFound.isPresent());
+        assertEquals(post.getPostId(), postFound.get().getPostId());
     }
 
     @Test
@@ -137,7 +140,7 @@ public class PostDaoJDBCTest {
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
 
-        final List<Post> postList = postDao.findPostByUserId(post.getUserId());
+        final List<Post> postList = postDao.findPostsByUserId(post.getUserId());
         assertNotNull(postList);
         assertEquals(post.getPostId(), postList.get(0).getPostId());
     }

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -57,19 +58,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUsername(final String username) {
+    public Optional<User> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
     @Override
-    public User updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
+    public Optional<User> updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
                                                  final String phone, final String birthdate, final Double funds) {
 
         return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
     }
 
     @Override
-    public User findUserByUserId(final Integer userId) {
+    public Optional<User> findUserByUserId(final Integer userId) {
         return userDAO.findUserByUserId(userId);
     }
 
@@ -78,7 +79,7 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
 
-        List<Post> postsList = postService.findPostByUserId(userId);
+        List<Post> postsList = postService.findPostsByUserId(userId);
 
         if (postsList != null && !postsList.isEmpty()) {
             for (Post post : postsList) {
@@ -105,8 +106,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(final Integer userId, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds) {
+    public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
+                                    final String birthdate, final Double funds) {
         return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
     }
 

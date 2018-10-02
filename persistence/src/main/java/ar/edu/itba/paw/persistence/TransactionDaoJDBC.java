@@ -70,14 +70,8 @@ public class TransactionDaoJDBC implements TransactionDAO {
 
     @Override
     public Optional<Transaction> findTransactionByTransactionId(final Integer transactionId) {
-        final List<Transaction> transactionList = jdbcTemplate.query("SELECT * FROM transactions WHERE transactionid = ?",
-                ROW_MAPPER, transactionId);
-
-        if (transactionList.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(transactionList.get(0));
+        return jdbcTemplate.query("SELECT * FROM transactions WHERE transactionid = ?",
+                ROW_MAPPER, transactionId).stream().findFirst();
     }
 
     @Override

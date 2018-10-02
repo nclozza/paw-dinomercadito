@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PostServiceImpl implements PostService {
@@ -15,16 +16,12 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostDAO postDAO;
 
-    public Post findPostByPostId(final Integer postId) {
+    public Optional<Post> findPostByPostId(final Integer postId) {
         return postDAO.findPostByPostId(postId);
     }
 
-    public List<Post> findPostByUserId(final Integer userId) {
-        List<Post> postsList = postDAO.findPostByUserId(userId);
-
-        if (postsList.isEmpty()) {
-            return null;
-        }
+    public List<Post> findPostsByUserId(final Integer userId) {
+        List<Post> postsList = postDAO.findPostsByUserId(userId);
 
         return postsList;
     }
@@ -45,8 +42,8 @@ public class PostServiceImpl implements PostService {
         return postDAO.createPost(productId, price, userId, description, productQuantity);
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                           final Integer productQuantity) {
+    public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+                                     final Integer productQuantity) {
         return postDAO.updatePost(postId, productId, price, description, productQuantity);
     }
 

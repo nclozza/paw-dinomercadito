@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class PostDaoJDBC implements PostDAO {
@@ -66,7 +67,7 @@ public class PostDaoJDBC implements PostDAO {
         return deletedRows == 1;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+    public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
                            final Integer productQuantity) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
                 productId, price, description, productQuantity, postId);
@@ -76,17 +77,13 @@ public class PostDaoJDBC implements PostDAO {
         return findPostByPostId(postId);
     }
 
-    public Post findPostByPostId(final Integer postId) {
-        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
+    public Optional<Post> findPostByPostId(final Integer postId) {
 
-        if (postsList.isEmpty()) {
-            return null;
-        }
-
-        return postsList.get(0);
+        return jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId)
+                .stream().findFirst();
     }
 
-    public List<Post> findPostByUserId(final Integer userId) {
+    public List<Post> findPostsByUserId(final Integer userId) {
         final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
         return postList;

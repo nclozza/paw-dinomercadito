@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -32,12 +33,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findProductByProductId(final Integer productId) {
+    public Optional<Product> findProductByProductId(final Integer productId) {
         return productDAO.findProductByProductId(productId);
     }
 
     @Override
-    public Product updateProduct(final Integer productId, final String productName, final String brand, final String ram,
+    public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand, final String ram,
                                  final String storage, final String operativeSystem, final String processor,
                                  final String bodySize, final String screenSize, final String screenRatio,
                                  final String rearCamera, final String frontCamera) {

@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserDaoJDBC implements UserDAO {
@@ -57,16 +58,14 @@ public class UserDaoJDBC implements UserDAO {
         return new User(userId.intValue(), username, password, email, phone, birthdate, funds);
     }
 
-    public User findUserByUsername(final String username) {
-        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
-
-        return usersList.get(0);
+    public Optional<User> findUserByUsername(final String username) {
+        return jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username)
+                .stream().findFirst();
     }
 
-    public User findUserByUserId(final Integer userId) {
-        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId);
-
-        return usersList.get(0);
+    public Optional<User> findUserByUserId(final Integer userId) {
+        return jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId)
+                .stream().findFirst();
     }
 
     public boolean deleteUser(final Integer userId) {
@@ -80,7 +79,7 @@ public class UserDaoJDBC implements UserDAO {
         return deletedRows == 1;
     }
 
-    public User updateUser(final Integer userId, final String password, final String email, final String phone,
+    public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
         jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ?, funds = ? WHERE userId = ?",
                 password, email, phone, birthdate, funds, userId);
@@ -93,10 +92,7 @@ public class UserDaoJDBC implements UserDAO {
     public boolean checkUsername(final String username){
         final List<User> userList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
 
-        if (userList.isEmpty())
-            return true;
-        else
-            return false;
+        return userList.isEmpty();
     }
 
     @Override

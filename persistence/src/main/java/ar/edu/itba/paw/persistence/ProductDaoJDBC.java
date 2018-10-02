@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductDaoJDBC implements ProductDAO {
@@ -73,17 +74,16 @@ public class ProductDaoJDBC implements ProductDAO {
         return deletedRows == 1;
     }
 
-    public Product findProductByProductId(final Integer productId) {
-        final List<Product> productList = jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
-                productId);
+    public Optional<Product> findProductByProductId(final Integer productId) {
 
-        return productList.get(0);
+        return jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
+                productId).stream().findFirst();
     }
 
-    public Product updateProduct(final Integer productId, final String productName, final String brand, final String ram,
-                                 final String storage, final String operativeSystem, final String processor,
-                                 final String bodySize, final String screenSize, final String screenRatio,
-                                 final String rearCamera, final String frontCamera) {
+    public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand,
+                                           final String ram, final String storage, final String operativeSystem,
+                                           final String processor, final String bodySize, final String screenSize,
+                                           final String screenRatio, final String rearCamera, final String frontCamera) {
         jdbcTemplate.update("UPDATE products SET productName = ?, brand = ?, ram = ?, storage = ?, " +
                         "operativeSystem = ?, processor = ?, bodySize = ?, screenSize = ?, screenRatio = ?, rearCamera = ?, " +
                         "frontCamera = ? WHERE productId = ?", productName, brand, ram, storage, operativeSystem, processor,

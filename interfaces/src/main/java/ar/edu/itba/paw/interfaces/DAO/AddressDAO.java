@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.DAO;
 import ar.edu.itba.paw.models.Address;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AddressDAO {
 
@@ -13,9 +14,9 @@ public interface AddressDAO {
 
     boolean deleteAddressByUserId(final Integer userId);
 
-    Address findAddressByAddressId(final Integer addressId);
+    Optional<Address> findAddressByAddressId(final Integer addressId);
 
-    Address updateAddress(final Integer addressId, final String street,
+    Optional<Address> updateAddress(final Integer addressId, final String street,
                           final Integer number, final String city, final String province, final String zipCode,
                           final String country);
 

@@ -58,33 +58,40 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Integer makeTransaction(Integer buyerUserId, Integer postId, Integer productQuantity) {
-        User buyerUser = userService.findUserByUserId(buyerUserId);
-        Post post = postService.findPostByPostId(postId);
-        Product product = productService.findProductByProductId(post.getProductId());
+        Optional<User> buyerUser = userService.findUserByUserId(buyerUserId);
+        Optional<Post> post = postService.findPostByPostId(postId);
 
+        if (!post.isPresent()) {
+            LOGGER.error("Wrong information to make the transaction");
+            return Transaction.WRONG_PARAMETERS;
+        }
 
-        if (buyerUser == null || post == null || product == null) {
-            LOGGER.error("Incomplete information to make the transaction");
+        Optional<Product> product = productService.findProductByProductId(post.get().getProductId());
+
+        if (!buyerUser.isPresent()|| !product.isPresent()) {
+            LOGGER.error("Wrong information to make the transaction");
             return Transaction.INCOMPLETE;
         }
 
-        if (productQuantity > post.getProductQuantity()) {
+        if (productQuantity > post.get().getProductQuantity()) {
             LOGGER.error("The quantity of posts selected is bigger than the available stock");
             return Transaction.OUT_OF_STOCK_FAIL;
         }
 
-        if (buyerUser.getFunds() < post.getPrice() * productQuantity) {
+        if (buyerUser.get().getFunds() < post.get().getPrice() * productQuantity) {
             LOGGER.error("The user has no enough funds to make the transaction");
             return Transaction.INSUFFICIENT_FUNDS_FAIL;
         }
 
-        userService.updateUser(buyerUser.getUserId(), buyerUser.getPassword(), buyerUser.getEmail(), buyerUser.getPhone(),
-                buyerUser.getBirthdate(), buyerUser.getFunds() - post.getPrice() * productQuantity);
+        userService.updateUser(buyerUser.get().getUserId(), buyerUser.get().getPassword(), buyerUser.get().getEmail(),
+                buyerUser.get().getPhone(), buyerUser.get().getBirthdate(),
+                buyerUser.get().getFunds() - post.get().getPrice() * productQuantity);
 
-        postService.updatePost(post.getPostId(), post.getProductId(), post.getPrice(), post.getDescription(),
-                post.getProductQuantity() - productQuantity);
+        postService.updatePost(post.get().getPostId(), post.get().getProductId(), post.get().getPrice(),
+                post.get().getDescription(), post.get().getProductQuantity() - productQuantity);
 
-        Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.getPrice(), product.getProductName());
+        Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),
+                product.get().getProductName());
 
         return transaction.getTransactionId();
     }
