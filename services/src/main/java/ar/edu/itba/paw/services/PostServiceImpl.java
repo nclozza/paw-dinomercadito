@@ -3,10 +3,7 @@ package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.Services.PostService;
-import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
-import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,11 +15,11 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostDAO postDAO;
 
-    public Post findPostByPostId(Integer postId) {
+    public Post findPostByPostId(final Integer postId) {
         return postDAO.findPostByPostId(postId);
     }
 
-    public List<Post> findPostByUserId(Integer userId) {
+    public List<Post> findPostByUserId(final Integer userId) {
         List<Post> postsList = postDAO.findPostByUserId(userId);
 
         if (postsList.isEmpty()) {
@@ -33,7 +30,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findPostsByProductId(Integer productId) {
+    public List<Post> findPostsByProductId(final Integer productId) {
         List<Post> postsList = postDAO.findPostsByProductId(productId);
 
         if (postsList.isEmpty()) {

@@ -7,8 +7,23 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ErrorController {
 
+    @RequestMapping("/400")
+    public ModelAndView badRequest() {
+        return new ModelAndView("400");
+    }
+
+    @RequestMapping("/404")
+    public ModelAndView resourceNotFound() {
+        return new ModelAndView("404");
+    }
+
     @RequestMapping("/403")
     public ModelAndView forbidden() {
         return new ModelAndView("403");
+    }
+
+    @RequestMapping("/500")
+    public ModelAndView internalServerError() {
+        return new ModelAndView("500");
     }
 }

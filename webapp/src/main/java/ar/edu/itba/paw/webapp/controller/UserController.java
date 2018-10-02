@@ -1,18 +1,13 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.Services.TransactionService;
-import ar.edu.itba.paw.interfaces.Services.UserNotAuthenticatedService;
-import ar.edu.itba.paw.interfaces.Services.PostService;
-import ar.edu.itba.paw.interfaces.Services.ProductService;
-import ar.edu.itba.paw.interfaces.Services.EmailService;
-import ar.edu.itba.paw.interfaces.Services.UserService;
+import ar.edu.itba.paw.interfaces.Services.*;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.form.AddFundsForm;
-import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
+import ar.edu.itba.paw.webapp.form.AddFundsForm;
 import ar.edu.itba.paw.webapp.form.AuthenticationForm;
+import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +43,7 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
-    
+
     @Autowired
     private TransactionService transactionService;
 
@@ -68,7 +63,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "/login", method={RequestMethod.GET})
+    @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
         return new ModelAndView("login");
     }
@@ -98,16 +93,16 @@ public class UserController {
 
         Integer code = usn.generateCode();
 
-        final UserNotAuthenticated user = usn.createUser(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone(), form.getBirthdate(), date, code);
-        
+        final UserNotAuthenticated user = usn.createUser(form.getUsername(), form.getPassword(), form.getEmail(),
+                form.getPhone(), form.getBirthdate(), date, code);
+
         emailService.sendCodeEmail(user.getEmail(), code);
 
         return new ModelAndView("redirect:/authentication");
     }
 
     @ModelAttribute("userId")
-    public Integer loggedUser(final HttpSession session)
-    {
+    public Integer loggedUser(final HttpSession session) {
         return (Integer) session.getAttribute("userid");
     }
 
@@ -137,8 +132,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.POST})
-        public ModelAndView updateUser(@Valid @ModelAttribute("updateUserForm") final UpdateUserForm form,
-                                       final BindingResult errors) {
+    public ModelAndView updateUser(@Valid @ModelAttribute("updateUserForm") final UpdateUserForm form,
+                                   final BindingResult errors) {
 
         if (errors.hasErrors()) {
             return profile(form).addObject("form_error", true);
@@ -151,8 +146,8 @@ public class UserController {
 
             User user = getLoggedUser();
 
-                userService.updateUserWithoutPasswordEncoder(user.getUserId(), user.getPassword(), form.getEmail(),
-                        form.getPhone(), form.getBirthdate(), user.getFunds());
+            userService.updateUserWithoutPasswordEncoder(user.getUserId(), user.getPassword(), form.getEmail(),
+                    form.getPhone(), form.getBirthdate(), user.getFunds());
 
         } else if (form.getPassword().length() < 6 || form.getPassword().length() > 32) {
             return profile(form).addObject("password_error", true);
@@ -177,7 +172,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/authentication", method = {RequestMethod.POST})
-    public ModelAndView authenticate(@Valid @ModelAttribute("authenticationForm") final AuthenticationForm form, final BindingResult errors) {
+    public ModelAndView authenticate(@Valid @ModelAttribute("authenticationForm") final AuthenticationForm form,
+                                     final BindingResult errors) {
         if (errors.hasErrors()) {
             return authentication(form);
         }
@@ -188,7 +184,8 @@ public class UserController {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
         } else {
-            User userAuthenticated = userService.createUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(), user.getBirthdate());
+            User userAuthenticated = userService.createUser(user.getUsername(), user.getPassword(), user.getEmail(),
+                    user.getPhone(), user.getBirthdate());
             usn.deleteUser(user.getUserId());
             emailService.sendSuccessfulRegistrationEmail(userAuthenticated.getEmail(), userAuthenticated.getUsername());
             return new ModelAndView("redirect:/index");

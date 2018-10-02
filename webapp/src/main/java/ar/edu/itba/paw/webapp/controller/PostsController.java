@@ -127,7 +127,7 @@ public class PostsController {
         User seller = userService.findUserByUserId(post.getUserId());
 
         emailService.sendSuccessfulPurchaseEmail(user.getEmail(), transaction.get().getProductName(), form.getPostId());
-        emailService.sendSuccesfulSaleEmail(seller.getEmail(), transaction.get().getProductName(), form.getPostId());
+        emailService.sendSuccessfulSaleEmail(seller.getEmail(), transaction.get().getProductName(), form.getPostId());
 
         return new ModelAndView("redirect:/sellerInformation?transactionId=" + transaction.get().getTransactionId());
     }

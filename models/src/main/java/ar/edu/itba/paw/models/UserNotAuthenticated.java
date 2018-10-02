@@ -11,8 +11,9 @@ public class UserNotAuthenticated {
     private String signUpDate;
     private Integer code;
 
-    public UserNotAuthenticated(Integer userId, String username, String password, String email, String phone,
-                                String birthdate, String signUpDate, Integer code) {
+    public UserNotAuthenticated(final Integer userId, final String username, final String password, final String email,
+                                final String phone, final String birthdate, final String signUpDate,
+                                final Integer code) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -27,7 +28,7 @@ public class UserNotAuthenticated {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(final Integer userId) {
         this.userId = userId;
     }
 
@@ -35,7 +36,7 @@ public class UserNotAuthenticated {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -43,7 +44,7 @@ public class UserNotAuthenticated {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -51,7 +52,7 @@ public class UserNotAuthenticated {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -59,7 +60,7 @@ public class UserNotAuthenticated {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -67,7 +68,7 @@ public class UserNotAuthenticated {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
+    public void setBirthdate(final String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -75,7 +76,7 @@ public class UserNotAuthenticated {
         return signUpDate;
     }
 
-    public void setSignUpDate(String signUpDate) {
+    public void setSignUpDate(final String signUpDate) {
         this.signUpDate = signUpDate;
     }
 
@@ -83,7 +84,7 @@ public class UserNotAuthenticated {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(final Integer code) {
         this.code = code;
     }
 }

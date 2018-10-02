@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.AddressDAO;
 import ar.edu.itba.paw.models.Address;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,8 +14,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Repository
 public class AddressDaoJDBC implements AddressDAO {
@@ -60,7 +60,7 @@ public class AddressDaoJDBC implements AddressDAO {
         return new Address(addressId.intValue(), userId, street, number, city, province, zipCode, country);
     }
 
-    public boolean deleteAddressByAddressId(Integer addressId) {
+    public boolean deleteAddressByAddressId(final Integer addressId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE addressid = ?",
                 addressId);
 
@@ -69,7 +69,7 @@ public class AddressDaoJDBC implements AddressDAO {
         return deletedRows == 1;
     }
 
-    public boolean deleteAddressByUserId(Integer userId) {
+    public boolean deleteAddressByUserId(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE userid = ?",
                 userId);
 
@@ -78,14 +78,14 @@ public class AddressDaoJDBC implements AddressDAO {
         return deletedRows == 1;
     }
 
-    public Address findAddressByAddressId(Integer addressId) {
+    public Address findAddressByAddressId(final Integer addressId) {
         final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
                 ROW_MAPPER, addressId);
 
         return addressList.get(0);
     }
 
-    public List<Address> findAddressesByUserId(Integer userId) {
+    public List<Address> findAddressesByUserId(final Integer userId) {
         final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE userid = ?",
                 ROW_MAPPER, userId);
 
@@ -93,11 +93,10 @@ public class AddressDaoJDBC implements AddressDAO {
     }
 
     @Override
-    public Address updateAddress(final Integer addressId, final String street,
-                                 final Integer number, final String city, final String province, final String zipCode,
-                                 final String country) {
-       jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
-                       "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
+    public Address updateAddress(final Integer addressId, final String street, final Integer number, final String city,
+                                 final String province, final String zipCode, final String country) {
+        jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
+                        "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
                 zipCode, country, addressId);
 
         LOGGER.info("Address updated with addressId = " + addressId);

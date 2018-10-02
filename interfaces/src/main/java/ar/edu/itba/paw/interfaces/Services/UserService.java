@@ -10,33 +10,33 @@ public interface UserService {
      * @param username The name of the user.
      * @return The created user.
      */
-    public User createUserWithAddress(final String username, final String password, final String email,
-                                      final String phone, final String birthdate, final String street,
-                                      final Integer number, final String city, final String province,
-                                      final String zipCode, final String country);
+    User createUserWithAddress(final String username, final String password, final String email,
+                               final String phone, final String birthdate, final String street,
+                               final Integer number, final String city, final String province,
+                               final String zipCode, final String country);
 
-    public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate);
+    User createUser(final String username, final String password, final String email, final String phone,
+                    final String birthdate);
 
-    public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds);
+    User createUser(final String username, final String password, final String email, final String phone,
+                    final String birthdate, final Double funds);
 
-    public User findUserByUserId(final Integer userId);
+    User findUserByUserId(final Integer userId);
 
-    public boolean deleteUser(final Integer userId);
+    boolean deleteUser(final Integer userId);
 
-    public User updateUser(final Integer userId, final String password, final String email,
-                              final String phone, final String birthdate, final Double funds);
+    User updateUser(final Integer userId, final String password, final String email,
+                    final String phone, final String birthdate, final Double funds);
 
-    public boolean postProduct(final Integer productId, final Double price, final Integer userId,
-                               final String description, final Integer productQuantity);
+    boolean postProduct(final Integer productId, final Double price, final Integer userId,
+                        final String description, final Integer productQuantity);
 
-    public User findUserByUsername(final String username);
+    User findUserByUsername(final String username);
 
-    public User updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
-                                                 final String phone, final String birthdate, final Double funds);
-    
-    public boolean checkUsername(final String username);
+    User updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
+                                          final String phone, final String birthdate, final Double funds);
 
-    public boolean addFundsToUserId(final Double funds, final Integer userId);
+    boolean checkUsername(final String username);
+
+    boolean addFundsToUserId(final Double funds, final Integer userId);
 }

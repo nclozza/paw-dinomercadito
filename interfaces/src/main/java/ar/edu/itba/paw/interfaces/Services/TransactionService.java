@@ -7,15 +7,15 @@ import java.util.Optional;
 
 public interface TransactionService {
 
-    public Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-                                         final Double price, final String productName);
+    Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
+                                  final Double price, final String productName);
 
-    public boolean deleteTransaction(final Integer transactionId);
+    boolean deleteTransaction(final Integer transactionId);
 
-    public Optional<Transaction> findTransactionByTransactionId(final Integer transactionId);
+    Optional<Transaction> findTransactionByTransactionId(final Integer transactionId);
 
-    public List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId);
+    List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId);
 
-    public Integer makeTransaction(final Integer buyerUserId, final Integer postId, final Integer productQuantity);
+    Integer makeTransaction(final Integer buyerUserId, final Integer postId, final Integer productQuantity);
 }
 

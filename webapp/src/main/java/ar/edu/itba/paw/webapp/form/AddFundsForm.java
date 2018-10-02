@@ -13,7 +13,7 @@ public class AddFundsForm {
         return funds;
     }
 
-    public void setFunds(String funds) {
+    public void setFunds(final String funds) {
         this.funds = funds;
     }
 }

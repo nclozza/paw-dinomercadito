@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 public class HandlerInterceptorConfig extends HandlerInterceptorAdapter {
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           ModelAndView modelAndView) {
+    public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
+                           final ModelAndView modelAndView) {
 
         if (modelAndView != null) {
             modelAndView.addObject("loggedIn", isLogged());

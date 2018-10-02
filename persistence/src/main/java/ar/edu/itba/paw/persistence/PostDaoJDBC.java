@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.models.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,8 +14,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Repository
 public class PostDaoJDBC implements PostDAO {
@@ -39,7 +39,8 @@ public class PostDaoJDBC implements PostDAO {
             resultSet.getInt("productquantity")
     );
 
-    public Post createPost(Integer productId, Double price, Integer userId, String description, Integer productQuantity) {
+    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
+                           final Integer productQuantity) {
         final Map<String, Object> args = new HashMap<>();
         args.put("productid", productId);
         args.put("userid", userId);
@@ -62,10 +63,10 @@ public class PostDaoJDBC implements PostDAO {
         return deletedRows == 1;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price,
-                              final String description, final Integer productQuantity) {
+    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+                           final Integer productQuantity) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
-                        productId, price, description, productQuantity, postId);
+                productId, price, description, productQuantity, postId);
 
         LOGGER.info("Post updated with postId = " + postId);
 
@@ -89,7 +90,7 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     @Override
-    public List<Post> findPostsByProductId(Integer productId) {
+    public List<Post> findPostsByProductId(final Integer productId) {
         final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE productid = ?", ROW_MAPPER, productId);
 
         return postList;

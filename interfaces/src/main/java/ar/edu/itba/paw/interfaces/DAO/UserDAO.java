@@ -10,19 +10,19 @@ public interface UserDAO {
      * @param username The user's username.
      * @return The created user.
      */
-    public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds);
+    User createUser(final String username, final String password, final String email, final String phone,
+                    final String birthdate, final Double funds);
 
-    public User findUserByUserId(final Integer userId);
+    User findUserByUserId(final Integer userId);
 
-    public boolean deleteUser(final Integer userId);
+    boolean deleteUser(final Integer userId);
 
-    public User updateUser(final Integer userId, final String password, final String email,
-                              final String phone, final String birthdate, final Double funds);
+    User updateUser(final Integer userId, final String password, final String email,
+                    final String phone, final String birthdate, final Double funds);
 
-    public User findUserByUsername(String username);
+    User findUserByUsername(final String username);
 
-    public boolean checkUsername(final String username);
+    boolean checkUsername(final String username);
 
-    public boolean addFundsToUserId(final Double funds, final Integer userId);
+    boolean addFundsToUserId(final Double funds, final Integer userId);
 }

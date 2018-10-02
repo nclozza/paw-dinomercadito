@@ -11,8 +11,8 @@ public class Address {
     private String zipCode;
     private String country;
 
-    public Address(Integer addressId, Integer userId, String street, Integer number, String city, String province,
-                   String zipCode, String country) {
+    public Address(final Integer addressId, final Integer userId, final String street, final Integer number,
+                   final String city, final String province, final String zipCode, final String country) {
         this.addressId = addressId;
         this.userId = userId;
         this.street = street;
@@ -27,7 +27,7 @@ public class Address {
         return addressId;
     }
 
-    public void setAddressId(Integer addressId) {
+    public void setAddressId(final Integer addressId) {
         this.addressId = addressId;
     }
 
@@ -35,7 +35,7 @@ public class Address {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(final Integer userId) {
         this.userId = userId;
     }
 
@@ -43,7 +43,7 @@ public class Address {
         return street;
     }
 
-    public void setStreet(String street) {
+    public void setStreet(final String street) {
         this.street = street;
     }
 
@@ -51,7 +51,7 @@ public class Address {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(final Integer number) {
         this.number = number;
     }
 
@@ -59,7 +59,7 @@ public class Address {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -67,7 +67,7 @@ public class Address {
         return province;
     }
 
-    public void setProvince(String province) {
+    public void setProvince(final String province) {
         this.province = province;
     }
 
@@ -75,7 +75,7 @@ public class Address {
         return zipCode;
     }
 
-    public void setZipCode(String zipCode) {
+    public void setZipCode(final String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -83,7 +83,7 @@ public class Address {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(final String country) {
         this.country = country;
     }
 }

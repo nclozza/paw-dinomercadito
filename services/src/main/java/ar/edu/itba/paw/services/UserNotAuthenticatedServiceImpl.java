@@ -18,13 +18,14 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserNotAuthenticated createUser(final String username, final String password, final String email, final String phone,
-                                           final String birthdate, final String signUpDate, final Integer code) {
+    public UserNotAuthenticated createUser(final String username, final String password, final String email,
+                                           final String phone, final String birthdate, final String signUpDate,
+                                           final Integer code) {
 
         return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, signUpDate, code);
     }
 
-    public UserNotAuthenticated findUserByUsername(String username) {
+    public UserNotAuthenticated findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
@@ -32,10 +33,16 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
         return userDAO.findUserByUserId(userId);
     }
 
-    public boolean deleteUser(final Integer userId) { return userDAO.deleteUser(userId);};
+    public boolean deleteUser(final Integer userId) {
+        return userDAO.deleteUser(userId);
+    }
+
+    ;
 
     @Override
-    public UserNotAuthenticated findUserByCode(final Integer code) { return userDAO.findUserByCode(code); }
+    public UserNotAuthenticated findUserByCode(final Integer code) {
+        return userDAO.findUserByCode(code);
+    }
 
     public Integer generateCode() {
 
@@ -48,10 +55,12 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
 
             if (userDAO.checkCode(code))
                 check = false;
-        } while(check);
+        } while (check);
 
         return code;
     }
 
-    public boolean checkUsername (final String username){ return userDAO.checkUsername(username); }
+    public boolean checkUsername(final String username) {
+        return userDAO.checkUsername(username);
+    }
 }

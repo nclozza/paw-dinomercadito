@@ -42,7 +42,7 @@ public class TransactionDaoJDBC implements TransactionDAO {
 
     @Override
     public Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-                         final Double price, final String productName) {
+                                         final Double price, final String productName) {
         final Map<String, Object> args = new HashMap<>();
         args.put("postid", postId);
         args.put("buyeruserid", buyerUserId);

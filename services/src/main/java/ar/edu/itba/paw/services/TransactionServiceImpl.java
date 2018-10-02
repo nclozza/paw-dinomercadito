@@ -10,13 +10,13 @@ import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Repository
 public class TransactionServiceImpl implements TransactionService {
@@ -37,7 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-                                 final Double price, final String productName) {
+                                         final Double price, final String productName) {
         return transactionDAO.createTransaction(postId, buyerUserId, productQuantity, price, productName);
     }
 
