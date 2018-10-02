@@ -12,11 +12,14 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class AddressDaoJDBC implements AddressDAO {
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddressDaoJDBC.class);
 
     @Autowired
     public AddressDaoJDBC(final DataSource ds) {
@@ -52,6 +55,8 @@ public class AddressDaoJDBC implements AddressDAO {
 
         final Number addressId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("Address inserted with addressId = " + addressId.intValue());
+
         return new Address(addressId.intValue(), userId, street, number, city, province, zipCode, country);
     }
 
@@ -59,12 +64,16 @@ public class AddressDaoJDBC implements AddressDAO {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE addressid = ?",
                 addressId);
 
+        LOGGER.info("Address deleted with addressId = " + addressId);
+
         return deletedRows == 1;
     }
 
     public boolean deleteAddressByUserId(Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE userid = ?",
                 userId);
+
+        LOGGER.info("Address deleted with userId = " + userId);
 
         return deletedRows == 1;
     }
@@ -90,6 +99,8 @@ public class AddressDaoJDBC implements AddressDAO {
        jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
                        "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
                 zipCode, country, addressId);
+
+        LOGGER.info("Address updated with addressId = " + addressId);
 
         return findAddressByAddressId(addressId);
     }

@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.Services.TransactionService;
 import ar.edu.itba.paw.interfaces.Services.UserNotAuthenticatedService;
 import ar.edu.itba.paw.interfaces.Services.PostService;
+import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.interfaces.Services.EmailService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
@@ -200,6 +201,7 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(transactionId);
 
         if (!transaction.isPresent()) {
+            LOGGER.error("Transaction id not exits");
             return new ModelAndView("redirect:/400");
         }
 
@@ -207,6 +209,7 @@ public class UserController {
         User sellerUser = userService.findUserByUserId(post.getUserId());
 
         if (post == null || sellerUser == null || !transaction.get().getBuyerUserId().equals(user.getUserId())) {
+            LOGGER.error("Post id or seller id not exits or the buyerId doesn't match the transaction buyerId");
             return new ModelAndView("redirect:/400");
         }
 

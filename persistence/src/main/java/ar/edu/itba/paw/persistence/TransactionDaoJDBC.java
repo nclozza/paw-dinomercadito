@@ -13,12 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class TransactionDaoJDBC implements TransactionDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionDaoJDBC.class);
 
     @Autowired
     public TransactionDaoJDBC(final DataSource ds) {
@@ -49,12 +52,16 @@ public class TransactionDaoJDBC implements TransactionDAO {
 
         final Number transactionId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("Transaction inserted with transactionId = " + transactionId.intValue());
+
         return new Transaction(transactionId.intValue(), postId, buyerUserId, productQuantity, price, productName);
     }
 
     @Override
     public boolean deleteTransaction(final Integer transactionId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM transactions WHERE buyid = ?", transactionId);
+
+        LOGGER.info("Transaction deleted with transactionId = " + transactionId);
 
         return deletedRows == 1;
     }
