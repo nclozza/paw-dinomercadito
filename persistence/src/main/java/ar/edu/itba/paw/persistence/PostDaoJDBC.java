@@ -12,12 +12,15 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class PostDaoJDBC implements PostDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostDaoJDBC.class);
 
     @Autowired
     public PostDaoJDBC(final DataSource ds) {
@@ -46,11 +49,15 @@ public class PostDaoJDBC implements PostDAO {
 
         final Number postId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("Post inserted with postId = " + postId.intValue());
+
         return new Post(postId.intValue(), productId, price, userId, description, productQuantity);
     }
 
     public boolean deletePost(final Integer postId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM posts WHERE postid = ?", postId);
+
+        LOGGER.info("Post deleted with postId = " + postId);
 
         return deletedRows == 1;
     }
@@ -59,7 +66,9 @@ public class PostDaoJDBC implements PostDAO {
                               final String description, final Integer productQuantity) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
                         productId, price, description, productQuantity, postId);
- 
+
+        LOGGER.info("Post updated with postId = " + postId);
+
         return findPostByPostId(postId);
     }
 

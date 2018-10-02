@@ -200,6 +200,7 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(transactionId);
 
         if (!transaction.isPresent()) {
+            LOGGER.error("Transaction id not exits");
             return new ModelAndView("redirect:/403");
         }
 
@@ -207,6 +208,7 @@ public class UserController {
         User sellerUser = userService.findUserByUserId(post.getUserId());
 
         if (post == null || sellerUser == null || !transaction.get().getBuyerUserId().equals(user.getUserId())) {
+            LOGGER.error("Post id or seller id not exits");
             return new ModelAndView("redirect:/403");
         }
 

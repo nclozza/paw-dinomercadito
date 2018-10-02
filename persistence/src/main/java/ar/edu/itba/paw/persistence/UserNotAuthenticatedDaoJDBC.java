@@ -13,12 +13,15 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserNotAuthenticatedDaoJDBC.class);
 
     private final static RowMapper<UserNotAuthenticated> ROW_MAPPER = (resultSet, rowNum) -> new UserNotAuthenticated(
             resultSet.getInt("userid"),
@@ -52,6 +55,8 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("User not authenticated inserted with userId = " + userId.intValue() + " and code: " + code);
+
         return new UserNotAuthenticated(userId.intValue(), username, password, email, phone, birthdate, signUpDate, code);
     }
 
@@ -69,6 +74,8 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
     public boolean deleteUser(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM usersNotAuthenticated WHERE userid = ?", userId);
+
+        LOGGER.info("User not authenticated deleted with userId = " + userId);
 
         return deletedRows == 1;
     }
