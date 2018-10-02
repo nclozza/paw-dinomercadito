@@ -13,12 +13,15 @@ import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class UserDaoJDBC implements UserDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoJDBC.class);
 
     private final static RowMapper<User> ROW_MAPPER = (resultSet, rowNum) -> new User(
             resultSet.getInt("userid"),
@@ -50,6 +53,8 @@ public class UserDaoJDBC implements UserDAO {
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("User inserted with userId = " + userId.intValue());
+
         return new User(userId.intValue(), username, password, email, phone, birthdate, funds);
     }
 
@@ -68,6 +73,8 @@ public class UserDaoJDBC implements UserDAO {
     public boolean deleteUser(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM users WHERE userid = ?", userId);
 
+        LOGGER.info("User deleted with userId = " + userId);
+
         return deletedRows == 1;
     }
 
@@ -75,6 +82,8 @@ public class UserDaoJDBC implements UserDAO {
                               final String phone, final String birthdate, final Double funds) {
         jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ?, funds = ? WHERE userId = ?",
                 password, email, phone, birthdate, funds, userId);
+
+        LOGGER.info("User updated with userId = " + userId);
 
         return findUserByUserId(userId);
     }

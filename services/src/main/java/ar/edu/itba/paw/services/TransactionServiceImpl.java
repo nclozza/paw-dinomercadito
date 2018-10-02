@@ -15,9 +15,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class TransactionServiceImpl implements TransactionService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
     @Autowired
     private TransactionDAO transactionDAO;
@@ -60,14 +64,17 @@ public class TransactionServiceImpl implements TransactionService {
 
 
         if (buyerUser == null || post == null || product == null) {
+            LOGGER.error("Incomplete information to make the transaction");
             return Transaction.INCOMPLETE;
         }
 
         if (productQuantity > post.getProductQuantity()) {
+            LOGGER.error("The quantity of posts selected is bigger than the available stock");
             return Transaction.OUT_OF_STOCK_FAIL;
         }
 
         if (buyerUser.getFunds() < post.getPrice() * productQuantity) {
+            LOGGER.error("The user has no enough funds to make the transaction");
             return Transaction.INSUFFICIENT_FUNDS_FAIL;
         }
 
