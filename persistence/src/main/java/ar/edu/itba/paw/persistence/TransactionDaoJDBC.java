@@ -52,7 +52,7 @@ public class TransactionDaoJDBC implements TransactionDAO {
 
         final Number transactionId = jdbcInsert.executeAndReturnKey(args);
 
-        LOGGER.info("Transaction inserted with transactionId = " + transactionId.intValue());
+        LOGGER.info("Transaction inserted with transactionId = {}", transactionId.intValue());
 
         return new Transaction(transactionId.intValue(), postId, buyerUserId, productQuantity, price, productName);
     }
@@ -61,8 +61,10 @@ public class TransactionDaoJDBC implements TransactionDAO {
     public boolean deleteTransaction(final Integer transactionId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM transactions WHERE buyid = ?", transactionId);
 
-        LOGGER.info("Transaction deleted with transactionId = " + transactionId);
-
+        if (deletedRows == 1)
+            LOGGER.info("Transaction deleted with transactionId = {}", transactionId);
+        else
+            LOGGER.info("Transaction not found with transactionId = {}", transactionId);
         return deletedRows == 1;
     }
 

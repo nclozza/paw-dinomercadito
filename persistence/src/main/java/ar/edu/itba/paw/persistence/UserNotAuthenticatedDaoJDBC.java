@@ -55,7 +55,7 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
-        LOGGER.info("User not authenticated inserted with userId = " + userId.intValue() + " and code: " + code);
+        LOGGER.info("User not authenticated inserted with userId = {} and code = {}", userId.intValue(), code);
 
         return new UserNotAuthenticated(userId.intValue(), username, password, email, phone, birthdate, signUpDate, code);
     }
@@ -75,7 +75,10 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
     public boolean deleteUser(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM usersNotAuthenticated WHERE userid = ?", userId);
 
-        LOGGER.info("User not authenticated deleted with userId = " + userId);
+        if (deletedRows == 1)
+            LOGGER.info("User not authenticated deleted with userId = {}", userId);
+        else
+            LOGGER.info("User not authenticated not found with userId = {}", userId);
 
         return deletedRows == 1;
     }
