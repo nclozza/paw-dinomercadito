@@ -3,31 +3,29 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>DinoMercadito | Home</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    </head>
+<head>
+    <title>DinoMercadito | Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+        <%@ include file="../assets/css/products.css" %>
+    </style>
+</head>
+<body>
 
-    <body>
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">DinoMercadito</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Menu</a></li>
-                        <li><a href="#">Sign Up</a></li>
-                        <li><a href="#">Login</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">DinoMercadito</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">Sign Up</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
         <div class="col-md-3">
             <div class="sidebar">
@@ -85,5 +83,38 @@
                 </div>
             </c:forEach>
         </div>
-    </body>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="title">Products</h2>
+    <hr>
+    <div class="sidenav col-md-2">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <div class="col-md-10">
+        <div class="row product-row">
+            <c:forEach items="${products}" var="product" varStatus="loop">
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                            <img class="product img-responsive" src="" alt="Phone ${loop.index + 1}">
+                            <div class="caption">
+                                <h4><c:out value="${product.productName}"/></h4>
+                                <p><c:out value="${product.brand}"/></p>
+                            </div>
+                            <div class="view">
+                                <a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a>
+                            </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+
+</body>
 </html>
