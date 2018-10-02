@@ -55,6 +55,7 @@ public class PostServiceImpl implements PostService {
         return postDAO.deletePost(postId);
     }
 
+    /*
     public boolean makeProductTransaction(final Integer buyerId, final Integer postId) {
         Post post = postDAO.findPostByPostId(postId);
         Integer productQuantity = post.getProductQuantity();
@@ -77,4 +78,5 @@ public class PostServiceImpl implements PostService {
 
         return true;
     }
+    */
 }

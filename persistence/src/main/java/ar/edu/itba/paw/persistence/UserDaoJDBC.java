@@ -93,10 +93,7 @@ public class UserDaoJDBC implements UserDAO {
     public boolean checkUsername(final String username){
         final List<User> userList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
 
-        if (userList.isEmpty())
-            return true;
-        else
-            return false;
+        return userList.isEmpty();
     }
 
     @Override

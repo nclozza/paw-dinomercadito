@@ -198,7 +198,7 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(transactionId);
 
         if (!transaction.isPresent()) {
-            LOGGER.error("Transaction id not exits");
+            LOGGER.error("TransactionId does not exist");
             return new ModelAndView("redirect:/400");
         }
 
@@ -206,7 +206,7 @@ public class UserController {
         User sellerUser = userService.findUserByUserId(post.getUserId());
 
         if (post == null || sellerUser == null || !transaction.get().getBuyerUserId().equals(user.getUserId())) {
-            LOGGER.error("Post id or seller id not exits or the buyerId doesn't match the transaction buyerId");
+            LOGGER.error("PostId or sellerId non existant, or the buyerId does not match the transaction's buyerId");
             return new ModelAndView("redirect:/400");
         }
 
