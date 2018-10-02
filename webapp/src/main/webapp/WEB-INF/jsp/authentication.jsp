@@ -5,7 +5,7 @@
 <html>
 <body>
 <style type="text/css">
-    <%@ include file="../assets/css/login.css" %>
+    <%@ include file="/css/login.css" %>
 </style>
 
 <c:url value="/authentication" var="authenticationPath"/>
