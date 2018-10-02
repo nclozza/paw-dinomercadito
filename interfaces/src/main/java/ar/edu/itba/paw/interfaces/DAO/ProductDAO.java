@@ -5,24 +5,27 @@ import ar.edu.itba.paw.models.Product;
 import java.util.List;
 
 public interface ProductDAO {
-    public Product createProduct(String productName, String brand, String ram, String storage,
-                                 String operativeSystem, String processor, String bodySize, String screenSize,
-                                 String screenRatio, String rearCamera, String frontCamera);
 
-    public boolean deleteProduct(Integer productId);
+    Product createProduct(final String productName, final String brand, final String ram, final String storage,
+                          final String operativeSystem, final String processor, final String bodySize,
+                          final String screenSize, final String screenRatio, final String rearCamera,
+                          final String frontCamera);
 
-    public Product findProductByProductId(Integer productId);
+    boolean deleteProduct(final Integer productId);
 
-    public Product updateProduct(Integer productId, String productName, String brand, String ram, String storage,
-                                 String operativeSystem, String processor, String bodySize, String screenSize,
-                                 String screenRatio, String rearCamera, String frontCamera);
+    Product findProductByProductId(final Integer productId);
 
-    public List<Product> findAllProducts();
+    Product updateProduct(final Integer productId, final String productName, final String brand, final String ram,
+                          final String storage, final String operativeSystem, final String processor,
+                          final String bodySize, final String screenSize, final String screenRatio,
+                          final String rearCamera, final String frontCamera);
 
-    public List<Product> filterProducts(final Integer filterCount, final String attribute[],
-                                        final String attributeValue[]);
+    List<Product> findAllProducts();
 
-    public List<String> findAllAttributeValuesForFilter(final String attribute);
+    List<Product> filterProducts(final Integer filterCount, final String attribute[],
+                                 final String attributeValue[]);
 
-    List<Product> findProductsByFilter(String filter);
+    List<String> findAllAttributeValuesForFilter(final String attribute);
+
+    List<Product> findProductsByFilter(final String filter);
 }

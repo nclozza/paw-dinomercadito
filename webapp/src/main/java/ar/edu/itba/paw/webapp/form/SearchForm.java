@@ -11,7 +11,7 @@ public class SearchForm {
         return search;
     }
 
-    public void setSearch(String search) {
+    public void setSearch(final String search) {
         this.search = search;
     }
 }

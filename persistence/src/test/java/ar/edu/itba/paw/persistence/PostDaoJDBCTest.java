@@ -137,7 +137,7 @@ public class PostDaoJDBCTest {
         final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
                 PRODUCTQUANTITY);
 
-        final List<Post> postList = postDao.findPostByUserId(post.getUserId());
+        final List<Post> postList = postDao.findPostsByUserId(post.getUserId());
         assertNotNull(postList);
         assertEquals(post.getPostId(), postList.get(0).getPostId());
     }

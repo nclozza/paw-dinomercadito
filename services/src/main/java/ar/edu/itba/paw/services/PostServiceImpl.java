@@ -5,7 +5,6 @@ import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,15 +48,14 @@ public class PostServiceImpl implements PostService {
 
     public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
                            final Integer productQuantity) {
-        Post post = postDAO.findPostByPostId(postId);
-        return postDAO.updatePost(postId, productId, price, post.getUserId(), description, productQuantity);
+        return postDAO.updatePost(postId, productId, price, description, productQuantity);
     }
 
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
     }
 
-    public void buyProduct(final Integer buyerId, final Integer postId) {
+    public boolean makeProductTransaction(final Integer buyerId, final Integer postId) {
         Post post = postDAO.findPostByPostId(postId);
         Integer productQuantity = post.getProductQuantity();
         Double price = post.getPrice();
@@ -65,11 +63,18 @@ public class PostServiceImpl implements PostService {
         User buyer = userService.findUserByUserId(buyerId);
         Double buyerFunds = buyer.getFunds();
 
+        if (buyer.getFunds() - price < 0.0)
+            return false;
+
+        if (productQuantity - 1 < 0)
+            return false;
+
         userService.updateUser(seller.getUserId(), seller.getPassword(), seller.getEmail(), seller.getPhone(),
                 seller.getBirthdate(), seller.getFunds() + price);
         userService.updateUser(buyer.getUserId(), buyer.getPassword(), buyer.getEmail(), buyer.getPhone(),
                 buyer.getBirthdate(), buyerFunds - price);
-        postDAO.updatePost(postId, post.getProductId(), price, seller.getUserId(), post.getDescription(),
-                productQuantity - 1);
+        postDAO.updatePost(postId, post.getProductId(), price, post.getDescription(), productQuantity - 1);
+
+        return true;
     }
 }

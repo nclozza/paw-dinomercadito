@@ -7,7 +7,7 @@
     <%--<link rel="stylesheet" href="<c:url value="/css/style.css"/>" />--%>
 </head>
 <body>
-<c:url value="/createPost" var="postPath"/>
+<c:url value="/newPost" var="postPath"/>
 <form:form modelAttribute="registerForm" action="${postPath}" method="post" autocomplete="off">
     <div>
         <spring:message code="product"/>

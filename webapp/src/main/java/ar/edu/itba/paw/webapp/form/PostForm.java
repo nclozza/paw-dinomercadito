@@ -25,7 +25,7 @@ public class PostForm {
         return productId;
     }
 
-    public void setProductId(@NotNull Integer productId) {
+    public void setProductId(@NotNull final Integer productId) {
         this.productId = productId;
     }
 
@@ -33,7 +33,7 @@ public class PostForm {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(final String price) {
         this.price = price;
     }
 
@@ -41,7 +41,7 @@ public class PostForm {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -50,7 +50,7 @@ public class PostForm {
         return productQuantity;
     }
 
-    public void setProductQuantity(@NotNull Integer productQuantity) {
+    public void setProductQuantity(@NotNull final Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 }

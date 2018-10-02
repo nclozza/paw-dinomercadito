@@ -23,7 +23,7 @@ public class AddressServiceImpl implements AddressService {
         return addressDAO.findAddressByAddressId(addressId);
     }
 
-    public List<Address> findAddressByUserId(Integer userId) {
+    public List<Address> findAddressByUserId(final Integer userId) {
         return addressDAO.findAddressesByUserId(userId);
     }
 
