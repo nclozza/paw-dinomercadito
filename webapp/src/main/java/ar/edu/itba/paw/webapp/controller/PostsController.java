@@ -140,7 +140,7 @@ public class PostsController {
         User user = getLoggedUser();
 
         if (!user.getUserId().equals(post.getUserId())) {
-            return new ModelAndView("redirect:/403");
+            return new ModelAndView("redirect:/400");
         }
 
         ModelAndView mav = new ModelAndView("editPost");

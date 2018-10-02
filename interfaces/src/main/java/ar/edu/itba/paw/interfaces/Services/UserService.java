@@ -37,4 +37,6 @@ public interface UserService {
                                                  final String phone, final String birthdate, final Double funds);
     
     public boolean checkUsername(final String username);
+
+    public boolean addFundsToUserId(final Double funds, final Integer userId);
 }

@@ -14,11 +14,13 @@ public class HandlerInterceptorConfig extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) {
 
+        if (modelAndView != null) {
             modelAndView.addObject("loggedIn", isLogged());
         }
+    }
 
     private boolean isLogged() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return !authentication.getPrincipal().equals("anonymousUser");
+        return authentication != null && !authentication.getPrincipal().equals("anonymousUser");
     }
 }
