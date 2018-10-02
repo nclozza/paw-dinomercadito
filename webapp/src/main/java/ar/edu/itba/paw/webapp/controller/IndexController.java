@@ -3,8 +3,6 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.SearchForm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -20,8 +18,6 @@ import javax.validation.Valid;
 
 @Controller
 public class IndexController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("/index")
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form) {

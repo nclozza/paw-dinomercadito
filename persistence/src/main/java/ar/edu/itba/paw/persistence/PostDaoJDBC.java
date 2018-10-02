@@ -49,7 +49,7 @@ public class PostDaoJDBC implements PostDAO {
 
         final Number postId = jdbcInsert.executeAndReturnKey(args);
 
-        LOGGER.info("Post inserted with postId = " + postId.intValue());
+        LOGGER.info("Post inserted with postId = {}", postId.intValue());
 
         return new Post(postId.intValue(), productId, price, userId, description, productQuantity);
     }
@@ -57,7 +57,10 @@ public class PostDaoJDBC implements PostDAO {
     public boolean deletePost(final Integer postId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM posts WHERE postid = ?", postId);
 
-        LOGGER.info("Post deleted with postId = " + postId);
+        if (deletedRows == 1)
+            LOGGER.info("Post deleted with postId = {}", postId);
+        else
+            LOGGER.info("Post not found with postId = {}", postId);
 
         return deletedRows == 1;
     }
@@ -67,7 +70,7 @@ public class PostDaoJDBC implements PostDAO {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
                         productId, price, description, productQuantity, postId);
 
-        LOGGER.info("Post updated with postId = " + postId);
+        LOGGER.info("Post updated with postId = {}", postId);
 
         return findPostByPostId(postId);
     }
