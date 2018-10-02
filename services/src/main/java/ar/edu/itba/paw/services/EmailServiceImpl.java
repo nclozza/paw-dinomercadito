@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendSuccessfulRegistrationEmail(final String to, final String username) {
         sendSimpleMessage(to, "Welcome to Dinomercadito", "Hi there " + username + ", we want to welcome " +
                 "you to Dinomercadito! As a registered user you'll be able to purchase and/or post products.");
-        LOGGER.info("Successful registration email sended with username = " + username);
+        LOGGER.info("Successful registration email sended with username {}", username);
     }
 
     private void sendSuccessfulTransactionEmail(final String to, final String productModel, final Integer postId,
@@ -51,6 +51,6 @@ public class EmailServiceImpl implements EmailService {
     public void sendCodeEmail(final String to, final Integer code) {
 
         sendSimpleMessage(to, "Authentication code", "Here is your authentication code: " + code);
-        LOGGER.info("Authentication email sended with code = " + code);
+        LOGGER.info("Authentication email sended with code {}", code);
     }
 }

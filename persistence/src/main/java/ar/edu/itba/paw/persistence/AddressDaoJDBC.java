@@ -55,7 +55,7 @@ public class AddressDaoJDBC implements AddressDAO {
 
         final Number addressId = jdbcInsert.executeAndReturnKey(args);
 
-        LOGGER.info("Address inserted with addressId = " + addressId.intValue());
+        LOGGER.info("Address inserted with addressId = {}", addressId.intValue());
 
         return new Address(addressId.intValue(), userId, street, number, city, province, zipCode, country);
     }
@@ -64,7 +64,10 @@ public class AddressDaoJDBC implements AddressDAO {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE addressid = ?",
                 addressId);
 
-        LOGGER.info("Address deleted with addressId = " + addressId);
+        if (deletedRows == 1)
+            LOGGER.info("Address deleted with addressId = {}", addressId);
+        else
+            LOGGER.info("Address not found with addressId = {}", addressId);
 
         return deletedRows == 1;
     }
@@ -73,7 +76,10 @@ public class AddressDaoJDBC implements AddressDAO {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE userid = ?",
                 userId);
 
-        LOGGER.info("Address deleted with userId = " + userId);
+        if (deletedRows == 1)
+            LOGGER.info("Address deleted with userId = {}", userId);
+        else
+            LOGGER.info("Address not found with userId = {}", userId);
 
         return deletedRows == 1;
     }
@@ -99,7 +105,7 @@ public class AddressDaoJDBC implements AddressDAO {
                         "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
                 zipCode, country, addressId);
 
-        LOGGER.info("Address updated with addressId = " + addressId);
+        LOGGER.info("Address updated with addressId = {}", addressId);
 
         return findAddressByAddressId(addressId);
     }

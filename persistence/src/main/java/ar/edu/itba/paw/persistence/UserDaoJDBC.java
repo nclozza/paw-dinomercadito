@@ -52,7 +52,7 @@ public class UserDaoJDBC implements UserDAO {
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
-        LOGGER.info("User inserted with userId = " + userId.intValue());
+        LOGGER.info("User inserted with userId = {}", userId.intValue());
 
         return new User(userId.intValue(), username, password, email, phone, birthdate, funds);
     }
@@ -72,7 +72,10 @@ public class UserDaoJDBC implements UserDAO {
     public boolean deleteUser(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM users WHERE userid = ?", userId);
 
-        LOGGER.info("User deleted with userId = " + userId);
+        if (deletedRows == 1)
+            LOGGER.info("User deleted with userId = {}", userId);
+        else
+            LOGGER.info("User not found with userId = {}", userId);
 
         return deletedRows == 1;
     }
@@ -82,7 +85,7 @@ public class UserDaoJDBC implements UserDAO {
         jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ?, funds = ? WHERE userId = ?",
                 password, email, phone, birthdate, funds, userId);
 
-        LOGGER.info("User updated with userId = " + userId);
+        LOGGER.info("User updated with userId = {}", userId);
 
         return findUserByUserId(userId);
     }
