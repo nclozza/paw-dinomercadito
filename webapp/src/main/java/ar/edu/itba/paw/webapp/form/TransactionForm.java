@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
-import javax.validation.constraints.Pattern;
-
-public class BuyForm {
+public class TransactionForm {
 
     private Integer postId;
 
@@ -12,7 +10,7 @@ public class BuyForm {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(final Integer postId) {
         this.postId = postId;
     }
 
@@ -20,7 +18,7 @@ public class BuyForm {
         return productQuantity;
     }
 
-    public void setProductQuantity(Integer productQuantity) {
+    public void setProductQuantity(final Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 

@@ -32,7 +32,7 @@ public class UserForm {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -40,7 +40,7 @@ public class UserForm {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -48,8 +48,7 @@ public class UserForm {
         return repeatPassword;
     }
 
-    public void setRepeatPassword(String repeatPassword)
-    {
+    public void setRepeatPassword(final String repeatPassword) {
         this.repeatPassword = repeatPassword;
     }
 
@@ -61,7 +60,7 @@ public class UserForm {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -69,7 +68,7 @@ public class UserForm {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -77,7 +76,7 @@ public class UserForm {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
+    public void setBirthdate(final String birthdate) {
         this.birthdate = birthdate;
     }
 }

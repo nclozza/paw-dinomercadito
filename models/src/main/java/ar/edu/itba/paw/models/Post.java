@@ -7,17 +7,20 @@ public class Post {
     private Double price;
     private Integer userId;
     private String description;
-    private Integer productQuantity = 1;
+    private Integer productQuantity;
 
-    public Post(Integer postId, Integer productId, Double price, Integer userId, String description) {
+    public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
+                final String description) {
         this.postId = postId;
         this.productId = productId;
         this.price = price;
         this.userId = userId;
         this.description = description;
+        this.productQuantity = 1;
     }
 
-    public Post(Integer postId, Integer productId, Double price, Integer userId, String description, Integer productQuantity) {
+    public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
+                final String description, final Integer productQuantity) {
         this.postId = postId;
         this.productId = productId;
         this.price = price;
@@ -30,7 +33,7 @@ public class Post {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(final Integer postId) {
         this.postId = postId;
     }
 
@@ -38,7 +41,7 @@ public class Post {
         return productId;
     }
 
-    public void setProductId(Integer ProductId) {
+    public void setProductId(final Integer ProductId) {
         this.productId = productId;
     }
 
@@ -46,7 +49,7 @@ public class Post {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(final Double price) {
         this.price = price;
     }
 
@@ -54,7 +57,7 @@ public class Post {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(final Integer userId) {
         this.userId = userId;
     }
 
@@ -62,7 +65,7 @@ public class Post {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -70,7 +73,7 @@ public class Post {
         return productQuantity;
     }
 
-    public void setProductQuantity(Integer productQuantity) {
+    public void setProductQuantity(final Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 }

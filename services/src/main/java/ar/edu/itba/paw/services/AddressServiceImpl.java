@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -19,11 +20,11 @@ public class AddressServiceImpl implements AddressService {
         return addressDAO.createAddress(userId, street, number, city, province, zipCode, country);
     }
 
-    public Address findAddressByAddressId(final Integer addressId) {
+    public Optional<Address> findAddressByAddressId(final Integer addressId) {
         return addressDAO.findAddressByAddressId(addressId);
     }
 
-    public List<Address> findAddressByUserId(Integer userId) {
+    public List<Address> findAddressByUserId(final Integer userId) {
         return addressDAO.findAddressesByUserId(userId);
     }
 
@@ -31,8 +32,8 @@ public class AddressServiceImpl implements AddressService {
         return addressDAO.deleteAddressByAddressId(addressId);
     }
 
-    public Address updateAddress(final String street, final Integer number, final String city, final String province,
+    public Optional<Address> updateAddress(final String street, final Integer number, final String city, final String province,
                                  final String zipCode, final String country) {
-        return null;
+        return Optional.empty();
     }
 }

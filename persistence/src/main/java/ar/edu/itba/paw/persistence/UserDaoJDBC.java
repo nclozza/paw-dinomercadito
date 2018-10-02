@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,16 +11,17 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserDaoJDBC implements UserDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoJDBC.class);
 
     private final static RowMapper<User> ROW_MAPPER = (resultSet, rowNum) -> new User(
             resultSet.getInt("userid"),
@@ -50,32 +53,52 @@ public class UserDaoJDBC implements UserDAO {
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("User inserted with userId = {}", userId.intValue());
+
         return new User(userId.intValue(), username, password, email, phone, birthdate, funds);
     }
 
-    public User findUserByUsername(String username) {
-        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
-
-        return usersList.get(0);
+    public Optional<User> findUserByUsername(final String username) {
+        return jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username)
+                .stream().findFirst();
     }
 
-    public User findUserByUserId(final Integer userId) {
-        final List<User> usersList = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId);
-
-        return usersList.get(0);
+    public Optional<User> findUserByUserId(final Integer userId) {
+        return jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, userId)
+                .stream().findFirst();
     }
 
     public boolean deleteUser(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM users WHERE userid = ?", userId);
 
+        if (deletedRows == 1)
+            LOGGER.info("User deleted with userId = {}", userId);
+        else
+            LOGGER.info("User not found with userId = {}", userId);
+
         return deletedRows == 1;
     }
 
-    public User updateUser(final Integer userId, final String password, final String email,
-                              final String phone, final String birthdate, final Double funds) {
+    public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
+                           final String birthdate, final Double funds) {
         jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ?, funds = ? WHERE userId = ?",
                 password, email, phone, birthdate, funds, userId);
 
+        LOGGER.info("User updated with userId = {}", userId);
+
         return findUserByUserId(userId);
+    }
+
+    public boolean checkUsername(final String username){
+        final List<User> userList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
+
+        return userList.isEmpty();
+    }
+
+    @Override
+    public boolean addFundsToUserId(final Double funds, final Integer userId) {
+        final Integer updatedRows = jdbcTemplate.update("UPDATE users SET funds = ? WHERE userId = ?", funds, userId);
+
+        return updatedRows == 1;
     }
 }
