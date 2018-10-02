@@ -9,6 +9,7 @@ import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.webapp.form.AddFundsForm;
 import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
 import ar.edu.itba.paw.webapp.form.AuthenticationForm;
@@ -201,19 +202,36 @@ public class UserController {
 
         if (!transaction.isPresent()) {
             LOGGER.error("Transaction id not exits");
-            return new ModelAndView("redirect:/403");
+            return new ModelAndView("redirect:/400");
         }
 
         Post post = postService.findPostByPostId(transaction.get().getPostId());
         User sellerUser = userService.findUserByUserId(post.getUserId());
 
         if (post == null || sellerUser == null || !transaction.get().getBuyerUserId().equals(user.getUserId())) {
-            LOGGER.error("Post id or seller id not exits");
-            return new ModelAndView("redirect:/403");
+            LOGGER.error("Post id or seller id not exits or the buyerId doesn't match the transaction buyerId");
+            return new ModelAndView("redirect:/400");
         }
 
         ModelAndView mav = new ModelAndView("sellerInformation");
         mav.addObject("sellerUser", sellerUser);
         return mav;
+    }
+
+    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.GET})
+    public ModelAndView addFunds(@ModelAttribute("addFundsForm") final AddFundsForm form) {
+        return new ModelAndView("addFunds");
+    }
+
+    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.POST})
+    public ModelAndView addFundsPost(@Valid @ModelAttribute("addFundsForm") final AddFundsForm form) {
+
+        User user = getLoggedUser();
+
+        if (!userService.addFundsToUserId(Double.valueOf(form.getFunds()), user.getUserId())) {
+            return new ModelAndView("redirect:/500");
+        }
+
+        return new ModelAndView("redirect:/profile");
     }
 }
