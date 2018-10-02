@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductDaoJDBC implements ProductDAO {
@@ -43,9 +44,10 @@ public class ProductDaoJDBC implements ProductDAO {
                 .usingGeneratedKeyColumns("productid");
     }
 
-    public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
-                                 String processor, String bodySize, String screenSize, String screenRatio,
-                                 String rearCamera, String frontCamera) {
+    public Product createProduct(final String productName, final String brand, final String ram, final String storage,
+                                 final String operativeSystem, final String processor, final String bodySize,
+                                 final String screenSize, final String screenRatio, final String rearCamera,
+                                 final String frontCamera) {
         final Map<String, Object> args = new HashMap<>();
 
         args.put("productname", productName);
@@ -66,26 +68,25 @@ public class ProductDaoJDBC implements ProductDAO {
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
-    public boolean deleteProduct(Integer productId) {
+    public boolean deleteProduct(final Integer productId) {
         final int deletedRows = jdbcTemplate.update("DELETE FROM products WHERE productId = ?", productId);
 
         return deletedRows == 1;
     }
 
-    public Product findProductByProductId(Integer productId) {
-        final List<Product> productList = jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
-                productId);
+    public Optional<Product> findProductByProductId(final Integer productId) {
 
-        return productList.get(0);
+        return jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
+                productId).stream().findFirst();
     }
 
-    public Product updateProduct(final Integer productId, final String productName, final String brand, final String ram, final String storage,
-                                 final String operativeSystem, final String processor, final String bodySize,
-                                 final String screenSize, final String screenRatio, final String rearCamera,
-                                 final String frontCamera) {
+    public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand,
+                                           final String ram, final String storage, final String operativeSystem,
+                                           final String processor, final String bodySize, final String screenSize,
+                                           final String screenRatio, final String rearCamera, final String frontCamera) {
         jdbcTemplate.update("UPDATE products SET productName = ?, brand = ?, ram = ?, storage = ?, " +
-                "operativeSystem = ?, processor = ?, bodySize = ?, screenSize = ?, screenRatio = ?, rearCamera = ?, " +
-                "frontCamera = ? WHERE productId = ?", productName, brand, ram, storage, operativeSystem, processor,
+                        "operativeSystem = ?, processor = ?, bodySize = ?, screenSize = ?, screenRatio = ?, rearCamera = ?, " +
+                        "frontCamera = ? WHERE productId = ?", productName, brand, ram, storage, operativeSystem, processor,
                 bodySize, screenSize, screenRatio, rearCamera, frontCamera, productId);
 
         return findProductByProductId(productId);
@@ -117,7 +118,7 @@ public class ProductDaoJDBC implements ProductDAO {
     }
 
     @Override
-    public List<Product> findProductsByFilter(String filter) {
+    public List<Product> findProductsByFilter(final String filter) {
         String filterFormatted = "%" + filter.toLowerCase() + "%";
         return jdbcTemplate.query("SELECT DISTINCT * FROM products WHERE LOWER(productName) LIKE ? " +
                 "OR LOWER(brand) LIKE ? OR LOWER(operativeSystem) LIKE ?", ROW_MAPPER, filterFormatted, filterFormatted, filterFormatted);

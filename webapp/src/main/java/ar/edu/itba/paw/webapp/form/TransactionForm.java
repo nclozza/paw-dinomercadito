@@ -10,7 +10,7 @@ public class TransactionForm {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(final Integer postId) {
         this.postId = postId;
     }
 
@@ -18,7 +18,7 @@ public class TransactionForm {
         return productQuantity;
     }
 
-    public void setProductQuantity(Integer productQuantity) {
+    public void setProductQuantity(final Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 

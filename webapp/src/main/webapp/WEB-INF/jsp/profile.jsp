@@ -47,6 +47,9 @@
             <a id="posts-button" class="btn btn-info" role="button">
                 <spring:message code="show_posts"/>
             </a>
+            <a class="btn btn-info" role="button" href="<c:out value="/profile/addFunds" />">
+                <spring:message code="show_add_funds"/>
+            </a>
         </aside>
 
         <%-- TRANSACTIONS --%>
@@ -120,7 +123,6 @@
                 </div>
             </c:forEach>
         </div>
-
     </div>
 
 </div>

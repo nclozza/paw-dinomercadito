@@ -81,13 +81,23 @@ public class PostsController {
     public ModelAndView post(@RequestParam(value = "postId") final Integer postId,
                              @ModelAttribute("transactionForm") final TransactionForm form) {
         ModelAndView mav = new ModelAndView("post");
-        Post post = postService.findPostByPostId(postId);
-        User user = userService.findUserByUserId(post.getUserId());
-        Product product = productService.findProductByProductId(post.getProductId());
+        Optional<Post> post = postService.findPostByPostId(postId);
 
-        mav.addObject("post", post);
-        mav.addObject("user", user);
-        mav.addObject("product", product);
+        if (!post.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        Optional<User> user = userService.findUserByUserId(post.get().getUserId());
+        Optional<Product> product = productService.findProductByProductId(post.get().getProductId());
+
+        if (!user.isPresent() || !product.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+
+        mav.addObject("post", post.get());
+        mav.addObject("user", user.get());
+        mav.addObject("product", product.get());
 
         mav.addObject("found_error", false);
 
@@ -96,7 +106,9 @@ public class PostsController {
 
     private User getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findUserByUsername(authentication.getName());
+        Optional<User> user = userService.findUserByUsername(authentication.getName());
+
+        return user.orElse(null);
     }
 
     @RequestMapping(value = "/post", method = {RequestMethod.POST})
@@ -123,24 +135,43 @@ public class PostsController {
         }
 
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(status);
-        Post post = postService.findPostByPostId(transaction.get().getPostId());
-        User seller = userService.findUserByUserId(post.getUserId());
+
+        if (!transaction.isPresent()) {
+            return new ModelAndView("redirect:/500");
+        }
+
+        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
+
+        if (!post.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        Optional<User> seller = userService.findUserByUserId(post.get().getUserId());
+
+        if (!seller.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
 
         emailService.sendSuccessfulPurchaseEmail(user.getEmail(), transaction.get().getProductName(), form.getPostId());
-        emailService.sendSuccesfulSaleEmail(seller.getEmail(), transaction.get().getProductName(), form.getPostId());
+        emailService.sendSuccessfulSaleEmail(seller.get().getEmail(), transaction.get().getProductName(), form.getPostId());
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/sellerInformation?transactionId=" + transaction.get().getTransactionId());
     }
 
     @RequestMapping(value = "/editPost", method = {RequestMethod.GET})
     public ModelAndView edit(@RequestParam(value = "postId") final Integer postId,
                              @ModelAttribute("editPost") final EditPostForm form) {
 
-        Post post = postService.findPostByPostId(postId);
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if (!post.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
         User user = getLoggedUser();
 
-        if (!user.getUserId().equals(post.getUserId())) {
-            return new ModelAndView("redirect:/403");
+        if (!user.getUserId().equals(post.get().getUserId())) {
+            return new ModelAndView("redirect:/400");
         }
 
         ModelAndView mav = new ModelAndView("editPost");
@@ -154,7 +185,7 @@ public class PostsController {
 
     @RequestMapping(value = "/editPost", method = {RequestMethod.POST})
     public ModelAndView editPost(@Valid @ModelAttribute("editPost") final EditPostForm form,
-                               final BindingResult errors) {
+                                 final BindingResult errors) {
 
         if (errors.hasErrors()) {
             return edit(form.getPostId(), form);

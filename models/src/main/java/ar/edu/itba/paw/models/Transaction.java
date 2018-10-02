@@ -2,7 +2,8 @@ package ar.edu.itba.paw.models;
 
 public class Transaction {
 
-    public static final Integer INCOMPLETE = -3;
+    public static final Integer INCOMPLETE = -4;
+    public static final Integer WRONG_PARAMETERS = -3;
     public static final Integer OUT_OF_STOCK_FAIL = -2;
     public static final Integer INSUFFICIENT_FUNDS_FAIL = -1;
 
@@ -13,8 +14,8 @@ public class Transaction {
     private Double price;
     private String productName;
 
-    public Transaction(final Integer transactionId, final Integer postId, final Integer buyerUserId, final Integer productQuantity,
-               final Double price, final String productName) {
+    public Transaction(final Integer transactionId, final Integer postId, final Integer buyerUserId,
+                       final Integer productQuantity, final Double price, final String productName) {
         this.transactionId = transactionId;
         this.postId = postId;
         this.buyerUserId = buyerUserId;
@@ -27,7 +28,7 @@ public class Transaction {
         return transactionId;
     }
 
-    public void setTransactionId(Integer transactionId) {
+    public void setTransactionId(final Integer transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -35,7 +36,7 @@ public class Transaction {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(final Integer postId) {
         this.postId = postId;
     }
 
@@ -43,7 +44,7 @@ public class Transaction {
         return buyerUserId;
     }
 
-    public void setBuyerUserId(Integer buyerUserId) {
+    public void setBuyerUserId(final Integer buyerUserId) {
         this.buyerUserId = buyerUserId;
     }
 
@@ -51,7 +52,7 @@ public class Transaction {
         return productQuantity;
     }
 
-    public void setProductQuantity(Integer productQuantity) {
+    public void setProductQuantity(final Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 
@@ -59,7 +60,7 @@ public class Transaction {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(final Double price) {
         this.price = price;
     }
 
@@ -67,7 +68,7 @@ public class Transaction {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public void setProductName(final String productName) {
         this.productName = productName;
     }
 }

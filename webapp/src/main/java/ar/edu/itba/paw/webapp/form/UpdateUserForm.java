@@ -25,7 +25,7 @@ public class UpdateUserForm {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -33,8 +33,7 @@ public class UpdateUserForm {
         return repeatPassword;
     }
 
-    public void setRepeatPassword(String repeatPassword)
-    {
+    public void setRepeatPassword(final String repeatPassword) {
         this.repeatPassword = repeatPassword;
     }
 
@@ -46,7 +45,7 @@ public class UpdateUserForm {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -54,7 +53,7 @@ public class UpdateUserForm {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -62,8 +61,7 @@ public class UpdateUserForm {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
+    public void setBirthdate(final String birthdate) {
         this.birthdate = birthdate;
     }
-
 }

@@ -11,7 +11,7 @@ public class AuthenticationForm {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(final Integer code) {
         this.code = code;
     }
 }

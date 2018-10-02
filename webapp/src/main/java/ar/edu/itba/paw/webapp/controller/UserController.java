@@ -1,17 +1,13 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.Services.TransactionService;
-import ar.edu.itba.paw.interfaces.Services.UserNotAuthenticatedService;
-import ar.edu.itba.paw.interfaces.Services.PostService;
-import ar.edu.itba.paw.interfaces.Services.ProductService;
-import ar.edu.itba.paw.interfaces.Services.EmailService;
-import ar.edu.itba.paw.interfaces.Services.UserService;
+import ar.edu.itba.paw.interfaces.Services.*;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
+import ar.edu.itba.paw.webapp.form.AddFundsForm;
 import ar.edu.itba.paw.webapp.form.AuthenticationForm;
+import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +29,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -46,7 +43,7 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
-    
+
     @Autowired
     private TransactionService transactionService;
 
@@ -58,15 +55,20 @@ public class UserController {
     private UserNotAuthenticatedService usn;
 
     @RequestMapping("/user")
-    public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId, final HttpSession session) {
+    public ModelAndView index(@RequestParam(value = "userId") final Integer userId) {
         final ModelAndView mav = new ModelAndView("user");
-        User user = userService.findUserByUserId(userId);
-        mav.addObject("username", user.getUsername());
-        mav.addObject("userId", user.getUserId());
+        Optional<User> user = userService.findUserByUserId(userId);
+
+        if (!user.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        mav.addObject("username", user.get().getUsername());
+        mav.addObject("userId", user.get().getUserId());
         return mav;
     }
 
-    @RequestMapping(value = "/login", method={RequestMethod.GET})
+    @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
         return new ModelAndView("login");
     }
@@ -96,22 +98,24 @@ public class UserController {
 
         Integer code = usn.generateCode();
 
-        final UserNotAuthenticated user = usn.createUser(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone(), form.getBirthdate(), date, code);
-        
+        final UserNotAuthenticated user = usn.createUser(form.getUsername(), form.getPassword(), form.getEmail(),
+                form.getPhone(), form.getBirthdate(), date, code);
+
         emailService.sendCodeEmail(user.getEmail(), code);
 
         return new ModelAndView("redirect:/authentication");
     }
 
     @ModelAttribute("userId")
-    public Integer loggedUser(final HttpSession session)
-    {
+    public Integer loggedUser(final HttpSession session) {
         return (Integer) session.getAttribute("userid");
     }
 
     private User getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findUserByUsername(authentication.getName());
+        Optional<User> user = userService.findUserByUsername(authentication.getName());
+
+        return user.orElse(null);
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
@@ -121,7 +125,7 @@ public class UserController {
         User user = getLoggedUser();
         Integer userId = user.getUserId();
         List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
-        List<Post> postList = postService.findPostByUserId(userId);
+        List<Post> postList = postService.findPostsByUserId(userId);
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
@@ -135,8 +139,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.POST})
-        public ModelAndView updateUser(@Valid @ModelAttribute("updateUserForm") final UpdateUserForm form,
-                                       final BindingResult errors) {
+    public ModelAndView updateUser(@Valid @ModelAttribute("updateUserForm") final UpdateUserForm form,
+                                   final BindingResult errors) {
 
         if (errors.hasErrors()) {
             return profile(form).addObject("form_error", true);
@@ -149,8 +153,8 @@ public class UserController {
 
             User user = getLoggedUser();
 
-                userService.updateUserWithoutPasswordEncoder(user.getUserId(), user.getPassword(), form.getEmail(),
-                        form.getPhone(), form.getBirthdate(), user.getFunds());
+            userService.updateUserWithoutPasswordEncoder(user.getUserId(), user.getPassword(), form.getEmail(),
+                    form.getPhone(), form.getBirthdate(), user.getFunds());
 
         } else if (form.getPassword().length() < 6 || form.getPassword().length() > 32) {
             return profile(form).addObject("password_error", true);
@@ -175,23 +179,69 @@ public class UserController {
     }
 
     @RequestMapping(value = "/authentication", method = {RequestMethod.POST})
-    public ModelAndView authenticate(@Valid @ModelAttribute("authenticationForm") final AuthenticationForm form, final BindingResult errors) {
+    public ModelAndView authenticate(@Valid @ModelAttribute("authenticationForm") final AuthenticationForm form,
+                                     final BindingResult errors) {
         if (errors.hasErrors()) {
             return authentication(form);
         }
 
-        UserNotAuthenticated user = usn.findUserByCode(form.getCode());
+        Optional<UserNotAuthenticated> user = usn.findUserByCode(form.getCode());
 
-        if (user == null) {
+        if (!user.isPresent()) {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
         } else {
-            User userAuthenticated = userService.createUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(), user.getBirthdate());
-            usn.deleteUser(user.getUserId());
+            User userAuthenticated = userService.createUser(user.get().getUsername(), user.get().getPassword(),
+                    user.get().getEmail(), user.get().getPhone(), user.get().getBirthdate());
+            usn.deleteUser(user.get().getUserId());
             emailService.sendSuccessfulRegistrationEmail(userAuthenticated.getEmail(), userAuthenticated.getUsername());
             return new ModelAndView("redirect:/index");
         }
-
     }
 
+    @RequestMapping("/sellerInformation")
+    public ModelAndView sellerInformation(@RequestParam(value = "transactionId") final Integer transactionId) {
+        User user = getLoggedUser();
+        Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(transactionId);
+
+        if (!transaction.isPresent()) {
+            LOGGER.error("Transaction id not exits");
+            return new ModelAndView("redirect:/404");
+        }
+
+        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
+
+        if (!post.isPresent()) {
+            LOGGER.error("Post id not exits");
+            return new ModelAndView("redirect:/500");
+        }
+
+        Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserId());
+
+        if (!transaction.get().getBuyerUserId().equals(user.getUserId())) {
+            LOGGER.error("BuyerId doesn't match the transaction buyerId");
+            return new ModelAndView("redirect:/400");
+        }
+
+        ModelAndView mav = new ModelAndView("sellerInformation");
+        mav.addObject("sellerUser", sellerUser);
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.GET})
+    public ModelAndView addFunds(@ModelAttribute("addFundsForm") final AddFundsForm form) {
+        return new ModelAndView("addFunds");
+    }
+
+    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.POST})
+    public ModelAndView addFundsPost(@Valid @ModelAttribute("addFundsForm") final AddFundsForm form) {
+
+        User user = getLoggedUser();
+
+        if (!userService.addFundsToUserId(Double.valueOf(form.getFunds()), user.getUserId())) {
+            return new ModelAndView("redirect:/500");
+        }
+
+        return new ModelAndView("redirect:/profile");
+    }
 }

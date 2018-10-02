@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.models;
 
-import java.awt.*;
-
 public class Product {
 
     private Integer productId;
@@ -17,9 +15,10 @@ public class Product {
     private String rearCamera;
     private String frontCamera;
 
-    public Product(Integer productId, String productName, String brand, String ram, String storage,
-                   String operativeSystem, String processor, String bodySize, String screenSize,
-                   String screenRatio, String rearCamera, String frontCamera) {
+    public Product(final Integer productId, final String productName, final String brand, final String ram,
+                   final String storage, final String operativeSystem, final String processor, final String bodySize,
+                   final String screenSize, final String screenRatio, final String rearCamera,
+                   final String frontCamera) {
         this.productId = productId;
         this.productName = productName;
         this.brand = brand;
@@ -38,7 +37,7 @@ public class Product {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(final Integer productId) {
         this.productId = productId;
     }
 
@@ -46,7 +45,7 @@ public class Product {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public void setProductName(final String productName) {
         this.productName = productName;
     }
 
@@ -54,7 +53,7 @@ public class Product {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(final String brand) {
         this.brand = brand;
     }
 
@@ -62,7 +61,7 @@ public class Product {
         return ram;
     }
 
-    public void setRam(String ram) {
+    public void setRam(final String ram) {
         this.ram = ram;
     }
 
@@ -70,7 +69,7 @@ public class Product {
         return storage;
     }
 
-    public void setStorage(String storage) {
+    public void setStorage(final String storage) {
         this.storage = storage;
     }
 
@@ -78,7 +77,7 @@ public class Product {
         return operativeSystem;
     }
 
-    public void setOperativeSystem(String operativeSystem) {
+    public void setOperativeSystem(final String operativeSystem) {
         this.operativeSystem = operativeSystem;
     }
 
@@ -86,7 +85,7 @@ public class Product {
         return processor;
     }
 
-    public void setProcessor(String processor) {
+    public void setProcessor(final String processor) {
         this.processor = processor;
     }
 
@@ -94,7 +93,7 @@ public class Product {
         return bodySize;
     }
 
-    public void setBodySize(String bodySize) {
+    public void setBodySize(final String bodySize) {
         this.bodySize = bodySize;
     }
 
@@ -102,7 +101,7 @@ public class Product {
         return screenSize;
     }
 
-    public void setScreenSize(String screenSize) {
+    public void setScreenSize(final String screenSize) {
         this.screenSize = screenSize;
     }
 
@@ -110,7 +109,7 @@ public class Product {
         return screenRatio;
     }
 
-    public void setScreenRatio(String screenRatio) {
+    public void setScreenRatio(final String screenRatio) {
         this.screenRatio = screenRatio;
     }
 
@@ -118,7 +117,7 @@ public class Product {
         return rearCamera;
     }
 
-    public void setRearCamera(String rearCamera) {
+    public void setRearCamera(final String rearCamera) {
         this.rearCamera = rearCamera;
     }
 
@@ -126,7 +125,7 @@ public class Product {
         return frontCamera;
     }
 
-    public void setFrontCamera(String frontCamera) {
+    public void setFrontCamera(final String frontCamera) {
         this.frontCamera = frontCamera;
     }
 }

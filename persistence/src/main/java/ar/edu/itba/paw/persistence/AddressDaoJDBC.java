@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.AddressDAO;
 import ar.edu.itba.paw.models.Address;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,11 +14,13 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class AddressDaoJDBC implements AddressDAO {
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddressDaoJDBC.class);
 
     @Autowired
     public AddressDaoJDBC(final DataSource ds) {
@@ -52,31 +56,41 @@ public class AddressDaoJDBC implements AddressDAO {
 
         final Number addressId = jdbcInsert.executeAndReturnKey(args);
 
+        LOGGER.info("Address inserted with addressId = {}", addressId.intValue());
+
         return new Address(addressId.intValue(), userId, street, number, city, province, zipCode, country);
     }
 
-    public boolean deleteAddressByAddressId(Integer addressId) {
+    public boolean deleteAddressByAddressId(final Integer addressId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE addressid = ?",
                 addressId);
 
+        if (deletedRows == 1)
+            LOGGER.info("Address deleted with addressId = {}", addressId);
+        else
+            LOGGER.info("Address not found with addressId = {}", addressId);
+
         return deletedRows == 1;
     }
 
-    public boolean deleteAddressByUserId(Integer userId) {
+    public boolean deleteAddressByUserId(final Integer userId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM addresses WHERE userid = ?",
                 userId);
 
+        if (deletedRows == 1)
+            LOGGER.info("Address deleted with userId = {}", userId);
+        else
+            LOGGER.info("Address not found with userId = {}", userId);
+
         return deletedRows == 1;
     }
 
-    public Address findAddressByAddressId(Integer addressId) {
-        final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
-                ROW_MAPPER, addressId);
-
-        return addressList.get(0);
+    public Optional<Address> findAddressByAddressId(final Integer addressId) {
+        return jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
+                ROW_MAPPER, addressId).stream().findFirst();
     }
 
-    public List<Address> findAddressesByUserId(Integer userId) {
+    public List<Address> findAddressesByUserId(final Integer userId) {
         final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE userid = ?",
                 ROW_MAPPER, userId);
 
@@ -84,12 +98,13 @@ public class AddressDaoJDBC implements AddressDAO {
     }
 
     @Override
-    public Address updateAddress(final Integer addressId, final String street,
-                                 final Integer number, final String city, final String province, final String zipCode,
-                                 final String country) {
-       jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
-                       "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
+    public Optional<Address> updateAddress(final Integer addressId, final String street, final Integer number, final String city,
+                                 final String province, final String zipCode, final String country) {
+        jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
+                        "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
                 zipCode, country, addressId);
+
+        LOGGER.info("Address updated with addressId = {}", addressId);
 
         return findAddressByAddressId(addressId);
     }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -18,24 +19,31 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserNotAuthenticated createUser(final String username, final String password, final String email, final String phone,
-                                           final String birthdate, final String signUpDate, final Integer code) {
+    public UserNotAuthenticated createUser(final String username, final String password, final String email,
+                                           final String phone, final String birthdate, final String signUpDate,
+                                           final Integer code) {
 
         return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, signUpDate, code);
     }
 
-    public UserNotAuthenticated findUserByUsername(String username) {
+    public Optional<UserNotAuthenticated> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
-    public UserNotAuthenticated findUserByUserId(final Integer userId) {
+    public Optional<UserNotAuthenticated> findUserByUserId(final Integer userId) {
         return userDAO.findUserByUserId(userId);
     }
 
-    public boolean deleteUser(final Integer userId) { return userDAO.deleteUser(userId);};
+    public boolean deleteUser(final Integer userId) {
+        return userDAO.deleteUser(userId);
+    }
+
+    ;
 
     @Override
-    public UserNotAuthenticated findUserByCode(final Integer code) { return userDAO.findUserByCode(code); }
+    public Optional<UserNotAuthenticated> findUserByCode(final Integer code) {
+        return userDAO.findUserByCode(code);
+    }
 
     public Integer generateCode() {
 
@@ -48,10 +56,12 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
 
             if (userDAO.checkCode(code))
                 check = false;
-        } while(check);
+        } while (check);
 
         return code;
     }
 
-    public boolean checkUsername (final String username){ return userDAO.checkUsername(username); }
+    public boolean checkUsername(final String username) {
+        return userDAO.checkUsername(username);
+    }
 }
