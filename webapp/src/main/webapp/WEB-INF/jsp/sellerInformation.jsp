@@ -8,9 +8,8 @@
     <title>DinoMercadito | Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <style type="text/css">
-        <%@ include file="../assets/css/profile.css" %>
-    </style>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/profile.css'/>">
+
 </head>
 
 <body>
