@@ -1,7 +1,7 @@
 body {
     margin:0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 .central-wrapper {
@@ -9,7 +9,13 @@ body {
     text-align: center;
     width: 100%;
     height: 100%;
-    background-color: #b8b1b1;
+}
+
+.details{
+    background-color: ghostwhite;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .posts-center {
@@ -19,13 +25,31 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    width: 40%;
+    width: 70%;
     height: 80%;
     background-color: rgba(230, 224, 224, 0.61);
-    border-radius: 3%;
+    border-radius: 4px;
     overflow: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.posts-right {
+    width: 50%;
+    float: right;
+    margin: 10px 10px 10px 10px;
 }
 
 .post {
-    border: black 2px solid;
+    background-color: ghostwhite;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.product-quantity-label {
+    font-size: 24px;
+}
+
+.title {
+    text-align: center;
 }
