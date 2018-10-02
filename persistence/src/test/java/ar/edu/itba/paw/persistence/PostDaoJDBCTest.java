@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.DAO.ProductDAO;
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.Post;
@@ -19,6 +20,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import javax.sql.DataSource;
 
 import java.util.List;
+import java.util.Optional;
 
 import static junit.framework.Assert.*;
 
@@ -33,6 +35,7 @@ public class PostDaoJDBCTest {
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
     private static final String BIRTHDATE = "1995-09-01";
+    private static final Double FUNDS = 0.0;
     private static final String PRODUCTNAME = "namePost";
     private static final String PRODUCTNAMEUPDATE = "nameePost";
     private static final String BRAND = "brand";
@@ -49,6 +52,8 @@ public class PostDaoJDBCTest {
     private static final String DESCRIPTION = "esta es la descripcion";
     private static final Double PRICEUPDATE = 15000.50;
     private static final String DESCRIPTIONUPDATE = "esta es la segunda descripcion";
+    private static final Integer PRODUCTQUANTITY = 15;
+    private static final Integer PRODUCTQUANTITYUPDATE = 500;
 
     @Autowired
     private DataSource ds;
@@ -60,7 +65,7 @@ public class PostDaoJDBCTest {
     private ProductDAO productDao;
 
     @Autowired
-    private PostDaoJDBC postDao;
+    private PostDAO postDao;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -80,9 +85,10 @@ public class PostDaoJDBCTest {
     public void testPostCreate(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
-        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION);
+        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
+                PRODUCTQUANTITY);
 
         assertNotNull(post);
         assertEquals(product.getProductId(), post.getProductId());
@@ -90,6 +96,7 @@ public class PostDaoJDBCTest {
         assertEquals(PRICE, post.getPrice());
         assertEquals(DESCRIPTION, post.getDescription());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "posts"));
+        assertEquals(PRODUCTQUANTITY, post.getProductQuantity());
     }
 
     @Test
@@ -98,36 +105,42 @@ public class PostDaoJDBCTest {
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
         final Product productUpdate = productDao.createProduct(PRODUCTNAMEUPDATE, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
-        Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+        Post newPost = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION, PRODUCTQUANTITY);
 
-        post = postDao.updatePost(post.getPostId(), productUpdate.getProductId(), PRICEUPDATE, DESCRIPTIONUPDATE);
-        assertNotNull(post);
-        assertEquals(productUpdate.getProductId(), post.getProductId());
-        assertEquals(PRICEUPDATE, post.getPrice());
-        assertEquals(DESCRIPTIONUPDATE, post.getDescription());
+        Optional<Post> post = postDao.updatePost(newPost.getPostId(), productUpdate.getProductId(), PRICEUPDATE,
+                DESCRIPTIONUPDATE, PRODUCTQUANTITYUPDATE);
+
+        assertTrue(post.isPresent());
+        assertNotNull(post.get());
+        assertEquals(productUpdate.getProductId(), post.get().getProductId());
+        assertEquals(PRICEUPDATE, post.get().getPrice());
+        assertEquals(DESCRIPTIONUPDATE, post.get().getDescription());
+        assertEquals(PRODUCTQUANTITYUPDATE, post.get().getProductQuantity());
     }
 
     @Test
     public void testPostFindByPost(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
-        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
+                PRODUCTQUANTITY);
 
-        final Post postFound = postDao.findPostByPostId(post.getPostId());
-        assertNotNull(postFound);
-        assertEquals(post.getPostId(), postFound.getPostId());
+        final Optional<Post> postFound = postDao.findPostByPostId(post.getPostId());
+        assertTrue(postFound.isPresent());
+        assertEquals(post.getPostId(), postFound.get().getPostId());
     }
 
     @Test
     public void testPostFindByUser(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
-        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
+                PRODUCTQUANTITY);
 
-        final List<Post> postList = postDao.findPostByUserId(post.getUserId());
+        final List<Post> postList = postDao.findPostsByUserId(post.getUserId());
         assertNotNull(postList);
         assertEquals(post.getPostId(), postList.get(0).getPostId());
     }
@@ -136,8 +149,9 @@ public class PostDaoJDBCTest {
     public void testPostDelete(){
         final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
                 BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
-        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+        final Post post = postDao.createPost(product.getProductId(), PRICE, user.getUserId(), DESCRIPTION,
+                PRODUCTQUANTITY);
 
         assertTrue(postDao.deletePost(post.getPostId()));
         assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "posts"));

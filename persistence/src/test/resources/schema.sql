@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS users (
    userId INTEGER IDENTITY PRIMARY KEY,
    username VARCHAR(32) UNIQUE NOT NULL,
-   password VARCHAR(32) NOT NULL,
+   password VARCHAR(60) NOT NULL,
    email VARCHAR(32),
    phone VARCHAR(16),
-   birthdate VARCHAR(10)
+   birthdate VARCHAR(10),
+   funds NUMERIC(10, 2)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (
@@ -26,11 +27,11 @@ CREATE TABLE IF NOT EXISTS products (
    storage VARCHAR(8),
    operativeSystem VARCHAR(32),
    processor VARCHAR(32),
-   bodySize VARCHAR(8),
-   screenSize VARCHAR(8),
-   screenRatio VARCHAR(8),
-   rearCamera VARCHAR(16),
-   frontCamera VARCHAR(16)
+   bodySize VARCHAR(32),
+   screenSize VARCHAR(32),
+   screenRatio VARCHAR(32),
+   rearCamera VARCHAR(128),
+   frontCamera VARCHAR(128)
 );
 
 CREATE TABLE IF NOT EXISTS posts (
@@ -38,5 +39,6 @@ CREATE TABLE IF NOT EXISTS posts (
    productId INTEGER REFERENCES products(productId) NOT NULL,
    userId INT REFERENCES users(userId) NOT NULL,
    price NUMERIC(10, 2) NOT NULL,
-   description VARCHAR(128)
+   description VARCHAR(128),
+   productQuantity INT NOT NULL
 );

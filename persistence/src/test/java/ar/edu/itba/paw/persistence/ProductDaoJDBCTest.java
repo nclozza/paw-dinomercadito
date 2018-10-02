@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.DAO.UserDAO;
+
 import ar.edu.itba.paw.models.Product;
 import org.junit.After;
 import org.junit.Before;
@@ -9,19 +9,22 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
-
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Sql("classpath:schema.sql")
-
+@Sql("classpath:testProducts.sql")
 public class ProductDaoJDBCTest {
 
     private static final String PRODUCTNAME = "nameProduct";
@@ -46,6 +49,17 @@ public class ProductDaoJDBCTest {
     private static final String SCREENRATIOUPDATE = "42 p";
     private static final String REARCAMERAUPDATE = "12 mpx";
     private static final String FRONTCAMERAUPDATE = "5 mpx";
+
+    private static final String BRAND_ATTRIBUTE = "brand";
+    private static final String BRAND_ATTRIBUTE_VALUE = "Samsung";
+    private static final String OS_ATTRIBUTE = "operativeSystem";
+    private static final String OS_ATTRIBUTE_VALUE = "Android";
+    private static final String OPERATIVE_SYSTEMS[] = {"Android", "iOS"};
+
+    // The amount of pre-inserted products in the testProducts.sql script
+    private static final int ROWS_PRE_INSERTED = 9;
+    // The dummy product ID is the ID set in the first per-inserted product in the testProducts.sql script
+    private static final int DUMMY_PRODUCT_ID = 9999;
 
     @Autowired
     private DataSource ds;
@@ -82,49 +96,74 @@ public class ProductDaoJDBCTest {
         assertEquals(SCREENRATIO, product.getScreenRatio());
         assertEquals(REARCAMERA, product.getRearCamera());
         assertEquals(FRONTCAMERA, product.getFrontCamera());
-        assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
+        // There pre-inserted products in the testProducts script, plus the one created in this test
+        assertEquals(ROWS_PRE_INSERTED + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
     }
 
     @Test
     public void testProductUpdate(){
-        Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
-                BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-
-        product = productDao.updateProduct(product.getProductId(), PRODUCTNAMEUPDATE, BRANDUPDATE, RAMUPDATE, STORAGEUPDATE,
+        Optional<Product> product = productDao.updateProduct(DUMMY_PRODUCT_ID, PRODUCTNAMEUPDATE, BRANDUPDATE, RAMUPDATE, STORAGEUPDATE,
                 OPERATIVESYSTEMUPDATE, PROCESSORUPDATE, BODYSIZEUPDATE, SCREENSIZEUPDATE, SCREENRATIOUPDATE, REARCAMERAUPDATE,
                 FRONTCAMERAUPDATE);
 
-        assertNotNull(product);
-        assertNotNull(product);
-        assertEquals(PRODUCTNAMEUPDATE, product.getProductName());
-        assertEquals(BRANDUPDATE, product.getBrand());
-        assertEquals(RAMUPDATE, product.getRam());
-        assertEquals(STORAGEUPDATE, product.getStorage());
-        assertEquals(OPERATIVESYSTEMUPDATE, product.getOperativeSystem());
-        assertEquals(PROCESSORUPDATE, product.getProcessor());
-        assertEquals(BODYSIZEUPDATE, product.getBodySize());
-        assertEquals(SCREENSIZEUPDATE, product.getScreenSize());
-        assertEquals(SCREENRATIOUPDATE, product.getScreenRatio());
-        assertEquals(REARCAMERAUPDATE, product.getRearCamera());
-        assertEquals(FRONTCAMERAUPDATE, product.getFrontCamera());
+        assertTrue(product.isPresent());
+        assertEquals(PRODUCTNAMEUPDATE, product.get().getProductName());
+        assertEquals(BRANDUPDATE, product.get().getBrand());
+        assertEquals(RAMUPDATE, product.get().getRam());
+        assertEquals(STORAGEUPDATE, product.get().getStorage());
+        assertEquals(OPERATIVESYSTEMUPDATE, product.get().getOperativeSystem());
+        assertEquals(PROCESSORUPDATE, product.get().getProcessor());
+        assertEquals(BODYSIZEUPDATE, product.get().getBodySize());
+        assertEquals(SCREENSIZEUPDATE, product.get().getScreenSize());
+        assertEquals(SCREENRATIOUPDATE, product.get().getScreenRatio());
+        assertEquals(REARCAMERAUPDATE, product.get().getRearCamera());
+        assertEquals(FRONTCAMERAUPDATE, product.get().getFrontCamera());
+        assertEquals(ROWS_PRE_INSERTED, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
     }
 
     @Test
     public void testProductFind(){
-        final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
-                BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-
-        final Product productFound = productDao.findProductByProductId(product.getProductId());
-        assertNotNull(productFound);
-        assertEquals(product.getProductId(), productFound.getProductId());
+        final Optional<Product> productFound = productDao.findProductByProductId(DUMMY_PRODUCT_ID);
+        assertTrue(productFound.isPresent());
+        assertEquals(DUMMY_PRODUCT_ID, productFound.get().getProductId().intValue());
     }
 
     @Test
     public void testProductDelete(){
-        final Product product = productDao.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
-                BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
+        assertTrue(productDao.deleteProduct(DUMMY_PRODUCT_ID));
+        assertEquals(ROWS_PRE_INSERTED - 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
+    }
 
-        assertTrue(productDao.deleteProduct(product.getProductId()));
-        assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
+    @Test
+    public void testFilterProductsByBrand() {
+        String attributes[] = {BRAND_ATTRIBUTE};
+        String attributeValues[] = {BRAND_ATTRIBUTE_VALUE};
+
+        List<Product> products = productDao.filterProducts(attributes.length, attributes, attributeValues);
+        assertNotNull(products);
+
+        for (Product product : products)
+            assertEquals(attributeValues[0], product.getBrand());
+    }
+
+    @Test
+    public void testFilterProductsByOperativeSystem() {
+        String attributes[] = {OS_ATTRIBUTE};
+        String attributeValues[] = {OS_ATTRIBUTE_VALUE};
+
+        List<Product> products = productDao.filterProducts(attributes.length, attributes, attributeValues);
+        assertNotNull(products);
+
+        for (Product product : products)
+            assertEquals(attributeValues[0], product.getOperativeSystem());
+    }
+
+    @Test
+    public void testFindAllAttributeValuesForOperativeSystemFilter() {
+        final List<String> operativeSystemValues = productDao.findAllAttributeValuesForFilter(OS_ATTRIBUTE);
+        assertNotNull(operativeSystemValues);
+
+        for (String operativeSystem : operativeSystemValues)
+            assertTrue(Arrays.asList(OPERATIVE_SYSTEMS).contains(operativeSystem));
     }
 }

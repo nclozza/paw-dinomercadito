@@ -5,14 +5,15 @@ import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductDaoJDBC implements ProductDAO {
@@ -20,11 +21,6 @@ public class ProductDaoJDBC implements ProductDAO {
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    /*
-    String productName, String brand, String ram, String storage, String operativeSystem,
-                                 String processor, String bodySize, String screenSize, String screenRatio,
-                                 String rearCamera, String frontCamera
-    */
     private final static RowMapper<Product> ROW_MAPPER = (resultSet, rowNum) -> new Product(
             resultSet.getInt("productId"),
             resultSet.getString("productName"),
@@ -48,9 +44,10 @@ public class ProductDaoJDBC implements ProductDAO {
                 .usingGeneratedKeyColumns("productid");
     }
 
-    public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
-                                 String processor, String bodySize, String screenSize, String screenRatio,
-                                 String rearCamera, String frontCamera) {
+    public Product createProduct(final String productName, final String brand, final String ram, final String storage,
+                                 final String operativeSystem, final String processor, final String bodySize,
+                                 final String screenSize, final String screenRatio, final String rearCamera,
+                                 final String frontCamera) {
         final Map<String, Object> args = new HashMap<>();
 
         args.put("productname", productName);
@@ -71,35 +68,59 @@ public class ProductDaoJDBC implements ProductDAO {
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
-    public boolean deleteProduct(Integer productId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE FROM products WHERE productid = ?", productId);
+    public boolean deleteProduct(final Integer productId) {
+        final int deletedRows = jdbcTemplate.update("DELETE FROM products WHERE productId = ?", productId);
 
         return deletedRows == 1;
     }
 
-    public Product findProductByProductId(Integer productId) {
-        final List<Product> productList = jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
-                productId);
+    public Optional<Product> findProductByProductId(final Integer productId) {
 
-        return productList.get(0);
+        return jdbcTemplate.query("SELECT * FROM products WHERE productid = ?", ROW_MAPPER,
+                productId).stream().findFirst();
     }
 
-    public Product updateProduct(final Integer productId, final String productName, final String brand, final String ram, final String storage,
-                                 final String operativeSystem, final String processor, final String bodySize,
-                                 final String screenSize, final String screenRatio, final String rearCamera,
-                                 final String frontCamera) {
+    public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand,
+                                           final String ram, final String storage, final String operativeSystem,
+                                           final String processor, final String bodySize, final String screenSize,
+                                           final String screenRatio, final String rearCamera, final String frontCamera) {
         jdbcTemplate.update("UPDATE products SET productName = ?, brand = ?, ram = ?, storage = ?, " +
-                "operativeSystem = ?, processor = ?, bodySize = ?, screenSize = ?, screenRatio = ?, rearCamera = ?, " +
-                "frontCamera = ? WHERE productId = ?", productName, brand, ram, storage, operativeSystem, processor,
+                        "operativeSystem = ?, processor = ?, bodySize = ?, screenSize = ?, screenRatio = ?, rearCamera = ?, " +
+                        "frontCamera = ? WHERE productId = ?", productName, brand, ram, storage, operativeSystem, processor,
                 bodySize, screenSize, screenRatio, rearCamera, frontCamera, productId);
 
         return findProductByProductId(productId);
     }
 
-    @Override
     public List<Product> findAllProducts() {
-        final List<Product> productList = jdbcTemplate.query("SELECT * FROM products", ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM products", ROW_MAPPER);
+    }
 
-        return productList;
+    public List<Product> filterProducts(final Integer filterCount, final String attributes[],
+                                        final String attributeValue[]) {
+        String sqlQuery = "SELECT * FROM products";
+
+        for (int i = 0; i < filterCount - 1; i++)
+            sqlQuery = sqlQuery.concat(" WHERE " + attributes[i] + "= ?,");
+
+        // The last query filter should not have a comma
+        if (filterCount > 0) {
+            sqlQuery = sqlQuery.concat(" WHERE " + attributes[filterCount - 1] + "= ?");
+            return jdbcTemplate.query(sqlQuery, ROW_MAPPER, attributeValue);
+        } else {
+            return jdbcTemplate.query(sqlQuery, ROW_MAPPER);
+        }
+    }
+
+    public List<String> findAllAttributeValuesForFilter(final String attribute) {
+        return jdbcTemplate.query("SELECT DISTINCT " + attribute + " FROM products",
+                new SingleColumnRowMapper(String.class));
+    }
+
+    @Override
+    public List<Product> findProductsByFilter(final String filter) {
+        String filterFormatted = "%" + filter.toLowerCase() + "%";
+        return jdbcTemplate.query("SELECT DISTINCT * FROM products WHERE LOWER(productName) LIKE ? " +
+                "OR LOWER(brand) LIKE ? OR LOWER(operativeSystem) LIKE ?", ROW_MAPPER, filterFormatted, filterFormatted, filterFormatted);
     }
 }

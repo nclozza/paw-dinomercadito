@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
+import java.util.Optional;
 
 import static junit.framework.Assert.*;
 
@@ -41,6 +42,7 @@ public class AddressesDaoJDBCTest {
     private static final String EMAIL = "Email";
     private static final String PHONE = "123456";
     private static final String BIRTHDATE = "1995-09-01";
+    private static final Double FUNDS = 0.0;
 
     @Autowired
     private DataSource ds;
@@ -66,7 +68,7 @@ public class AddressesDaoJDBCTest {
 
     @Test
     public void testAddressCreate() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 
@@ -82,33 +84,33 @@ public class AddressesDaoJDBCTest {
 
     @Test
     public void testAddressUpdate(){
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
-        Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
-        address = addressDao.updateAddress(address.getAddressId(), STREETUPDATE, NUMBERUPDATE, CITYUPDATE, PROVINCEUPDATE, ZIPCODEUPDATE, COUNTRYUPDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+        Address newAddress = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
+        Optional<Address> address = addressDao.updateAddress(newAddress.getAddressId(), STREETUPDATE, NUMBERUPDATE, CITYUPDATE, PROVINCEUPDATE, ZIPCODEUPDATE, COUNTRYUPDATE);
 
-        assertNotNull(address);
-        assertEquals(STREETUPDATE, address.getStreet());
-        assertEquals(NUMBERUPDATE, address.getNumber());
-        assertEquals(CITYUPDATE, address.getCity());
-        assertEquals(PROVINCEUPDATE, address.getProvince());
-        assertEquals(ZIPCODEUPDATE, address.getZipCode());
-        assertEquals(COUNTRYUPDATE, address.getCountry());
+        assertTrue(address.isPresent());
+        assertEquals(STREETUPDATE, address.get().getStreet());
+        assertEquals(NUMBERUPDATE, address.get().getNumber());
+        assertEquals(CITYUPDATE, address.get().getCity());
+        assertEquals(PROVINCEUPDATE, address.get().getProvince());
+        assertEquals(ZIPCODEUPDATE, address.get().getZipCode());
+        assertEquals(COUNTRYUPDATE, address.get().getCountry());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "addresses"));
     }
 
     @Test
     public void testAddressFind(){
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 
-        Address addressFound = addressDao.findAddressByAddressId(address.getAddressId());
-        assertNotNull(addressFound);
-        assertEquals(address.getAddressId(), addressFound.getAddressId());
+        Optional<Address> addressFound = addressDao.findAddressByAddressId(address.getAddressId());
+        assertTrue(addressFound.isPresent());
+        assertEquals(address.getAddressId(), addressFound.get().getAddressId());
     }
 
     @Test
     public void testAddressDelete(){
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
         final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 
         assertTrue(addressDao.deleteAddressByAddressId(address.getAddressId()));

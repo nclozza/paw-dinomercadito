@@ -1,13 +1,19 @@
 package ar.edu.itba.paw.webapp.config;
 
 import ar.edu.itba.paw.webapp.auth.PawUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,18 +22,28 @@ import java.util.concurrent.TimeUnit;
 @ComponentScan("ar.edu.itba.paw.webapp.auth")
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebAuthConfig.class);
+
+
     @Autowired
     private PawUserDetailsService userDetailsService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService)
                 .sessionManagement()
-                .invalidSessionUrl("/login")
+                .invalidSessionUrl("/index")
             .and().authorizeRequests()
-                .antMatchers("/login").anonymous()
+                .antMatchers("/index", "/products", "/posts", "/post").permitAll()
+                .antMatchers("/login", "/signUp", "/authentication").anonymous()
+                .antMatchers("/profile", "/logout", "/post", "/newPost", "/editPost", "/sellerInformation",
+                        "/profile/addFunds").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").authenticated()
             .and().formLogin()
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
@@ -47,7 +63,13 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(final WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) {
         web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403");
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 }

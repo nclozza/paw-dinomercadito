@@ -1,0 +1,127 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #000000;
+}
+
+p {
+    font-size: 16px;
+}
+
+.margin {
+    margin-bottom: 45px;
+}
+
+h1{
+    color: white;
+    font-size: 70px;
+    text-shadow: -1px 0 darkgrey, 0 1px darkgrey, 1px 0 darkgrey, 0 -1px darkgrey;
+}
+
+h2{
+    color: white;
+    font-size: 30px;
+}
+
+h4{
+    color: white;
+}
+
+hr{
+    width: 30%;
+}
+
+.bg-1 {
+    background-image: url("https://s3.amazonaws.com/urgeio-versus/landing/background_retina_2.jpg");
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.bg-2 {
+    background-color: #474e5d; /* Dark Blue */
+    color: #ffffff;
+}
+
+.bg-3 {
+    background-color: #ffffff; /* White */
+    color: #555555;
+}
+
+.bg-4 {
+    background-color: #2f2f2f; /* Black Gray */
+    color: #fff;
+}
+
+.navbar {
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.navbar-nav li a:hover {
+    color: #1abc9c !important;
+}
+
+.first-container {
+    height: 100%;
+    width: 100%;
+}
+
+.searchTerm{
+    width: 100%;
+}
+
+.search-button{
+    font-weight: bold;
+}
+
+.vertical-align{
+    display: flex;
+    align-items: center;
+    min-height: 100%;
+}
+
+.horizontal-align{
+    margin: auto;
+}
+
+.multi-item-carousel .carousel-inner > .item {
+    transition: 500ms ease-in-out left;
+}
+
+.multi-item-carousel .carousel-inner .active.left {
+    left: -33%;
+}
+
+.multi-item-carousel .carousel-inner .active.right {
+    left: 33%;
+}
+
+.multi-item-carousel .carousel-inner .next {
+    left: 33%;
+}
+
+.multi-item-carousel .carousel-inner .prev {
+    left: -33%;
+}
+
+@media all and (transform-3d), (-webkit-transform-3d) {
+    .multi-item-carousel .carousel-inner > .item {
+        transition: 500ms ease-in-out left;
+        transition: 500ms ease-in-out all;
+        -webkit-backface-visibility: visible;
+        backface-visibility: visible;
+        -webkit-transformborder: none !important;
+        transform: none !important;
+    }
+}
+
+.multi-item-carousel .carouse-control.left,
+.multi-item-carousel .carouse-control.right {
+    background-image: none;
+}

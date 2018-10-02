@@ -14,6 +14,8 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.Optional;
+
 import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,12 +33,15 @@ public class UserDaoJDBCTest {
     private static final String EMAILUPDATE = "mail";
     private static final String PHONEUPDATE = "13579";
     private static final String BIRTHDATEUPDATE = "1996-09-01";
+    private static final Double FUNDS = 20000.0;
+    private static final Double FUNDSUPDATE = 40000.0;
 
     @Autowired
     private DataSource ds;
 
     @Autowired
     private UserDaoJDBC userDao;
+
     private JdbcTemplate jdbcTemplate;
 
     @Before
@@ -51,7 +56,7 @@ public class UserDaoJDBCTest {
 
     @Test
     public void testUserCreate() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         assertNotNull(user);
         assertEquals(USERNAME, user.getUsername());
@@ -59,36 +64,38 @@ public class UserDaoJDBCTest {
         assertEquals(EMAIL, user.getEmail());
         assertEquals(PHONE, user.getPhone());
         assertEquals(BIRTHDATE, user.getBirthdate());
+        assertEquals(FUNDS, user.getFunds());
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
 
     @Test
     public void testUserUpdate() {
-        User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        User newUser = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
-        user = userDao.updateUser(user.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE);
-        assertNotNull(user);
-        assertEquals(PASSWORDUPDATE, user.getPassword());
-        assertEquals(EMAILUPDATE, user.getEmail());
-        assertEquals(PHONEUPDATE, user.getPhone());
-        assertEquals(BIRTHDATEUPDATE, user.getBirthdate());
+        Optional<User> user = userDao.updateUser(newUser.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE,
+                FUNDSUPDATE);
+        assertTrue(user.isPresent());
+        assertEquals(PASSWORDUPDATE, user.get().getPassword());
+        assertEquals(EMAILUPDATE, user.get().getEmail());
+        assertEquals(PHONEUPDATE, user.get().getPhone());
+        assertEquals(BIRTHDATEUPDATE, user.get().getBirthdate());
+        assertEquals(FUNDSUPDATE, user.get().getFunds());
     }
 
     @Test
     public void testUserFind() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
-        final User userFound = userDao.findUserByUserId(user.getUserId());
-        assertNotNull(userFound);
-        assertEquals(user.getUserId(), userFound.getUserId());
+        final Optional<User> userFound = userDao.findUserByUserId(user.getUserId());
+        assertTrue(userFound.isPresent());
+        assertEquals(user.getUserId(), userFound.get().getUserId());
     }
 
     @Test
     public void testUserDelete() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
+        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
 
         assertTrue(userDao.deleteUser(user.getUserId()));
         assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
-
 }

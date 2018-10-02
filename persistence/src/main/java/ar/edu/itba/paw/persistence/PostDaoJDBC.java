@@ -2,7 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,12 +14,14 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class PostDaoJDBC implements PostDAO {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostDaoJDBC.class);
 
     @Autowired
     public PostDaoJDBC(final DataSource ds) {
@@ -33,52 +36,62 @@ public class PostDaoJDBC implements PostDAO {
             resultSet.getInt("productid"),
             resultSet.getDouble("price"),
             resultSet.getInt("userid"),
-            resultSet.getString("description")
+            resultSet.getString("description"),
+            resultSet.getInt("productquantity")
     );
 
-    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description) {
-
+    public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
+                           final Integer productQuantity) {
         final Map<String, Object> args = new HashMap<>();
         args.put("productid", productId);
         args.put("userid", userId);
         args.put("price", price);
         args.put("description", description);
+        args.put("productquantity", productQuantity);
 
         final Number postId = jdbcInsert.executeAndReturnKey(args);
 
-        return new Post(postId.intValue(), productId, price, userId, description);
+        LOGGER.info("Post inserted with postId = {}", postId.intValue());
+
+        return new Post(postId.intValue(), productId, price, userId, description, productQuantity);
     }
 
     public boolean deletePost(final Integer postId) {
         final Integer deletedRows = jdbcTemplate.update("DELETE FROM posts WHERE postid = ?", postId);
 
+        if (deletedRows == 1)
+            LOGGER.info("Post deleted with postId = {}", postId);
+        else
+            LOGGER.info("Post not found with postId = {}", postId);
+
         return deletedRows == 1;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price,
-                              final String description) {
-        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ? WHERE postid = ?",
-                productId, price, description, postId);
+    public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+                           final Integer productQuantity) {
+        jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? WHERE postid = ?",
+                productId, price, description, productQuantity, postId);
+
+        LOGGER.info("Post updated with postId = {}", postId);
 
         return findPostByPostId(postId);
     }
 
-    public Post findPostByPostId(final Integer postId) {
-        final List<Post> postsList = jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId);
+    public Optional<Post> findPostByPostId(final Integer postId) {
 
-        if (postsList.isEmpty()) {
-            return null;
-        }
-
-        return postsList.get(0);
+        return jdbcTemplate.query("SELECT * FROM posts WHERE postid = ?", ROW_MAPPER, postId)
+                .stream().findFirst();
     }
 
-    public List<Post> findPostByUserId(final Integer userId) {
+    public List<Post> findPostsByUserId(final Integer userId) {
         final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE userid = ?", ROW_MAPPER, userId);
 
-        if (postList.isEmpty()) {
-            return null;
-        }
+        return postList;
+    }
+
+    @Override
+    public List<Post> findPostsByProductId(final Integer productId) {
+        final List<Post> postList = jdbcTemplate.query("SELECT * FROM posts WHERE productid = ?", ROW_MAPPER, productId);
 
         return postList;
     }
