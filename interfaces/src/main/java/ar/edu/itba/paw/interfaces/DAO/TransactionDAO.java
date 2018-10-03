@@ -26,7 +26,7 @@ public interface TransactionDAO {
      * @param transactionId The transaction's unique ID as an Integer to find and delete the transaction.
      * @return True if the Transaction was successfully deleted from the database, false otherwise.
      */
-    boolean deleteTransaction(final Integer transactionId);
+    boolean deleteTransactionByTransactionId(final Integer transactionId);
 
     /**
      * Finds and retrieves the transaction specified by its ID, from the database.

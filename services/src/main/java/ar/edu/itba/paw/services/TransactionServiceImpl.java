@@ -42,9 +42,10 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionDAO.createTransaction(postId, buyerUserId, productQuantity, price, productName);
     }
 
-    public boolean deleteTransaction(final Integer transactionId) {
-        return transactionDAO.deleteTransaction(transactionId);
+    public boolean deleteTransactionByTransactionId(final Integer transactionId) {
+        return transactionDAO.deleteTransactionByTransactionId(transactionId);
     }
+
 
     @Transactional (readOnly = true)
     public Optional<Transaction> findTransactionByTransactionId(final Integer transactionId) {
