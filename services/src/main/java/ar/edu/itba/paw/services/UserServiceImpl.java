@@ -1,12 +1,8 @@
 package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
-import ar.edu.itba.paw.interfaces.Services.AddressService;
-import ar.edu.itba.paw.interfaces.Services.PostService;
-import ar.edu.itba.paw.interfaces.Services.UserService;
-import ar.edu.itba.paw.models.Address;
-import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.interfaces.Services.*;
+import ar.edu.itba.paw.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TransactionService transactionService;
 
     public User createUserWithAddress(final String username, final String password, final String email,
                                       final String phone, final String birthdate, final String street,
@@ -74,13 +73,21 @@ public class UserServiceImpl implements UserService {
         return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
     }
 
-    // TODO See what to do with this method's return value
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
 
+        List<Transaction> transactionsList = transactionService.findTransactionsByBuyerUserId(userId);
+
+        if (!transactionsList.isEmpty()) {
+            for (Transaction transaction : transactionsList)
+                transactionService.deleteTransactionByTransactionId(transaction.getTransactionId());
+        } else {
+            return !deletionSucceeded;
+        }
+
         List<Post> postsList = postService.findPostsByUserId(userId);
 
-        if (postsList != null && !postsList.isEmpty()) {
+        if (!postsList.isEmpty()) {
             for (Post post : postsList) {
                 postService.deletePost(post.getPostId());
             }
@@ -90,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
         List<Address> addressesList = addressService.findAddressByUserId(userId);
 
-        if (addressesList != null && !addressesList.isEmpty()) {
+        if (!addressesList.isEmpty()) {
             for (Address address : addressesList) {
                 addressService.deleteAddress(address.getAddressId());
             }

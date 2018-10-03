@@ -49,16 +49,21 @@ public class TransactionDaoJDBC implements TransactionDAO {
         args.put("productquantity", productQuantity);
         args.put("price", price);
         args.put("productname", productName);
-
-        final Number transactionId = jdbcInsert.executeAndReturnKey(args);
+        final Number transactionId;
+        try{
+            transactionId = jdbcInsert.executeAndReturnKey(args);
+        } catch (AssertionError e) {
+            System.out.println(e.getCause().toString());
+            return null;
+        }
         LOGGER.info("Transaction inserted with transactionId = {}", transactionId.intValue());
 
         return new Transaction(transactionId.intValue(), postId, buyerUserId, productQuantity, price, productName);
     }
 
     @Override
-    public boolean deleteTransaction(final Integer transactionId) {
-        final Integer deletedRows = jdbcTemplate.update("DELETE FROM transactions WHERE buyid = ?", transactionId);
+    public boolean deleteTransactionByTransactionId(final Integer transactionId) {
+        final Integer deletedRows = jdbcTemplate.update("DELETE FROM transactions WHERE transactionid = ?", transactionId);
 
         if (deletedRows == 1)
             LOGGER.info("Transaction deleted with transactionId = {}", transactionId);

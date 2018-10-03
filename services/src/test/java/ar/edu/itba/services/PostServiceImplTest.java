@@ -1,8 +1,9 @@
 package ar.edu.itba.services;
-/*
+
 
 import ar.edu.itba.paw.interfaces.Services.PostService;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
+import ar.edu.itba.paw.interfaces.Services.TransactionService;
 import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,12 +22,10 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
-import static junit.framework.Assert.*;
-
+@Rollback
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Sql("classpath:../../../../../persistence/src/test/resources/schema.sql")
-
+@Sql("classpath:testPostService.sql")
 public class PostServiceImplTest {
 
     private static final String PASSWORD_SELLER = "seller-pass";
@@ -54,7 +54,9 @@ public class PostServiceImplTest {
     private static final String FRONTCAMERA = "8 mpx";
     private static final Double PRICE = 10000.50;
     private static final String DESCRIPTION = "esta es la descripcion";
-    private static final Integer PRODUCTQUANTITY = 15;
+    private static final Integer PRODUCT_QUANTITY = 15;
+    private static final Integer BUYER_USER_ID = 87;
+    private static final Integer POST_ID = 14;
 
 
     @Autowired
@@ -65,6 +67,9 @@ public class PostServiceImplTest {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @Autowired
     private DataSource ds;
@@ -87,28 +92,7 @@ public class PostServiceImplTest {
 
     @Test
     public void testMakeProductTransaction() {
-
-        final Product product = productService.createProduct(PRODUCTNAME, BRAND, RAM, STORAGE, OPERATIVESYSTEM, PROCESSOR,
-                BODYSIZE, SCREENSIZE, SCREENRATIO, REARCAMERA, FRONTCAMERA);
-        User buyer = userService.createUser(USERNAME_BUYER, PASSWORD_BUYER, EMAIL_BUYER, PHONE_BUYER, BIRTHDATE_BUYER,
-                FUNDS_BUYER);
-        User seller = userService.createUser(USERNAME_SELLER, PASSWORD_SELLER, EMAIL_SELLER, PHONE_SELLER, BIRTHDATE_SELLER,
-                FUNDS_SELLER);
-        final Post post = postService.createPost(product.getProductId(), PRICE, seller.getUserId(), DESCRIPTION,
-                PRODUCTQUANTITY);
-
-        assertTrue(postService.makeProductTransaction(buyer.getUserId(), post.getPostId()));
-
-        Double newBuyerFunds = userService.findUserByUserId(buyer.getUserId()).getFunds();
-        Double newSellerFunds = userService.findUserByUserId(seller.getUserId()).getFunds();
-
-        assertEquals(FUNDS_BUYER - PRICE, newBuyerFunds);
-        assertEquals(FUNDS_SELLER + PRICE, newSellerFunds);
-
-        Integer newProductQuantity = postService.findPostByPostId(post.getPostId()).getProductQuantity();
-
-        assertEquals(PRODUCTQUANTITY - 1, (int)newProductQuantity);
+        final Integer state = transactionService.makeTransaction(BUYER_USER_ID, POST_ID, PRODUCT_QUANTITY);
 
     }
 }
-*/
