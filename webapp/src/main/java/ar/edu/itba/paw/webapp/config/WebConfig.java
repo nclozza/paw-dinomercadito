@@ -39,7 +39,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
         ds.setUrl("jdbc:postgresql://localhost/dinomercadito");
-        ds.setUsername("lucas_sg");
+        ds.setUsername("nico");
         ds.setPassword("admin");
         return ds;
     }

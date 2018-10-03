@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,10 +41,12 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .invalidSessionUrl("/index")
             .and().authorizeRequests()
-                .antMatchers("/index", "/products", "/posts", "/post").permitAll()
+                .antMatchers("/index", "/products", "/posts").permitAll()
+                .antMatchers(HttpMethod.GET, "/post").permitAll()
                 .antMatchers("/login", "/signUp", "/authentication").anonymous()
-                .antMatchers("/profile", "/logout", "/post", "/newPost", "/editPost", "/sellerInformation",
+                .antMatchers("/profile", "/logout", "/newPost", "/editPost", "/sellerInformation",
                         "/profile/addFunds").authenticated()
+                .antMatchers(HttpMethod.POST, "/post").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
             .and().formLogin()
                 .usernameParameter("j_username")
