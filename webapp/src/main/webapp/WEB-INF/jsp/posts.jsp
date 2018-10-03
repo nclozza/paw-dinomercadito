@@ -23,7 +23,7 @@
 
     <div class="posts-center">
         <div class="return">
-            <a href="<c:url value="/products"/>"><spring:message code="go_back"/></a>
+            <a class="btn btn-primary" href="<c:url value="/products"/>"><spring:message code="go_back"/></a>
         </div>
         <h1 class="title"><spring:message code="posts"/></h1>
 
@@ -35,15 +35,26 @@
             </div>
         </div>
         <div class="posts-right">
-            <c:forEach items="${posts}" var="post" varStatus="loop">
-                <a href="<c:url value="/post?postId=${post.postId}"/>">
-                    <div class="post">
-                        <p><spring:message code="product_quantity"/><c:out value="${post.productQuantity}"/></p>
-                        <p><spring:message code="price_"/><c:out value="${post.price}"/></p>
-                        <button type="button" class="btn btn-success"><spring:message code="view"/></button>
-                    </div>
-                </a>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${empty posts}">
+                    <p class="label"><spring:message code="no_posts_available"/></p>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${posts}" var="post" varStatus="loop">
+                        <a href="<c:url value="/post?postId=${post.postId}"/>">
+                            <div class="post">
+                                <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
+                                <br>
+                                <p class="label"><spring:message code="price_"/></p><p class="value"><c:out value="${post.price}"/></p>
+                                <br>
+                                <br>
+                                <button type="button" class="btn btn-success button-margin"><spring:message code="view"/></button>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
         </div>
     </div>
 

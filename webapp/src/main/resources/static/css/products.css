@@ -52,11 +52,6 @@ hr {
     display: block;
 }
 
-.title {
-    text-align: center;
-    color: midnightblue;
-}
-
 .thumbnail {
     height: 350px;
     width: 100%;

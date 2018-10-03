@@ -40,7 +40,7 @@
                             <input id="search" name="search" type="text" class="searchTerm form-control"
                                    placeholder="<spring:message code="looking_for"/>">
                             <br>
-                            <button type="submit" class="btn btn-default search-button">
+                            <button type="submit" class="btn btn-default search-button  ">
                                 <spring:message code="search"/>
                             </button>
                         </form>

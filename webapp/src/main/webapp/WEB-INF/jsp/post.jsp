@@ -24,7 +24,7 @@
 
     <div class="posts-center">
         <div class="return">
-            <a href="<c:url value="/posts?productId=${post.productId}"/>"><spring:message code="go_back"/></a>
+            <a class="btn btn-primary" href="<c:url value="/posts?productId=${post.productId}"/>"><spring:message code="go_back"/></a>
         </div>
         <h1 class="title"><spring:message code="details"/></h1>
         <div class="posts-left">
@@ -67,7 +67,9 @@
 
                     <form:hidden path="postId" value="${post.postId}"/>
 
-                    <input type="submit" class="btn btn-success btn-lg" value="<spring:message code="buy"/>"/>
+                    <br>
+                    <br>
+                    <input type="submit" class="btn btn-success btn-lg button-margin" value="<spring:message code="buy"/>"/>
 
                     <form:errors class="error" path="productQuantity" element="p"><br><spring:message
                             code="product_quantity_error"/></form:errors>
