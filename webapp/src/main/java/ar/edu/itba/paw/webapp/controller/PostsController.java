@@ -98,7 +98,7 @@ public class PostsController {
         mav.addObject("user", user.get());
         mav.addObject("product", product.get());
 
-        mav.addObject("found_error", false);
+        mav.addObject("funds_error", false);
 
         return mav;
     }
@@ -125,12 +125,15 @@ public class PostsController {
         if (status.equals(Transaction.INCOMPLETE)) {
             return new ModelAndView("redirect:/500");
 
+        } else if (status.equals(Transaction.WRONG_PARAMETERS)) {
+            return new ModelAndView("redirect:/400");
+
         } else if (status.equals(Transaction.OUT_OF_STOCK_FAIL)) {
             errors.addError(new FieldError("transactionForm", "productQuantity", ""));
             return post(form.getPostId(), form);
 
         } else if (status.equals(Transaction.INSUFFICIENT_FUNDS_FAIL)) {
-            return post(form.getPostId(), form).addObject("found_error", true);
+            return post(form.getPostId(), form).addObject("funds_error", true);
         }
 
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(status);
@@ -142,7 +145,7 @@ public class PostsController {
         Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
 
         if (!post.isPresent()) {
-            return new ModelAndView("redirect:/404");
+            return new ModelAndView("redirect:/400");
         }
 
         Optional<User> seller = userService.findUserByUserId(post.get().getUserId());
@@ -164,7 +167,7 @@ public class PostsController {
         Optional<Post> post = postService.findPostByPostId(postId);
 
         if (!post.isPresent()) {
-            return new ModelAndView("redirect:/404");
+            return new ModelAndView("redirect:/400");
         }
 
         User user = getLoggedUser();
@@ -177,7 +180,7 @@ public class PostsController {
         List<Product> productList = productService.findAllProducts();
 
         mav.addObject("productList", productList);
-        mav.addObject("post", post);
+        mav.addObject("post", post.get());
 
         return mav;
     }
@@ -193,7 +196,6 @@ public class PostsController {
         postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
                 form.getDescription(), form.getProductQuantity());
 
-        // TODO change the redirect
         return new ModelAndView("redirect:/post?postId=" + form.getPostId());
     }
 }
