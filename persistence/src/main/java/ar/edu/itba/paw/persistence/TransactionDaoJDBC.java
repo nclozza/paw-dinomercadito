@@ -51,7 +51,6 @@ public class TransactionDaoJDBC implements TransactionDAO {
         args.put("productname", productName);
 
         final Number transactionId = jdbcInsert.executeAndReturnKey(args);
-
         LOGGER.info("Transaction inserted with transactionId = {}", transactionId.intValue());
 
         return new Transaction(transactionId.intValue(), postId, buyerUserId, productQuantity, price, productName);
