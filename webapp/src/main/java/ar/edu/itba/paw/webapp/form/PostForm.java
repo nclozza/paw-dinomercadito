@@ -11,7 +11,7 @@ public class PostForm {
 
     // This is a String because the Double generates some problems with hibernate and the validators
     // TODO change the error to specify the regular expression to the user
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$")
+    @Pattern(regexp = "^[0-9]{1,8}+(\\.[0-9]{1,2})?$")
     private String price;
 
     @Size(max = 128)
