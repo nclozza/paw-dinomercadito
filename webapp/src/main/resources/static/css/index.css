@@ -37,9 +37,15 @@ hr{
     width: 30%;
 }
 
+.full-height {
+    height: -moz-calc(100% - 50px);
+    height: -webkit-calc(100% - 50px);
+    height: -o-calc(100% - 50px);
+    height: calc(100% - 50px);
+}
+
 .bg-1 {
-    background-image: url("https://s3.amazonaws.com/urgeio-versus/landing/background_retina_2.jpg");
-    background-repeat: no-repeat;
+    background: url("/images/index_background.jpg") no-repeat 0 50px;
     height: 100%;
 }
 
@@ -89,40 +95,4 @@ hr{
 
 .horizontal-align{
     margin: auto;
-}
-
-.multi-item-carousel .carousel-inner > .item {
-    transition: 500ms ease-in-out left;
-}
-
-.multi-item-carousel .carousel-inner .active.left {
-    left: -33%;
-}
-
-.multi-item-carousel .carousel-inner .active.right {
-    left: 33%;
-}
-
-.multi-item-carousel .carousel-inner .next {
-    left: 33%;
-}
-
-.multi-item-carousel .carousel-inner .prev {
-    left: -33%;
-}
-
-@media all and (transform-3d), (-webkit-transform-3d) {
-    .multi-item-carousel .carousel-inner > .item {
-        transition: 500ms ease-in-out left;
-        transition: 500ms ease-in-out all;
-        -webkit-backface-visibility: visible;
-        backface-visibility: visible;
-        -webkit-transformborder: none !important;
-        transform: none !important;
-    }
-}
-
-.multi-item-carousel .carouse-control.left,
-.multi-item-carousel .carouse-control.right {
-    background-image: none;
 }

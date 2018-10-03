@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><spring:message code="DinoMercadito"/></title>
     <title>DinoMercadito | Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -35,7 +36,7 @@
                     </form:label>
                     <form:input type="text" path="funds" class="form-control add-funds-input"/>
                     <form:errors class="error" path="funds" element="p"><br><spring:message
-                            code="funds_error"/></form:errors>
+                            code="funds_error_form"/></form:errors>
                 </div>
                 <div>
                     <a href="<c:url value="/profile"/>" class="btn-lg btn"><spring:message code="cancel"/></a>
