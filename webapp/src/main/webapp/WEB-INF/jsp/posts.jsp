@@ -5,7 +5,7 @@
 <html>
 
 <head>
-    <title>DinoMercadito | Posts</title>
+    <title><c:out value="DinoMercadito"/></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
 </head>
@@ -22,10 +22,16 @@
     </c:choose>
 
     <div class="posts-center">
+        <div class="return">
+            <a href="<c:url value="/products"/>"><spring:message code="go_back"/></a>
+        </div>
         <h1 class="title"><spring:message code="posts"/></h1>
+
+
         <div class="posts-left">
             <div class="image-container">
-                <img class="image" src="<c:url value="/images/${product.productName}.png" />" alt="${product.productName}" />
+                <img class="image" src="<c:url value="/images/${product.productName}.png" />"
+                     alt="${product.productName}"/>
             </div>
         </div>
         <div class="posts-right">
