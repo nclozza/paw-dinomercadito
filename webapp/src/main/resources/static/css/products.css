@@ -29,9 +29,8 @@ hr {
 }
 
 .products {
-    float: right;
     width: 70%;
-    margin-right: 30px;
+    margin: auto;
 }
 
 .sidenav {
@@ -59,15 +58,12 @@ hr {
 }
 
 .thumbnail {
-    height: 100px;
-}
-
-.thumbnail {
     height: 350px;
     width: 100%;
     background-color: ghostwhite;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 25px;
+    padding: 10px;
 }
 
 .thumbnail:hover div.view {
