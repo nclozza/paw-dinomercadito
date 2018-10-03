@@ -38,7 +38,8 @@
                             code="funds_error"/></form:errors>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary"><spring:message code="accept"/></button>
+                    <button type="submit" class="btn-lg btn btn-primary"><spring:message code="accept"/></button>
+                    <button class="btn-lg btn btn-danger"><spring:message code="cancel"/></button>
                 </div>
             </form:form>
         </div>

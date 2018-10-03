@@ -4,23 +4,36 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
 </head>
 <body>
 
 <c:url value="/authentication" var="authenticationPath"/>
 <div class="central-wrapper">
-    <div class="signInCenter">
+    <!-- Navbar -->
+    <c:choose>
+        <c:when test="${loggedIn}">
+            <%@ include file="navbarLogout.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@ include file="navbarLogin.jsp" %>
+        </c:otherwise>
+    </c:choose>
+
+    <div class="small-container">
+        <h1><spring:message code="authenticate"/></h1>
+        <br>
         <form:form class="form" modelAttribute="authenticationForm" action="${authenticationPath}" method="post">
-            <div>
-                <form:label path="code"><spring:message code="code"/></form:label>
-                <p/>
-                <form:input path="code" type="text"/>
-                <form:errors path="code" element="p"><p/><spring:message
+            <div class="form-group">
+                <form:label class="label" path="code"><spring:message code="code"/></form:label>
+                <form:input path="code" type="text" class="form-control"/>
+                <form:errors path="code" element="p"><br><spring:message
                         code="code_error"/></form:errors>
             </div>
             <div>
-                <button class="submitButton" type="submit"><spring:message code="validate"/></button>
+                <button class="btn-lg btn btn-primary" type="submit"><spring:message code="validate"/></button>
+                <button class="btn-lg btn btn-danger"><spring:message code="cancel"/></button>
             </div>
         </form:form>
     </div>

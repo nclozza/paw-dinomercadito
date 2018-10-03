@@ -10,25 +10,20 @@
 </head>
 <body>
 
-<c:url value="/signUp" var="postPath"/>
-
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">DinoMercadito</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">Sign Up</a></li>
-                <li><a href="#">Login</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
 <div class="central-wrapper">
-    <div class="signUpCenter">
+<c:url value="/signUp" var="postPath"/>
+    <!-- Navbar -->
+    <c:choose>
+        <c:when test="${loggedIn}">
+            <%@ include file="navbarLogout.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@ include file="navbarLogin.jsp" %>
+        </c:otherwise>
+    </c:choose>
+
+
+    <div class="big-container">
         <h1><spring:message code="sign_up"/></h1>
         <form:form class="form" modelAttribute="registerForm" action="${postPath}" method="post">
             <div class="form-group">
@@ -67,7 +62,12 @@
                         code="birthdate_error"/><br></form:errors>
             </div>
             <div>
-                <button class="registerButton btn btn-primary" type="submit"><spring:message code="register"/></button>
+                <button class="btn-lg btn btn-primary" type="submit"><spring:message code="register"/></button>
+                <button class="btn-lg btn btn-danger"><spring:message code="cancel"/></button>
+            </div>
+            <br>
+            <div>
+                <a href="#"><spring:message code="auth_redirect"/></a>
             </div>
         </form:form>
     </div>

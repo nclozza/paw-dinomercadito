@@ -178,7 +178,7 @@ public class PostsController {
         List<Product> productList = productService.findAllProducts();
 
         mav.addObject("productList", productList);
-        mav.addObject("post", post);
+        mav.addObject("post", post.get());
 
         return mav;
     }
