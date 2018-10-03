@@ -25,7 +25,10 @@
     <div class="posts-center">
         <h1 class="title"><spring:message code="details"/></h1>
         <div class="posts-left">
-            <!-- ACA IRIA LA FOTO -->
+            <div class="image-container">
+                <!--ACA IRIA LA IMAGEN-->
+                <img class="image" src=""/>
+            </div>
         </div>
         <div class="posts-right">
             <div class="details">

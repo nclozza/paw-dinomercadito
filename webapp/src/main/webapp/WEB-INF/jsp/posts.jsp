@@ -24,8 +24,10 @@
     <div class="posts-center">
         <h1 class="title"><spring:message code="posts"/></h1>
         <div class="posts-left">
-            <!-- ACA IRIA LA FOTO -->
-            <img src="<c:url value='/images/blue-airplane.png'/>" height = "500" width = "500"/>
+            <div class="image-container">
+                <!--ACA IRIA LA IMAGEN-->
+                <img class="image" src=""/>
+            </div>
         </div>
         <div class="posts-right">
             <c:forEach items="${posts}" var="post" varStatus="loop">
