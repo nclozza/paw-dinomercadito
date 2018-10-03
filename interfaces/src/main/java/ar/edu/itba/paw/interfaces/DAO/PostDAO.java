@@ -16,7 +16,7 @@ public interface PostDAO {
      * @param userId The seller's unique user ID as an Integer.
      * @param description The post's description as a String up to a maximum of 128 characters.
      * @param productQuantity The post's available stock of the product as an Integer.
-     * @return A new POJO of a post, this method will never return null.
+     * @return A new POJO of a post. This method will never return null.
      */
     Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
                     final Integer productQuantity);
@@ -57,7 +57,7 @@ public interface PostDAO {
      *      the database. The return value will be an empty list if either there are no posts posted by that user or
      *      there was an error with the retrieval of said posts from the database.
      */
-    public List<Post> findPostsByUserId(final Integer userId);
+    List<Post> findPostsByUserId(final Integer userId);
 
     /**
      * Finds all posts associated to a certain product, through that product's ID, in the database.
