@@ -4,13 +4,38 @@ body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+.add-funds-container {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 25%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 10px;
+    overflow: auto;
+    padding: 8px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.add-funds-input {
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 .central-wrapper {
     position: absolute;
     text-align: center;
     width: 100%;
     height: 100%;
 }
-
 
 .label {
     color: black;

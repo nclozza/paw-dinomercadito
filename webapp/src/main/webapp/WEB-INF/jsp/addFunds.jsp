@@ -25,19 +25,20 @@
 
     <div>
         <%-- ADD FUNDS --%>
-        <div>
+
+        <div class="add-funds-container">
+            <h1><spring:message code="show_add_funds"/></h1>
             <c:url value="/profile/addFunds" var="postPath"/>
             <form:form class="form" modelAttribute="addFundsForm" action="${postPath}" method="post">
-
-                <form:label class="label" path="funds">
-                    <spring:message code="add_funds"/>
-                </form:label>
-                <form:input type="text" path="funds" />
-                <form:errors class="error" path="funds" element="p"><p/><spring:message
-                        code="funds_error"/></form:errors>
-
+                <div class="form-group">
+                    <form:label class="label" path="funds">
+                    </form:label>
+                    <form:input type="text" path="funds" class="form-control add-funds-input"/>
+                    <form:errors class="error" path="funds" element="p"><br><spring:message
+                            code="funds_error"/></form:errors>
+                </div>
                 <div>
-                    <button type="submit"><spring:message code="accept"/></button>
+                    <button type="submit" class="btn btn-primary"><spring:message code="accept"/></button>
                 </div>
             </form:form>
         </div>
