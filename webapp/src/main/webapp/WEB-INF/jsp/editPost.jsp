@@ -64,9 +64,9 @@
                 <form:errors path="productQuantity" cssClass="formError" element="p"/>
             </div>
             <div>
-                <input type="submit" class="left-button btn btn-primary"
+                <input class="left-button btn" value="<spring:message code="cancel"/>"/>
+                <input type="submit" class="btn btn-primary"
                        value="<spring:message code="edit_post"/>"/>
-                <input class="btn btn-danger" value="<spring:message code="cancel"/>"/>
             </div>
         </form:form>
     </div>
