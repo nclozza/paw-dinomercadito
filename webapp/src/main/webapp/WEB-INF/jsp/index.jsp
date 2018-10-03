@@ -33,18 +33,21 @@
                 <h1><spring:message code="search_products"/></h1>
                 <h4><spring:message code="products_types"/></h4>
                 <div class="wrap">
-                    <div class="search input-group-sm">
-                        <c:url value="/index" var="searchUrl"/>
-                        <form class="form" action="${searchUrl}" method="post"
-                              enctype="application/x-www-form-urlencoded">
-                            <input id="search" name="search" type="text" class="searchTerm form-control"
-                                   placeholder="<spring:message code="looking_for"/>">
-                            <br>
-                            <button type="submit" class="btn btn-default search-button  ">
-                                <spring:message code="search"/>
-                            </button>
-                        </form>
-                    </div>
+                    <c:url value="/index" var="searchUrl"/>
+                    <form class="form" action="${searchUrl}" method="post"
+                          enctype="application/x-www-form-urlencoded">
+                        <div class="row">
+                            <div class="input-group">
+                                <input path="search" name="search" type="text" class="searchTerm form-control"
+                                       placeholder="<spring:message code="looking_for"/>">
+                                <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-default">
+                                            <spring:message code="search"/>
+                                        </button>
+                                    </span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

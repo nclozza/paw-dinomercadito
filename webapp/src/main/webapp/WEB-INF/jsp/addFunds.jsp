@@ -36,7 +36,7 @@
                     </form:label>
                     <form:input type="text" path="funds" class="form-control add-funds-input"/>
                     <form:errors class="error" path="funds" element="p"><br><spring:message
-                            code="funds_error"/></form:errors>
+                            code="funds_error_form"/></form:errors>
                 </div>
                 <div>
                     <a href="<c:url value="/profile"/>" class="btn-lg btn"><spring:message code="cancel"/></a>
