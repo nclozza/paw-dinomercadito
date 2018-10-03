@@ -17,7 +17,7 @@ public interface PostDAO {
 
     Optional<Post> findPostByPostId(final Integer postId);
 
-    public List<Post> findPostsByUserId(final Integer userId);
+    List<Post> findPostsByUserId(final Integer userId);
 
     List<Post> findPostsByProductId(final Integer productId);
 }

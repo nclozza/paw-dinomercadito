@@ -10,7 +10,7 @@ public interface TransactionDAO {
     Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
                                   final Double price, final String productName);
 
-    boolean deleteTransaction(final Integer transactionId);
+    boolean deleteTransactionByTransactionId(final Integer transactionId);
 
     Optional<Transaction> findTransactionByTransactionId(final Integer transactionId);
 
