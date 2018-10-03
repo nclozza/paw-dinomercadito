@@ -52,8 +52,8 @@
             </div>
             <br>
             <div>
-                <input type="submit" class="left-button btn btn-primary" value="<spring:message code="create_post"/>"/>
-                <input class="btn btn-danger" value="<spring:message code="cancel"/>"/>
+                <input class="left-button btn" value="<spring:message code="cancel"/>"/>
+                <input type="submit" class="btn btn-primary" value="<spring:message code="create_post"/>"/>
             </div>
         </form:form>
     </div>

@@ -62,8 +62,8 @@
                         code="birthdate_error"/><br></form:errors>
             </div>
             <div>
+                <button class="btn-lg btn"><spring:message code="cancel"/></button>
                 <button class="btn-lg btn btn-primary" type="submit"><spring:message code="register"/></button>
-                <button class="btn-lg btn btn-danger"><spring:message code="cancel"/></button>
             </div>
             <br>
             <div>
