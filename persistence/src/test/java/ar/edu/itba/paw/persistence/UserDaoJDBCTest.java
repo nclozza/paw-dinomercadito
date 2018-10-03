@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,8 +21,9 @@ import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Sql("classpath:schema.sql")
+@Sql("classpath:testUsers.sql")
 
+@Rollback
 public class UserDaoJDBCTest {
 
     private static final String PASSWORD = "Password";
@@ -35,6 +37,12 @@ public class UserDaoJDBCTest {
     private static final String BIRTHDATEUPDATE = "1996-09-01";
     private static final Double FUNDS = 20000.0;
     private static final Double FUNDSUPDATE = 40000.0;
+
+    private static final int ROWS_PRE_INSERTED = 4;
+    private static final String DUMMY_USERNAME = "dinolucas";
+    // The dummy user ID is the ID set in the first per-inserted user in the testUsers.sql script
+    private static final int DUMMY_USERID = 9999;
+    private static final Double DUMMY_FUNDS = 5000.00;
 
     @Autowired
     private DataSource ds;
@@ -65,14 +73,12 @@ public class UserDaoJDBCTest {
         assertEquals(PHONE, user.getPhone());
         assertEquals(BIRTHDATE, user.getBirthdate());
         assertEquals(FUNDS, user.getFunds());
-        assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        assertEquals(ROWS_PRE_INSERTED + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
 
     @Test
-    public void testUserUpdate() {
-        User newUser = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
-
-        Optional<User> user = userDao.updateUser(newUser.getUserId(), PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE,
+    public void testUpdateUser() {
+        Optional<User> user = userDao.updateUser(DUMMY_USERID, PASSWORDUPDATE, EMAILUPDATE, PHONEUPDATE, BIRTHDATEUPDATE,
                 FUNDSUPDATE);
         assertTrue(user.isPresent());
         assertEquals(PASSWORDUPDATE, user.get().getPassword());
@@ -83,19 +89,23 @@ public class UserDaoJDBCTest {
     }
 
     @Test
-    public void testUserFind() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
-
-        final Optional<User> userFound = userDao.findUserByUserId(user.getUserId());
+    public void testFindUserByUserId() {
+        final Optional<User> userFound = userDao.findUserByUserId(DUMMY_USERID);
         assertTrue(userFound.isPresent());
-        assertEquals(user.getUserId(), userFound.get().getUserId());
+        assertEquals(DUMMY_USERID, userFound.get().getUserId().intValue());
     }
 
     @Test
-    public void testUserDelete() {
-        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+    public void testDeleteUser() {
+        assertTrue(userDao.deleteUser(DUMMY_USERID));
+        assertTrue(!userDao.findUserByUserId(DUMMY_USERID).isPresent());
+        assertEquals(ROWS_PRE_INSERTED - 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+    }
 
-        assertTrue(userDao.deleteUser(user.getUserId()));
-        assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+    @Test
+    public void testFindUserByUsername() {
+        final Optional<User> userFound = userDao.findUserByUsername(DUMMY_USERNAME);
+        assertTrue(userFound.isPresent());
+        assertEquals(DUMMY_USERNAME, userFound.get().getUsername());
     }
 }

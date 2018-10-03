@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional (readOnly = true)
-    public User findUserByUserId(final Integer userId) {
+    public Optional<User> findUserByUserId(final Integer userId) {
         return userDAO.findUserByUserId(userId);
     }
 
@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
     }
 
-    public Optional<User> findUserByUserId(final Integer userId) {
     // TODO See what to do with this method's return value
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
