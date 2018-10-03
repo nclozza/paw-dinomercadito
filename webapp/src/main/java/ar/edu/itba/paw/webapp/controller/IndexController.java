@@ -13,6 +13,11 @@ import javax.validation.Valid;
 @Controller
 public class IndexController {
 
+    @RequestMapping("/")
+    public ModelAndView indexSlash(@ModelAttribute("searchForm") final SearchForm form) {
+        return index(form);
+    }
+
     @RequestMapping("/index")
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form) {
 
