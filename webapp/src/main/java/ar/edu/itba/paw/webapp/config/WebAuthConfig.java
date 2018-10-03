@@ -1,12 +1,12 @@
 package ar.edu.itba.paw.webapp.config;
 
 import ar.edu.itba.paw.webapp.auth.PawUserDetailsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -19,11 +19,12 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
+@PropertySource("classpath:key.properties")
 @ComponentScan("ar.edu.itba.paw.webapp.auth")
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebAuthConfig.class);
-
+    @Value(value = "${rememberMe.secretKey}")
+    private String key;
 
     @Autowired
     private PawUserDetailsService userDetailsService;
@@ -52,7 +53,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
             .and().rememberMe()
                 .rememberMeParameter("j_rememberme")
                 .userDetailsService(userDetailsService)
-                .key("mysupersecretketthatnobodyknowsabout")
+                .key(key)
                 .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
             .and().logout()
                 .logoutUrl("/logout")

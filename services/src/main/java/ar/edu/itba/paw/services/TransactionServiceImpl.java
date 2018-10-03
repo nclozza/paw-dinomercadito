@@ -68,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Optional<Product> product = productService.findProductByProductId(post.get().getProductId());
 
-        if (!buyerUser.isPresent()|| !product.isPresent()) {
+        if (!buyerUser.isPresent() || !product.isPresent()) {
             LOGGER.error("Wrong information to make the transaction");
             return Transaction.INCOMPLETE;
         }

@@ -218,6 +218,11 @@ public class UserController {
 
         Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserId());
 
+        if (!sellerUser.isPresent()) {
+            LOGGER.error("Seller id does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         if (!transaction.get().getBuyerUserId().equals(user.getUserId())) {
             LOGGER.error("BuyerId does not match the transaction buyerId");
             return new ModelAndView("redirect:/400");
