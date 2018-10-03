@@ -81,17 +81,21 @@
             <c:forEach items="${products}" var="product" varStatus="loop">
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <div class="image-container">
-                            <img class="product img-responsive" src="" alt="Phone ${loop.index + 1}">
-                        </div>
-                        <div class="caption">
-                            <h4><c:out value="${product.productName}"/></h4>
-                            <p><c:out value="${product.brand}"/></p>
-                        </div>
-                        <div class="view">
-                            <a href="<c:url value="/posts?productId=${product.productId}"/>"><span
-                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a>
-                        </div>
+                        <a href="<c:url value="/posts?productId=${product.productId}"/>">
+                            <div class="image-container">
+                                <img class="product img-responsive"
+                                     src="<c:url value="/images/${product.productName}.png" />"
+                                     alt="Phone ${loop.index + 1}">
+                            </div>
+                            <div class="caption">
+                                <h4><c:out value="${product.productName}"/></h4>
+                                <p><c:out value="${product.brand}"/></p>
+                            </div>
+                            <div class="view">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                <spring:message code="view"/>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </c:forEach>
