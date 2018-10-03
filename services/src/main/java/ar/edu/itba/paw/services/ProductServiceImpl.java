@@ -5,11 +5,13 @@ import ar.edu.itba.paw.interfaces.Services.ProductService;
 import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -18,26 +20,22 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 
-    @Override
-    public Product createProduct(final String productName, final String brand, final String ram, final String storage,
-                                 final String operativeSystem, final String processor, final String bodySize,
-                                 final String screenSize, final String screenRatio, final String rearCamera,
-                                 final String frontCamera) {
-        return productDAO.createProduct(productName, brand, ram, storage, operativeSystem, processor, bodySize,
+    public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
+                                 String processor, String bodySize, String screenSize, String screenRatio,
+                                 String rearCamera, String frontCamera) {
+        return productDAO.createProduct(productName,brand, ram, storage, operativeSystem, processor, bodySize,
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
-    @Override
-    public boolean deleteProduct(final Integer productId) {
-        return false;
+    public boolean deleteProduct(Integer productId) {
+        return productDAO.deleteProduct(productId);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public Optional<Product> findProductByProductId(final Integer productId) {
         return productDAO.findProductByProductId(productId);
     }
 
-    @Override
     public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand, final String ram,
                                  final String storage, final String operativeSystem, final String processor,
                                  final String bodySize, final String screenSize, final String screenRatio,
@@ -46,12 +44,12 @@ public class ProductServiceImpl implements ProductService {
                 bodySize, screenSize, screenRatio, rearCamera, frontCamera);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<Product> findAllProducts() {
         return productDAO.findAllProducts();
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<Product> filterProducts(final Integer filterCount, final String attributes[],
                                         final String attributeValue[]) {
         if ((filterCount != attributes.length) || (filterCount != attributeValue.length))
@@ -60,17 +58,17 @@ public class ProductServiceImpl implements ProductService {
         return productDAO.filterProducts(filterCount, attributes, attributeValue);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<String> findAllAttributeValuesForFilter(final String attribute) {
         return productDAO.findAllAttributeValuesForFilter(attribute);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<String> getAllAttributesForFiltering() {
         return Arrays.asList(attributesToFilter);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<Product> findProductsByFilter(String filter) {
         return productDAO.findProductsByFilter(filter);
     }

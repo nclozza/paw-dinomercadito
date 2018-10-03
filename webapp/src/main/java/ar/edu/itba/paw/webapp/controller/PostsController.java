@@ -111,7 +111,7 @@ public class PostsController {
     }
 
     @RequestMapping(value = "/post", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("transactionForm") final TransactionForm form,
+    public ModelAndView buy(@Valid @ModelAttribute("transactionForm") final TransactionForm form,
                                final BindingResult errors) {
 
         if (errors.hasErrors() || form.getProductQuantity() <= 0) {

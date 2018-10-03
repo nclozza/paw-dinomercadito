@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ar.edu.itba.paw.interfaces.Services.UserService;
+import ar.edu.itba.paw.models.User;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +33,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Override
     public User createUserWithAddress(final String username, final String password, final String email,
                                       final String phone, final String birthdate, final String street,
                                       final Integer number, final String city, final String province,
@@ -42,14 +45,12 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
 
         return userDAO.createUser(username, password, email, phone, birthdate, 0.0);
     }
 
-    @Override
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate, final Double funds) {
 
@@ -57,25 +58,23 @@ public class UserServiceImpl implements UserService {
         return userDAO.createUser(username, password, email, phone, birthdate, funds);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public Optional<User> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
+    }
+
+    @Transactional (readOnly = true)
+    public Optional<User> findUserByUserId(final Integer userId) {
+        return userDAO.findUserByUserId(userId);
     }
 
     @Override
     public Optional<User> updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
                                                  final String phone, final String birthdate, final Double funds) {
-
         return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
     }
 
-    @Override
-    public Optional<User> findUserByUserId(final Integer userId) {
-        return userDAO.findUserByUserId(userId);
-    }
-
     // TODO See what to do with this method's return value
-    @Override
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
 
@@ -99,19 +98,14 @@ public class UserServiceImpl implements UserService {
             return !deletionSucceeded;
         }
 
-        if (userDAO.deleteUser(userId) == deletionSucceeded)
-            return deletionSucceeded;
-        else
-            return !deletionSucceeded;
+        return userDAO.deleteUser(userId) == deletionSucceeded;
     }
 
-    @Override
     public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
                                     final String birthdate, final Double funds) {
         return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
     }
 
-    @Override
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
                                final String description, final Integer productQuantity) {
         boolean postProductSucceeded = true;
@@ -124,12 +118,10 @@ public class UserServiceImpl implements UserService {
             return postProductSucceeded;
     }
 
-    @Override
     public boolean checkUsername(final String username) {
         return userDAO.checkUsername(username);
     }
 
-    @Override
     public boolean addFundsToUserId(final Double funds, final Integer userId) {
         return userDAO.addFundsToUserId(funds, userId);
     }
