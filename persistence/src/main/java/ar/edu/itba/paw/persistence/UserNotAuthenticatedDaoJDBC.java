@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
@@ -60,18 +61,14 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
         return new UserNotAuthenticated(userId.intValue(), username, password, email, phone, birthdate, signUpDate, code);
     }
 
-    public UserNotAuthenticated findUserByUsername(final String username) {
-        final List<UserNotAuthenticated> usersList = jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE username = ?",
-                ROW_MAPPER, username);
-
-        return usersList.get(0);
+    public Optional<UserNotAuthenticated> findUserByUsername(final String username) {
+        return jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE username = ?",
+                ROW_MAPPER, username).stream().findFirst();
     }
 
-    public UserNotAuthenticated findUserByUserId(final Integer userId) {
-        final List<UserNotAuthenticated> usersList = jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE userid = ?",
-                ROW_MAPPER, userId);
-
-        return usersList.get(0);
+    public Optional<UserNotAuthenticated> findUserByUserId(final Integer userId) {
+        return jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE userid = ?",
+                ROW_MAPPER, userId).stream().findFirst();
     }
 
     public boolean deleteUser(final Integer userId) {
@@ -85,14 +82,9 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
         return deletedRows == 1;
     }
 
-    public UserNotAuthenticated findUserByCode(final Integer code) {
-        final List<UserNotAuthenticated> usersList = jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE code = ?",
-                ROW_MAPPER, code);
-
-        if (usersList.isEmpty())
-            return null;
-
-        return usersList.get(0);
+    public Optional<UserNotAuthenticated> findUserByCode(final Integer code) {
+        return jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE code = ?",
+                ROW_MAPPER, code).stream().findFirst();
     }
 
     public boolean checkCode(final Integer code) {

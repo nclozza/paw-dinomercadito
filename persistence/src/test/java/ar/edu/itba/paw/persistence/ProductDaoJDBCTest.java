@@ -15,6 +15,8 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -100,30 +102,30 @@ public class ProductDaoJDBCTest {
 
     @Test
     public void testProductUpdate(){
-        Product product = productDao.updateProduct(DUMMY_PRODUCT_ID, PRODUCTNAMEUPDATE, BRANDUPDATE, RAMUPDATE, STORAGEUPDATE,
+        Optional<Product> product = productDao.updateProduct(DUMMY_PRODUCT_ID, PRODUCTNAMEUPDATE, BRANDUPDATE, RAMUPDATE, STORAGEUPDATE,
                 OPERATIVESYSTEMUPDATE, PROCESSORUPDATE, BODYSIZEUPDATE, SCREENSIZEUPDATE, SCREENRATIOUPDATE, REARCAMERAUPDATE,
                 FRONTCAMERAUPDATE);
 
-        assertNotNull(product);
-        assertEquals(PRODUCTNAMEUPDATE, product.getProductName());
-        assertEquals(BRANDUPDATE, product.getBrand());
-        assertEquals(RAMUPDATE, product.getRam());
-        assertEquals(STORAGEUPDATE, product.getStorage());
-        assertEquals(OPERATIVESYSTEMUPDATE, product.getOperativeSystem());
-        assertEquals(PROCESSORUPDATE, product.getProcessor());
-        assertEquals(BODYSIZEUPDATE, product.getBodySize());
-        assertEquals(SCREENSIZEUPDATE, product.getScreenSize());
-        assertEquals(SCREENRATIOUPDATE, product.getScreenRatio());
-        assertEquals(REARCAMERAUPDATE, product.getRearCamera());
-        assertEquals(FRONTCAMERAUPDATE, product.getFrontCamera());
+        assertTrue(product.isPresent());
+        assertEquals(PRODUCTNAMEUPDATE, product.get().getProductName());
+        assertEquals(BRANDUPDATE, product.get().getBrand());
+        assertEquals(RAMUPDATE, product.get().getRam());
+        assertEquals(STORAGEUPDATE, product.get().getStorage());
+        assertEquals(OPERATIVESYSTEMUPDATE, product.get().getOperativeSystem());
+        assertEquals(PROCESSORUPDATE, product.get().getProcessor());
+        assertEquals(BODYSIZEUPDATE, product.get().getBodySize());
+        assertEquals(SCREENSIZEUPDATE, product.get().getScreenSize());
+        assertEquals(SCREENRATIOUPDATE, product.get().getScreenRatio());
+        assertEquals(REARCAMERAUPDATE, product.get().getRearCamera());
+        assertEquals(FRONTCAMERAUPDATE, product.get().getFrontCamera());
         assertEquals(ROWS_PRE_INSERTED, JdbcTestUtils.countRowsInTable(jdbcTemplate, "products"));
     }
 
     @Test
     public void testProductFind(){
-        final Product productFound = productDao.findProductByProductId(DUMMY_PRODUCT_ID);
-        assertNotNull(productFound);
-        assertEquals(DUMMY_PRODUCT_ID, productFound.getProductId().intValue());
+        final Optional<Product> productFound = productDao.findProductByProductId(DUMMY_PRODUCT_ID);
+        assertTrue(productFound.isPresent());
+        assertEquals(DUMMY_PRODUCT_ID, productFound.get().getProductId().intValue());
     }
 
     @Test

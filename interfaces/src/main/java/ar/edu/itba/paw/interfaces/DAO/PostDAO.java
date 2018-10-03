@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.DAO;
 import ar.edu.itba.paw.models.Post;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostDAO {
 
@@ -11,10 +12,10 @@ public interface PostDAO {
 
     boolean deletePost(final Integer postId);
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                           final Integer productQuantity);
+    Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+                    final Integer productQuantity);
 
-    Post findPostByPostId(final Integer postId);
+    Optional<Post> findPostByPostId(final Integer postId);
 
     public List<Post> findPostsByUserId(final Integer userId);
 

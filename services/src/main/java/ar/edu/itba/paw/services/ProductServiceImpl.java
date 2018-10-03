@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -31,13 +32,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Transactional (readOnly = true)
-    public Product findProductByProductId(Integer productId) {
+    public Optional<Product> findProductByProductId(final Integer productId) {
         return productDAO.findProductByProductId(productId);
     }
 
-    public Product updateProduct(Integer productId, String productName, String brand, String ram, String storage,
-                                 String operativeSystem, String processor, String bodySize, String screenSize,
-                                 String screenRatio, String rearCamera, String frontCamera) {
+    public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand, final String ram,
+                                 final String storage, final String operativeSystem, final String processor,
+                                 final String bodySize, final String screenSize, final String screenRatio,
+                                 final String rearCamera, final String frontCamera) {
         return productDAO.updateProduct(productId, productName, brand, ram, storage, operativeSystem, processor,
                 bodySize, screenSize, screenRatio, rearCamera, frontCamera);
     }

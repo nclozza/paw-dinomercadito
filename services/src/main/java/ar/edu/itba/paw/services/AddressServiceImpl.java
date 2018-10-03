@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -22,7 +23,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Transactional (readOnly = true)
-    public Address findAddressByAddressId(final Integer addressId) {
+    public Optional<Address> findAddressByAddressId(final Integer addressId) {
         return addressDAO.findAddressByAddressId(addressId);
     }
 
@@ -35,8 +36,8 @@ public class AddressServiceImpl implements AddressService {
         return addressDAO.deleteAddressByAddressId(addressId);
     }
 
-    public Address updateAddress(final String street, final Integer number, final String city, final String province,
+    public Optional<Address> updateAddress(final String street, final Integer number, final String city, final String province,
                                  final String zipCode, final String country) {
-        return null;
+        return Optional.empty();
     }
 }

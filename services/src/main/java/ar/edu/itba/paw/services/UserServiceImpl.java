@@ -16,6 +16,7 @@ import ar.edu.itba.paw.models.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional (readOnly = true)
-    public User findUserByUsername(final String username) {
+    public Optional<User> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
@@ -68,11 +69,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
+    public Optional<User> updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
                                                  final String phone, final String birthdate, final Double funds) {
         return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
     }
 
+    public Optional<User> findUserByUserId(final Integer userId) {
     // TODO See what to do with this method's return value
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
@@ -100,8 +102,8 @@ public class UserServiceImpl implements UserService {
         return userDAO.deleteUser(userId) == deletionSucceeded;
     }
 
-	public User updateUser(final Integer userId, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds) {
+    public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
+                                    final String birthdate, final Double funds) {
         return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
     }
 

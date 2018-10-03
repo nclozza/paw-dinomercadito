@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Repository
@@ -28,7 +29,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional (readOnly = true)
-    public Post findPostByPostId(Integer postId) throws IllegalStateException {
+    public Optional<Post> findPostByPostId(final Integer postId) {
         return postDAO.findPostByPostId(postId);
     }
 
@@ -46,8 +47,8 @@ public class PostServiceImpl implements PostService {
         return postsList;
     }
 
-    public Post updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                           final Integer productQuantity) {
+    public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
+                                     final Integer productQuantity) {
         return postDAO.updatePost(postId, productId, price, description, productQuantity);
     }
 

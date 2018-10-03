@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class AddressDaoJDBC implements AddressDAO {
@@ -84,11 +85,9 @@ public class AddressDaoJDBC implements AddressDAO {
         return deletedRows == 1;
     }
 
-    public Address findAddressByAddressId(final Integer addressId) {
-        final List<Address> addressList = jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
-                ROW_MAPPER, addressId);
-
-        return addressList.get(0);
+    public Optional<Address> findAddressByAddressId(final Integer addressId) {
+        return jdbcTemplate.query("SELECT * FROM addresses WHERE addressid = ?",
+                ROW_MAPPER, addressId).stream().findFirst();
     }
 
     public List<Address> findAddressesByUserId(final Integer userId) {
@@ -99,7 +98,7 @@ public class AddressDaoJDBC implements AddressDAO {
     }
 
     @Override
-    public Address updateAddress(final Integer addressId, final String street, final Integer number, final String city,
+    public Optional<Address> updateAddress(final Integer addressId, final String street, final Integer number, final String city,
                                  final String province, final String zipCode, final String country) {
         jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
                         "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Transactional
@@ -30,17 +31,17 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
     }
 
     @Transactional (readOnly = true)
-    public UserNotAuthenticated findUserByUsername(final String username) {
+    public Optional<UserNotAuthenticated> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
     @Transactional (readOnly = true)
-    public UserNotAuthenticated findUserByUserId(final Integer userId) {
+    public Optional<UserNotAuthenticated> findUserByUserId(final Integer userId) {
         return userDAO.findUserByUserId(userId);
     }
 
     @Transactional (readOnly = true)
-    public UserNotAuthenticated findUserByCode(final Integer code) {
+    public Optional<UserNotAuthenticated> findUserByCode(final Integer code) {
         return userDAO.findUserByCode(code);
     }
 

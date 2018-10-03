@@ -55,11 +55,16 @@ public class UserController {
     private UserNotAuthenticatedService usn;
 
     @RequestMapping("/user")
-    public ModelAndView index(@RequestParam(value = "userId", required = true) final Integer userId) {
+    public ModelAndView index(@RequestParam(value = "userId") final Integer userId) {
         final ModelAndView mav = new ModelAndView("user");
-        User user = userService.findUserByUserId(userId);
-        mav.addObject("username", user.getUsername());
-        mav.addObject("userId", user.getUserId());
+        Optional<User> user = userService.findUserByUserId(userId);
+
+        if (!user.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        mav.addObject("username", user.get().getUsername());
+        mav.addObject("userId", user.get().getUserId());
         return mav;
     }
 
@@ -108,7 +113,9 @@ public class UserController {
 
     private User getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findUserByUsername(authentication.getName());
+        Optional<User> user = userService.findUserByUsername(authentication.getName());
+
+        return user.orElse(null);
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
@@ -178,15 +185,15 @@ public class UserController {
             return authentication(form);
         }
 
-        UserNotAuthenticated user = usn.findUserByCode(form.getCode());
+        Optional<UserNotAuthenticated> user = usn.findUserByCode(form.getCode());
 
-        if (user == null) {
+        if (!user.isPresent()) {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
         } else {
-            User userAuthenticated = userService.createUser(user.getUsername(), user.getPassword(), user.getEmail(),
-                    user.getPhone(), user.getBirthdate());
-            usn.deleteUser(user.getUserId());
+            User userAuthenticated = userService.createUser(user.get().getUsername(), user.get().getPassword(),
+                    user.get().getEmail(), user.get().getPhone(), user.get().getBirthdate());
+            usn.deleteUser(user.get().getUserId());
             emailService.sendSuccessfulRegistrationEmail(userAuthenticated.getEmail(), userAuthenticated.getUsername());
             return new ModelAndView("redirect:/index");
         }
@@ -202,11 +209,17 @@ public class UserController {
             return new ModelAndView("redirect:/400");
         }
 
-        Post post = postService.findPostByPostId(transaction.get().getPostId());
-        User sellerUser = userService.findUserByUserId(post.getUserId());
+        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
 
-        if (post == null || sellerUser == null || !transaction.get().getBuyerUserId().equals(user.getUserId())) {
-            LOGGER.error("PostId or sellerId non existant, or the buyerId does not match the transaction's buyerId");
+        if (!post.isPresent()) {
+            LOGGER.error("Post id not exits");
+            return new ModelAndView("redirect:/500");
+        }
+
+        Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserId());
+
+        if (!transaction.get().getBuyerUserId().equals(user.getUserId())) {
+            LOGGER.error("BuyerId doesn't match the transaction buyerId");
             return new ModelAndView("redirect:/400");
         }
 

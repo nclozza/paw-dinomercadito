@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.Services;
 import ar.edu.itba.paw.models.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
     Product createProduct(final String productName, final String brand, final String ram, final String storage,
@@ -12,9 +13,9 @@ public interface ProductService {
 
     public boolean deleteProduct(Integer productId);
 
-    public Product findProductByProductId(Integer productId);
+    Optional<Product> findProductByProductId(Integer productId);
 
-    public Product updateProduct(final Integer productId, final String productName, final String brand, final String ram,
+    Optional<Product> updateProduct(final Integer productId, final String productName, final String brand, final String ram,
                           final String storage, final String operativeSystem, final String processor,
                           final String bodySize, final String screenSize, final String screenRatio,
                           final String rearCamera, final String frontCamera);

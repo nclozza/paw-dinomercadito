@@ -3,10 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
+<head>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
+</head>
 <body>
-<style type="text/css">
-    <%@ include file="../assets/css/login.css" %>
-</style>
 
 <c:url value="/authentication" var="authenticationPath"/>
 <div class="central-wrapper">
