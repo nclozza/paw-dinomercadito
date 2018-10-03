@@ -73,8 +73,7 @@ public class PostsController {
         final Post post = postService.createPost(form.getProductId(), Double.valueOf(form.getPrice()), userId,
                 form.getDescription(), form.getProductQuantity());
 
-        // TODO change the redirect
-        return new ModelAndView("redirect:/posts?productId=" + post.getProductId());
+        return new ModelAndView("redirect:/post?postId=" + post.getPostId());
     }
 
     @RequestMapping(value = "/post", method = {RequestMethod.GET})

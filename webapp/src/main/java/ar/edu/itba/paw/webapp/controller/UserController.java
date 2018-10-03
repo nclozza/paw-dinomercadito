@@ -218,13 +218,18 @@ public class UserController {
 
         Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserId());
 
+        if (!sellerUser.isPresent()) {
+            LOGGER.error("Seller id does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         if (!transaction.get().getBuyerUserId().equals(user.getUserId())) {
             LOGGER.error("BuyerId doesn't match the transaction buyerId");
             return new ModelAndView("redirect:/400");
         }
 
         ModelAndView mav = new ModelAndView("sellerInformation");
-        mav.addObject("sellerUser", sellerUser);
+        mav.addObject("sellerUser", sellerUser.get());
         return mav;
     }
 
