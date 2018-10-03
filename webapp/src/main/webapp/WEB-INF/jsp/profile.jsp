@@ -54,13 +54,21 @@
         <div class="right-container">
             <div id="transactions">
                 <h2><spring:message code="show_transactions"/></h2>
-                <c:forEach items="${transactions}" var="transaction" varStatus="loop">
-                    <div class="post">
-                        <p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>
-                        <p><spring:message code="product_quantity"/><c:out value="${transaction.productQuantity}"/></p>
-                        <p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>
-                    </div>
-                </c:forEach>
+                <br>
+                <c:choose>
+                    <c:when test="${empty transactions}">
+                        <p><spring:message code="no_transactions"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${transactions}" var="transaction" varStatus="loop">
+                            <div class="post">
+                                <p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>
+                                <p><spring:message code="product_quantity"/><c:out value="${transaction.productQuantity}"/></p>
+                                <p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 
@@ -117,7 +125,8 @@
                         </div>
                     </div>
                     <div>
-                        <button class="registerButton btn btn-primary" type="submit"><spring:message code="register"/></button>
+                        <button class="registerButton btn btn-primary" type="submit"><spring:message
+                                code="register"/></button>
                     </div>
                 </form:form>
             </div>
@@ -127,15 +136,23 @@
         <div class="right-container">
             <div id="posts">
                 <h2><spring:message code="show_posts"/></h2>
-                <c:forEach items="${posts}" var="post" varStatus="loop">
-                    <div class="post">
-                        <p><spring:message code="product_name"/><c:out value="${post.postId}"/></p>
-                        <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
-                        <a class="btn btn-info" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
-                            <spring:message code="edit"/>
-                        </a>
-                    </div>
-                </c:forEach>
+                <br>
+                <c:choose>
+                    <c:when test="${empty posts}">
+                        <p><spring:message code="no_posts"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${posts}" var="post" varStatus="loop">
+                            <div class="post">
+                                <p><spring:message code="product_name"/><c:out value="${post.postId}"/></p>
+                                <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
+                                <a class="btn btn-info" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
+                                    <spring:message code="edit"/>
+                                </a>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
