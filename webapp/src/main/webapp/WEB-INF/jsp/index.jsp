@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<div class="first-container">
+<div class="first-container bg-1">
     <!-- Navbar -->
     <c:choose>
         <c:when test="${loggedIn}">
@@ -27,7 +27,7 @@
     </c:choose>
 
     <!-- First Container -->
-    <div class="container-fluid bg-1 text-center ">
+    <div class="container-fluid full-height text-center ">
         <div class="vertical-align">
             <div class="horizontal-align">
                 <h1><spring:message code="search_products"/></h1>

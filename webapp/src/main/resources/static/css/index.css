@@ -37,9 +37,15 @@ hr{
     width: 30%;
 }
 
+.full-height {
+    height: -moz-calc(100% - 50px);
+    height: -webkit-calc(100% - 50px);
+    height: -o-calc(100% - 50px);
+    height: calc(100% - 50px);
+}
+
 .bg-1 {
-    background-image: url("https://s3.amazonaws.com/urgeio-versus/landing/background_retina_2.jpg");
-    background-repeat: no-repeat;
+    background: url("/images/index_background.jpg") no-repeat 0 50px;
     height: 100%;
 }
 
