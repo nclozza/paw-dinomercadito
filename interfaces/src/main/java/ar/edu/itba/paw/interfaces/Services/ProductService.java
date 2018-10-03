@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-
     Product createProduct(final String productName, final String brand, final String ram, final String storage,
                           final String operativeSystem, final String processor, final String bodySize,
                           final String screenSize, final String screenRatio, final String rearCamera,
                           final String frontCamera);
 
-    boolean deleteProduct(final Integer productId);
+    public boolean deleteProduct(Integer productId);
 
     Optional<Product> findProductByProductId(Integer productId);
 
@@ -21,7 +20,7 @@ public interface ProductService {
                           final String bodySize, final String screenSize, final String screenRatio,
                           final String rearCamera, final String frontCamera);
 
-    List<Product> findAllProducts();
+    public List<Product> findAllProducts();
 
     /**
      * Provides the caller with a list of products whose attributes indicated in the attributes array match the values
@@ -36,7 +35,7 @@ public interface ProductService {
      * this method with the proper parameters in the proper amount and order. Should there be any mistake, this
      * method will return null.
      */
-    List<Product> filterProducts(final Integer filterCount, final String attributes[],
+    public List<Product> filterProducts(final Integer filterCount, final String attributes[],
                                  final String attributeValue[]);
 
     /**
@@ -45,9 +44,9 @@ public interface ProductService {
      * @param attribute: the product's attribute to filter
      * @return a list of Strings which represent all the available values for the called attribute.
      */
-    List<String> findAllAttributeValuesForFilter(final String attribute);
+    public List<String> findAllAttributeValuesForFilter(final String attribute);
 
-    List<String> getAllAttributesForFiltering();
+    public List<String> getAllAttributesForFiltering();
 
-    List<Product> findProductsByFilter(final String filter);
+    public List<Product> findProductsByFilter(final String filter);
 }

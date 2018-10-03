@@ -13,7 +13,6 @@ public class HandlerInterceptorConfig extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
                            final ModelAndView modelAndView) {
-
         if (modelAndView != null) {
             modelAndView.addObject("loggedIn", isLogged());
         }

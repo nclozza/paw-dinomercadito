@@ -13,12 +13,14 @@ import ar.edu.itba.paw.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Transactional
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceImpl.class);
@@ -35,23 +37,21 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private ProductService productService;
 
-    @Override
     public Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
                                          final Double price, final String productName) {
         return transactionDAO.createTransaction(postId, buyerUserId, productQuantity, price, productName);
     }
 
-    @Override
     public boolean deleteTransaction(final Integer transactionId) {
         return transactionDAO.deleteTransaction(transactionId);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public Optional<Transaction> findTransactionByTransactionId(final Integer transactionId) {
         return transactionDAO.findTransactionByTransactionId(transactionId);
     }
 
-    @Override
+    @Transactional (readOnly = true)
     public List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId) {
         return transactionDAO.findTransactionsByBuyerUserId(buyerUserId);
     }
@@ -68,18 +68,18 @@ public class TransactionServiceImpl implements TransactionService {
 
         Optional<Product> product = productService.findProductByProductId(post.get().getProductId());
 
-        if (!buyerUser.isPresent()|| !product.isPresent()) {
+        if (!buyerUser.isPresent() || !product.isPresent()) {
             LOGGER.error("Wrong information to make the transaction");
             return Transaction.INCOMPLETE;
         }
 
-        if (productQuantity > post.get().getProductQuantity()) {
-            LOGGER.error("The quantity of posts selected is bigger than the available stock");
+        if (post.get().getProductQuantity() < productQuantity) {
+            LOGGER.error("The product amount selected for this post is bigger than the available stock");
             return Transaction.OUT_OF_STOCK_FAIL;
         }
 
-        if (buyerUser.get().getFunds() < post.get().getPrice() * productQuantity) {
-            LOGGER.error("The user has no enough funds to make the transaction");
+        if (buyerUser.get().getFunds() < (post.get().getPrice() * productQuantity)) {
+            LOGGER.error("The user has not enough funds to make the transaction");
             return Transaction.INSUFFICIENT_FUNDS_FAIL;
         }
 

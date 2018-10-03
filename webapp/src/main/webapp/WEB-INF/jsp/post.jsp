@@ -51,8 +51,8 @@
                     <form:errors class="error" path="productQuantity" element="p"><br><spring:message
                             code="product_quantity_error"/></form:errors>
 
-                    <c:if test="${found_error}">
-                        <p><spring:message code="found_error"/></p>
+                    <c:if test="${funds_error}">
+                        <p><spring:message code="funds_error"/></p>
                     </c:if>
                 </form:form>
             </div>

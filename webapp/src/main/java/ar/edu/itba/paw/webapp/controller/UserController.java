@@ -54,20 +54,6 @@ public class UserController {
     @Qualifier("userNotAuthenticatedServiceImpl")
     private UserNotAuthenticatedService usn;
 
-    @RequestMapping("/user")
-    public ModelAndView index(@RequestParam(value = "userId") final Integer userId) {
-        final ModelAndView mav = new ModelAndView("user");
-        Optional<User> user = userService.findUserByUserId(userId);
-
-        if (!user.isPresent()) {
-            return new ModelAndView("redirect:/404");
-        }
-
-        mav.addObject("username", user.get().getUsername());
-        mav.addObject("userId", user.get().getUserId());
-        return mav;
-    }
-
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
         return new ModelAndView("login");
@@ -75,7 +61,9 @@ public class UserController {
 
     @RequestMapping(value = "/signUp", method = {RequestMethod.GET})
     public ModelAndView signUp(@ModelAttribute("registerForm") final UserForm form) {
-        return new ModelAndView("signUp").addObject("username_repeated", false);
+        return new ModelAndView("signUp")
+                .addObject("username_repeated", false)
+                .addObject("repeat_password", false);
     }
 
     @RequestMapping(value = "/signUp", method = {RequestMethod.POST})
@@ -190,12 +178,15 @@ public class UserController {
         if (!user.isPresent()) {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
+
         } else {
             User userAuthenticated = userService.createUser(user.get().getUsername(), user.get().getPassword(),
                     user.get().getEmail(), user.get().getPhone(), user.get().getBirthdate());
+
             usn.deleteUser(user.get().getUserId());
             emailService.sendSuccessfulRegistrationEmail(userAuthenticated.getEmail(), userAuthenticated.getUsername());
-            return new ModelAndView("redirect:/index");
+
+            return new ModelAndView("redirect:/login");
         }
     }
 
@@ -205,26 +196,31 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(transactionId);
 
         if (!transaction.isPresent()) {
-            LOGGER.error("Transaction id not exits");
-            return new ModelAndView("redirect:/404");
+            LOGGER.error("TransactionId does not exist");
+            return new ModelAndView("redirect:/400");
         }
 
         Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
 
         if (!post.isPresent()) {
-            LOGGER.error("Post id not exits");
+            LOGGER.error("PostId does not exist");
             return new ModelAndView("redirect:/500");
         }
 
         Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserId());
 
+        if (!sellerUser.isPresent()) {
+            LOGGER.error("Seller id does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         if (!transaction.get().getBuyerUserId().equals(user.getUserId())) {
-            LOGGER.error("BuyerId doesn't match the transaction buyerId");
+            LOGGER.error("BuyerId does not match the transaction buyerId");
             return new ModelAndView("redirect:/400");
         }
 
         ModelAndView mav = new ModelAndView("sellerInformation");
-        mav.addObject("sellerUser", sellerUser);
+        mav.addObject("sellerUser", sellerUser.get());
         return mav;
     }
 

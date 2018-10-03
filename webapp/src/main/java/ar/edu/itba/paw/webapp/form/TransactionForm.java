@@ -1,9 +1,12 @@
 package ar.edu.itba.paw.webapp.form;
 
+import javax.validation.constraints.NotNull;
+
 public class TransactionForm {
 
     private Integer postId;
 
+    @NotNull
     private Integer productQuantity;
 
     public Integer getPostId() {
