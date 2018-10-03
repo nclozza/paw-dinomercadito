@@ -38,7 +38,7 @@
                             code="funds_error"/></form:errors>
                 </div>
                 <div>
-                    <button class="btn-lg btn"><spring:message code="cancel"/></button>
+                    <a href="<c:url value="/profile"/>" class="btn-lg btn"><spring:message code="cancel"/></a>
                     <button type="submit" class="btn-lg btn btn-primary"><spring:message code="accept"/></button>
                 </div>
             </form:form>

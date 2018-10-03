@@ -40,13 +40,13 @@
                 </div>
                 <br>
                 <div>
-                    <button class="btn-lg btn"><spring:message code="cancel"/></button>
+                    <a href="<c:url value="/index"/>" class="btn-lg btn"><spring:message code="cancel"/></a>
                     <button class="btn-lg btn btn-primary" type="submit"><spring:message code="submit"/></button>
                 </div>
                 <br>
                 <div>
-                    <a href="#"><spring:message code="signup_redirect"/></a><br>
-                    <a href="#"><spring:message code="auth_redirect"/></a>
+                    <a href="<c:url value="/signUp"/>"><spring:message code="signup_redirect"/></a><br>
+                    <a href="<c:url value="/authentication"/>"><spring:message code="auth_redirect"/></a>
                 </div>
             </form>
         </div>

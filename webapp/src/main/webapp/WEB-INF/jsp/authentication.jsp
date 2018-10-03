@@ -32,8 +32,13 @@
                         code="code_error"/></form:errors>
             </div>
             <div>
-                <button class="btn-lg btn"><spring:message code="cancel"/></button>
+                <a href="<c:url value="/index"/>" class="btn-lg btn"><spring:message code="cancel"/></a>
                 <button class="btn-lg btn btn-primary" type="submit"><spring:message code="validate"/></button>
+            </div>
+            <br>
+            <div>
+                <a href="<c:url value="/login"/> "><spring:message code="login_redirect"/></a><br>
+                <a href="<c:url value="/signUp"/>"><spring:message code="signup_redirect"/></a>
             </div>
         </form:form>
     </div>
