@@ -4,51 +4,72 @@
 
 <html>
 <head>
-    <%--<link rel="stylesheet" href="<c:url value="/css/style.css"/>" />--%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
 </head>
 <body>
 <c:url value="/editPost" var="postPath"/>
-<form:form modelAttribute="editPost" action="${postPath}" method="post" autocomplete="off">
-    <div>
-        <form:label path="productId"><spring:message code="product"/></form:label>
-        <form:select path="productId" name="productId">
-            <c:forEach items="${productList}" var="product">
-                <c:choose>
-                    <c:when test="${post.productId == product.productId}">
-                        <option value="${product.productId}" selected="selected">
-                            <c:out value="${product.brand} - ${product.productName}"/>
-                        </option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${product.productId}">
-                            <c:out value="${product.brand} - ${product.productName}"/>
-                        </option>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </form:select>
+<div class="central-wrapper">
+    <!-- Navbar -->
+    <c:choose>
+        <c:when test="${loggedIn}">
+            <%@ include file="navbarLogout.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@ include file="navbarLogin.jsp" %>
+        </c:otherwise>
+    </c:choose>
+
+    <div class="small-container">
+        <h1><spring:message code="edit_post"/></h1>
+        <br>
+        <form:form modelAttribute="editPost" action="${postPath}" method="post" autocomplete="off">
+            <div class="form-group">
+                <form:label path="productId" class="label"><spring:message code="product"/></form:label>
+                <form:select path="productId" name="productId" class="form-control input-size">
+                    <c:forEach items="${productList}" var="product">
+                        <c:choose>
+                            <c:when test="${post.productId == product.productId}">
+                                <option value="${product.productId}" selected="selected">
+                                    <c:out value="${product.brand} - ${product.productName}"/>
+                                </option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${product.productId}">
+                                    <c:out value="${product.brand} - ${product.productName}"/>
+                                </option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </form:select>
+            </div>
+            <div>
+                <form:hidden path="postId" value="${post.postId}"/>
+            </div>
+            <div class="form-group">
+                <form:label path="price" class="label"><spring:message code="price"/></form:label>
+                <form:input type="text" path="price" value="${post.price}" class="form-control"/>
+                <form:errors path="price" cssClass="formError" element="p"/>
+            </div>
+            <div class="form-group">
+                <form:label path="description" class="label"><spring:message code="description"/></form:label>
+                <form:input type="text" path="description" value="${post.description}" class="form-control"/>
+                <form:errors path="description" cssClass="formError" element="p"/>
+            </div>
+            <div class="form-group">
+                <form:label path="productQuantity" class="label"><spring:message
+                        code="productQuantity"/></form:label>
+                <form:input type="number" path="productQuantity" value="${post.productQuantity}"
+                            class="form-group input-size"/>
+                <form:errors path="productQuantity" cssClass="formError" element="p"/>
+            </div>
+            <div>
+                <input type="submit" class="left-button btn btn-primary"
+                       value="<spring:message code="edit_post"/>"/>
+                <input class="btn btn-danger" value="<spring:message code="cancel"/>"/>
+            </div>
+        </form:form>
     </div>
-    <div>
-        <form:hidden path="postId" value="${post.postId}" />
-    </div>
-    <div>
-        <form:label path="price"><spring:message code="price"/></form:label>
-        <form:input type="text" path="price" value="${post.price}"/>
-        <form:errors path="price" cssClass="formError" element="p"/>
-    </div>
-    <div>
-        <form:label path="description"><spring:message code="description"/></form:label>
-        <form:input type="text" path="description" value="${post.description}" />
-        <form:errors path="description" cssClass="formError" element="p"/>
-    </div>
-    <div>
-        <form:label path="productQuantity"><spring:message code="productQuantity"/></form:label>
-        <form:input type="number" path="productQuantity" value="${post.productQuantity}"/>
-        <form:errors path="productQuantity" cssClass="formError" element="p"/>
-    </div>
-    <div>
-        <input type="submit" value="<spring:message code="edit_post"/>"/>
-    </div>
-</form:form>
+</div>
 </body>
 </html>

@@ -1,9 +1,5 @@
 body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
-    background-image: linear-gradient(to top, #051937, #444964, #808195, #bfbec8, #ffffff);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
 }
 
 hr {
