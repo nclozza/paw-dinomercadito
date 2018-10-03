@@ -121,7 +121,7 @@ public class PostsController {
     public ModelAndView buy(@Valid @ModelAttribute("transactionForm") final TransactionForm form,
                                final BindingResult errors) {
 
-        if (errors.hasErrors() || form.getProductQuantity() <= 0) {
+        if (errors.hasErrors()) {
             return post(form.getPostId(), form);
         }
 
