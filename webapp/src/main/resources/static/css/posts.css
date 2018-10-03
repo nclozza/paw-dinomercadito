@@ -18,6 +18,16 @@ body {
     border-radius: 10px;
 }
 
+.image {
+    height: 100%;
+    width: auto;
+    margin: auto;
+}
+
+.image-container {
+    height: 100%;
+}
+
 .posts-center {
     margin: auto;
     position: absolute;
@@ -33,10 +43,18 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.posts-right {
+.posts-left {
+    height: 80%;
     width: 50%;
+    float: left;
+    margin: 10px;
+}
+
+.posts-right {
+    height: 80%;
+    width: 40%;
     float: right;
-    margin: 10px 10px 10px 10px;
+    margin: 10px;
 }
 
 .post {
@@ -48,6 +66,21 @@ body {
 
 .product-quantity-label {
     font-size: 24px;
+}
+
+.purchase{
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 40%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 4px;
+    overflow: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .title {

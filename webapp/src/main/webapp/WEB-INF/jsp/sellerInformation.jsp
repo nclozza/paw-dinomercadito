@@ -7,7 +7,7 @@
 <head>
     <title>DinoMercadito | Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<c:url value='/css/profile.css'/>">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
 
 </head>
 
@@ -23,20 +23,20 @@
         </c:otherwise>
     </c:choose>
 
-    <div>
-        <spring:message code="successfully_purchase" />
-
+    <div class="purchase">
+        <h1><spring:message code="successfully_purchase" /></h1>
         <div>
-            <spring:message code="seller_information" />
-            <spring:message code="username_" />
-            <c:out value="${sellerUser.username}" />
-            <spring:message code="phone_" />
-            <c:out value="${sellerUser.phone}" />
-            <spring:message code="email_" />
-            <c:out value="${sellerUser.email}" />
+            <h2><spring:message code="seller_information" /></h2>
+            <h3><spring:message code="username_" />
+            <c:out value="${sellerUser.username}" /></h3>
+            <h3><spring:message code="phone_" />
+            <c:out value="${sellerUser.phone}" /></h3>
+            <h3><spring:message code="email_" />
+            <c:out value="${sellerUser.email}" /></h3>
         </div>
 
-        <a class="btn btn-info" role="button" href="<c:url value="/index" />">
+        <br>
+        <a class="btn-lg btn btn-primary" role="button" href="<c:url value="/index" />">
             <spring:message code="accept"/>
         </a>
     </div>

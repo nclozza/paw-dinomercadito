@@ -45,9 +45,16 @@ public class PostsController {
     @RequestMapping("/posts")
     public ModelAndView index(@RequestParam(value = "productId") final Integer productId) {
         ModelAndView mav = new ModelAndView("posts");
+        Optional<Product> product = productService.findProductByProductId(productId);
+
+        if (!product.isPresent()) {
+            return new ModelAndView("redirect:/400");
+        }
+
         List<Post> postList = postService.findPostsByProductId(productId);
 
         mav.addObject("posts", postList);
+        mav.addObject("product", product.get());
 
         return mav;
     }

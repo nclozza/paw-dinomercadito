@@ -25,7 +25,9 @@
     <div class="posts-center">
         <h1 class="title"><spring:message code="details"/></h1>
         <div class="posts-left">
-            <!-- ACA IRIA LA FOTO -->
+            <div class="image-container">
+                <img class="image" src="<c:url value="/images/${product.productName}.png" />" alt="${product.productName}" />
+            </div>
         </div>
         <div class="posts-right">
             <div class="details">

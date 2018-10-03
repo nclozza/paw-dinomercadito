@@ -2,25 +2,46 @@ body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+.button-margin {
+    margin: 5px;
+}
+
+.caption {
+    text-align: center;
+}
+
+.flex-row {
+    flex-wrap: wrap;
+}
+
 hr {
     width: 10%;
 }
 
-.product {
-    width: 100%;
+.image-container {
+    height: 80%;
 }
 
-.product-row {
-    flex-wrap: wrap;
+.product {
+    height: 100%;
+    width: auto;
+    margin: auto;
+}
+
+.products {
+    float: right;
+    width: 70%;
+    margin-right: 30px;
 }
 
 .sidenav {
-    position: fixed;
-    left: 10px;
+    float: left;
     background-color: ghostwhite;
     overflow-x: hidden;
-    padding: 8px 0;
+    padding: 10px;
     margin-left: 30px;
+    margin-bottom: 30px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -42,24 +63,29 @@ hr {
 }
 
 .thumbnail {
+    height: 350px;
     width: 100%;
     background-color: ghostwhite;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 25px;
 }
 
-.thumbnail:hover div.view{
-    display:block;
+.thumbnail:hover div.view {
+    display: block;
 }
 
-.view{
+.title {
+    text-align: center;
+}
+
+.view {
     position: absolute;
     background: #eee;
     padding: 0.5em 2.3em;
-    font-size:.9em;
+    font-size: .9em;
     font-weight: 500;
-    top: 35%;
-    left:30%;
+    top: 40%;
+    left: 35%;
     display: none;
 }
 
