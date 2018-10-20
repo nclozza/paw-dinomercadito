@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
@@ -38,9 +43,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
-        ds.setUrl("jdbc:postgresql://localhost/paw-2018b-07");
-        ds.setUsername("paw-2018b-07");
-        ds.setPassword("2Ak2qdajM");
+        ds.setUrl("jdbc:postgresql://localhost/dinomercadito");
+        ds.setUsername("postgres");
+        ds.setPassword("dinomercadito");
         return ds;
     }
 
@@ -80,13 +85,39 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return mailSender;
     }
 
-	@Bean
-	public PlatformTransactionManager transactionManager(final DataSource ds) {
-		return new DataSourceTransactionManager(ds);
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager(final DataSource ds) {
+//		return new DataSourceTransactionManager(ds);
+//	}
+
+    @Bean
+    public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:static/");
     }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setPackagesToScan("ar.edu.itba.paw.models");
+        factoryBean.setDataSource(dataSource());
+        final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        factoryBean.setJpaVendorAdapter(vendorAdapter);
+        final Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+
+        // Si ponen esto en prod, hay tabla!!!
+
+        properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("format_sql", "true");
+        factoryBean.setJpaProperties(properties);
+        return factoryBean;
+    }
+
+
 }
