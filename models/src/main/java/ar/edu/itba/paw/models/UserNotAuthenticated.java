@@ -1,14 +1,36 @@
 package ar.edu.itba.paw.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "usersNotAuthenticated")
 public class UserNotAuthenticated {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usersNotAuthenticated_userId_seq")
+    @SequenceGenerator(sequenceName = "usersNotAuthenticated_userId_seq", name = "usersNotAuthenticated_userId_seq", allocationSize = 1)
+    @Column(name = "userId")
     private Integer userId;
+
+    @Column(length = 32, nullable = false, unique = true)
     private String username;
+
+    @Column(length = 60, nullable = false)
     private String password;
+
+    @Column(length = 32)
     private String email;
+
+    @Column(length = 16)
     private String phone;
+
+    @Column(length = 10)
     private String birthdate;
+
+    @Column(length = 10)
     private String signUpDate;
+
+    @Column
     private Integer code;
 
     public UserNotAuthenticated(final Integer userId, final String username, final String password, final String email,
@@ -22,6 +44,22 @@ public class UserNotAuthenticated {
         this.birthdate = birthdate;
         this.signUpDate = signUpDate;
         this.code = code;
+    }
+
+    public UserNotAuthenticated(final String username, final String password, final String email,
+                                final String phone, final String birthdate, final String signUpDate,
+                                final Integer code) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.birthdate = birthdate;
+        this.signUpDate = signUpDate;
+        this.code = code;
+    }
+
+    public UserNotAuthenticated(){
+        //Just for Hibernate
     }
 
     public Integer getUserId() {

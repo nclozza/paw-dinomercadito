@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
@@ -13,14 +15,17 @@ import java.util.Optional;
 @Repository
 public class UserDaoHibernate implements UserDAO {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoHibernate.class);
+
     @PersistenceContext
     private EntityManager em;
 
-
+    @Transactional
     @Override
     public User createUser(String username, String password, String email, String phone, String birthdate, Double funds) {
-        final User user = new User(username, password, email, phone, birthdate);
+        User user = new User(username, password, email, phone, birthdate);
         em.persist(user);
+        LOGGER.info("User inserted with userId = {}", user.getUserId().intValue());
         return user;
     }
 
@@ -36,9 +41,11 @@ public class UserDaoHibernate implements UserDAO {
 
         if (user != null) {
             em.remove(user);
+            LOGGER.info("User deleted with userId = {}", userId);
 
             return true;
         }
+        LOGGER.info("User not found with userId = {}", userId);
 
         return false;
     }
@@ -56,7 +63,9 @@ public class UserDaoHibernate implements UserDAO {
             user.setBirthdate(birthdate);
             user.setFunds(funds);
             em.merge(user);
-
+            LOGGER.info("User updated with userId = {}", userId);
+        }else {
+            LOGGER.info("User not found with userId = {}", userId);
         }
 
         return Optional.ofNullable(user);
@@ -91,9 +100,10 @@ public class UserDaoHibernate implements UserDAO {
         if (user != null) {
             user.setFunds(funds);
             em.merge(user);
-
+            LOGGER.info("Add funds = {} to userId = {}", funds, userId);
             return true;
         }
+        LOGGER.info("User not found with userId = {}", userId);
 
         return false;
     }
