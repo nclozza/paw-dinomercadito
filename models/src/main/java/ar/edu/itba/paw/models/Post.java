@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -32,6 +33,9 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Product product;
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "post")
+    private List<Transaction> transactionsList;
 
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
                 final String description) {
@@ -130,5 +134,13 @@ public class Post {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Transaction> getTransactionsList() {
+        return transactionsList;
+    }
+
+    public void setTransactionsList(List<Transaction> transactionsList) {
+        this.transactionsList = transactionsList;
     }
 }

@@ -37,6 +37,9 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
     private List<Address> addressesList;
 
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "buyerUser")
+    private List<Transaction> transactionsList;
+
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
         this.username = username;
@@ -143,5 +146,13 @@ public class User {
 
     public void setAddressesList(List<Address> addressesList) {
         this.addressesList = addressesList;
+    }
+
+    public List<Transaction> getTransactionsList() {
+        return transactionsList;
+    }
+
+    public void setTransactionsList(List<Transaction> transactionsList) {
+        this.transactionsList = transactionsList;
     }
 }
