@@ -1,13 +1,37 @@
 package ar.edu.itba.paw.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "posts")
 public class Post {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_postId_seq")
+    @SequenceGenerator(sequenceName = "posts_postId_seq", name = "posts_postId_seq", allocationSize = 1)
+    @Column(name = "postId")
     private Integer postId;
+
+    @Column(nullable = false)
     private Integer productId;
+
+    @Column(nullable = false)
     private Double price;
+
+    @Column(nullable = false)
     private Integer userId;
+
+    @Column(length = 128)
     private String description;
+
+    @Column(nullable = false)
     private Integer productQuantity;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Product product;
 
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
                 final String description) {
@@ -29,6 +53,21 @@ public class Post {
         this.productQuantity = productQuantity;
     }
 
+    public Post(final Product product, final Double price, final User user,
+                final String description, final Integer productQuantity) {
+        this.product = product;
+        this.productId = product.getProductId();
+        this.price = price;
+        this.user = user;
+        this.userId = user.getUserId();
+        this.description = description;
+        this.productQuantity = productQuantity;
+    }
+
+    public Post(){
+        //Just for Hibernate
+    }
+
     public Integer getPostId() {
         return postId;
     }
@@ -41,7 +80,7 @@ public class Post {
         return productId;
     }
 
-    public void setProductId(final Integer ProductId) {
+    public void setProductId(final Integer productId) {
         this.productId = productId;
     }
 
@@ -75,5 +114,21 @@ public class Post {
 
     public void setProductQuantity(final Integer productQuantity) {
         this.productQuantity = productQuantity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

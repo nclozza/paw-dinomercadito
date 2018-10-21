@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +30,9 @@ public class User {
 
     @Column()
     private Double funds;
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+    private List<Post> postList;
 
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
@@ -120,5 +124,13 @@ public class User {
 
     public void setFunds(final Double funds) {
         this.funds = funds;
+    }
+
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 }

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -44,6 +45,10 @@ public class Product {
 
     @Column(length = 128)
     private String frontCamera;
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "product")
+    private List<Post> postList;
+
 
     public Product(final Integer productId, final String productName, final String brand, final String ram,
                    final String storage, final String operativeSystem, final String processor, final String bodySize,
@@ -178,5 +183,13 @@ public class Product {
 
     public void setFrontCamera(final String frontCamera) {
         this.frontCamera = frontCamera;
+    }
+
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 }
