@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class PostForm {
 
@@ -18,6 +16,7 @@ public class PostForm {
     private String description;
 
     @NotNull
+    @Min(1)
     private Integer productQuantity;
 
     @NotNull
