@@ -95,8 +95,6 @@ public class UserDaoHibernate implements UserDAO {
 
         User user = em.find(User.class, userId);
 
-        deleteUser(userId);
-
         if (user != null) {
             user.setFunds(funds);
             em.merge(user);
