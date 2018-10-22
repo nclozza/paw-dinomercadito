@@ -39,7 +39,8 @@
             <div class="form-group">
                 <form:label class="label" path="price"><spring:message code="price"/></form:label>
                 <form:input type="text" path="price" class="form-control"/>
-                <form:errors path="price" cssClass="formError" element="p"/>
+                <form:errors path="price" cssClass="formError" element="p"><br><spring:message
+                        code="price_error"/><br></form:errors>
             </div>
             <div class="form-group">
                 <form:label class="label" path="description"><spring:message code="description"/></form:label>
@@ -49,7 +50,8 @@
             <div class="form-group">
                 <form:label class="label" path="productQuantity"><spring:message code="productQuantity"/></form:label>
                 <form:input type="number" path="productQuantity" class="form-control input-size"/>
-                <form:errors path="productQuantity" cssClass="formError" element="p"/>
+                <form:errors path="productQuantity" cssClass="formError" element="p"><br><spring:message
+                        code="productQuantity_error"/><br></form:errors>
             </div>
             <br>
             <a>
