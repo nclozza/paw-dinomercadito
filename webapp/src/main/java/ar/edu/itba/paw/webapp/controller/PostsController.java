@@ -53,6 +53,8 @@ public class PostsController {
 
         List<Post> postList = postService.findPostsByProductId(productId);
 
+        postList = postService.filterByAvailablePosts(postList);
+
         mav.addObject("posts", postList);
         mav.addObject("product", product.get());
 
