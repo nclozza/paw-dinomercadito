@@ -62,6 +62,11 @@ public class TransactionServiceImpl implements TransactionService {
         Optional<User> buyerUser = userService.findUserByUserId(buyerUserId);
         Optional<Post> post = postService.findPostByPostId(postId);
 
+        if (buyerUserId == post.get().getUserId()){
+            LOGGER.error("BuyerUser and SellerUser are the same");
+            return Transaction.SAME_USER;
+        }
+
         if (!post.isPresent()) {
             LOGGER.error("Wrong information to make the transaction");
             return Transaction.WRONG_PARAMETERS;

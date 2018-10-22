@@ -73,6 +73,8 @@
 
                     <form:errors class="error" path="productQuantity" element="p"><br><spring:message
                             code="product_quantity_error"/></form:errors>
+                    <form:errors class="error" path="postId" element="p"><br><spring:message
+                            code="post_error"/></form:errors>
 
                     <c:if test="${funds_error}">
                         <p><spring:message code="funds_error"/></p>
