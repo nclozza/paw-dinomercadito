@@ -52,7 +52,6 @@ public class TransactionDaoJDBC implements TransactionDAO {
         try{
             transactionId = jdbcInsert.executeAndReturnKey(args);
         } catch (AssertionError e) {
-            System.out.println(e.getCause().toString());
             return null;
         }
         LOGGER.info("Transaction inserted with transactionId = {}", transactionId.intValue());
