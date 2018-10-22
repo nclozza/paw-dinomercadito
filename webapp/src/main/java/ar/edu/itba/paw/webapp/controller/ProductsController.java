@@ -36,7 +36,10 @@ public class ProductsController {
 
         } else {
             List<Product> productList = productService.findProductsByFilter(filter);
-            mav.addObject("products", productList);
+            if(productList.isEmpty())
+                mav.addObject("zeroProducts", true);
+            else
+                mav.addObject("products", productList);
         }
 
         //for (String attribute : attributes)
