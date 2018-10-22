@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
+
 public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
     private JdbcTemplate jdbcTemplate;

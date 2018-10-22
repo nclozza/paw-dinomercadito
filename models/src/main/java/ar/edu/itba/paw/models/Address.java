@@ -1,15 +1,40 @@
 package ar.edu.itba.paw.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "addresses")
 public class Address {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "addresses_addressId_seq")
+    @SequenceGenerator(sequenceName = "addresses_addressId_seq", name = "addresses_addressId_seq", allocationSize = 1)
+    @Column(name = "addressId")
     private Integer addressId;
+
+    @Column(nullable = false)
     private Integer userId;
+
+    @Column(nullable = false, length = 32)
     private String street;
+
+    @Column(nullable = false)
     private Integer number;
+
+    @Column(length = 32)
     private String city;
+
+    @Column(length = 32)
     private String province;
+
+    @Column(length = 16, nullable = false)
     private String zipCode;
+
+    @Column(length = 32)
     private String country;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private User user;
 
     public Address(final Integer addressId, final Integer userId, final String street, final Integer number,
                    final String city, final String province, final String zipCode, final String country) {
@@ -21,6 +46,23 @@ public class Address {
         this.province = province;
         this.zipCode = zipCode;
         this.country = country;
+    }
+
+    public Address(final User user, final String street, final Integer number,
+                   final String city, final String province, final String zipCode, final String country) {
+        this.addressId = addressId;
+        this.user = user;
+        this.userId = user.getUserId();
+        this.street = street;
+        this.number = number;
+        this.city = city;
+        this.province = province;
+        this.zipCode = zipCode;
+        this.country = country;
+    }
+
+    public Address(){
+        //Just for Hibernate
     }
 
     public Integer getAddressId() {
@@ -85,5 +127,13 @@ public class Address {
 
     public void setCountry(final String country) {
         this.country = country;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
