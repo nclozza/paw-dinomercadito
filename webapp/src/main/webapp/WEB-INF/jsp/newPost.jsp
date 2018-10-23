@@ -47,12 +47,6 @@
                 <form:textarea path="description" class="form-control input-size"/>
                 <form:errors path="description" cssClass="formError" element="p"/>
             </div>
-            <div class="form-group">
-                <form:label class="label" path="productQuantity"><spring:message code="productQuantity"/></form:label>
-                <form:input type="number" path="productQuantity" class="form-control input-size"/>
-                <form:errors path="productQuantity" cssClass="formError" element="p"><br><spring:message
-                        code="productQuantity_error"/><br></form:errors>
-            </div>
             <br>
             <a>
                 <a class="left-button btn" href="<c:url value="/index"/>"><spring:message code="cancel"/></a>

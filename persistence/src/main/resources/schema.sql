@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS posts (
    userId INT REFERENCES users(userId) NOT NULL,
    price NUMERIC(8, 2) NOT NULL,
    description VARCHAR(128),
-   productQuantity INT NOT NULL
+   visits INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transactions (

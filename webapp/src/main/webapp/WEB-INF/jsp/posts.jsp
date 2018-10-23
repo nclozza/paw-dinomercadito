@@ -43,7 +43,7 @@
                     <c:forEach items="${posts}" var="post" varStatus="loop">
                         <a href="<c:url value="/post?postId=${post.postId}"/>">
                             <div class="post">
-                                <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
+                                <p class="label"><spring:message code="visits"/></p><p class="value"><c:out value="${post.visits}"/></p>
                                 <br>
                                 <p class="label"><spring:message code="price_"/></p><p class="value"><c:out value="${post.price}"/></p>
                                 <br>

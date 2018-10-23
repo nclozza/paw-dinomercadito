@@ -31,7 +31,7 @@ public interface UserService {
                     final String phone, final String birthdate, final Double funds);
 
     boolean postProduct(final Integer productId, final Double price, final Integer userId,
-                        final String description, final Integer productQuantity);
+                        final String description, final Integer visits);
 
     Optional<User> findUserByUsername(final String username);
 

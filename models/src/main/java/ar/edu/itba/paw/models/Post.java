@@ -26,7 +26,7 @@ public class Post {
     private String description;
 
     @Column(nullable = false)
-    private Integer productQuantity;
+    private Integer visits;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
@@ -44,28 +44,28 @@ public class Post {
         this.price = price;
         this.userId = userId;
         this.description = description;
-        this.productQuantity = 1;
+        this.visits = 0;
     }
 
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
-                final String description, final Integer productQuantity) {
+                final String description, final Integer visits) {
         this.postId = postId;
         this.productId = productId;
         this.price = price;
         this.userId = userId;
         this.description = description;
-        this.productQuantity = productQuantity;
+        this.visits = visits;
     }
 
     public Post(final Product product, final Double price, final User user,
-                final String description, final Integer productQuantity) {
+                final String description, final Integer visits) {
         this.product = product;
         this.productId = product.getProductId();
         this.price = price;
         this.user = user;
         this.userId = user.getUserId();
         this.description = description;
-        this.productQuantity = productQuantity;
+        this.visits = visits;
     }
 
     public Post(){
@@ -112,12 +112,12 @@ public class Post {
         this.description = description;
     }
 
-    public Integer getProductQuantity() {
-        return productQuantity;
+    public Integer getVisits() {
+        return visits;
     }
 
-    public void setProductQuantity(final Integer productQuantity) {
-        this.productQuantity = productQuantity;
+    public void setVisits(final Integer visits) {
+        this.visits = visits;
     }
 
     public User getUser() {

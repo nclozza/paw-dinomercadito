@@ -25,8 +25,8 @@ public class PostServiceImpl implements PostService {
     private UserService userService;
 
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
-                           final Integer productQuantity) {
-        return postDAO.createPost(productId, price, userId, description, productQuantity);
+                           final Integer visits) {
+        return postDAO.createPost(productId, price, userId, description, visits);
     }
 
     @Transactional (readOnly = true)
@@ -48,23 +48,18 @@ public class PostServiceImpl implements PostService {
         return postsList;
     }
 
+    @Override
+    public Optional<Post> addVisit(Integer postId) {
+        return postDAO.addVisit(postId);
+    }
+
     public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                                     final Integer productQuantity) {
-        return postDAO.updatePost(postId, productId, price, description, productQuantity);
+                                     final Integer visits) {
+        return postDAO.updatePost(postId, productId, price, description, visits);
     }
 
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
     }
 
-    public List<Post> filterByAvailablePosts(final List<Post> postList){
-        List<Post> resultList = new LinkedList<Post>();
-
-        for(Post p : postList){
-            if (p.getProductQuantity() > 0)
-                resultList.add(p);
-        }
-
-        return resultList;
-    }
 }

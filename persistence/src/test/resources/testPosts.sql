@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS posts (
    userId INTEGER REFERENCES users(userId) NOT NULL,
    price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128),
-   productQuantity INT NOT NULL
+   visits INT NOT NULL
 );
 
 
@@ -51,14 +51,14 @@ INSERT INTO users (userId, username, password, email, phone, birthdate, funds)
 VALUES (5555, 'dinonico', 'dinopass', 'dinonico@gmail.com', '1123456789', '01-01-2000', 50000.00);
 
 
-INSERT INTO posts (postId, productId, userId, price, description, productQuantity)
+INSERT INTO posts (postId, productId, userId, price, description, visits)
 VALUES (99999, 99998, 99997, 450.00, '', 5);
 
-INSERT INTO posts (postId, productId, userId, price, description, productQuantity)
+INSERT INTO posts (postId, productId, userId, price, description, visits)
 VALUES (99008, 99998, 5555, 150.00, '', 5);
 
-INSERT INTO posts (postId, productId, userId, price, description, productQuantity)
+INSERT INTO posts (postId, productId, userId, price, description, visits)
 VALUES (99007, 6666, 5555, 1000.00, '', 5);
 
-INSERT INTO posts (postId, productId, userId, price, description, productQuantity)
+INSERT INTO posts (postId, productId, userId, price, description, visits)
 VALUES (99006, 6666, 99997, 580.00, '', 5);

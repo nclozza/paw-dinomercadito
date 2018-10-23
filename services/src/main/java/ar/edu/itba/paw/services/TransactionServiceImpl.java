@@ -79,10 +79,10 @@ public class TransactionServiceImpl implements TransactionService {
             return Transaction.INCOMPLETE;
         }
 
-        if (post.get().getProductQuantity() < productQuantity) {
-            LOGGER.error("The product amount selected for this post is bigger than the available stock");
-            return Transaction.OUT_OF_STOCK_FAIL;
-        }
+//        if (post.get().getProductQuantity() < productQuantity) {
+//            LOGGER.error("The product amount selected for this post is bigger than the available stock");
+//            return Transaction.OUT_OF_STOCK_FAIL;
+//        }
 
         if (buyerUser.get().getFunds() < (post.get().getPrice() * productQuantity)) {
             LOGGER.error("The user has not enough funds to make the transaction");
@@ -94,7 +94,7 @@ public class TransactionServiceImpl implements TransactionService {
                 buyerUser.get().getFunds() - post.get().getPrice() * productQuantity);
 
         postService.updatePost(post.get().getPostId(), post.get().getProductId(), post.get().getPrice(),
-                post.get().getDescription(), post.get().getProductQuantity() - productQuantity);
+                post.get().getDescription(), post.get().getVisits());
 
         Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),
                 product.get().getProductName());

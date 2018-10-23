@@ -28,49 +28,39 @@
         <div class="left-container">
             <ul class="nav nav-pills nav-stacked">
                 <li>
-                    <a id="transactions-button" class="btn btn-info" role="button">
-                        <spring:message code="show_transactions"/>
-                    </a>
-                </li>
-                <li>
-                    <a id="edit-profile-button" class="btn btn-info" role="button">
+                    <button id="edit-profile-button" class="btn btn-primary button">
                         <spring:message code="edit_profile"/>
-                    </a>
+                    </button>
                 </li>
                 <li>
-                    <a id="posts-button" class="btn btn-info" role="button">
+                    <button id="posts-button" class="btn btn-primary button">
                         <spring:message code="show_posts"/>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn btn-info" role="button" href="<c:url value="/profile/addFunds" />">
-                        <spring:message code="show_add_funds"/>
-                    </a>
+                    </button>
                 </li>
             </ul>
         </div>
 
         <%-- TRANSACTIONS --%>
-        <div class="right-container">
-            <div id="transactions">
-                <h2><spring:message code="show_transactions"/></h2>
-                <br>
-                <c:choose>
-                    <c:when test="${empty transactions}">
-                        <p><spring:message code="no_transactions"/></p>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach items="${transactions}" var="transaction" varStatus="loop">
-                            <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>
-                                <p><spring:message code="product_quantity"/><c:out value="${transaction.productQuantity}"/></p>
-                                <p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>
-                            </div>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
+        <%--<div class="right-container">--%>
+            <%--<div id="transactions">--%>
+                <%--<h2><spring:message code="show_transactions"/></h2>--%>
+                <%--<br>--%>
+                <%--<c:choose>--%>
+                    <%--<c:when test="${empty transactions}">--%>
+                        <%--<p><spring:message code="no_transactions"/></p>--%>
+                    <%--</c:when>--%>
+                    <%--<c:otherwise>--%>
+                        <%--<c:forEach items="${transactions}" var="transaction" varStatus="loop">--%>
+                            <%--<div class="post">--%>
+                                <%--<p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>--%>
+                                <%--<p><spring:message code="visits"/><c:out value="${transaction.visits}"/></p>--%>
+                                <%--<p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>--%>
+                            <%--</div>--%>
+                        <%--</c:forEach>--%>
+                    <%--</c:otherwise>--%>
+                <%--</c:choose>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
         <%-- EDIT PROFILE --%>
         <div class="right-container">
@@ -146,9 +136,9 @@
                             <div class="post">
                                 <p><spring:message code="product_name"/><c:out value="${post.postId}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
-                                <a class="btn btn-info" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
+                                <button class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
                                     <spring:message code="edit"/>
-                                </a>
+                                </button>
                             </div>
                         </c:forEach>
                     </c:otherwise>
@@ -163,23 +153,23 @@
 <script type="text/javascript">
     $(document).ready(function () {
         if (${formError} || ${repeat_password} || ${password_error}) {
-            $("#transactions, #posts").hide();
+            $("#posts").hide();
         } else {
-            $("#edit-profile, #posts").hide();
+            $("#posts").hide();
         }
 
-        $("#transactions-button").click(function () {
-            $("#edit-profile, #posts").hide();
-            $("#transactions").show();
-        });
+        // $("#transactions-button").click(function () {
+        //     $("#edit-profile, #posts").hide();
+        //     $("#transactions").show();
+        // });
 
         $("#edit-profile-button").click(function () {
-            $("#transactions, #posts").hide();
+            $("#posts").hide();
             $("#edit-profile").show();
         });
 
         $("#posts-button").click(function () {
-            $("#transactions, #edit-profile").hide();
+            $("#edit-profile").hide();
             $("#posts").show();
         });
     });

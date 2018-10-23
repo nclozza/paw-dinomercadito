@@ -15,11 +15,11 @@ public interface PostDAO {
      *              decimals.
      * @param userId The seller's unique user ID as an Integer.
      * @param description The post's description as a String up to a maximum of 128 characters.
-     * @param productQuantity The post's available stock of the product as an Integer.
+     * @param visits The post's visits as an Integer.
      * @return A new POJO of a post. This method will never return null.
      */
     Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
-                    final Integer productQuantity);
+                    final Integer visits);
 
     /**
      * Deletes a post from the database when given the post's ID.
@@ -35,12 +35,12 @@ public interface PostDAO {
      * @param productId The possibly new product ID as an Integer to associate this post with.
      * @param price The possibly new post's price as a Double.
      * @param description The possibly new post's description as a String.
-     * @param productQuantity The possibly new product quantity for this post.
+     * @param visits The possibly new visits for this post.
      * @return An Optional object that contains either the new post POJO if the post's information was successfully
      *      updated in the database, or an empty Optional otherwise.
      */
     Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                    final Integer productQuantity);
+                    final Integer visits);
 
     /**
      * Finds a post through its unique ID in the database.
@@ -67,4 +67,6 @@ public interface PostDAO {
      *      or there was an error with the retrieval of said posts from the database.
      */
     List<Post> findPostsByProductId(final Integer productId);
+
+    Optional<Post> addVisit(final Integer postId);
 }

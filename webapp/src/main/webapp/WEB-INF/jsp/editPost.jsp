@@ -57,15 +57,8 @@
                 <form:input type="text" path="description" value="${post.description}" class="form-control"/>
                 <form:errors path="description" cssClass="formError" element="p"/>
             </div>
-            <div class="form-group">
-                <form:label path="productQuantity" class="label"><spring:message
-                        code="productQuantity"/></form:label>
-                <form:input type="number" path="productQuantity" value="${post.productQuantity}"
-                            class="form-group input-size"/>
-                <form:errors path="productQuantity" cssClass="formError" element="p"/>
-            </div>
             <div>
-                <a class="left-button btn" href="<c:url value="/profile"/>"><spring:message code="cancel"/>"</a>
+                <a class="left-button btn" href="<c:url value="/profile"/>"><spring:message code="cancel"/></a>
                 <input type="submit" class="btn btn-primary"
                        value="<spring:message code="edit_post"/>"/>
             </div>

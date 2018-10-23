@@ -7,10 +7,6 @@ public class TransactionForm {
 
     private Integer postId;
 
-    @NotNull
-    @Min(value = 1)
-    private Integer productQuantity;
-
     public Integer getPostId() {
         return postId;
     }
@@ -19,15 +15,4 @@ public class TransactionForm {
         this.postId = postId;
     }
 
-    public Integer getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(final Integer productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    public boolean checkQuantity(final Integer availableQuantity) {
-        return productQuantity <= availableQuantity;
-    }
 }

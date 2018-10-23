@@ -24,10 +24,10 @@ public class PostDaoHibernate implements PostDAO {
 
     @Transactional
     @Override
-    public Post createPost(Integer productId, Double price, Integer userId, String description, Integer productQuantity) {
+    public Post createPost(Integer productId, Double price, Integer userId, String description, Integer visits) {
         User user = em.find(User.class, userId);
         Product product = em.find(Product.class, productId);
-        Post post = new Post(product, price, user, description, productQuantity);
+        Post post = new Post(product, price, user, description, visits);
         em.persist(post);
         LOGGER.info("Post inserted with postId = {}", post.getPostId().intValue());
         return post;
@@ -51,7 +51,7 @@ public class PostDaoHibernate implements PostDAO {
 
     @Transactional
     @Override
-    public Optional<Post> updatePost(Integer postId, Integer productId, Double price, String description, Integer productQuantity) {
+    public Optional<Post> updatePost(Integer postId, Integer productId, Double price, String description, Integer visits) {
         Post post = em.find(Post.class, postId);
         Product product = em.find(Product.class, productId);
 
@@ -60,7 +60,7 @@ public class PostDaoHibernate implements PostDAO {
             post.setProductId(productId);
             post.setPrice(price);
             post.setDescription(description);
-            post.setProductQuantity(productQuantity);
+            post.setVisits(visits);
             em.merge(post);
             LOGGER.info("Post updated with postId = {}", postId);
         } else {
@@ -85,5 +85,21 @@ public class PostDaoHibernate implements PostDAO {
     public List<Post> findPostsByProductId(Integer productId) {
         Product product = em.find(Product.class, productId);
         return product.getPostList();
+    }
+
+    @Override
+    @Transactional
+    public Optional<Post> addVisit(final Integer postId){
+        Post post = em.find(Post.class, postId);
+
+        if (post != null){
+            post.setVisits(post.getVisits() + 1);
+            em.merge(post);
+            LOGGER.info("Post add visit with postId = {}", postId);
+        } else {
+            LOGGER.info("Post not found with postId = {}", postId);
+        }
+
+        return Optional.ofNullable(post);
     }
 }

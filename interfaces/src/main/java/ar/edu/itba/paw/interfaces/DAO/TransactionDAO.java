@@ -13,12 +13,12 @@ public interface TransactionDAO {
      * @param postId The post's unique ID as an Integer to associate the transaction with said post. The post contains a
      *               reference to the seller's user ID and therefore its information.
      * @param buyerUserId The buyer's unique user ID as an Integer.
-     * @param productQuantity The product quantity that the buyer bought from the seller, as an Integer.
+     * @param visits The visit quantity that the post has from a user, as an Integer.
      * @param price The post's price set by the seller, as an Integer.
      * @param productName The product's model name as a String.
      * @return A new transaction POJO. This method will never return null.
      */
-    Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
+    Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer visits,
                                   final Double price, final String productName);
 
     /**

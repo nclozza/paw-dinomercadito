@@ -93,4 +93,9 @@ public class PostDaoJDBC implements PostDAO {
 
         return postsList;
     }
+
+    @Override
+    public Optional<Post> addVisit(Integer postId) {
+        return Optional.empty();
+    }
 }

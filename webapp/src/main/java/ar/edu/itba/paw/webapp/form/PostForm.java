@@ -16,10 +16,6 @@ public class PostForm {
     private String description;
 
     @NotNull
-    @Min(1)
-    private Integer productQuantity;
-
-    @NotNull
     public Integer getProductId() {
         return productId;
     }
@@ -42,14 +38,5 @@ public class PostForm {
 
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    @NotNull
-    public Integer getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(@NotNull final Integer productQuantity) {
-        this.productQuantity = productQuantity;
     }
 }

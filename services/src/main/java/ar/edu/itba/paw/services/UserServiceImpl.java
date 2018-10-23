@@ -114,12 +114,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
-                               final String description, final Integer productQuantity) {
+                               final String description, final Integer visits) {
         boolean postProductSucceeded = true;
         if (productId < 0 || price < 0.0 || userId < 0 || description == null)
             throw new IllegalArgumentException();
 
-        if (postService.createPost(productId, price, userId, description, productQuantity) == null)
+        if (postService.createPost(productId, price, userId, description, visits) == null)
             return !postProductSucceeded;
         else
             return postProductSucceeded;
