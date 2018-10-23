@@ -89,7 +89,7 @@ public class TransactionServiceImpl implements TransactionService {
             return Transaction.INSUFFICIENT_FUNDS_FAIL;
         }
 
-        userService.updateUser(buyerUser.get().getUserId(), buyerUser.get().getPassword(), buyerUser.get().getEmail(),
+        userService.updateUserWithoutPasswordEncoder(buyerUser.get().getUserId(), buyerUser.get().getPassword(), buyerUser.get().getEmail(),
                 buyerUser.get().getPhone(), buyerUser.get().getBirthdate(),
                 buyerUser.get().getFunds() - post.get().getPrice() * productQuantity);
 
