@@ -94,9 +94,7 @@ public class PostsController {
 
         Optional<User> userLogged = getLoggedUser();
 
-        if (userLogged == null){
-            return new ModelAndView("redirect:/login");
-        } else if (userLogged.get().getUserId() != user.get().getUserId()){
+        if (userLogged.get().getUserId() != user.get().getUserId()){
             postService.addVisit(post.get().getPostId());
         }
 
