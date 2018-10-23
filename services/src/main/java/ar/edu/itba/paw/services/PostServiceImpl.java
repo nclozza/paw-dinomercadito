@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +55,16 @@ public class PostServiceImpl implements PostService {
 
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
+    }
+
+    public List<Post> filterByAvailablePosts(final List<Post> postList){
+        List<Post> resultList = new LinkedList<Post>();
+
+        for(Post p : postList){
+            if (p.getProductQuantity() > 0)
+                resultList.add(p);
+        }
+
+        return resultList;
     }
 }

@@ -32,6 +32,9 @@
                 <form:input type="text" path="username" class="form-control"/>
                 <form:errors path="username" element="p"><br><spring:message
                         code="username_error"/><br></form:errors>
+                <c:if test="${sameUsername_error}">
+                    <p><spring:message code="sameUsername_error"/></p>
+                </c:if>
             </div>
             <div class="form-group">
                 <form:label class="label" path="password"><spring:message code="password"/></form:label>
@@ -42,7 +45,8 @@
             <div class="form-group">
                 <form:label class="label" path="repeatPassword"><spring:message code="repeat_password"/></form:label>
                 <form:input type="password" path="repeatPassword" class="form-control"/>
-                <form:errors class="error" path="repeatPassword" element="p"/>
+                <form:errors class="error" path="repeatPassword" element="p"><br><spring:message
+                        code="repeat_password_error"/><br></form:errors>
             </div>
             <div class="form-group">
                 <form:label class="label" path="email"><spring:message code="email"/></form:label>

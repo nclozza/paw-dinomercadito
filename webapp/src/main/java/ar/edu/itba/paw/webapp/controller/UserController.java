@@ -73,11 +73,12 @@ public class UserController {
         }
 
         if (!form.checkPassword()) {
-            return signUp(form).addObject("repeat_password", true);
+            errors.addError(new FieldError("registerForm", "repeatPassword", ""));
+            return signUp(form);
         }
 
         if (!userService.checkUsername(form.getUsername()) || !usn.checkUsername(form.getUsername())) {
-            return signUp(form).addObject("username_repeated", true);
+            return signUp(form).addObject("sameUsername_error", true);
         }
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyy");

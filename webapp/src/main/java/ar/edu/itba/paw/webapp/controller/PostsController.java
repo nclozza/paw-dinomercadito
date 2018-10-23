@@ -53,6 +53,8 @@ public class PostsController {
 
         List<Post> postList = postService.findPostsByProductId(productId);
 
+        postList = postService.filterByAvailablePosts(postList);
+
         mav.addObject("posts", postList);
         mav.addObject("product", product.get());
 
@@ -127,9 +129,14 @@ public class PostsController {
 
         User user = getLoggedUser();
 
+
         Integer status = transactionService.makeTransaction(user.getUserId(), form.getPostId(), form.getProductQuantity());
 
-        if (status.equals(Transaction.INCOMPLETE)) {
+        if (status.equals(Transaction.SAME_USER)){
+            errors.addError(new FieldError("transactionForm", "postId", ""));
+            return post(form.getPostId(), form);
+        }
+        else if (status.equals(Transaction.INCOMPLETE)) {
             return new ModelAndView("redirect:/500");
 
         } else if (status.equals(Transaction.WRONG_PARAMETERS)) {

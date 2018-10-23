@@ -46,6 +46,10 @@
                     </div>
                 </div>
             </c:forEach>
+            <c:if test="${zeroProducts}">
+                <br>
+                <p class="title"><spring:message code="zero_products"/></p>
+            </c:if>
         </div>
     </div>
 </div>
