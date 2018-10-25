@@ -19,7 +19,7 @@ public interface PostDAO {
      * @return A new POJO of a post. This method will never return null.
      */
     Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
-                    final Integer visits);
+                    final Integer productQuantity, final Integer visits);
 
     /**
      * Deletes a post from the database when given the post's ID.
@@ -40,7 +40,7 @@ public interface PostDAO {
      *      updated in the database, or an empty Optional otherwise.
      */
     Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                    final Integer visits);
+                              final Integer productQuantity, final Integer visits);
 
     /**
      * Finds a post through its unique ID in the database.

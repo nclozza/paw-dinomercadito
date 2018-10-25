@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR(60) NOT NULL,
    email VARCHAR(32),
    phone VARCHAR(16),
-   birthdate VARCHAR(10),
+   birthdate VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (
@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS posts (
    userId INT REFERENCES users(userId) NOT NULL,
    price NUMERIC(8, 2) NOT NULL,
    description VARCHAR(128),
+   productQuantity INT NOT NULL,
    visits INT NOT NULL
 );
 

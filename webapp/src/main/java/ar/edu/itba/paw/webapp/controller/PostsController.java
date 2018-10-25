@@ -70,7 +70,7 @@ public class PostsController {
         Optional<User> user = getLoggedUser();
         Integer userId = user.get().getUserId();
         final Post post = postService.createPost(form.getProductId(), Double.valueOf(form.getPrice()), userId,
-                form.getDescription(), 0);
+                form.getDescription(), form.getProductQuantity(), 0);
 
         return new ModelAndView("redirect:/post?postId=" + post.getPostId());
     }
@@ -202,7 +202,7 @@ public class PostsController {
         Optional<Post> post = postService.findPostByPostId(form.getPostId());
 
         postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
-                form.getDescription(), post.get().getVisits());
+                form.getDescription(), post.get().getProductQuantity(), post.get().getVisits());
 
         return new ModelAndView("redirect:/post?postId=" + form.getPostId());
     }

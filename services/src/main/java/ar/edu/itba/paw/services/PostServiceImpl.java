@@ -26,8 +26,8 @@ public class PostServiceImpl implements PostService {
     private ViewService viewService;
 
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
-                           final Integer visits) {
-        return postDAO.createPost(productId, price, userId, description, visits);
+                           final Integer productQuantity, final Integer visits) {
+        return postDAO.createPost(productId, price, userId, description, productQuantity, visits);
     }
 
     @Transactional (readOnly = true)
@@ -62,8 +62,8 @@ public class PostServiceImpl implements PostService {
     }
 
     public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                                     final Integer visits) {
-        return postDAO.updatePost(postId, productId, price, description, visits);
+                                     final Integer productQuantity, final Integer visits) {
+        return postDAO.updatePost(postId, productId, price, description, productQuantity, visits);
     }
 
     public boolean deletePost(final Integer postId) {

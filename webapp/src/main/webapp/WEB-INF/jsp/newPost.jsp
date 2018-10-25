@@ -47,8 +47,13 @@
                 <form:textarea path="description" class="form-control input-size"/>
                 <form:errors path="description" cssClass="formError" element="p"/>
             </div>
+            <div class="form-group">
+                <form:label class="label" path="productQuantity"><spring:message code="productQuantity"/></form:label>
+                <form:textarea path="productQuantity" class="form-control input-size"/>
+                <form:errors path="productQuantity" cssClass="formError" element="p"/>
+            </div>
             <br>
-            <a>
+            <div>
                 <a class="left-button btn" href="<c:url value="/index"/>"><spring:message code="cancel"/></a>
                 <input type="submit" class="btn btn-primary" value="<spring:message code="create_post"/>"/>
             </div>

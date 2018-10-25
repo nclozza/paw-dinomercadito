@@ -55,6 +55,14 @@
                 <h3 class="value"><c:out value="${user.username}"/></h3>
                 <br>
                 <br>
+                <h3 class="label"><spring:message code="email_"/></h3>
+                <h3 class="value"><c:out value="${user.email}"/></h3>
+                <br>
+                <br>
+                <h3 class="label"><spring:message code="phone_"/></h3>
+                <h3 class="value"><c:out value="${user.phone}"/></h3>
+                <br>
+                <br>
                 <%--TODO Ask this--%>
                 <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
 

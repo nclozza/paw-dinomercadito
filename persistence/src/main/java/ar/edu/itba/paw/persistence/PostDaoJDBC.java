@@ -40,7 +40,7 @@ public class PostDaoJDBC implements PostDAO {
     );
 
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
-                           final Integer productQuantity) {
+                           final Integer productQuantity, final Integer visits) {
         final Map<String, Object> args = new HashMap<>();
         args.put("productid", productId);
         args.put("userid", userId);
@@ -67,7 +67,7 @@ public class PostDaoJDBC implements PostDAO {
     }
 
     public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
-                           final Integer productQuantity) {
+                           final Integer productQuantity, final Integer Visits) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? " +
                         "WHERE postid = ?", productId, price, description, productQuantity, postId);
 

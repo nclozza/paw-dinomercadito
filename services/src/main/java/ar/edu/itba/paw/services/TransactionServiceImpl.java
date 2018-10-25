@@ -93,7 +93,7 @@ public class TransactionServiceImpl implements TransactionService {
                 buyerUser.get().getPhone(), buyerUser.get().getBirthdate());
 
         postService.updatePost(post.get().getPostId(), post.get().getProductId(), post.get().getPrice(),
-                post.get().getDescription(), post.get().getVisits());
+                post.get().getDescription(), post.get().getProductQuantity(), post.get().getVisits());
 
         Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),
                 product.get().getProductName());
