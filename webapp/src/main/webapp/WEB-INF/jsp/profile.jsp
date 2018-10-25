@@ -136,9 +136,9 @@
                             <div class="post">
                                 <p><spring:message code="product_name"/><c:out value="${post.postId}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
-                                <button class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
+                                <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
                                     <spring:message code="edit"/>
-                                </button>
+                                </a>
                             </div>
                         </c:forEach>
                     </c:otherwise>

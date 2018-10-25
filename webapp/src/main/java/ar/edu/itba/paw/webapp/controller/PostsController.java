@@ -202,7 +202,7 @@ public class PostsController {
         Optional<Post> post = postService.findPostByPostId(form.getPostId());
 
         postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
-                form.getDescription(), post.get().getProductQuantity(), post.get().getVisits());
+                form.getDescription(), form.getProductQuantity(), post.get().getVisits());
 
         return new ModelAndView("redirect:/post?postId=" + form.getPostId());
     }

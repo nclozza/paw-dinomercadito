@@ -16,7 +16,7 @@ public class PostForm {
     private String description;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     private Integer productQuantity;
 
     @NotNull
