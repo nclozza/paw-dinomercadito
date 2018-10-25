@@ -59,8 +59,9 @@
             </div>
             <div class="form-group">
                 <form:label path="productQuantity" class="label"><spring:message code="product_quantity"/></form:label>
-                <form:input type="text" path="productQuantity" value="${post.productQuantity}" class="form-control"/>
-                <form:errors path="productQuantity" cssClass="formError" element="p"><spring:message code="product_quantity_error"/></form:errors>
+                <form:input type="number" path="productQuantity" value="${post.productQuantity}" class="form-control"/>
+                <form:errors path="productQuantity" cssClass="formError" element="p"><br><spring:message
+                        code="productQuantity_error"/><br></form:errors>
             </div>
             <div>
                 <a class="left-button btn" href="<c:url value="/profile"/>"><spring:message code="cancel"/></a>

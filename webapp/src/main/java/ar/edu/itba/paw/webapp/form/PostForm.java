@@ -15,7 +15,8 @@ public class PostForm {
     @Size(max = 128)
     private String description;
 
-    @Size()
+    @NotNull
+    @Min(1)
     private Integer productQuantity;
 
     @NotNull
@@ -43,11 +44,12 @@ public class PostForm {
         this.description = description;
     }
 
+    @NotNull
     public Integer getProductQuantity() {
         return productQuantity;
     }
 
-    public void setProductQuantity(Integer productQuantity) {
+    public void setProductQuantity(@NotNull Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 }
