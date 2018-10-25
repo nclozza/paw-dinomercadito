@@ -38,8 +38,16 @@
                           enctype="application/x-www-form-urlencoded">
                         <div class="row">
                             <div class="input-group">
-                                <input path="search" name="search" type="text" class="searchTerm form-control"
-                                       placeholder="<spring:message code="looking_for"/>">
+                                <c:choose>
+                                    <c:when test="${error}">
+                                        <input path="search" name="search" type="text" class="searchTerm form-control"
+                                               placeholder="<spring:message code="wrong_input"/>">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input path="search" name="search" type="text" class="searchTerm form-control"
+                                               placeholder="<spring:message code="looking_for"/>">
+                                    </c:otherwise>
+                                </c:choose>
                                 <span class="input-group-btn">
                                         <button type="submit" class="btn btn-default">
                                             <spring:message code="search"/>

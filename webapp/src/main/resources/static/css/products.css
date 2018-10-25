@@ -1,5 +1,6 @@
 body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 .button-margin {
