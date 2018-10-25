@@ -21,5 +21,5 @@ public interface PostService {
 
     List<Post> findPostsByProductId(final Integer productId);
 
-    Optional<Post> addVisit(final Integer postId);
+    Optional<Post> addVisit(Integer postId, Integer userId, Integer userIdLogged);
 }

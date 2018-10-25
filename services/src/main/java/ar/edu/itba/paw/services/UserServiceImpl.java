@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
                                       final Integer number, final String city, final String province,
                                       final String zipCode, final String country) {
 
-        User user = userDAO.createUser(username, password, email, phone, birthdate, 0.0);
+        User user = userDAO.createUser(username, password, email, phone, birthdate);
 
         addressService.createAddress(user.getUserId(), street, number, city, province, zipCode, country);
 
@@ -46,15 +46,7 @@ public class UserServiceImpl implements UserService {
 
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
-
-        return userDAO.createUser(username, password, email, phone, birthdate, 0.0);
-    }
-
-    public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds) {
-
-
-        return userDAO.createUser(username, password, email, phone, birthdate, funds);
+        return userDAO.createUser(username, password, email, phone, birthdate);
     }
 
     @Transactional (readOnly = true)
@@ -69,8 +61,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
-                                                 final String phone, final String birthdate, final Double funds) {
-        return userDAO.updateUser(userId, password, email, phone, birthdate, funds);
+                                                 final String phone, final String birthdate) {
+        return userDAO.updateUser(userId, password, email, phone, birthdate);
     }
 
     public boolean deleteUser(final Integer userId) {
@@ -109,8 +101,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
-                                    final String birthdate, final Double funds) {
-        return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate, funds);
+                                    final String birthdate) {
+        return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate);
     }
 
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
@@ -129,7 +121,7 @@ public class UserServiceImpl implements UserService {
         return userDAO.checkUsername(username);
     }
 
-    public boolean addFundsToUserId(final Double funds, final Integer userId) {
-        return userDAO.addFundsToUserId(funds, userId);
-    }
+//    public boolean addFundsToUserId(final Double funds, final Integer userId) {
+//        return userDAO.addFundsToUserId(funds, userId);
+//    }
 }

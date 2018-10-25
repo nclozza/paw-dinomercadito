@@ -92,11 +92,10 @@ public class PostsController {
             return new ModelAndView("redirect:/404");
         }
 
-        Optional<User> userLogged = getLoggedUser();
+        Optional<Post> postModified = postService.addVisit(post.get().getPostId(), user.get().getUserId(), getLoggedUser().get().getUserId());
 
-        if (userLogged.get().getUserId() != user.get().getUserId()){
-            postService.addVisit(post.get().getPostId());
-        }
+        if (postModified != null)
+            post = postModified;
 
         mav.addObject("post", post.get());
         mav.addObject("user", user.get());

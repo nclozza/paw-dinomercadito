@@ -22,7 +22,7 @@ public class UserDaoHibernate implements UserDAO {
 
     @Transactional
     @Override
-    public User createUser(String username, String password, String email, String phone, String birthdate, Double funds) {
+    public User createUser(String username, String password, String email, String phone, String birthdate) {
         User user = new User(username, password, email, phone, birthdate);
         em.persist(user);
         LOGGER.info("User inserted with userId = {}", user.getUserId().intValue());
@@ -52,7 +52,7 @@ public class UserDaoHibernate implements UserDAO {
 
     @Transactional
     @Override
-    public Optional<User> updateUser(Integer userId, String password, String email, String phone, String birthdate, Double funds) {
+    public Optional<User> updateUser(Integer userId, String password, String email, String phone, String birthdate) {
 
         User user = em.find(User.class, userId);
 
@@ -61,7 +61,6 @@ public class UserDaoHibernate implements UserDAO {
             user.setEmail(email);
             user.setPhone(phone);
             user.setBirthdate(birthdate);
-            user.setFunds(funds);
             em.merge(user);
             LOGGER.info("User updated with userId = {}", userId);
         }else {
@@ -89,20 +88,20 @@ public class UserDaoHibernate implements UserDAO {
 
     }
 
-    @Transactional
-    @Override
-    public boolean addFundsToUserId(Double funds, Integer userId) {
-
-        User user = em.find(User.class, userId);
-
-        if (user != null) {
-            user.setFunds(funds);
-            em.merge(user);
-            LOGGER.info("Add funds = {} to userId = {}", funds, userId);
-            return true;
-        }
-        LOGGER.info("User not found with userId = {}", userId);
-
-        return false;
-    }
+//    @Transactional
+//    @Override
+//    public boolean addFundsToUserId(Double funds, Integer userId) {
+//
+//        User user = em.find(User.class, userId);
+//
+//        if (user != null) {
+//            user.setFunds(funds);
+//            em.merge(user);
+//            LOGGER.info("Add funds = {} to userId = {}", funds, userId);
+//            return true;
+//        }
+//        LOGGER.info("User not found with userId = {}", userId);
+//
+//        return false;
+//    }
 }

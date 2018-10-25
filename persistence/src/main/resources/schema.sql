@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS users (
    email VARCHAR(32),
    phone VARCHAR(16),
    birthdate VARCHAR(10),
-   funds NUMERIC(10, 2)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (
@@ -59,7 +58,12 @@ CREATE TABLE IF NOT EXISTS usersNotAuthenticated (
    email VARCHAR(32),
    phone VARCHAR(16),
    birthdate VARCHAR(10),
-   funds NUMERIC(10, 2),
    signUpDate VARCHAR(10),
    code INT
+);
+
+CREATE TABLE IF NOT EXISTS views (
+   viewId SERIAL PRIMARY KEY,
+   postId INT REFERENCES posts(postId) NOT NULL,
+   userId INT REFERENCES users(userId) NOT NULL
 );

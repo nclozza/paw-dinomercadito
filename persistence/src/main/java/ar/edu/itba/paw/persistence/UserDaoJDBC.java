@@ -41,20 +41,19 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     public User createUser(final String username, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds) {
+                           final String birthdate) {
         final Map<String, Object> args = new HashMap<>();
         args.put("username", username); // la key es el nombre de la columna
         args.put("password", password);
         args.put("email", email);
         args.put("phone", phone);
         args.put("birthdate", birthdate);
-        args.put("funds", funds);
 
         final Number userId = jdbcInsert.executeAndReturnKey(args);
 
         LOGGER.info("User inserted with userId = {}", userId.intValue());
 
-        return new User(userId.intValue(), username, password, email, phone, birthdate, funds);
+        return new User(userId.intValue(), username, password, email, phone, birthdate);
     }
 
     public Optional<User> findUserByUsername(final String username) {
@@ -79,9 +78,9 @@ public class UserDaoJDBC implements UserDAO {
     }
 
     public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
-                           final String birthdate, final Double funds) {
+                           final String birthdate) {
         jdbcTemplate.update("UPDATE users SET password = ?, email = ?, phone = ?, birthdate = ?, funds = ? WHERE userId = ?",
-                password, email, phone, birthdate, funds, userId);
+                password, email, phone, birthdate, userId);
 
         LOGGER.info("User updated with userId = {}", userId);
 
@@ -94,10 +93,10 @@ public class UserDaoJDBC implements UserDAO {
         return userList.isEmpty();
     }
 
-    @Override
-    public boolean addFundsToUserId(final Double funds, final Integer userId) {
-        final Integer updatedRows = jdbcTemplate.update("UPDATE users SET funds = ? WHERE userId = ?", funds, userId);
-
-        return updatedRows == 1;
-    }
+//    @Override
+//    public boolean addFundsToUserId(final Double funds, final Integer userId) {
+//        final Integer updatedRows = jdbcTemplate.update("UPDATE users SET funds = ? WHERE userId = ?", funds, userId);
+//
+//        return updatedRows == 1;
+//    }
 }

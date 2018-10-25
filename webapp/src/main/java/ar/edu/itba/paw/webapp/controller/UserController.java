@@ -5,7 +5,6 @@ import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
-import ar.edu.itba.paw.webapp.form.AddFundsForm;
 import ar.edu.itba.paw.webapp.form.AuthenticationForm;
 import ar.edu.itba.paw.webapp.form.UpdateUserForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
@@ -143,7 +142,7 @@ public class UserController {
             User user = getLoggedUser();
 
             userService.updateUserWithoutPasswordEncoder(user.getUserId(), user.getPassword(), form.getEmail(),
-                    form.getPhone(), form.getBirthdate(), user.getFunds());
+                    form.getPhone(), form.getBirthdate());
 
         } else if (form.getPassword().length() < 6 || form.getPassword().length() > 32) {
             return profile(form).addObject("password_error", true);
@@ -156,7 +155,7 @@ public class UserController {
             User user = getLoggedUser();
 
             userService.updateUser(user.getUserId(), form.getPassword(), form.getEmail(), form.getPhone(),
-                    form.getBirthdate(), user.getFunds());
+                    form.getBirthdate());
         }
 
         return new ModelAndView("redirect:/profile");
@@ -225,20 +224,20 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.GET})
-    public ModelAndView addFunds(@ModelAttribute("addFundsForm") final AddFundsForm form) {
-        return new ModelAndView("addFunds");
-    }
+//    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.GET})
+//    public ModelAndView addFunds(@ModelAttribute("addFundsForm") final AddFundsForm form) {
+//        return new ModelAndView("addFunds");
+//    }
 
-    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.POST})
-    public ModelAndView addFundsPost(@Valid @ModelAttribute("addFundsForm") final AddFundsForm form) {
-
-        User user = getLoggedUser();
-
-        if (!userService.addFundsToUserId(Double.valueOf(form.getFunds()), user.getUserId())) {
-            return new ModelAndView("redirect:/500");
-        }
-
-        return new ModelAndView("redirect:/profile");
-    }
+//    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.POST})
+//    public ModelAndView addFundsPost(@Valid @ModelAttribute("addFundsForm") final AddFundsForm form) {
+//
+//        User user = getLoggedUser();
+//
+//        if (!userService.addFundsToUserId(Double.valueOf(form.getFunds()), user.getUserId())) {
+//            return new ModelAndView("redirect:/500");
+//        }
+//
+//        return new ModelAndView("redirect:/profile");
+//    }
 }
