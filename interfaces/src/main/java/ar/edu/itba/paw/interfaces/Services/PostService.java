@@ -22,4 +22,6 @@ public interface PostService {
     List<Post> findPostsByProductId(final Integer productId);
 
     Optional<Post> addVisit(Integer postId, Integer userId, Integer userIdLogged);
+
+    List<Post> filterByAvailablePosts(final List<Post> postList);
 }

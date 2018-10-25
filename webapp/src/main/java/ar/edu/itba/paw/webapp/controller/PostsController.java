@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class PostsController {
     UserService userService;
 
     @RequestMapping("/posts")
-    public ModelAndView index(@RequestParam(value = "productId") final Integer productId) {
+    public ModelAndView index(@RequestParam(value = "filter", required = false) final String filter, @RequestParam(value = "productId") final Integer productId) {
         ModelAndView mav = new ModelAndView("posts");
         Optional<Product> product = productService.findProductByProductId(productId);
 
@@ -45,8 +46,13 @@ public class PostsController {
 
         List<Post> postList = postService.findPostsByProductId(productId);
 
+        postList = postService.filterByAvailablePosts(postList);
+
+        postList.sort(Comparator.comparing(Post::getVisits).reversed());
+
         mav.addObject("posts", postList);
         mav.addObject("product", product.get());
+        mav.addObject("filter", filter);
 
         return mav;
     }
@@ -76,7 +82,9 @@ public class PostsController {
     }
 
     @RequestMapping(value = "/post", method = {RequestMethod.GET})
-    public ModelAndView post(@RequestParam(value = "postId") final Integer postId,
+    public ModelAndView post(@RequestParam(value = "filter", required = false) final String filter,
+                             @RequestParam(value = "postId") final Integer postId,
+                             @RequestParam(value = "profile", required = false) final Boolean profile,
                              @ModelAttribute("transactionForm") final TransactionForm form) {
         ModelAndView mav = new ModelAndView("post");
         Optional<Post> post = postService.findPostByPostId(postId);
@@ -100,6 +108,11 @@ public class PostsController {
         mav.addObject("post", post.get());
         mav.addObject("user", user.get());
         mav.addObject("product", product.get());
+        mav.addObject("filter", filter);
+        if(profile != null)
+            mav.addObject("profile", profile);
+        else
+            mav.addObject("profile", false);
 
         return mav;
     }

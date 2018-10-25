@@ -24,7 +24,7 @@
     </c:choose>
 
     <div>
-        <h1><spring:message code="profile"/></h1>
+        <h1 class="tittle"><spring:message code="profile"/></h1>
         <div class="left-container">
             <ul class="nav nav-pills nav-stacked">
                 <li>
@@ -76,6 +76,7 @@
                             <c:if test="${password_error}">
                                 <p><spring:message code="username_error"/></p>
                             </c:if>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -86,6 +87,7 @@
                             <c:if test="${repeat_password}">
                                 <p><spring:message code="repeat_password_error"/></p>
                             </c:if>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -96,6 +98,7 @@
                             <form:input type="text" path="email" value="${user.email}" class="form-control"/>
                             <form:errors class="error" path="email" element="p"><br><spring:message
                                     code="email_error"/></form:errors>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -104,6 +107,7 @@
                             <form:input type="text" path="phone" value="${user.phone}" class="form-control"/>
                             <form:errors class="error" path="phone" element="p"><br><spring:message
                                     code="phone_error"/></form:errors>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -112,6 +116,7 @@
                             <form:input type="text" path="birthdate" value="${user.birthdate}" class="form-control"/>
                             <form:errors class="error" path="birthdate" element="p"><br><spring:message
                                     code="birthdate_error"/></form:errors>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -134,10 +139,14 @@
                     <c:otherwise>
                         <c:forEach items="${posts}" var="post" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${post.postId}"/></p>
+                                <p><spring:message code="product_name"/><c:out value="${post.product.productName}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
+                                <p><spring:message code="visits"/><c:out value="${post.visits}"/></p>
                                 <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
                                     <spring:message code="edit"/>
+                                </a>
+                                <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${post.postId}&&profile=true" />">
+                                    <spring:message code="view"/>
                                 </a>
                             </div>
                         </c:forEach>

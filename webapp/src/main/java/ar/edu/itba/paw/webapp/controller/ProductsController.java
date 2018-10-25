@@ -19,7 +19,7 @@ public class ProductsController {
     @RequestMapping("/products")
     public ModelAndView index(@RequestParam(value = "filter", required = false) final String filter) {
         ModelAndView mav = new ModelAndView("products");
-        if (filter == null) {
+        if (filter == null || filter.isEmpty()) {
             List<Product> productList = productService.findAllProducts();
             List<String> brandsList = productService.findAllAttributeValuesForFilter("brand");
             List<String> operativeSystemsList = productService.findAllAttributeValuesForFilter("operativeSystem");
@@ -42,6 +42,7 @@ public class ProductsController {
                 mav.addObject("products", productList);
         }
 
+        mav.addObject("filter", filter);
         //for (String attribute : attributes)
         //    mav.addObject(attribute + "s", productService.findAllAttributeValuesForFilter(attribute));
 

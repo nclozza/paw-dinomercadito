@@ -24,7 +24,14 @@
 
     <div class="posts-center">
         <div class="return">
-            <a class="btn btn-primary" href="<c:url value="/posts?productId=${post.productId}"/>"><spring:message code="go_back"/></a>
+            <c:choose>
+                <c:when test="${profile}">
+                    <a class="btn btn-primary" href="<c:url value="/profile"/>"><spring:message code="go_back"/></a>
+                </c:when>
+                <c:otherwise>
+                    <a class="btn btn-primary" href="<c:url value="/posts?filter=${filter}&&productId=${post.productId}"/>"><spring:message code="go_back"/></a>
+                </c:otherwise>
+            </c:choose>
         </div>
         <h1 class="title"><spring:message code="details"/></h1>
         <div class="posts-left">
@@ -45,6 +52,10 @@
                 <br>
                 <h3 class="label"><spring:message code="description_"/></h3>
                 <h3 class="value"><c:out value="${post.description}"/></h3>
+                <br>
+                <br>
+                <h3 class="label"><spring:message code="product_quantity"/></h3>
+                <h3 class="value"><c:out value="${post.productQuantity}"/></h3>
                 <br>
                 <br>
                 <h3 class="label"><spring:message code="visits"/></h3>

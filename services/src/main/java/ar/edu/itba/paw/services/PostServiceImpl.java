@@ -70,4 +70,14 @@ public class PostServiceImpl implements PostService {
         return postDAO.deletePost(postId);
     }
 
+    public List<Post> filterByAvailablePosts(final List<Post> postList){
+        List<Post> resultList = new LinkedList<Post>();
+
+        for(Post p : postList){
+            if (p.getProductQuantity() > 0)
+                resultList.add(p);
+        }
+
+        return resultList;
+    }
 }

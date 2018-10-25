@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,15 +113,17 @@ public class UserController {
 
         User user = getLoggedUser();
         Integer userId = user.getUserId();
-        List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
+        //List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
         List<Post> postList = postService.findPostsByUserId(userId);
+
+        postList.sort(Comparator.comparing(Post::getVisits).reversed());
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
         mav.addObject("password_error", false);
         mav.addObject("user", user);
 
-        mav.addObject("transactions", transactionList);
+        //mav.addObject("transactions", transactionList);
         mav.addObject("posts", postList);
 
         return mav;
