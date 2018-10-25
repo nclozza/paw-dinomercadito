@@ -16,7 +16,7 @@ public class PostForm {
     private String description;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     private Integer productQuantity;
 
     @NotNull
@@ -49,7 +49,7 @@ public class PostForm {
         return productQuantity;
     }
 
-    public void setProductQuantity(@NotNull final Integer productQuantity) {
+    public void setProductQuantity(@NotNull Integer productQuantity) {
         this.productQuantity = productQuantity;
     }
 }

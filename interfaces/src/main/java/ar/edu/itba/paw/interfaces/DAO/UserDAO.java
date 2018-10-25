@@ -13,11 +13,10 @@ public interface UserDAO {
      * @param email The user's email as a String.
      * @param phone The user's phone as a String.
      * @param birthdate The user's birthdate as a String.
-     * @param funds The user's funds as a Double.
      * @return A new user POJO. This method will never return null.
      */
     User createUser(final String username, final String password, final String email, final String phone,
-                    final String birthdate, final Double funds);
+                    final String birthdate);
 
     /**
      * Finds and retrieves a user from the database through its specified ID.
@@ -37,12 +36,11 @@ public interface UserDAO {
      * @param email The user's supposedly new email passed as a String.
      * @param phone The user's supposedly new phone number passed as a String.
      * @param birthdate The user's supposedly new birthdate passed as a String.
-     * @param funds The user's supposedly new funds passed as a Double.
      * @return An Optional object that contains either the user POJO if the user was successfully found and updated
      *      in the database, or an empty Optional otherwise.
      */
     Optional<User> updateUser(final Integer userId, final String password, final String email,
-                    final String phone, final String birthdate, final Double funds);
+                    final String phone, final String birthdate);
 
     /**
      * Finds and retrieves a user through its specified username, from the database.
@@ -54,5 +52,5 @@ public interface UserDAO {
 
     boolean checkUsername(final String username);
 
-    boolean addFundsToUserId(final Double funds, final Integer userId);
+    //boolean addFundsToUserId(final Double funds, final Integer userId);
 }

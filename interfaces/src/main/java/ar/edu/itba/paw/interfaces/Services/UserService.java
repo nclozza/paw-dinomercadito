@@ -20,25 +20,23 @@ public interface UserService {
     User createUser(final String username, final String password, final String email, final String phone,
                     final String birthdate);
 
-    User createUser(final String username, final String password, final String email, final String phone,
-                    final String birthdate, final Double funds);
 
     Optional<User> findUserByUserId(final Integer userId);
 
     boolean deleteUser(final Integer userId);
 
     Optional<User> updateUser(final Integer userId, final String password, final String email,
-                    final String phone, final String birthdate, final Double funds);
+                    final String phone, final String birthdate);
 
     boolean postProduct(final Integer productId, final Double price, final Integer userId,
-                        final String description, final Integer productQuantity);
+                        final String description, final Integer productQuantity, final Integer visits);
 
     Optional<User> findUserByUsername(final String username);
 
     Optional<User> updateUserWithoutPasswordEncoder(final Integer userId, final String password, final String email,
-                                          final String phone, final String birthdate, final Double funds);
+                                          final String phone, final String birthdate);
 
     boolean checkUsername(final String username);
 
-    boolean addFundsToUserId(final Double funds, final Integer userId);
+    //boolean addFundsToUserId(final Double funds, final Integer userId);
 }

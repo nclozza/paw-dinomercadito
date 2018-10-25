@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -21,6 +22,7 @@ public class EditPostForm {
     private String description;
 
     @NotNull
+    @Min(0)
     private Integer productQuantity;
 
     @NotNull
@@ -49,20 +51,20 @@ public class EditPostForm {
     }
 
     @NotNull
-    public Integer getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(@NotNull Integer productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    @NotNull
     public Integer getPostId() {
         return postId;
     }
 
     public void setPostId(@NotNull final Integer postId) {
         this.postId = postId;
+    }
+
+    @NotNull
+    public Integer getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(Integer productQuantity) {
+        this.productQuantity = productQuantity;
     }
 }

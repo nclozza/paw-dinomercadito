@@ -54,7 +54,7 @@
                         code="productQuantity_error"/><br></form:errors>
             </div>
             <br>
-            <a>
+            <div>
                 <a class="left-button btn" href="<c:url value="/index"/>"><spring:message code="cancel"/></a>
                 <input type="submit" class="btn btn-primary" value="<spring:message code="create_post"/>"/>
             </div>

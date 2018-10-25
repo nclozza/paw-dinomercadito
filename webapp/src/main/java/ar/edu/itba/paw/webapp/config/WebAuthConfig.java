@@ -42,7 +42,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .invalidSessionUrl("/index")
             .and().authorizeRequests()
                 .antMatchers("/index", "/products", "/posts").permitAll()
-                .antMatchers(HttpMethod.GET, "/post").permitAll()
+                .antMatchers(HttpMethod.GET, "/post").authenticated()
                 .antMatchers("/login", "/signUp", "/authentication").anonymous()
                 .antMatchers("/profile", "/logout", "/newPost", "/editPost", "/sellerInformation",
                         "/profile/addFunds").authenticated()

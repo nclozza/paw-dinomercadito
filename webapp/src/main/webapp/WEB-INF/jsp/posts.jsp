@@ -23,7 +23,7 @@
 
     <div class="posts-center">
         <div class="return">
-            <a class="btn btn-primary" href="<c:url value="/products"/>"><spring:message code="go_back"/></a>
+            <a class="btn btn-primary" href="<c:url value="/products?filter=${filter}"/>"><spring:message code="go_back"/></a>
         </div>
         <h1 class="title"><spring:message code="posts"/></h1>
 
@@ -41,11 +41,13 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${posts}" var="post" varStatus="loop">
-                        <a href="<c:url value="/post?postId=${post.postId}"/>">
+                        <a href="<c:url value="/post?filter=${filter}&&postId=${post.postId}"/>">
                             <div class="post">
-                                <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
-                                <br>
                                 <p class="label"><spring:message code="price_"/></p><p class="value"><c:out value="${post.price}"/></p>
+                                <br>
+                                <p class="label"><spring:message code="visits"/></p><p class="value"><c:out value="${post.visits}"/></p>
+                                    <br>
+                                <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
                                 <br>
                                 <br>
                                 <button type="button" class="btn btn-success button-margin"><spring:message code="view"/></button>

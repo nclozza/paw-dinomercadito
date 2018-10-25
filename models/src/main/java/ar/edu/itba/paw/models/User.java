@@ -28,17 +28,17 @@ public class User {
     @Column(length = 10)
     private String birthdate;
 
-    @Column()
-    private Double funds;
-
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
     private List<Post> postList;
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
     private List<Address> addressesList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "buyerUser")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "buyerUser")
     private List<Transaction> transactionsList;
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+    private List<View> viewsList;
 
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
@@ -47,7 +47,6 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        this.funds = 0.0;
     }
 
     public User(final Integer userId, final String username, final String password, final String email,
@@ -58,7 +57,6 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        this.funds = 0.0;
     }
 
     public User(final Integer userId, final String username, final String password, final String email,
@@ -69,7 +67,6 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        this.funds = funds;
     }
 
     public User(){
@@ -124,14 +121,6 @@ public class User {
         this.email = email;
     }
 
-    public Double getFunds() {
-        return funds;
-    }
-
-    public void setFunds(final Double funds) {
-        this.funds = funds;
-    }
-
     public List<Post> getPostList() {
         return postList;
     }
@@ -154,5 +143,13 @@ public class User {
 
     public void setTransactionsList(List<Transaction> transactionsList) {
         this.transactionsList = transactionsList;
+    }
+
+    public List<View> getViewsList() {
+        return viewsList;
+    }
+
+    public void setViewsList(List<View> viewsList) {
+        this.viewsList = viewsList;
     }
 }

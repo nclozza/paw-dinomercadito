@@ -4,8 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR(60) NOT NULL,
    email VARCHAR(32),
    phone VARCHAR(16),
-   birthdate VARCHAR(10),
-   funds NUMERIC(10, 2)
+   birthdate VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (
@@ -40,7 +39,8 @@ CREATE TABLE IF NOT EXISTS posts (
    userId INT REFERENCES users(userId) NOT NULL,
    price NUMERIC(8, 2) NOT NULL,
    description VARCHAR(128),
-   productQuantity INT NOT NULL
+   productQuantity INT NOT NULL,
+   visits INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transactions (
@@ -59,7 +59,12 @@ CREATE TABLE IF NOT EXISTS usersNotAuthenticated (
    email VARCHAR(32),
    phone VARCHAR(16),
    birthdate VARCHAR(10),
-   funds NUMERIC(10, 2),
    signUpDate VARCHAR(10),
    code INT
+);
+
+CREATE TABLE IF NOT EXISTS views (
+   viewId SERIAL PRIMARY KEY,
+   postId INT REFERENCES posts(postId) NOT NULL,
+   userId INT REFERENCES users(userId) NOT NULL
 );

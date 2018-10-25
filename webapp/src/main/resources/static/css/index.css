@@ -45,7 +45,7 @@ hr{
 }
 
 .bg-1 {
-    background: url("/images/index_background.jpg") no-repeat 0 50px;
+    background: url("/images/index_background.jpg") no-repeat -100px 50px;
     height: 100%;
 }
 

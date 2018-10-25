@@ -24,53 +24,43 @@
     </c:choose>
 
     <div>
-        <h1><spring:message code="profile"/></h1>
+        <h1 class="tittle"><spring:message code="profile"/></h1>
         <div class="left-container">
             <ul class="nav nav-pills nav-stacked">
                 <li>
-                    <a id="transactions-button" class="btn btn-info" role="button">
-                        <spring:message code="show_transactions"/>
-                    </a>
-                </li>
-                <li>
-                    <a id="edit-profile-button" class="btn btn-info" role="button">
+                    <button id="edit-profile-button" class="btn btn-primary button">
                         <spring:message code="edit_profile"/>
-                    </a>
+                    </button>
                 </li>
                 <li>
-                    <a id="posts-button" class="btn btn-info" role="button">
+                    <button id="posts-button" class="btn btn-primary button">
                         <spring:message code="show_posts"/>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn btn-info" role="button" href="<c:url value="/profile/addFunds" />">
-                        <spring:message code="show_add_funds"/>
-                    </a>
+                    </button>
                 </li>
             </ul>
         </div>
 
         <%-- TRANSACTIONS --%>
-        <div class="right-container">
-            <div id="transactions">
-                <h2><spring:message code="show_transactions"/></h2>
-                <br>
-                <c:choose>
-                    <c:when test="${empty transactions}">
-                        <p><spring:message code="no_transactions"/></p>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach items="${transactions}" var="transaction" varStatus="loop">
-                            <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>
-                                <p><spring:message code="product_quantity"/><c:out value="${transaction.productQuantity}"/></p>
-                                <p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>
-                            </div>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
+        <%--<div class="right-container">--%>
+            <%--<div id="transactions">--%>
+                <%--<h2><spring:message code="show_transactions"/></h2>--%>
+                <%--<br>--%>
+                <%--<c:choose>--%>
+                    <%--<c:when test="${empty transactions}">--%>
+                        <%--<p><spring:message code="no_transactions"/></p>--%>
+                    <%--</c:when>--%>
+                    <%--<c:otherwise>--%>
+                        <%--<c:forEach items="${transactions}" var="transaction" varStatus="loop">--%>
+                            <%--<div class="post">--%>
+                                <%--<p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>--%>
+                                <%--<p><spring:message code="visits"/><c:out value="${transaction.visits}"/></p>--%>
+                                <%--<p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>--%>
+                            <%--</div>--%>
+                        <%--</c:forEach>--%>
+                    <%--</c:otherwise>--%>
+                <%--</c:choose>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
         <%-- EDIT PROFILE --%>
         <div class="right-container">
@@ -86,6 +76,7 @@
                             <c:if test="${password_error}">
                                 <p><spring:message code="username_error"/></p>
                             </c:if>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -96,6 +87,7 @@
                             <c:if test="${repeat_password}">
                                 <p><spring:message code="repeat_password_error"/></p>
                             </c:if>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -106,6 +98,7 @@
                             <form:input type="text" path="email" value="${user.email}" class="form-control"/>
                             <form:errors class="error" path="email" element="p"><br><spring:message
                                     code="email_error"/></form:errors>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -114,6 +107,7 @@
                             <form:input type="text" path="phone" value="${user.phone}" class="form-control"/>
                             <form:errors class="error" path="phone" element="p"><br><spring:message
                                     code="phone_error"/></form:errors>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -122,6 +116,7 @@
                             <form:input type="text" path="birthdate" value="${user.birthdate}" class="form-control"/>
                             <form:errors class="error" path="birthdate" element="p"><br><spring:message
                                     code="birthdate_error"/></form:errors>
+                            <br/>
                         </div>
                     </div>
                     <div>
@@ -144,10 +139,14 @@
                     <c:otherwise>
                         <c:forEach items="${posts}" var="post" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${post.postId}"/></p>
+                                <p><spring:message code="product_name"/><c:out value="${post.product.productName}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
-                                <a class="btn btn-info" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
+                                <p><spring:message code="visits"/><c:out value="${post.visits}"/></p>
+                                <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
                                     <spring:message code="edit"/>
+                                </a>
+                                <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${post.postId}&&profile=true" />">
+                                    <spring:message code="view"/>
                                 </a>
                             </div>
                         </c:forEach>
@@ -163,23 +162,23 @@
 <script type="text/javascript">
     $(document).ready(function () {
         if (${formError} || ${repeat_password} || ${password_error}) {
-            $("#transactions, #posts").hide();
+            $("#posts").hide();
         } else {
-            $("#edit-profile, #posts").hide();
+            $("#posts").hide();
         }
 
-        $("#transactions-button").click(function () {
-            $("#edit-profile, #posts").hide();
-            $("#transactions").show();
-        });
+        // $("#transactions-button").click(function () {
+        //     $("#edit-profile, #posts").hide();
+        //     $("#transactions").show();
+        // });
 
         $("#edit-profile-button").click(function () {
-            $("#transactions, #posts").hide();
+            $("#posts").hide();
             $("#edit-profile").show();
         });
 
         $("#posts-button").click(function () {
-            $("#transactions, #edit-profile").hide();
+            $("#edit-profile").hide();
             $("#posts").show();
         });
     });
