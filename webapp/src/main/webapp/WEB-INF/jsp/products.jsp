@@ -28,7 +28,7 @@
             <c:forEach items="${products}" var="product" varStatus="loop">
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <a href="<c:url value="/posts?filter=${filter}&&productId=${product.productId}"/>">
+                        <a href="<c:url value="/product?filter=${filter}&&productId=${product.productId}"/>">
                             <div class="image-container">
                                 <img class="product img-responsive"
                                      src="<c:url value="/images/${product.productName}.png" />"

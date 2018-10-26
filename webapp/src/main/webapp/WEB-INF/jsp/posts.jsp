@@ -23,7 +23,7 @@
 
     <div class="posts-center">
         <div class="return">
-            <a class="btn btn-primary" href="<c:url value="/products?filter=${filter}"/>"><spring:message code="go_back"/></a>
+            <a class="btn btn-primary" href="<c:url value="/product?filter=${filter}&&productId=${product.productId}"/>"><spring:message code="go_back"/></a>
         </div>
         <h1 class="title"><spring:message code="posts"/></h1>
 
