@@ -18,6 +18,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     public JavaMailSender emailSender;
 
+    @Override
     public boolean sendSimpleMessage(final String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -32,14 +33,16 @@ public class EmailServiceImpl implements EmailService {
         return true;
     }
 
+    @Override
     public boolean sendSuccessfulPurchaseEmail(final String to, final String productModel, final Integer postId) {
         return sendSuccessfulTransactionEmail(to, productModel, postId, PURCHASE);
     }
-
+    @Override
     public boolean sendSuccessfulSaleEmail(final String to, final String productModel, final Integer postId) {
         return sendSuccessfulTransactionEmail(to, productModel, postId, SALE);
     }
 
+    @Override
     public boolean sendSuccessfulRegistrationEmail(final String to, final String username) {
         boolean status = sendSimpleMessage(to, "Welcome to Dinomercadito", "Hi there " + username + ", we want to welcome " +
                 "you to Dinomercadito! As a registered user you'll be able to purchase and/or post products.");
@@ -71,6 +74,7 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
+    @Override
     public boolean sendCodeEmail(final String to, final Integer code) {
 
         boolean status = sendSimpleMessage(to, "Authentication code", "Here is your authentication code: " + code);

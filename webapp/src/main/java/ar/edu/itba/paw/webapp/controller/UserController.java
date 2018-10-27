@@ -81,9 +81,7 @@ public class UserController {
             return signUp(form).addObject("sameUsername_error", true);
         }
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-        LocalDateTime now = LocalDateTime.now();
-        String date = dtf.format(now);
+        String date = userService.getTodayDate();
 
         Integer code = usn.generateCode();
 

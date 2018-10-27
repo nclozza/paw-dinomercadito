@@ -20,31 +20,37 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
     public UserNotAuthenticated createUser(final String username, final String password, final String email,
                                            final String phone, final String birthdate, final String signUpDate,
                                            final Integer code) {
         return userDAO.createUser(username, passwordEncoder.encode(password), email, phone, birthdate, signUpDate, code);
     }
 
+    @Override
     public boolean deleteUser(final Integer userId) {
         return userDAO.deleteUser(userId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<UserNotAuthenticated> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<UserNotAuthenticated> findUserByUserId(final Integer userId) {
         return userDAO.findUserByUserId(userId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<UserNotAuthenticated> findUserByCode(final Integer code) {
         return userDAO.findUserByCode(code);
     }
 
+    @Override
     public Integer generateCode() {
         boolean check = true;
         Integer code;
@@ -60,6 +66,7 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
         return code;
     }
 
+    @Override
     public boolean checkUsername(final String username) {
         return userDAO.checkUsername(username);
     }

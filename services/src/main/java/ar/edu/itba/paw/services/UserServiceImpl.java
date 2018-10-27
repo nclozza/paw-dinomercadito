@@ -11,6 +11,8 @@ import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TransactionService transactionService;
 
+    @Override
     public User createUserWithAddress(final String username, final String password, final String email,
                                       final String phone, final String birthdate, final String street,
                                       final Integer number, final String city, final String province,
@@ -44,17 +47,20 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
     public User createUser(final String username, final String password, final String email, final String phone,
                            final String birthdate) {
         return userDAO.createUser(username, password, email, phone, birthdate);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<User> findUserByUsername(final String username) {
         return userDAO.findUserByUsername(username);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<User> findUserByUserId(final Integer userId) {
         return userDAO.findUserByUserId(userId);
     }
@@ -65,6 +71,7 @@ public class UserServiceImpl implements UserService {
         return userDAO.updateUser(userId, password, email, phone, birthdate);
     }
 
+    @Override
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
 
@@ -100,11 +107,13 @@ public class UserServiceImpl implements UserService {
         return userDAO.deleteUser(userId) == deletionSucceeded;
     }
 
+    @Override
     public Optional<User> updateUser(final Integer userId, final String password, final String email, final String phone,
                                     final String birthdate) {
         return userDAO.updateUser(userId, passwordEncoder.encode(password), email, phone, birthdate);
     }
 
+    @Override
     public boolean postProduct(final Integer productId, final Double price, final Integer userId,
                                final String description, final Integer productQuantity,final Integer visits) {
         boolean postProductSucceeded = true;
@@ -117,6 +126,7 @@ public class UserServiceImpl implements UserService {
             return postProductSucceeded;
     }
 
+    @Override
     public boolean checkUsername(final String username) {
         return userDAO.checkUsername(username);
     }
@@ -124,4 +134,11 @@ public class UserServiceImpl implements UserService {
 //    public boolean addFundsToUserId(final Double funds, final Integer userId) {
 //        return userDAO.addFundsToUserId(funds, userId);
 //    }
+
+    @Override
+    public String getTodayDate(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
 }

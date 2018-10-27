@@ -39,4 +39,6 @@ public interface UserService {
     boolean checkUsername(final String username);
 
     //boolean addFundsToUserId(final Double funds, final Integer userId);
+
+    String getTodayDate();
 }
