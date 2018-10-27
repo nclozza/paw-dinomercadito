@@ -50,7 +50,8 @@ body {
     height: 90%;
     background-color: rgba(230, 224, 224, 0.61);
     border-radius: 4px;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -64,7 +65,7 @@ body {
 .posts-right {
     height: 80%;
     width: 45%;
-    float: right;
+    float: left;
     margin: 10px;
     overflow-y: auto;
 }
