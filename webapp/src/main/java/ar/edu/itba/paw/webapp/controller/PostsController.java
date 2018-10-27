@@ -217,6 +217,6 @@ public class PostsController {
         postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
                 form.getDescription(), form.getProductQuantity(), post.get().getVisits());
 
-        return new ModelAndView("redirect:/post?postId=" + form.getPostId());
+        return new ModelAndView("redirect:/post?postId=" + form.getPostId() + "&&profile=true");
     }
 }

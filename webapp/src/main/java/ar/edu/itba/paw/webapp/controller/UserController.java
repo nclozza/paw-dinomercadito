@@ -81,7 +81,7 @@ public class UserController {
             return signUp(form).addObject("sameUsername_error", true);
         }
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd");
         LocalDateTime now = LocalDateTime.now();
         String date = dtf.format(now);
 
@@ -137,12 +137,12 @@ public class UserController {
             return profile(form).addObject("form_error", true);
         }
 
+        User user = getLoggedUser();
+
         if (form.getPassword().equals("")) {
             if (!form.checkPassword()) {
                 return profile(form).addObject("repeat_password", true);
             }
-
-            User user = getLoggedUser();
 
             userService.updateUserWithoutPasswordEncoder(user.getUserId(), user.getPassword(), form.getEmail(),
                     form.getPhone(), form.getBirthdate());
@@ -154,9 +154,6 @@ public class UserController {
             return profile(form).addObject("repeat_password", true);
 
         } else {
-
-            User user = getLoggedUser();
-
             userService.updateUser(user.getUserId(), form.getPassword(), form.getEmail(), form.getPhone(),
                     form.getBirthdate());
         }

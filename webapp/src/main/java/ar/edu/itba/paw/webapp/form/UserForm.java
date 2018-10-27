@@ -25,7 +25,6 @@ public class UserForm {
     private String phone;
 
     @Size(min = 10, max = 10)
-    @Pattern(regexp = "[0-9]{2}-[0-9]{2}-[0-9]{4}")
     private String birthdate;
 
     public String getUsername() {

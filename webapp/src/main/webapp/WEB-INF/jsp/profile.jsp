@@ -113,7 +113,7 @@
                     <div>
                         <div class="form-group">
                             <form:label class="label" path="birthdate"><spring:message code="birthdate"/></form:label>
-                            <form:input type="text" path="birthdate" value="${user.birthdate}" class="form-control"/>
+                            <form:input id="dateInput" type="date" path="birthdate" value="${user.birthdate}" class="form-control"/>
                             <form:errors class="error" path="birthdate" element="p"><br><spring:message
                                     code="birthdate_error"/></form:errors>
                             <br/>
@@ -181,7 +181,26 @@
             $("#edit-profile").hide();
             $("#posts").show();
         });
+
+        date();
     });
+
+    //Set max date for today
+    function date() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+        document.getElementById("dateInput").setAttribute("max", today);
+    }
 </script>
 
 </body>

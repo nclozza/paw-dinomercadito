@@ -40,7 +40,7 @@ body {
     margin-top: 10%;
 }
 
-input[type=text], [type=password] {
+input[type=text], [type=password],[type=date] {
     width: 60%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -94,10 +94,14 @@ input[type=text], [type=password] {
     bottom: 0;
     right: 0;
     width: 25%;
-    height: 60%;
+    height: 63%;
     background-color: rgba(230, 224, 224, 0.61);
     border-radius: 10px;
     overflow: auto;
     padding: 8px 0;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login{
+    margin-top:10%;
 }
