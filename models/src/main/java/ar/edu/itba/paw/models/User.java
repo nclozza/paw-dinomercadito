@@ -40,6 +40,12 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
     private List<View> viewsList;
 
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userReviewed")
+    private List<UserReview> userReviewedList;
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userWhoReview")
+    private List<UserReview> userWhoReviewList;
+
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
         this.username = username;
@@ -151,5 +157,21 @@ public class User {
 
     public void setViewsList(List<View> viewsList) {
         this.viewsList = viewsList;
+    }
+
+    public List<UserReview> getUserReviewedList() {
+        return userReviewedList;
+    }
+
+    public void setUserReviewedList(List<UserReview> userReviewedList) {
+        this.userReviewedList = userReviewedList;
+    }
+
+    public List<UserReview> getUserWhoReviewList() {
+        return userWhoReviewList;
+    }
+
+    public void setUserWhoReviewList(List<UserReview> userWhoReviewList) {
+        this.userWhoReviewList = userWhoReviewList;
     }
 }

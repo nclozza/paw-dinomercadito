@@ -5,9 +5,7 @@ import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
-import ar.edu.itba.paw.webapp.form.AuthenticationForm;
-import ar.edu.itba.paw.webapp.form.UpdateUserForm;
-import ar.edu.itba.paw.webapp.form.UserForm;
+import ar.edu.itba.paw.webapp.form.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +47,9 @@ public class UserController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private UserReviewService userReviewService;
 
     @Autowired
     @Qualifier("userNotAuthenticatedServiceImpl")
@@ -238,4 +239,24 @@ public class UserController {
 //
 //        return new ModelAndView("redirect:/profile");
 //    }
+
+    @RequestMapping(value = "/userReview", method = {RequestMethod.GET})
+    public ModelAndView userReview(@ModelAttribute("userReview") final UserReview form,
+                                   @RequestParam(value = "userId") final Integer userId) {
+        return new ModelAndView("userReview").addObject("userId", userId);
+    }
+
+    @RequestMapping(value = "/userReview", method = {RequestMethod.POST})
+    public ModelAndView editPost(@Valid @ModelAttribute("userReview") final UserReview form,
+                                 final BindingResult errors) {
+        if(errors.hasErrors())
+            return userReview(form, form.getUserId());
+
+        User userLogged = getLoggedUser();
+
+        userReviewService.createUserReview(form.getUserId(), userLogged.getUserId(), form.getRating(), form.getDescription());
+
+        return new ModelAndView("redirect:/index");
+
+    }
 }

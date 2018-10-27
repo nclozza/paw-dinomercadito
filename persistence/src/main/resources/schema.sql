@@ -68,3 +68,11 @@ CREATE TABLE IF NOT EXISTS views (
    postId INT REFERENCES posts(postId) NOT NULL,
    userId INT REFERENCES users(userId) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS userReviews (
+   userReviewId SERIAL PRIMARY KEY,
+   userReviewedId INT REFERENCES users(userId) NOT NULL,
+   userWhoReviewId INT REFERENCES users(userId) NOT NULL,
+   rating INT NOT NULL,
+   description VARCHAR(128)
+);
