@@ -25,17 +25,20 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private ViewService viewService;
 
+    @Override
     public Post createPost(final Integer productId, final Double price, final Integer userId, final String description,
                            final Integer productQuantity, final Integer visits) {
         return postDAO.createPost(productId, price, userId, description, productQuantity, visits);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<Post> findPostByPostId(final Integer postId) {
         return postDAO.findPostByPostId(postId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<Post> findPostsByUserId(Integer userId) {
         List<Post> postsList = postDAO.findPostsByUserId(userId);
 
@@ -43,6 +46,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<Post> findPostsByProductId(Integer productId) {
         List<Post> postsList = postDAO.findPostsByProductId(productId);
 
@@ -61,15 +65,18 @@ public class PostServiceImpl implements PostService {
         return null;
     }
 
+    @Override
     public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
                                      final Integer productQuantity, final Integer visits) {
         return postDAO.updatePost(postId, productId, price, description, productQuantity, visits);
     }
 
+    @Override
     public boolean deletePost(final Integer postId) {
         return postDAO.deletePost(postId);
     }
 
+    @Override
     public List<Post> filterByAvailablePosts(final List<Post> postList){
         List<Post> resultList = new LinkedList<Post>();
 

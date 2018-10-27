@@ -22,25 +22,30 @@ public class ViewServiceImpl implements ViewService {
     @Autowired
     private ViewDAO viewDAO;
 
+    @Override
     public View createView(final Integer postId, final Integer userId) {
         return viewDAO.createView(postId, userId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<View> findViewByViewId(final Integer viewId) {
         return viewDAO.findViewByViewId(viewId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<View> findViewsByUserId(final Integer userId) {
         return viewDAO.findViewsByUserId(userId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<View> findViewsByPostId(final Integer postId) {
         return viewDAO.findViewsByPostId(postId);
     }
 
+    @Override
     public boolean checkAddVisit(Integer postId, Integer userId){
         List<View> viewsList = viewDAO.findViewsByPostId(postId);
 

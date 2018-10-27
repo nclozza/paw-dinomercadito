@@ -37,6 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private ProductService productService;
 
+    @Override
     public Transaction createTransaction(final Integer postId, final Integer buyerUserId, final Integer productQuantity,
                                          final Double price, final String productName) {
         return transactionDAO.createTransaction(postId, buyerUserId, productQuantity, price, productName);
@@ -46,13 +47,14 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionDAO.deleteTransactionByTransactionId(transactionId);
     }
 
-
     @Transactional (readOnly = true)
+    @Override
     public Optional<Transaction> findTransactionByTransactionId(final Integer transactionId) {
         return transactionDAO.findTransactionByTransactionId(transactionId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId) {
         return transactionDAO.findTransactionsByBuyerUserId(buyerUserId);
     }

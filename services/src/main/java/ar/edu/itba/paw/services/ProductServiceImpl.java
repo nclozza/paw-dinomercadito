@@ -20,6 +20,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 
+    @Override
     public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
                                  String processor, String bodySize, String screenSize, String screenRatio,
                                  String rearCamera, String frontCamera) {
@@ -27,15 +28,18 @@ public class ProductServiceImpl implements ProductService {
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
+    @Override
     public boolean deleteProduct(Integer productId) {
         return productDAO.deleteProduct(productId);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public Optional<Product> findProductByProductId(final Integer productId) {
         return productDAO.findProductByProductId(productId);
     }
 
+    @Override
     public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand, final String ram,
                                  final String storage, final String operativeSystem, final String processor,
                                  final String bodySize, final String screenSize, final String screenRatio,
@@ -45,11 +49,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<Product> findAllProducts() {
         return productDAO.findAllProducts();
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<Product> filterProducts(final Integer filterCount, final String attributes[],
                                         final String attributeValue[]) {
         if ((filterCount != attributes.length) || (filterCount != attributeValue.length))
@@ -59,16 +65,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<String> findAllAttributeValuesForFilter(final String attribute) {
         return productDAO.findAllAttributeValuesForFilter(attribute);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<String> getAllAttributesForFiltering() {
         return Arrays.asList(attributesToFilter);
     }
 
     @Transactional (readOnly = true)
+    @Override
     public List<Product> findProductsByFilter(String filter) {
         return productDAO.findProductsByFilter(filter);
     }
