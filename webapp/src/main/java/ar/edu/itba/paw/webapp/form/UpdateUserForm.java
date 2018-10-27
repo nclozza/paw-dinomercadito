@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -18,7 +19,6 @@ public class UpdateUserForm {
     private String phone;
 
     @Size(min = 10, max = 10)
-    @Pattern(regexp = "[0-9]{2}-[0-9]{2}-[0-9]{4}")
     private String birthdate;
 
     public String getPassword() {

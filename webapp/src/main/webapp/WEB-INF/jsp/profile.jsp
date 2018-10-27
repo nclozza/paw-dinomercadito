@@ -113,7 +113,7 @@
                     <div>
                         <div class="form-group">
                             <form:label class="label" path="birthdate"><spring:message code="birthdate"/></form:label>
-                            <form:input type="text" path="birthdate" value="${user.birthdate}" class="form-control"/>
+                            <form:input type="date" path="birthdate" value="${user.birthdate}" class="form-control"/>
                             <form:errors class="error" path="birthdate" element="p"><br><spring:message
                                     code="birthdate_error"/></form:errors>
                             <br/>
