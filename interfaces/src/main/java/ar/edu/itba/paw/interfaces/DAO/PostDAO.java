@@ -69,4 +69,6 @@ public interface PostDAO {
     List<Post> findPostsByProductId(final Integer productId);
 
     Optional<Post> addVisit(final Integer postId);
+
+    List<Post> findMostVisitedPosts();
 }

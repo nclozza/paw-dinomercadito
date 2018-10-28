@@ -7,6 +7,7 @@ import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.interfaces.Services.ViewService;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.User;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +84,24 @@ public class PostServiceImpl implements PostService {
         for(Post p : postList){
             if (p.getProductQuantity() > 0)
                 resultList.add(p);
+        }
+
+        return resultList;
+    }
+
+    @Override
+    public List<Post> findMostVisitedPosts(){
+        List<Post> postList = postDAO.findMostVisitedPosts();
+        List<Integer> productIdList = new LinkedList<Integer>();
+        List<Post> resultList = new LinkedList<Post>();
+
+        for(Post p: postList){
+            if (!productIdList.contains(p.getProductId())){
+                productIdList.add(p.getProductId());
+                resultList.add(p);
+                if(resultList.size() == 5)
+                    return resultList;
+            }
         }
 
         return resultList;

@@ -113,4 +113,11 @@ public class PostDaoHibernate implements PostDAO {
 
         return Optional.ofNullable(post);
     }
+
+    @Override
+    public List<Post> findMostVisitedPosts() {
+        final TypedQuery<Post> query = em.createQuery("from Post order by visits desc", Post.class);
+        query.setMaxResults(50);
+        return query.getResultList();
+    }
 }

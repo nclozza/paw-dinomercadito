@@ -96,3 +96,16 @@ hr{
 .horizontal-align{
     margin: auto;
 }
+
+
+.carousel-title {
+    text-align: center;
+    font-size: 45px;
+    margin: 30px;
+}
+
+.carousel-container {
+    margin: auto;
+    width: 50%;
+    height: 500px;
+}
