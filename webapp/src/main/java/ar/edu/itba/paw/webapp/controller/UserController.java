@@ -253,26 +253,17 @@ public class UserController {
         if(errors.hasErrors())
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId());
 
-        Optional<Post> post = postService.findPostByPostId(form.getPostId());
-        Product p = post.get().getProduct();
-        Integer size = p.getPostList().size();
-
         User userLogged = getLoggedUser();
 
         if(userLogged.getUserId() == form.getUserId())
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("same_user_error", true);
 
 
-
         if(!userReviewService.checkUserWhoReview(userLogged.getUserId(), form.getUserId()))
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("check_user_error", true);
 
-        size = p.getPostList().size();
-
         userService.addRating(form.getUserId() ,form.getRating());
         userReviewService.createUserReview(form.getUserId(), userLogged.getUserId(), form.getRating(), form.getDescription());
-
-        size = p.getPostList().size();
 
         return userReviews(form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId(), form);
     }
