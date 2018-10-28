@@ -79,8 +79,12 @@ public class PostDaoHibernate implements PostDAO {
 
     @Override
     public List<Post> findPostsByUserId(Integer userId) {
-        User user = em.find(User.class, userId);
-        return user.getPostList();
+        final TypedQuery<Post> query = em.createQuery("FROM Post p WHERE userId = :userId", Post.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+
+//        User user = em.find(User.class, userId);
+//        return user.getPostList();
     }
 
     @Override
