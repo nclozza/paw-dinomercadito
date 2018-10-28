@@ -52,5 +52,7 @@ public interface UserDAO {
 
     boolean checkUsername(final String username);
 
+    void addRating(User userId, Double rating);
+
     //boolean addFundsToUserId(final Double funds, final Integer userId);
 }

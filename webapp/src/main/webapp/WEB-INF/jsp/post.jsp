@@ -66,6 +66,10 @@
                 <h3 class="value"><c:out value="${user.username}"/></h3>
                 <br>
                 <br>
+                <h3 class="label"><spring:message code="rating_"/></h3>
+                <h3 class="value"><c:out value="${user.rating}"/>   </h3>
+                <br>
+                <br>
                 <h3 class="label"><spring:message code="email_"/></h3>
                 <h3 class="value"><c:out value="${user.email}"/></h3>
                 <br>
@@ -74,6 +78,12 @@
                 <h3 class="value"><c:out value="${user.phone}"/></h3>
                 <br>
                 <br>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
+                    <spring:message code="add_review"/>
+                </a>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
+                    <spring:message code="find_reviews"/>
+                </a>
                 <%--TODO Ask this--%>
                 <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
 

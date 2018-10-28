@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,8 +85,13 @@ public class PostDaoHibernate implements PostDAO {
 
     @Override
     public List<Post> findPostsByProductId(Integer productId) {
-        Product product = em.find(Product.class, productId);
-        return product.getPostList();
+
+        final TypedQuery<Post> query = em.createQuery("FROM Post p WHERE productId = :productId", Post.class);
+        query.setParameter("productId", productId);
+        return query.getResultList();
+
+//        Product product = em.find(Product.class, productId);
+//        return product.getPostList();
     }
 
     @Override

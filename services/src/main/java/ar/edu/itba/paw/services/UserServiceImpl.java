@@ -3,6 +3,8 @@ package ar.edu.itba.paw.services;
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.interfaces.Services.*;
 import ar.edu.itba.paw.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserDAO userDAO;
 
@@ -31,8 +35,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+//    @Autowired
+//    private TransactionService transactionService;
+
     @Autowired
-    private TransactionService transactionService;
+    private UserReviewService userReviewService;
 
     @Override
     public User createUserWithAddress(final String username, final String password, final String email,
@@ -75,14 +82,14 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(final Integer userId) {
         boolean deletionSucceeded = true;
 
-        List<Transaction> transactionsList = transactionService.findTransactionsByBuyerUserId(userId);
-
-        if (!transactionsList.isEmpty()) {
-            for (Transaction transaction : transactionsList)
-                transactionService.deleteTransactionByTransactionId(transaction.getTransactionId());
-        } else {
-            return !deletionSucceeded;
-        }
+//        List<Transaction> transactionsList = transactionService.findTransactionsByBuyerUserId(userId);
+//
+//        if (!transactionsList.isEmpty()) {
+//            for (Transaction transaction : transactionsList)
+//                transactionService.deleteTransactionByTransactionId(transaction.getTransactionId());
+//        } else {
+//            return !deletionSucceeded;
+//        }
 
         List<Post> postsList = postService.findPostsByUserId(userId);
 
@@ -140,5 +147,26 @@ public class UserServiceImpl implements UserService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+    @Override
+    public void addRating(Integer userId, Integer rating){
+        Optional<User> user = userDAO.findUserByUserId(userId);
+        List<UserReview> listUserReviewed = userReviewService.findReviewsByUserReviewedId(userId);
+        Double newRating;
+
+        if(user != null){
+            Double userRating = user.get().getRating();
+            if(userRating != null) {
+                Integer cant = listUserReviewed.size();
+                newRating = ((cant * userRating) + rating) / (cant + 1);
+            } else {
+                newRating = rating.doubleValue();
+            }
+            userDAO.addRating(user.get(), newRating);
+            LOGGER.info("User rating = {} updated with userId = {}", rating, userId);
+        } else {
+            LOGGER.info("User not found with userId = {}", userId);
+        }
     }
 }

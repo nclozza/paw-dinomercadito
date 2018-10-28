@@ -93,6 +93,11 @@ public class UserDaoJDBC implements UserDAO {
         return userList.isEmpty();
     }
 
+    @Override
+    public void addRating(User userId, Double rating) {
+
+    }
+
 //    @Override
 //    public boolean addFundsToUserId(final Double funds, final Integer userId) {
 //        final Integer updatedRows = jdbcTemplate.update("UPDATE users SET funds = ? WHERE userId = ?", funds, userId);

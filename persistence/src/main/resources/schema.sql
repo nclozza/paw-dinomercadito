@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR(60) NOT NULL,
    email VARCHAR(32),
    phone VARCHAR(16),
-   birthdate VARCHAR(10)
+   birthdate VARCHAR(10),
+   rating NUMERIC(8, 2)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (
@@ -67,4 +68,12 @@ CREATE TABLE IF NOT EXISTS views (
    viewId SERIAL PRIMARY KEY,
    postId INT REFERENCES posts(postId) NOT NULL,
    userId INT REFERENCES users(userId) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS userReviews (
+   userReviewId SERIAL PRIMARY KEY,
+   userReviewedId INT REFERENCES users(userId) NOT NULL,
+   userWhoReviewId INT REFERENCES users(userId) NOT NULL,
+   rating INT NOT NULL,
+   description VARCHAR(128)
 );
