@@ -22,7 +22,7 @@
         </c:otherwise>
     </c:choose>
 
-    <div class="small-container">
+    <div class="small-container-authentication">
         <h1><spring:message code="authenticate"/></h1>
         <br>
         <form:form class="form" modelAttribute="authenticationForm" action="${authenticationPath}" method="post">
