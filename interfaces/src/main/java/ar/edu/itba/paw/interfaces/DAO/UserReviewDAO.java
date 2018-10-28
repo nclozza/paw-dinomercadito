@@ -12,4 +12,6 @@ public interface UserReviewDAO {
     List<UserReview> findReviewsByUserReviewedId(Integer userReviewedId);
 
     Optional<UserReview> findReviewByUserReviewId(Integer userReviewId);
+
+    List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId);
 }

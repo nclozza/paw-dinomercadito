@@ -2,6 +2,7 @@
     float:left;
     width:270px;
 }
+
 .rating span { float:right; position:relative; }
 .rating span input {
     position:absolute;
@@ -55,3 +56,36 @@
     display: block;
     margin-left: 14%;
 }
+
+.reviews-center {
+    margin: auto;
+    position: absolute;
+    top: 5%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 80%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.reviews{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 80%;
+}
+
+.review {
+    background-color: ghostwhite;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+

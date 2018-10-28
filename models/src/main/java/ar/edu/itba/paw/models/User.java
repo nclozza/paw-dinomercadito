@@ -28,6 +28,9 @@ public class User {
     @Column(length = 10)
     private String birthdate;
 
+    @Column
+    private Double rating;
+
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
     private List<Post> postList;
 
@@ -173,5 +176,13 @@ public class User {
 
     public void setUserWhoReviewList(List<UserReview> userWhoReviewList) {
         this.userWhoReviewList = userWhoReviewList;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

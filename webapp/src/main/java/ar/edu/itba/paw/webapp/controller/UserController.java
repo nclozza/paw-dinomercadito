@@ -1,10 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.Services.*;
-import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Transaction;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.UserNotAuthenticated;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.form.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -241,22 +236,65 @@ public class UserController {
 //    }
 
     @RequestMapping(value = "/userReview", method = {RequestMethod.GET})
-    public ModelAndView userReview(@ModelAttribute("userReview") final UserReview form,
+    public ModelAndView userReview(@ModelAttribute("userReview") final UserReviewForm form,
+                                   @RequestParam(value = "filter", required = false) final String filter,
+                                   @RequestParam(value = "postId") final Integer postId,
+                                   @RequestParam(value = "profile") final Boolean profile,
                                    @RequestParam(value = "userId") final Integer userId) {
-        return new ModelAndView("userReview").addObject("userId", userId);
+        return new ModelAndView("userReview").addObject("userId", userId)
+                .addObject("filter", filter)
+                .addObject("postId", postId)
+                .addObject("profile", profile);
     }
 
     @RequestMapping(value = "/userReview", method = {RequestMethod.POST})
-    public ModelAndView editPost(@Valid @ModelAttribute("userReview") final UserReview form,
-                                 final BindingResult errors) {
+    public ModelAndView createUserReview(@Valid @ModelAttribute("userReview") final UserReviewForm form,
+                                         final BindingResult errors) {
         if(errors.hasErrors())
-            return userReview(form, form.getUserId());
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId());
+
+        Optional<Post> post = postService.findPostByPostId(form.getPostId());
+        Product p = post.get().getProduct();
+        Integer size = p.getPostList().size();
 
         User userLogged = getLoggedUser();
 
+        if(userLogged.getUserId() == form.getUserId())
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("same_user_error", true);
+
+
+
+        if(!userReviewService.checkUserWhoReview(userLogged.getUserId(), form.getUserId()))
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("check_user_error", true);
+
+        size = p.getPostList().size();
+
+        userService.addRating(form.getUserId() ,form.getRating());
         userReviewService.createUserReview(form.getUserId(), userLogged.getUserId(), form.getRating(), form.getDescription());
 
-        return new ModelAndView("redirect:/index");
+        size = p.getPostList().size();
 
+        return userReviews(form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId(), form);
+    }
+
+    @RequestMapping(value = "/userReviews", method = {RequestMethod.GET})
+    public ModelAndView userReviews(@RequestParam(value = "filter", required = false) final String filter,
+                             @RequestParam(value = "postId") final Integer postId,
+                             @RequestParam(value = "profile", required = false) final Boolean profile,
+                             @RequestParam(value = "userId") final Integer userId,
+                             @ModelAttribute("userReview") final UserReviewForm form) {
+
+        List<UserReview> userReviewList = userReviewService.findReviewsByUserReviewedId(userId);
+
+        ModelAndView mav = new ModelAndView("userReviews").addObject("userId", userId)
+                .addObject("filter", filter)
+                .addObject("postId", postId)
+                .addObject("profile", profile)
+                .addObject("userReviews", userReviewList);
+
+        if (userReviewList.isEmpty())
+            mav.addObject("empty_reviews", true);
+
+        return mav;
     }
 }

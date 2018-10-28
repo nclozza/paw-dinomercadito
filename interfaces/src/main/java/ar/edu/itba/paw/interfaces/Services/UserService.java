@@ -41,4 +41,6 @@ public interface UserService {
     //boolean addFundsToUserId(final Double funds, final Integer userId);
 
     String getTodayDate();
+
+    void addRating(Integer userId, Integer rating);
 }

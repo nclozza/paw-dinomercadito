@@ -2,6 +2,7 @@ package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.DAO.UserReviewDAO;
 import ar.edu.itba.paw.interfaces.Services.UserReviewService;
+import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.models.UserReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class UserReviewServiceImpl implements UserReviewService {
     @Autowired
     private UserReviewDAO userReviewDAO;
 
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserReview createUserReview(Integer userReviewedId, Integer userWhoReviewId, Integer rating, String description) {
@@ -27,7 +30,25 @@ public class UserReviewServiceImpl implements UserReviewService {
     }
 
     @Override
+    public List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId) {
+        return userReviewDAO.findReviewsByUserWhoReviewId(userWhoReviewId);
+    }
+
+    @Override
     public Optional<UserReview> findReviewByUserReviewId(Integer userReviewId) {
         return userReviewDAO.findReviewByUserReviewId(userReviewId);
     }
+
+    @Override
+    public boolean checkUserWhoReview(Integer userWhoReviewId, Integer userReviewed){
+        List<UserReview> userReviewList = userReviewDAO.findReviewsByUserWhoReviewId(userWhoReviewId);
+
+        for(UserReview ur : userReviewList){
+            if(ur.getUserReviewedId() == userReviewed)
+                return false;
+        }
+
+        return true;
+    }
+
 }

@@ -12,4 +12,8 @@ public interface UserReviewService {
     List<UserReview> findReviewsByUserReviewedId(Integer userReviewedId);
 
     Optional<UserReview> findReviewByUserReviewId(Integer userReviewId);
+
+    List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId);
+
+    boolean checkUserWhoReview(Integer userWhoReviewId, Integer userReviewed);
 }

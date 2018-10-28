@@ -88,6 +88,14 @@ public class UserDaoHibernate implements UserDAO {
 
     }
 
+    @Transactional
+    @Override
+    public void addRating(User user, Double rating){
+        user.setRating(rating);
+        em.merge(user);
+        LOGGER.info("User rating = {} updated with userId = {}", rating, user);
+    }
+
 //    @Transactional
 //    @Override
 //    public boolean addFundsToUserId(Double funds, Integer userId) {

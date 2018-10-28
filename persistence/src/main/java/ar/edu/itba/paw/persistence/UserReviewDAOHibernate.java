@@ -39,6 +39,12 @@ public class UserReviewDAOHibernate implements UserReviewDAO {
     }
 
     @Override
+    public List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId){
+        User userWhoReview = em.find(User.class, userWhoReviewId);
+        return userWhoReview.getUserWhoReviewList();
+    }
+
+    @Override
     public Optional<UserReview> findReviewByUserReviewId(Integer userReviewId){
         return Optional.ofNullable(em.find(UserReview.class, userReviewId));
     }
