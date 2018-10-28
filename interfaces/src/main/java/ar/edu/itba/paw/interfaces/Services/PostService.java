@@ -24,4 +24,6 @@ public interface PostService {
     Optional<Post> addVisit(Integer postId, Integer userId, Integer userIdLogged);
 
     List<Post> filterByAvailablePosts(final List<Post> postList);
+
+    List<Post> findMostVisitedPosts();
 }

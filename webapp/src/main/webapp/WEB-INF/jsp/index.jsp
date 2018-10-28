@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/index.css'/>">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/products.css'/>">
 
 </head>
 <body>
@@ -61,55 +63,53 @@
         </div>
     </div>
     <!-- Second Container -->
-    <div class="container-fluid bg-2 text-center">
-        <div class="container">
-            <h2>New Releases</h2>
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="carousel slide multi-item-carousel" id="theCarousel">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/f44336/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/e91e63/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/9c27b0/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/673ab7/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/4caf50/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <!-- add  more items here -->
-                            <!-- Example item start:  -->
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000"
-                                                                        class="img-responsive"></a></div>
-                            </div>
-                            <!--  Example item end -->
-                        </div>
-                        <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i
-                                class="glyphicon glyphicon-chevron-left"></i></a>
-                        <a class="right carousel-control" href="#theCarousel" data-slide="next"><i
-                                class="glyphicon glyphicon-chevron-right"></i></a>
+    <div class="container">
+        <h1 class="carousel-title" ><spring:message code="top_visited"/></h1>
+        <div id="myCarousel" class="carousel slide carousel-container" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <c:forEach items="${posts}" var="product" varStatus="loop">
+                    <li data-target="#myCarousel" data-slide-to="${loop.index + 1}"></li>
+                </c:forEach>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <a href="<c:url value="/post?postId=${firstPost.postId}"/>">
+                    <img class="product img-responsive"
+                         src="<c:url value="/images/${firstPost.product.productName}.png"/>"
+                         alt="${firstPost.product.productName}">
+                    </a>
+                    <div class="carousel-caption">
+                        <h2>${firstPost.product.productName}</h2>
+                        <h3>${firstPost.visits} <spring:message code="visits_"/></h3>
                     </div>
                 </div>
+                <c:forEach items="${posts}" var="post" varStatus="loop">
+                    <div class="item">
+                        <a href="<c:url value="/post?postId=${post.postId}"/>">
+                        <img class="product img-responsive"
+                             src="<c:url value="/images/${post.product.productName}.png" />"
+                             alt="${post.product.productName}">
+                        </a>
+                        <div class="carousel-caption">
+                            <h2>${post.product.productName}</h2>
+                            <h3>${post.visits} <spring:message code="visits_"/></h3>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
-</div>
 </body>
 </html>
