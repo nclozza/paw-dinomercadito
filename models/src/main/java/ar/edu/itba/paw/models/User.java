@@ -49,6 +49,9 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userWhoReview")
     private List<UserReview> userWhoReviewList;
 
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userWhoAsk")
+    private List<Question> questionList;
+
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
         this.username = username;
@@ -184,5 +187,13 @@ public class User {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public List<Question> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionList(List<Question> questionList) {
+        this.questionList = questionList;
     }
 }

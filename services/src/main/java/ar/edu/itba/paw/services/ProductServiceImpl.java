@@ -1,16 +1,13 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.interfaces.DAO.ProductDAO;
 import ar.edu.itba.paw.interfaces.Services.ProductService;
-import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +20,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 
-    @Autowired
-    private PostDAO postDAO;
 
     @Override
     public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,

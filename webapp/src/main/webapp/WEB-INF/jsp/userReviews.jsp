@@ -44,7 +44,7 @@
                             <br>
                             <p class="label"><spring:message code="description_"/></p>
                             <br/>
-                            <textarea class="value"><c:out value="${userReview.description}"/></textarea>
+                            <p class="value"><c:out value="${userReview.description}"/></p>
                         </div>
                     </c:forEach>
                 </c:otherwise>

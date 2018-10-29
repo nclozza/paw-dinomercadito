@@ -43,6 +43,9 @@ public class Post {
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "post")
     private List<View> viewsList;
 
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "post")
+    private List<Question> questionList;
+
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
                 final String description) {
         this.postId = postId;
@@ -165,5 +168,13 @@ public class Post {
 
     public void setProductQuantity(Integer productQuantity) {
         this.productQuantity = productQuantity;
+    }
+
+    public List<Question> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionList(List<Question> questionList) {
+        this.questionList = questionList;
     }
 }

@@ -84,6 +84,12 @@
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
                     <spring:message code="find_reviews"/>
                 </a>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/question?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
+                    <spring:message code="ask"/>
+                </a>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/questions?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
+                    <spring:message code="find_questions"/>
+                </a>
                 <%--TODO Ask this--%>
                 <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
 
