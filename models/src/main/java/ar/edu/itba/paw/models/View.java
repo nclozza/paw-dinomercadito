@@ -19,13 +19,13 @@ public class View {
     private Integer userId;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Post post;
+    private Post postInView;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
     public View(final Post post, final User user){
-        this.post = post;
+        this.postInView = post;
         this.postId = post.getPostId();
         this.user = user;
         this.userId = user.getUserId();
@@ -59,12 +59,12 @@ public class View {
         this.userId = userId;
     }
 
-    public Post getPost() {
-        return post;
+    public Post getPostInView() {
+        return postInView;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostInView(Post postInView) {
+        this.postInView = postInView;
     }
 
     public User getUser() {

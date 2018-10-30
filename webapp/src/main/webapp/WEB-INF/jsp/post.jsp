@@ -78,13 +78,19 @@
                 <h3 class="value"><c:out value="${user.phone}"/></h3>
                 <br>
                 <br>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/question?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
+                    <spring:message code="ask"/>
+                </a>
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
                     <spring:message code="add_review"/>
+                </a>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/questions?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
+                    <spring:message code="find_questions"/>
                 </a>
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
                     <spring:message code="find_reviews"/>
                 </a>
-                <%--TODO Ask this--%>
+            <%--TODO Ask this--%>
                 <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
 
                 <%--<c:url value="/post" var="postPath"/>--%>

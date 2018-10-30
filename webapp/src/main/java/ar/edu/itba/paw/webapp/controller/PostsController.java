@@ -3,10 +3,9 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.Services.*;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
+import ar.edu.itba.paw.models.Question;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.form.EditPostForm;
-import ar.edu.itba.paw.webapp.form.PostForm;
-import ar.edu.itba.paw.webapp.form.TransactionForm;
+import ar.edu.itba.paw.webapp.form.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +33,9 @@ public class PostsController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    QuestionService questionService;
 
     @RequestMapping("/posts")
     public ModelAndView index(@RequestParam(value = "filter", required = false) final String filter, @RequestParam(value = "productId") final Integer productId) {
@@ -219,4 +221,52 @@ public class PostsController {
 
         return new ModelAndView("redirect:/post?postId=" + form.getPostId() + "&&profile=true");
     }
+
+    @RequestMapping(value = "/question", method = {RequestMethod.GET})
+    public ModelAndView ask(@Valid @ModelAttribute("question") final QuestionForm form,
+                            @RequestParam(value = "postId") final Integer postId,
+                            @RequestParam(value = "filter", required = false) final String filter,
+                            @RequestParam(value = "profile", required = false) final Boolean profile) {
+
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        return new ModelAndView("question").addObject("post", post.get())
+                .addObject("filter", filter)
+                .addObject("profile", profile);
+    }
+
+    @RequestMapping(value = "/question", method = {RequestMethod.POST})
+    public ModelAndView createQuestion(@Valid @ModelAttribute("question") final QuestionForm form,
+                                       final BindingResult errors) {
+        if(errors.hasErrors())
+            return ask(form, form.getPostId(), form.getFilter(), form.getProfile());
+
+        Optional<Post> post = postService.findPostByPostId(form.getPostId());
+        Optional<User> userLogged = getLoggedUser();
+
+        if(userLogged.get().getUserId() == post.get().getUserId())
+            return ask(form, form.getPostId(), form.getFilter(), form.getProfile()).addObject("same_user_question", true);
+
+        Question question = questionService.createQuestion(post.get().getPostId(), userLogged.get().getUserId(), form.getQuestion());
+
+        return questions(form, form.getFilter(), form.getProfile(), form.getPostId());
+    }
+
+    @RequestMapping(value = "/questions", method = {RequestMethod.GET})
+    public ModelAndView questions(@Valid @ModelAttribute("questions") final QuestionForm form,
+                                  @RequestParam(value = "filter", required = false) final String filter,
+                                  @RequestParam(value = "profile", required = false) final Boolean profile,
+                                  @RequestParam(value = "postId") final Integer postId){
+
+        List<Question> questionList = questionService.findQuestionsByPostId(postId);
+
+        ModelAndView mav = new ModelAndView("questions")
+                .addObject("filter", filter )
+                .addObject("profile", profile)
+                .addObject("postId", postId)
+                .addObject("questions", questionList);
+
+        return mav;
+    }
+
 }

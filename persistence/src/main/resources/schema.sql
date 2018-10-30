@@ -77,3 +77,11 @@ CREATE TABLE IF NOT EXISTS userReviews (
    rating INT NOT NULL,
    description VARCHAR(128)
 );
+
+CREATE TABLE IF NOT EXISTS questions (
+   questionId SERIAL PRIMARY KEY,
+   postId INT REFERENCES posts(postId) NOT NULL,
+   userWhoAskId INT REFERENCES users(userId) NOT NULL,
+   question VARCHAR(128) NOT NULL,
+   answer VARCHAR(128)
+);
