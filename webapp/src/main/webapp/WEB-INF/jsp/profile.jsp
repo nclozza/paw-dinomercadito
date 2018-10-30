@@ -144,7 +144,7 @@
                     <c:otherwise>
                         <c:forEach items="${posts}" var="post" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${post.productPosted.productId}"/></p>
+                                <p><spring:message code="product_name"/><c:out value="${post.productPosted.productName}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
                                 <p><spring:message code="visits"/><c:out value="${post.visits}"/></p>
                                 <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">

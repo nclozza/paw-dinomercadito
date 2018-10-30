@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
    email VARCHAR(32),
    phone VARCHAR(16),
    birthdate VARCHAR(10),
-   rating NUMERIC(8, 2)
+   funds NUMERIC(10, 2)
 );
 
 CREATE TABLE IF NOT EXISTS addresses (
@@ -38,10 +38,9 @@ CREATE TABLE IF NOT EXISTS posts (
    postId SERIAL PRIMARY KEY,
    productId INT REFERENCES products(productId) NOT NULL,
    userId INT REFERENCES users(userId) NOT NULL,
-   price NUMERIC(8, 2) NOT NULL,
+   price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128),
-   productQuantity INT NOT NULL,
-   visits INT NOT NULL
+   productQuantity INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transactions (
@@ -60,28 +59,30 @@ CREATE TABLE IF NOT EXISTS usersNotAuthenticated (
    email VARCHAR(32),
    phone VARCHAR(16),
    birthdate VARCHAR(10),
+   funds NUMERIC(10, 2),
    signUpDate VARCHAR(10),
    code INT
 );
 
+
 CREATE TABLE IF NOT EXISTS views (
    viewId SERIAL PRIMARY KEY,
-   postId INT REFERENCES posts(postId) NOT NULL,
-   userId INT REFERENCES users(userId) NOT NULL
+   postVisited_postId INT REFERENCES posts(postId) NOT NULL,
+   userWhoVisited_userId INT REFERENCES users(userId) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS userReviews (
    userReviewId SERIAL PRIMARY KEY,
-   userReviewedId INT REFERENCES users(userId) NOT NULL,
-   userWhoReviewId INT REFERENCES users(userId) NOT NULL,
+   userReviewed_userId INT REFERENCES users(userId) NOT NULL,
+   userWhoReview_userId INT REFERENCES users(userId) NOT NULL,
    rating INT NOT NULL,
    description VARCHAR(128)
 );
 
 CREATE TABLE IF NOT EXISTS questions (
    questionId SERIAL PRIMARY KEY,
-   postId INT REFERENCES posts(postId) NOT NULL,
-   userWhoAskId INT REFERENCES users(userId) NOT NULL,
+   postAsked_postId INT REFERENCES posts(postId) NOT NULL,
+   userWhoAsk_userId INT REFERENCES users(userId) NOT NULL,
    question VARCHAR(128) NOT NULL,
    answer VARCHAR(128)
 );
