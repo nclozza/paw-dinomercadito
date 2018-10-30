@@ -7,6 +7,8 @@ import java.util.List;
 @Table(name = "posts")
 public class Post {
 
+    public static final Integer MAX_TOP_VISITED = 5;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_postId_seq")
     @SequenceGenerator(sequenceName = "posts_postId_seq", name = "posts_postId_seq", allocationSize = 1)
@@ -40,10 +42,10 @@ public class Post {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "post")
     private List<Transaction> transactionsList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "postInView")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postInView")
     private List<View> viewsList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "postToAsk")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postToAsk")
     private List<Question> questionList;
 
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,

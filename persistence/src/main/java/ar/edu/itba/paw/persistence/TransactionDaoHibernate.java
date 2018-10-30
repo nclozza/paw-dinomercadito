@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.DAO.TransactionDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 import ar.edu.itba.paw.models.User;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -53,9 +54,11 @@ public class TransactionDaoHibernate implements TransactionDAO {
         return Optional.ofNullable(em.find(Transaction.class, transactionId));
     }
 
+    @Transactional
     @Override
     public List<Transaction> findTransactionsByBuyerUserId(Integer buyerUserId) {
         User user = em.find(User.class, buyerUserId);
+        Hibernate.initialize(user.getTransactionsList());
         return user.getTransactionsList();
     }
 }

@@ -20,6 +20,7 @@ import java.util.Optional;
 @Repository
 public class PostServiceImpl implements PostService {
 
+
     @Autowired
     private PostDAO postDAO;
 
@@ -99,7 +100,7 @@ public class PostServiceImpl implements PostService {
             if (!productIdList.contains(p.getProductId()) && p.getProductQuantity() > 0){
                 productIdList.add(p.getProductId());
                 resultList.add(p);
-                if(resultList.size() == 5)
+                if(resultList.size() == Post.MAX_TOP_VISITED)
                     return resultList;
             }
         }

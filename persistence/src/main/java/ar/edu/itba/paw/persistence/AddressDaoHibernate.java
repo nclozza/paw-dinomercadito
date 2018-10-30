@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.DAO.AddressDAO;
 import ar.edu.itba.paw.models.Address;
 import ar.edu.itba.paw.models.User;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -90,9 +91,11 @@ public class AddressDaoHibernate implements AddressDAO {
         return Optional.ofNullable(address);
     }
 
+    @Transactional
     @Override
     public List<Address> findAddressesByUserId(Integer userId) {
         User user = em.find(User.class, userId);
+        Hibernate.initialize(user.getAddressesList());
         return user.getAddressesList();
     }
 }

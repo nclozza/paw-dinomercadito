@@ -31,25 +31,25 @@ public class User {
     @Column
     private Double rating;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
     private List<Post> postList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
     private List<Address> addressesList;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "buyerUser")
     private List<Transaction> transactionsList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
     private List<View> viewsList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userReviewed")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userReviewed")
     private List<UserReview> userReviewedList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userWhoReview")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoReview")
     private List<UserReview> userWhoReviewList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "userWhoAsk")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoAsk")
     private List<Question> questionList;
 
     public User(final String username, final String password, final String email,
