@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.Services;
 import ar.edu.itba.paw.models.Question;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface QuestionService {
 
@@ -12,5 +13,9 @@ public interface QuestionService {
 
     List<Question> findQuestionsByUserWhoAskId(Integer userWhoAskId);
 
-    List<Question> findPendingQuestionsByPostId(Integer postId);
+    List<Question> findPendingQuestionsByUserId(Integer userId);
+
+    Optional<Question> findQuestionsByQuestionId(Integer questionId);
+
+    Optional<Question> addAnswer(Integer questionId, String answer);
 }

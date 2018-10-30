@@ -37,6 +37,11 @@
                         <spring:message code="show_posts"/>
                     </button>
                 </li>
+                <li>
+                    <button id="questions-button" class="btn btn-primary button">
+                        <spring:message code="questions"/>
+                    </button>
+                </li>
             </ul>
         </div>
 
@@ -154,6 +159,31 @@
                 </c:choose>
             </div>
         </div>
+        <%-- QUESTIONS --%>
+        <div class="right-container">
+            <div id="questions">
+                <h2><spring:message code="questions"/></h2>
+                <br>
+                <c:choose>
+                    <c:when test="${empty questions}">
+                        <p><spring:message code="no_questions"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${questions}" var="question" varStatus="loop">
+                            <div class="post">
+                                <p><spring:message code="product_name"/><c:out value="${question.post.product.productName}"/></p>
+                                <p><spring:message code="description_"/><c:out value="${question.post.description}"/></p>
+                                <p><spring:message code="from_"/><c:out value="${question.userWhoAsk.username}"/></p>
+                                <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
+                                <a class="btn btn-primary" role="button" href="<c:url value="/answer?questionId=${question.questionId}" />">
+                                    <spring:message code="answer"/>
+                                </a>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -163,8 +193,10 @@
     $(document).ready(function () {
         if (${formError} || ${repeat_password} || ${password_error}) {
             $("#posts").hide();
+            $("#questions").hide();
         } else {
             $("#posts").hide();
+            $("#questions").hide();
         }
 
         // $("#transactions-button").click(function () {
@@ -174,12 +206,20 @@
 
         $("#edit-profile-button").click(function () {
             $("#posts").hide();
+            $("#questions").hide();
             $("#edit-profile").show();
         });
 
         $("#posts-button").click(function () {
             $("#edit-profile").hide();
+            $("#questions").hide();
             $("#posts").show();
+        });
+
+        $("#questions-button").click(function () {
+            $("#posts").hide();
+            $("#edit-profile").hide();
+            $("#questions").show();
         });
 
         date();

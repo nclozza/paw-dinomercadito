@@ -29,7 +29,7 @@
         <h1 class="title"><spring:message code="questions"/></h1>
         <div class="questions">
             <c:choose>
-                <c:when test="${empty_questions}">
+                <c:when test="${empty questions}">
                     <br/>
                     <br/>
                     <p class="label"><spring:message code="no_questions_available"/></p>

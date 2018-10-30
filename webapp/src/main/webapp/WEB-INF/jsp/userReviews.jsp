@@ -30,7 +30,7 @@
 
         <div class="reviews">
             <c:choose>
-                <c:when test="${empty_reviews}">
+                <c:when test="${empty userReviews}">
                     <br/>
                     <br/>
                     <p class="label"><spring:message code="no_reviews_available"/></p>

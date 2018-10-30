@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.DAO.QuestionDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Question;
 import ar.edu.itba.paw.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class QuestionDAOHibernate implements QuestionDAO {
@@ -21,6 +23,7 @@ public class QuestionDAOHibernate implements QuestionDAO {
 
     @PersistenceContext
     private EntityManager em;
+
 
     @Transactional
     @Override
@@ -31,6 +34,11 @@ public class QuestionDAOHibernate implements QuestionDAO {
         em.persist(questions);
         LOGGER.info("Question inserted with questionId = {}", questions.getQuestionId().intValue());
         return questions;
+    }
+
+    @Override
+    public Optional<Question> findQuestionsByQuestionId(Integer questionId){
+        return Optional.ofNullable(em.find(Question.class, questionId));
     }
 
     @Override
@@ -46,9 +54,28 @@ public class QuestionDAOHibernate implements QuestionDAO {
     }
 
     @Override
-    public List<Question> findPendingQuestionsByPostId(Integer postId){
-        final TypedQuery<Question> query = em.createQuery("FROM Question q WHERE q.postId = :postId and q.answer is null", Question.class);
-        query.setParameter("postId", postId);
+    public List<Question> findPendingQuestionsByUserId(Integer userId){
+        final TypedQuery<Question> query = em.createQuery("SELECT q FROM Question q " +
+                "INNER JOIN Post p " +
+                "ON p.postId = q.postId " +
+                "WHERE p.userId = :userId " +
+                "AND q.answer IS NULL", Question.class);
+        query.setParameter("userId", userId);
         return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public Optional<Question> addAnswer(Integer questionId, String answer){
+        Question question = em.find(Question.class, questionId);
+
+        if(question != null){
+            question.setAnswer(answer);
+            em.merge(question);
+            LOGGER.info("Answer added with questionId = {}", questionId);
+        } else{
+            LOGGER.info("Question not found with questionId = {}", questionId);
+        }
+        return Optional.ofNullable(question);
     }
 }

@@ -47,6 +47,9 @@ public class UserController {
     private UserReviewService userReviewService;
 
     @Autowired
+    private QuestionService questionService;
+
+    @Autowired
     @Qualifier("userNotAuthenticatedServiceImpl")
     private UserNotAuthenticatedService usn;
 
@@ -109,13 +112,14 @@ public class UserController {
         Integer userId = user.getUserId();
         //List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
         List<Post> postList = postService.findPostsByUserId(userId);
-
         postList.sort(Comparator.comparing(Post::getVisits).reversed());
+        List<Question> questionList = questionService.findPendingQuestionsByUserId(userId);
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
         mav.addObject("password_error", false);
         mav.addObject("user", user);
+        mav.addObject("questions", questionList);
 
         //mav.addObject("transactions", transactionList);
         mav.addObject("posts", postList);
@@ -283,10 +287,26 @@ public class UserController {
                 .addObject("profile", profile)
                 .addObject("userReviews", userReviewList);
 
-        if (userReviewList.isEmpty())
-            mav.addObject("empty_reviews", true);
-
         return mav;
     }
 
+    @RequestMapping(value = "/answer", method = {RequestMethod.GET})
+    public ModelAndView answer(@Valid @ModelAttribute("answer") final AnswerForm form,
+                               @RequestParam(value = "questionId") final Integer questionId) {
+
+        Optional<Question> question = questionService.findQuestionsByQuestionId(questionId);
+
+        return new ModelAndView("answer").addObject("question", question.get());
+    }
+
+    @RequestMapping(value = "/answer", method = {RequestMethod.POST})
+    public ModelAndView answerQuestion(@Valid @ModelAttribute("answer") final AnswerForm form,
+                                       final BindingResult errors) {
+        if(errors.hasErrors())
+            return answer(form, form.getQuestionId());
+
+        questionService.addAnswer(form.getQuestionId(), form.getAnswer());
+
+        return new ModelAndView("redirect:/profile");
+    }
 }

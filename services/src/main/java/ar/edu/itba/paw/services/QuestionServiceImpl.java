@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -30,7 +31,17 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findPendingQuestionsByPostId(Integer postId){
-        return questionDAO.findPendingQuestionsByPostId(postId);
+    public List<Question> findPendingQuestionsByUserId(Integer userId){
+        return questionDAO.findPendingQuestionsByUserId(userId);
+    }
+
+    @Override
+    public Optional<Question> findQuestionsByQuestionId(Integer questionId) {
+        return questionDAO.findQuestionsByQuestionId(questionId);
+    }
+
+    @Override
+    public Optional<Question> addAnswer(Integer questionId, String answer) {
+        return questionDAO.addAnswer(questionId, answer);
     }
 }

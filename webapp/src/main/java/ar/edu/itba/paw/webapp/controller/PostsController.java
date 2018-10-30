@@ -5,10 +5,7 @@ import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.Question;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.form.EditPostForm;
-import ar.edu.itba.paw.webapp.form.PostForm;
-import ar.edu.itba.paw.webapp.form.QuestionForm;
-import ar.edu.itba.paw.webapp.form.TransactionForm;
+import ar.edu.itba.paw.webapp.form.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -269,9 +266,7 @@ public class PostsController {
                 .addObject("postId", postId)
                 .addObject("questions", questionList);
 
-        if(questionList.isEmpty())
-            mav.addObject("empty_questions", true);
-
         return mav;
     }
+
 }
