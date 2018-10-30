@@ -19,12 +19,6 @@ public class Transaction {
     private Integer transactionId;
 
     @Column(nullable = false)
-    private Integer postId;
-
-    @Column(nullable = false)
-    private Integer buyerUserId;
-
-    @Column(nullable = false)
     private Integer productQuantity;
 
     @Column(nullable = false)
@@ -34,16 +28,16 @@ public class Transaction {
     private String productName;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Post post;
+    private User buyerUser;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User buyerUser;
+    private Post postBuyed;
 
     public Transaction(final Integer transactionId, final Integer postId, final Integer buyerUserId,
                        final Integer productQuantity, final Double price, final String productName) {
         this.transactionId = transactionId;
-        this.postId = postId;
-        this.buyerUserId = buyerUserId;
+        this.postBuyed.setPostId(postId);
+        this.buyerUser.setUserId(buyerUserId);
         this.productQuantity = productQuantity;
         this.price = price;
         this.productName = productName;
@@ -51,10 +45,8 @@ public class Transaction {
 
     public Transaction(final Post post, final User buyerUser,
                        final Integer productQuantity, final Double price, final String productName) {
-        this.post = post;
-        this.postId = post.getPostId();
+        this.postBuyed = post;
         this.buyerUser = buyerUser;
-        this.buyerUserId = buyerUser.getUserId();
         this.productQuantity = productQuantity;
         this.price = price;
         this.productName = productName;
@@ -70,22 +62,6 @@ public class Transaction {
 
     public void setTransactionId(final Integer transactionId) {
         this.transactionId = transactionId;
-    }
-
-    public Integer getPostId() {
-        return postId;
-    }
-
-    public void setPostId(final Integer postId) {
-        this.postId = postId;
-    }
-
-    public Integer getBuyerUserId() {
-        return buyerUserId;
-    }
-
-    public void setBuyerUserId(final Integer buyerUserId) {
-        this.buyerUserId = buyerUserId;
     }
 
     public Integer getProductQuantity() {
@@ -112,12 +88,12 @@ public class Transaction {
         this.productName = productName;
     }
 
-    public Post getPost() {
-        return post;
+    public Post getPostBuyed() {
+        return postBuyed;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostBuyed(Post postBuyed) {
+        this.postBuyed = postBuyed;
     }
 
     public User getBuyerUser() {
@@ -127,5 +103,4 @@ public class Transaction {
     public void setBuyerUser(User buyerUser) {
         this.buyerUser = buyerUser;
     }
-
 }

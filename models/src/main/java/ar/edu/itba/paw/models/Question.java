@@ -12,12 +12,6 @@ public class Question {
     @Column(name = "questionId")
     private Integer questionId;
 
-    @Column(nullable = false)
-    private Integer postId;
-
-    @Column(nullable = false)
-    private Integer userWhoAskId;
-
     @Column(length = 128)
     private String question;
 
@@ -25,16 +19,14 @@ public class Question {
     private String answer;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Post postToAsk;
+    private Post postAsked;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User userWhoAsk;
 
     public Question(final Post post, final User userWhoAsk, final String question){
-        this.postToAsk = post;
-        this.postId = post.getPostId();
+        this.postAsked = post;
         this.userWhoAsk = userWhoAsk;
-        this.userWhoAskId = userWhoAsk.getUserId();
         this.question = question;
     }
 
@@ -48,22 +40,6 @@ public class Question {
 
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
-    }
-
-    public Integer getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Integer postId) {
-        this.postId = postId;
-    }
-
-    public Integer getUserWhoAskId() {
-        return userWhoAskId;
-    }
-
-    public void setUserWhoAskId(Integer userWhoAskId) {
-        this.userWhoAskId = userWhoAskId;
     }
 
     public String getQuestion() {
@@ -82,12 +58,12 @@ public class Question {
         this.answer = answer;
     }
 
-    public Post getPostToAsk() {
-        return postToAsk;
+    public Post getPostAsked() {
+        return postAsked;
     }
 
-    public void setPostToAsk(Post postToAsk) {
-        this.postToAsk = postToAsk;
+    public void setPostAsked(Post postAsked) {
+        this.postAsked = postAsked;
     }
 
     public User getUserWhoAsk() {

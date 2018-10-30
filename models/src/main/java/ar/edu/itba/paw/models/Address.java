@@ -12,9 +12,6 @@ public class Address {
     @Column(name = "addressId")
     private Integer addressId;
 
-    @Column(nullable = false)
-    private Integer userId;
-
     @Column(nullable = false, length = 32)
     private String street;
 
@@ -34,12 +31,12 @@ public class Address {
     private String country;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User user;
+    private User userAddress;
 
     public Address(final Integer addressId, final Integer userId, final String street, final Integer number,
                    final String city, final String province, final String zipCode, final String country) {
         this.addressId = addressId;
-        this.userId = userId;
+        this.userAddress.setUserId(userId);
         this.street = street;
         this.number = number;
         this.city = city;
@@ -51,8 +48,7 @@ public class Address {
     public Address(final User user, final String street, final Integer number,
                    final String city, final String province, final String zipCode, final String country) {
         this.addressId = addressId;
-        this.user = user;
-        this.userId = user.getUserId();
+        this.userAddress = user;
         this.street = street;
         this.number = number;
         this.city = city;
@@ -71,14 +67,6 @@ public class Address {
 
     public void setAddressId(final Integer addressId) {
         this.addressId = addressId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(final Integer userId) {
-        this.userId = userId;
     }
 
     public String getStreet() {
@@ -129,11 +117,11 @@ public class Address {
         this.country = country;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserAddress() {
+        return userAddress;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserAddress(User userAddress) {
+        this.userAddress = userAddress;
     }
 }

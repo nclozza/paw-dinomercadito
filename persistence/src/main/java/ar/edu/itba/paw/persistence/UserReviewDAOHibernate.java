@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.DAO.UserReviewDAO;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserReview;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -32,15 +33,19 @@ public class UserReviewDAOHibernate implements UserReviewDAO {
         return userReview;
     }
 
+    @Transactional
     @Override
     public List<UserReview> findReviewsByUserReviewedId(Integer userReviewedId){
         User userReviewed = em.find(User.class, userReviewedId);
+        Hibernate.initialize(userReviewed.getUserReviewedList());
         return userReviewed.getUserReviewedList();
     }
 
+    @Transactional
     @Override
     public List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId){
         User userWhoReview = em.find(User.class, userWhoReviewId);
+        Hibernate.initialize(userWhoReview.getUserWhoReviewList());
         return userWhoReview.getUserWhoReviewList();
     }
 

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Product;
 import ar.edu.itba.paw.models.User;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -57,8 +58,7 @@ public class PostDaoHibernate implements PostDAO {
         Product product = em.find(Product.class, productId);
 
         if (post != null){
-            post.setProduct(product);
-            post.setProductId(productId);
+            post.setProductPosted(product);
             post.setPrice(price);
             post.setDescription(description);
             post.setProductQuantity(productQuantity);
@@ -77,25 +77,20 @@ public class PostDaoHibernate implements PostDAO {
         return Optional.ofNullable(em.find(Post.class, postId));
     }
 
+    @Transactional
     @Override
     public List<Post> findPostsByUserId(Integer userId) {
-        final TypedQuery<Post> query = em.createQuery("FROM Post p WHERE userId = :userId", Post.class);
-        query.setParameter("userId", userId);
-        return query.getResultList();
-
-//        User user = em.find(User.class, userId);
-//        return user.getPostList();
+        User user = em.find(User.class, userId);
+        Hibernate.initialize(user.getPostList());
+        return user.getPostList();
     }
 
+    @Transactional
     @Override
     public List<Post> findPostsByProductId(Integer productId) {
-
-        final TypedQuery<Post> query = em.createQuery("FROM Post p WHERE productId = :productId", Post.class);
-        query.setParameter("productId", productId);
-        return query.getResultList();
-
-//        Product product = em.find(Product.class, productId);
-//        return product.getPostList();
+        Product product = em.find(Product.class, productId);
+        Hibernate.initialize(product.getPostList());
+        return product.getPostList();
     }
 
     @Override

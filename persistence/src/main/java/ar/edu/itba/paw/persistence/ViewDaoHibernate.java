@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.DAO.ViewDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.View;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -37,15 +38,19 @@ public class ViewDaoHibernate implements ViewDAO {
         return Optional.ofNullable(em.find(View.class, viewId));
     }
 
+    @Transactional
     @Override
     public List<View> findViewsByUserId(Integer userId) {
         User user = em.find(User.class, userId);
+        Hibernate.initialize(user.getViewsList());
         return user.getViewsList();
     }
 
+    @Transactional
     @Override
     public List<View> findViewsByPostId(Integer postId) {
         Post post = em.find(Post.class, postId);
+        Hibernate.initialize(post.getViewsList());
         return post.getViewsList();
     }
 }

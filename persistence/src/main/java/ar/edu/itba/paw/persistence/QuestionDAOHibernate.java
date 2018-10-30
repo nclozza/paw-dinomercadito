@@ -4,12 +4,14 @@ import ar.edu.itba.paw.interfaces.DAO.QuestionDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Question;
 import ar.edu.itba.paw.models.User;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -40,15 +42,19 @@ public class QuestionDAOHibernate implements QuestionDAO {
         return Optional.ofNullable(em.find(Question.class, questionId));
     }
 
+    @Transactional
     @Override
     public List<Question> findQuestionsByPostId(Integer postId){
         Post post = em.find(Post.class, postId);
-        return post.getQuestionList();
+        Hibernate.initialize(post.getQuestionList());
+        return  post.getQuestionList();
     }
 
+    @Transactional
     @Override
     public List<Question> findQuestionsByUserWhoAskId(Integer userWhoAskId){
         User userWhoAsk = em.find(User.class, userWhoAskId);
+        Hibernate.initialize(userWhoAsk.getQuestionList());
         return userWhoAsk.getQuestionList();
     }
 
@@ -56,8 +62,8 @@ public class QuestionDAOHibernate implements QuestionDAO {
     public List<Question> findPendingQuestionsByUserId(Integer userId){
         final TypedQuery<Question> query = em.createQuery("SELECT q FROM Question q " +
                 "INNER JOIN Post p " +
-                "ON p.postId = q.postId " +
-                "WHERE p.userId = :userId " +
+                "ON p.postId = q.postAsked.postId " +
+                "WHERE p.userSeller.userId = :userId " +
                 "AND q.answer IS NULL", Question.class);
         query.setParameter("userId", userId);
         return query.getResultList();

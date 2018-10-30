@@ -95,8 +95,8 @@ public class PostsController {
             return new ModelAndView("redirect:/404");
         }
 
-        Optional<User> user = userService.findUserByUserId(post.get().getUserId());
-        Optional<Product> product = productService.findProductByProductId(post.get().getProductId());
+        Optional<User> user = userService.findUserByUserId(post.get().getUserSeller().getUserId());
+        Optional<Product> product = productService.findProductByProductId(post.get().getProductPosted().getProductId());
 
         if (!user.isPresent() || !product.isPresent()) {
             return new ModelAndView("redirect:/404");
@@ -193,7 +193,7 @@ public class PostsController {
 
         Optional<User> user = getLoggedUser();
 
-        if (!user.get().getUserId().equals(post.get().getUserId())) {
+        if (!user.get().getUserId().equals(post.get().getUserSeller().getUserId())) {
             return new ModelAndView("redirect:/400");
         }
 
@@ -244,7 +244,7 @@ public class PostsController {
         Optional<Post> post = postService.findPostByPostId(form.getPostId());
         Optional<User> userLogged = getLoggedUser();
 
-        if(userLogged.get().getUserId() == post.get().getUserId())
+        if(userLogged.get().getUserId() == post.get().getUserSeller().getUserId())
             return ask(form, form.getPostId(), form.getFilter(), form.getProfile()).addObject("same_user_question", true);
 
         Question question = questionService.createQuestion(post.get().getPostId(), userLogged.get().getUserId(), form.getQuestion());

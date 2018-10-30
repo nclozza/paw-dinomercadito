@@ -30,7 +30,7 @@
                 <form:select path="productId" name="productId" class="form-control input-size">
                     <c:forEach items="${productList}" var="product">
                         <c:choose>
-                            <c:when test="${post.productId == product.productId}">
+                            <c:when test="${post.productPosted.productId == product.productId}">
                                 <option value="${product.productId}" selected="selected">
                                     <c:out value="${product.brand} - ${product.productName}"/>
                                 </option>

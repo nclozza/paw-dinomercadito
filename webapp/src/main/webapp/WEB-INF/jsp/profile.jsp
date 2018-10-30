@@ -144,7 +144,7 @@
                     <c:otherwise>
                         <c:forEach items="${posts}" var="post" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${post.product.productName}"/></p>
+                                <p><spring:message code="product_name"/><c:out value="${post.productPosted.productName}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
                                 <p><spring:message code="visits"/><c:out value="${post.visits}"/></p>
                                 <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
@@ -171,8 +171,8 @@
                     <c:otherwise>
                         <c:forEach items="${questions}" var="question" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${question.postToAsk.product.productName}"/></p>
-                                <p><spring:message code="description_"/><c:out value="${question.postToAsk.description}"/></p>
+                                <p><spring:message code="product_name"/><c:out value="${question.postAsked.productPosted.productName}"/></p>
+                                <p><spring:message code="description_"/><c:out value="${question.postAsked.description}"/></p>
                                 <p><spring:message code="from_"/><c:out value="${question.userWhoAsk.username}"/></p>
                                 <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
                                 <a class="btn btn-primary" role="button" href="<c:url value="/answer?questionId=${question.questionId}" />">
