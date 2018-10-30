@@ -32,8 +32,10 @@ public class IndexController {
     @RequestMapping("/index")
     public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form, boolean error) {
 
+            Post firstPost = null;
             List<Post> mostVisitedPosts = postService.findMostVisitedPosts();
-            Post firstPost = mostVisitedPosts.remove(0);
+            if(!mostVisitedPosts.isEmpty())
+                firstPost = mostVisitedPosts.remove(0);
 
             return new ModelAndView("index").addObject("error", error)
                     .addObject("posts", mostVisitedPosts)

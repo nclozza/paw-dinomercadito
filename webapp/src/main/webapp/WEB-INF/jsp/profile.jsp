@@ -171,8 +171,8 @@
                     <c:otherwise>
                         <c:forEach items="${questions}" var="question" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${question.post.product.productName}"/></p>
-                                <p><spring:message code="description_"/><c:out value="${question.post.description}"/></p>
+                                <p><spring:message code="product_name"/><c:out value="${question.postToAsk.product.productName}"/></p>
+                                <p><spring:message code="description_"/><c:out value="${question.postToAsk.description}"/></p>
                                 <p><spring:message code="from_"/><c:out value="${question.userWhoAsk.username}"/></p>
                                 <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
                                 <a class="btn btn-primary" role="button" href="<c:url value="/answer?questionId=${question.questionId}" />">

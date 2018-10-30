@@ -4,7 +4,6 @@ import ar.edu.itba.paw.interfaces.DAO.QuestionDAO;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Question;
 import ar.edu.itba.paw.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

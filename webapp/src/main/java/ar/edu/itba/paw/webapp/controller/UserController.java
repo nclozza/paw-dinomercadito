@@ -291,7 +291,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/answer", method = {RequestMethod.GET})
-    public ModelAndView answer(@Valid @ModelAttribute("answer") final AnswerForm form,
+    public ModelAndView answer(@ModelAttribute("answer") final AnswerForm form,
                                @RequestParam(value = "questionId") final Integer questionId) {
 
         Optional<Question> question = questionService.findQuestionsByQuestionId(questionId);

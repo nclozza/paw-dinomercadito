@@ -41,7 +41,7 @@
                         <div class="question">
                             <p class="label">${question.userWhoAsk.username}: </p><p class="value"><c:out value="${question.question}"/></p>
                             <br>
-                            <p class="label">${question.post.user.username}: </p><p class="value"><c:out value="${question.answer}"/></p>
+                            <p class="label">${question.postToAsk.user.username}: </p><p class="value"><c:out value="${question.answer}"/></p>
                             <br>
                         </div>
                     </c:forEach>

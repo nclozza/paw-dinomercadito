@@ -40,10 +40,10 @@ public class Post {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "post")
     private List<Transaction> transactionsList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "post")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "postInView")
     private List<View> viewsList;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "post")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "postToAsk")
     private List<Question> questionList;
 
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,

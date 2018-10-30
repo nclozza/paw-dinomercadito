@@ -25,13 +25,13 @@ public class Question {
     private String answer;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Post post;
+    private Post postToAsk;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User userWhoAsk;
 
     public Question(final Post post, final User userWhoAsk, final String question){
-        this.post = post;
+        this.postToAsk = post;
         this.postId = post.getPostId();
         this.userWhoAsk = userWhoAsk;
         this.userWhoAskId = userWhoAsk.getUserId();
@@ -82,12 +82,12 @@ public class Question {
         this.answer = answer;
     }
 
-    public Post getPost() {
-        return post;
+    public Post getPostToAsk() {
+        return postToAsk;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostToAsk(Post postToAsk) {
+        this.postToAsk = postToAsk;
     }
 
     public User getUserWhoAsk() {
