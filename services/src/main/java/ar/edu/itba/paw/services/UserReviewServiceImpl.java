@@ -44,7 +44,7 @@ public class UserReviewServiceImpl implements UserReviewService {
         List<UserReview> userReviewList = userReviewDAO.findReviewsByUserWhoReviewId(userWhoReviewId);
 
         for(UserReview ur : userReviewList){
-            if(ur.getUserReviewedId() == userReviewed)
+            if(ur.getUserReviewed().getUserId() == userReviewed)
                 return false;
         }
 

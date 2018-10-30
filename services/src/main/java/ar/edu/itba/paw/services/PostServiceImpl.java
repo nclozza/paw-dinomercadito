@@ -97,8 +97,8 @@ public class PostServiceImpl implements PostService {
         List<Post> resultList = new LinkedList<Post>();
 
         for(Post p: postList){
-            if (!productIdList.contains(p.getProductId()) && p.getProductQuantity() > 0){
-                productIdList.add(p.getProductId());
+            if (!productIdList.contains(p.getProductPosted().getProductId()) && p.getProductQuantity() > 0){
+                productIdList.add(p.getProductPosted().getProductId());
                 resultList.add(p);
                 if(resultList.size() == Post.MAX_TOP_VISITED)
                     return resultList;

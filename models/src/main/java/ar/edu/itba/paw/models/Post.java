@@ -16,13 +16,7 @@ public class Post {
     private Integer postId;
 
     @Column(nullable = false)
-    private Integer productId;
-
-    @Column(nullable = false)
     private Double price;
-
-    @Column(nullable = false)
-    private Integer userId;
 
     @Column(length = 128)
     private String description;
@@ -34,26 +28,26 @@ public class Post {
     private Integer visits;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User user;
+    private Product productPosted;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Product product;
+    private User userSeller;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postBuyed")
     private List<Transaction> transactionsList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postInView")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postVisited")
     private List<View> viewsList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postToAsk")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postAsked")
     private List<Question> questionList;
 
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
                 final String description) {
         this.postId = postId;
-        this.productId = productId;
+        this.productPosted.setProductId(productId);
         this.price = price;
-        this.userId = userId;
+        this.userSeller.setUserId(userId);
         this.description = description;
         this.visits = 0;
     }
@@ -61,20 +55,18 @@ public class Post {
     public Post(final Integer postId, final Integer productId, final Double price, final Integer userId,
                 final String description, final Integer visits) {
         this.postId = postId;
-        this.productId = productId;
+        this.productPosted.setProductId(productId);
         this.price = price;
-        this.userId = userId;
+        this.userSeller.setUserId(userId);
         this.description = description;
         this.visits = visits;
     }
 
     public Post(final Product product, final Double price, final User user,
                 final String description, final Integer productQuantity,final Integer visits) {
-        this.product = product;
-        this.productId = product.getProductId();
+        this.productPosted = product;
         this.price = price;
-        this.user = user;
-        this.userId = user.getUserId();
+        this.userSeller = user;
         this.description = description;
         this.productQuantity = productQuantity;
         this.visits = visits;
@@ -92,28 +84,12 @@ public class Post {
         this.postId = postId;
     }
 
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(final Integer productId) {
-        this.productId = productId;
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(final Double price) {
         this.price = price;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(final Integer userId) {
-        this.userId = userId;
     }
 
     public String getDescription() {
@@ -132,20 +108,20 @@ public class Post {
         this.visits = visits;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserSeller() {
+        return userSeller;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserSeller(User userSeller) {
+        this.userSeller = userSeller;
     }
 
-    public Product getProduct() {
-        return product;
+    public Product getProductPosted() {
+        return productPosted;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductPosted(Product productPosted) {
+        this.productPosted = productPosted;
     }
 
     public List<Transaction> getTransactionsList() {

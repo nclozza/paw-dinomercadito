@@ -29,7 +29,7 @@
                     <a class="btn btn-primary" href="<c:url value="/profile"/>"><spring:message code="go_back"/></a>
                 </c:when>
                 <c:otherwise>
-                    <a class="btn btn-primary" href="<c:url value="/posts?filter=${filter}&&productId=${post.productId}"/>"><spring:message code="go_back"/></a>
+                    <a class="btn btn-primary" href="<c:url value="/posts?filter=${filter}&&productId=${post.productPosted.productId}"/>"><spring:message code="go_back"/></a>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -81,13 +81,13 @@
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/question?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
                     <spring:message code="ask"/>
                 </a>
-                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
                     <spring:message code="add_review"/>
                 </a>
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/questions?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
                     <spring:message code="find_questions"/>
                 </a>
-                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userId}" />">
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
                     <spring:message code="find_reviews"/>
                 </a>
             <%--TODO Ask this--%>

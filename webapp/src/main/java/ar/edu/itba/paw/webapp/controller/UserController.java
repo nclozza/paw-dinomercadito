@@ -198,21 +198,21 @@ public class UserController {
             return new ModelAndView("redirect:/400");
         }
 
-        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
+        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostBuyed().getPostId());
 
         if (!post.isPresent()) {
             LOGGER.error("PostId does not exist");
             return new ModelAndView("redirect:/500");
         }
 
-        Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserId());
+        Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserSeller().getUserId());
 
         if (!sellerUser.isPresent()) {
             LOGGER.error("Seller id does not exits");
             return new ModelAndView("redirect:/400");
         }
 
-        if (!transaction.get().getBuyerUserId().equals(user.getUserId())) {
+        if (!transaction.get().getBuyerUser().getUserId().equals(user.getUserId())) {
             LOGGER.error("BuyerId does not match the transaction buyerId");
             return new ModelAndView("redirect:/400");
         }

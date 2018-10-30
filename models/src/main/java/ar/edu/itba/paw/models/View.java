@@ -12,23 +12,15 @@ public class View {
     @Column(name = "viewId")
     private Integer viewId;
 
-    @Column(nullable = false)
-    private Integer postId;
-
-    @Column(nullable = false)
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Post postVisited;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Post postInView;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User user;
+    private User userWhoVisited;
 
     public View(final Post post, final User user){
-        this.postInView = post;
-        this.postId = post.getPostId();
-        this.user = user;
-        this.userId = user.getUserId();
+        this.postVisited = post;
+        this.userWhoVisited = user;
     }
 
     public View(){
@@ -43,35 +35,20 @@ public class View {
         this.viewId = viewId;
     }
 
-    public Integer getPostId() {
-        return postId;
+
+    public Post getPostVisited() {
+        return postVisited;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostVisited(Post postVisited) {
+        this.postVisited = postVisited;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUserWhoVisited() {
+        return userWhoVisited;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Post getPostInView() {
-        return postInView;
-    }
-
-    public void setPostInView(Post postInView) {
-        this.postInView = postInView;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserWhoVisited(User userWhoVisited) {
+        this.userWhoVisited = userWhoVisited;
     }
 }

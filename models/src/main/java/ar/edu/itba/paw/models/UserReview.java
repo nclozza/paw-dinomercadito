@@ -13,12 +13,6 @@ public class UserReview {
     private Integer userReviewId;
 
     @Column(nullable = false)
-    private Integer userReviewedId;
-
-    @Column(nullable = false)
-    private Integer userWhoReviewId;
-
-    @Column(nullable = false)
     private Integer rating;
 
     @Column(length = 128)
@@ -32,9 +26,7 @@ public class UserReview {
 
     public UserReview(User userReviewed, User userWhoReview, Integer rating, String description) {
         this.userReviewed = userReviewed;
-        this.userReviewedId = userReviewed.getUserId();
         this.userWhoReview = userWhoReview;
-        this.userWhoReviewId = userWhoReview.getUserId();
         this.rating = rating;
         this.description = description;
     }
@@ -49,22 +41,6 @@ public class UserReview {
 
     public void setUserReviewId(Integer userReviewId) {
         this.userReviewId = userReviewId;
-    }
-
-    public Integer getUserReviewedId() {
-        return userReviewedId;
-    }
-
-    public void setUserReviewedId(Integer userReviewedId) {
-        this.userReviewedId = userReviewedId;
-    }
-
-    public Integer getUserWhoReviewId() {
-        return userWhoReviewId;
-    }
-
-    public void setUserWhoReviewId(Integer userWhoReviewId) {
-        this.userWhoReviewId = userWhoReviewId;
     }
 
     public Integer getRating() {

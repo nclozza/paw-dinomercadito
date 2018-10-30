@@ -64,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
         Optional<User> buyerUser = userService.findUserByUserId(buyerUserId);
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if (buyerUserId == post.get().getUserId()){
+        if (buyerUserId == post.get().getUserSeller().getUserId()){
             LOGGER.error("BuyerUser and SellerUser are the same");
             return Transaction.SAME_USER;
         }
@@ -74,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
             return Transaction.WRONG_PARAMETERS;
         }
 
-        Optional<Product> product = productService.findProductByProductId(post.get().getProductId());
+        Optional<Product> product = productService.findProductByProductId(post.get().getProductPosted().getProductId());
 
         if (!buyerUser.isPresent() || !product.isPresent()) {
             LOGGER.error("Wrong information to make the transaction");
@@ -94,7 +94,7 @@ public class TransactionServiceImpl implements TransactionService {
         userService.updateUserWithoutPasswordEncoder(buyerUser.get().getUserId(), buyerUser.get().getPassword(), buyerUser.get().getEmail(),
                 buyerUser.get().getPhone(), buyerUser.get().getBirthdate());
 
-        postService.updatePost(post.get().getPostId(), post.get().getProductId(), post.get().getPrice(),
+        postService.updatePost(post.get().getPostId(), post.get().getProductPosted().getProductId(), post.get().getPrice(),
                 post.get().getDescription(), post.get().getProductQuantity(), post.get().getVisits());
 
         Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),

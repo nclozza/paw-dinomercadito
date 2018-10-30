@@ -50,7 +50,7 @@ public class ViewServiceImpl implements ViewService {
         List<View> viewsList = viewDAO.findViewsByPostId(postId);
 
         for (View v: viewsList){
-            if(v.getUserId() == userId)
+            if(v.getUserWhoVisited().getUserId() == userId)
                 return false;
         }
 

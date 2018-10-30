@@ -31,16 +31,16 @@ public class User {
     @Column
     private Double rating;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userSeller")
     private List<Post> postList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userAddress")
     private List<Address> addressesList;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "buyerUser")
     private List<Transaction> transactionsList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoVisited")
     private List<View> viewsList;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userReviewed")

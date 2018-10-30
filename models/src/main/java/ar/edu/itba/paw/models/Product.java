@@ -46,9 +46,8 @@ public class Product {
     @Column(length = 128)
     private String frontCamera;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "productPosted")
     private List<Post> postList;
-
 
     public Product(final Integer productId, final String productName, final String brand, final String ram,
                    final String storage, final String operativeSystem, final String processor, final String bodySize,

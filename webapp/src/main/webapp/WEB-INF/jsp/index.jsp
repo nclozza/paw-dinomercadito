@@ -78,11 +78,11 @@
                 <div class="item active">
                     <a href="<c:url value="/post?postId=${firstPost.postId}"/>">
                     <img class="product img-responsive"
-                         src="<c:url value="/images/${firstPost.product.productName}.png"/>"
-                         alt="${firstPost.product.productName}">
+                         src="<c:url value="/images/${firstPost.productPosted.productName}.png"/>"
+                         alt="${firstPost.productPosted.productName}">
                     </a>
                     <div class="carousel-caption">
-                        <h2>${firstPost.product.productName}</h2>
+                        <h2>${firstPost.productPosted.productName}</h2>
                         <h3>${firstPost.visits} <spring:message code="visits_"/></h3>
                     </div>
                 </div>
@@ -90,11 +90,11 @@
                     <div class="item">
                         <a href="<c:url value="/post?postId=${post.postId}"/>">
                         <img class="product img-responsive"
-                             src="<c:url value="/images/${post.product.productName}.png" />"
-                             alt="${post.product.productName}">
+                             src="<c:url value="/images/${post.productPosted.productName}.png" />"
+                             alt="${post.productPosted.productName}">
                         </a>
                         <div class="carousel-caption">
-                            <h2>${post.product.productName}</h2>
+                            <h2>${post.productPosted.productName}</h2>
                             <h3>${post.visits} <spring:message code="visits_"/></h3>
                         </div>
                     </div>

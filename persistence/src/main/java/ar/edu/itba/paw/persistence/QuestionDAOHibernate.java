@@ -62,8 +62,8 @@ public class QuestionDAOHibernate implements QuestionDAO {
     public List<Question> findPendingQuestionsByUserId(Integer userId){
         final TypedQuery<Question> query = em.createQuery("SELECT q FROM Question q " +
                 "INNER JOIN Post p " +
-                "ON p.postId = q.postId " +
-                "WHERE p.userId = :userId " +
+                "ON p.postId = q.postAsked.postId " +
+                "WHERE p.userSeller.userId = :userId " +
                 "AND q.answer IS NULL", Question.class);
         query.setParameter("userId", userId);
         return query.getResultList();
