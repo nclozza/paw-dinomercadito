@@ -81,11 +81,6 @@ public class TransactionServiceImpl implements TransactionService {
             return Transaction.INCOMPLETE;
         }
 
-        if (post.get().getProductQuantity() < productQuantity) {
-            LOGGER.error("The product amount selected for this post is bigger than the available stock");
-            return Transaction.OUT_OF_STOCK_FAIL;
-        }
-
         Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),
                 product.get().getProductName());
 
@@ -95,5 +90,15 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status) {
         return changeTransactionStatus(transactionId, status);
+    }
+
+    @Override
+    public Boolean findTransactionsByUserIdAndPostId(Integer userId, Integer postId) {
+        List<Transaction> transactionList = transactionDAO.findTransactionsByUserIdAndPostId(userId, postId);
+
+        if(!transactionList.isEmpty())
+            return true;
+        else
+            return false;
     }
 }

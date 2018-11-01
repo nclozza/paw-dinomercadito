@@ -45,4 +45,6 @@ public interface TransactionDAO {
     List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId);
 
     Optional<Transaction> changeTransactionStatus(Integer transactionId, String status);
+
+    List<Transaction> findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId);
 }

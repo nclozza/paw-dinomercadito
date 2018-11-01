@@ -266,6 +266,9 @@ public class UserController {
         if(!userReviewService.checkUserWhoReview(userLogged.getUserId(), form.getUserId()))
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("check_user_error", true);
 
+        if(!transactionService.findTransactionsByUserIdAndPostId(userLogged.getUserId(), form.getPostId()))
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("already_buyer_error", true);
+
         userService.addRating(form.getUserId() ,form.getRating());
         userReviewService.createUserReview(form.getUserId(), userLogged.getUserId(), form.getRating(), form.getDescription());
 
@@ -285,7 +288,8 @@ public class UserController {
                 .addObject("filter", filter)
                 .addObject("postId", postId)
                 .addObject("profile", profile)
-                .addObject("userReviews", userReviewList);
+                .addObject("userReviews", userReviewList)
+                .addObject("alreadyBuy", transactionService.findTransactionsByUserIdAndPostId(getLoggedUser().getUserId(), postId));
 
         return mav;
     }

@@ -59,6 +59,9 @@
                 <c:if test="${check_user_error}">
                     <p><spring:message code="check_user_error"/></p>
                 </c:if>
+                <c:if test="${already_buyer_error}">
+                    <p><spring:message code="already_buyer_error"/></p>
+                </c:if>
                 <br/>
             </div>
             <div>

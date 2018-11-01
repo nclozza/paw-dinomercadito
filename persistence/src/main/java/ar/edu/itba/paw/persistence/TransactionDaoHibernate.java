@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,5 +77,18 @@ public class TransactionDaoHibernate implements TransactionDAO {
         }
 
         return Optional.ofNullable(transaction);
+    }
+
+    @Override
+    public List<Transaction> findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId){
+        final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
+                "WHERE t.postBuyed.postId = :postId " +
+                "AND t.buyerUser.userId = :userId", Transaction.class);
+
+        query.setParameter("postId", postId);
+        query.setParameter("userId", userId);
+        query.setMaxResults(1);
+
+        return query.getResultList();
     }
 }

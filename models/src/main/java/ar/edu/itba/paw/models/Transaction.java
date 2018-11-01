@@ -6,10 +6,9 @@ import javax.persistence.*;
 @Table(name = "transactions")
 public class Transaction {
 
-    public static final Integer SAME_USER = -5;
-    public static final Integer INCOMPLETE = -4;
-    public static final Integer WRONG_PARAMETERS = -3;
-    public static final Integer OUT_OF_STOCK_FAIL = -2;
+    public static final Integer SAME_USER = -3;
+    public static final Integer INCOMPLETE = -2;
+    public static final Integer WRONG_PARAMETERS = -1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_transactionId_seq")

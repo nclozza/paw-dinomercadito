@@ -42,9 +42,9 @@
                 <form:errors path="productQuantity" cssClass="formError" element="p"><br><spring:message
                         code="productQuantity_error"/><br></form:errors>
                 <br/>
-                <%--<c:if test="${same_user_question}">--%>
-                    <%--<p><spring:message code="same_user_question_error"/></p>--%>
-                <%--</c:if>--%>
+                <c:if test="${same_user}">
+                    <p><spring:message code="post_error"/></p>
+                </c:if>
                 <br/>
             </div>
             <div>

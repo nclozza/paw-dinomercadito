@@ -78,46 +78,27 @@
                 <h3 class="value"><c:out value="${user.phone}"/></h3>
                 <br>
                 <br>
-                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/question?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
-                    <spring:message code="ask"/>
-                </a>
-                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
-                    <spring:message code="add_review"/>
+                <c:if test="${!same_user}">
+                    <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/buy?filter=${filter}&&postId=${post.postId}&&profile=${profile}" />">
+                        <spring:message code="buy"/>
+                    </a>
+                </c:if>
+                <c:if test="${alreadyBuy}">
+                    <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
+                        <spring:message code="add_review"/>
+                    </a>
+                </c:if>
+                <c:if test="${!same_user}">
+                    <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/question?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
+                        <spring:message code="ask"/>
+                    </a>
+                </c:if>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
+                    <spring:message code="find_reviews"/>
                 </a>
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/questions?filter=${filter}&&profile=${profile}&&postId=${post.postId}" />">
                     <spring:message code="find_questions"/>
                 </a>
-                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
-                    <spring:message code="find_reviews"/>
-                </a>
-                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/buy?filter=${filter}&&postId=${post.postId}&&profile=${profile}" />">
-                    <spring:message code="buy"/>
-                </a>
-            <%--TODO Ask this--%>
-                <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
-
-                <%--<c:url value="/post" var="postPath"/>--%>
-                <%--<form:form modelAttribute="transactionForm" action="${postPath}" method="post" autocomplete="off">--%>
-
-                    <%--<form:label path="productQuantity" class="label"><spring:message--%>
-                            <%--code="product_quantity"/></form:label>--%>
-                    <%--<form:input type="number" path="productQuantity"/>--%>
-
-                    <%--<form:hidden path="postId" value="${post.postId}"/>--%>
-
-                    <%--<br>--%>
-                    <%--<br>--%>
-                    <%--<input type="submit" class="btn btn-success btn-lg button-margin" value="<spring:message code="buy"/>"/>--%>
-
-                    <%--<form:errors class="error" path="productQuantity" element="p"><br><spring:message--%>
-                            <%--code="product_quantity_error"/></form:errors>--%>
-                    <%--<form:errors class="error" path="postId" element="p"><br><spring:message--%>
-                            <%--code="post_error"/></form:errors>--%>
-
-                    <%--<c:if test="${funds_error}">--%>
-                        <%--<p><spring:message code="funds_error"/></p>--%>
-                    <%--</c:if>--%>
-                <%--</form:form>--%>
             </div>
         </div>
     </div>
