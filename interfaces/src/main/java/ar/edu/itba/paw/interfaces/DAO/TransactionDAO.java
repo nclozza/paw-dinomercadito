@@ -43,4 +43,6 @@ public interface TransactionDAO {
      *      anything yet.
      */
     List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId);
+
+    Optional<Transaction> changeTransactionStatus(Integer transactionId, String status);
 }

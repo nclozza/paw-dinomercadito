@@ -83,4 +83,9 @@ public class TransactionDaoJDBC implements TransactionDAO {
 
         return transactionList;
     }
+
+    @Override
+    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status) {
+        return Optional.empty();
+    }
 }

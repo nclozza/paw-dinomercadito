@@ -17,5 +17,7 @@ public interface TransactionService {
     List<Transaction> findTransactionsByBuyerUserId(final Integer buyerUserId);
 
     Integer makeTransaction(final Integer buyerUserId, final Integer postId, final Integer visits);
+
+    Optional<Transaction> changeTransactionStatus(Integer transactionId, String status);
 }
 

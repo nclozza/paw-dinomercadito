@@ -1,16 +1,14 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.Services.*;
-import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
-import ar.edu.itba.paw.models.Question;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.form.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +31,9 @@ public class PostsController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TransactionService transactionService;
 
     @Autowired
     QuestionService questionService;
@@ -86,8 +87,7 @@ public class PostsController {
     @RequestMapping(value = "/post", method = {RequestMethod.GET})
     public ModelAndView post(@RequestParam(value = "filter", required = false) final String filter,
                              @RequestParam(value = "postId") final Integer postId,
-                             @RequestParam(value = "profile", required = false) final Boolean profile,
-                             @ModelAttribute("transactionForm") final TransactionForm form) {
+                             @RequestParam(value = "profile", required = false) final Boolean profile) {
         ModelAndView mav = new ModelAndView("post");
         Optional<Post> post = postService.findPostByPostId(postId);
 
@@ -125,6 +125,28 @@ public class PostsController {
 
         return authentication.isAuthenticated() ? user : null;
     }
+
+
+    @RequestMapping(value = "/buy", method = {RequestMethod.GET})
+    public ModelAndView buy(@RequestParam(value = "filter", required = false) final String filter,
+                             @RequestParam(value = "postId") final Integer postId,
+                             @RequestParam(value = "profile", required = false) final Boolean profile,
+                             @ModelAttribute("transactionForm") final TransactionForm form) {
+
+        ModelAndView mav = new ModelAndView("buy");
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if (!post.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        return mav.addObject("filter", filter)
+                .addObject("post", post.get())
+                .addObject("profile", profile);
+    }
+
+
+
 
 //    @RequestMapping(value = "/post", method = {RequestMethod.POST})
 //    public ModelAndView buy(@Valid @ModelAttribute("transactionForm") final TransactionForm form,

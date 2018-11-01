@@ -61,4 +61,20 @@ public class TransactionDaoHibernate implements TransactionDAO {
         Hibernate.initialize(user.getTransactionsList());
         return user.getTransactionsList();
     }
+
+    @Transactional
+    @Override
+    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status){
+        Transaction transaction = em.find(Transaction.class, transactionId);
+
+        if(transaction != null){
+            transaction.setStatus(status);
+            em.merge(transaction);
+            LOGGER.info("Transaction updated with transactionId = {}", transactionId);
+        }else {
+            LOGGER.info("Transaction not found with transactionId = {}", transactionId);
+        }
+
+        return Optional.ofNullable(transaction);
+    }
 }

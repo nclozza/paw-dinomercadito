@@ -90,6 +90,9 @@
                 <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/userReviews?filter=${filter}&&postId=${post.postId}&&profile=${profile}&&userId=${post.userSeller.userId}" />">
                     <spring:message code="find_reviews"/>
                 </a>
+                <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/buy?filter=${filter}&&postId=${post.postId}&&profile=${profile}" />">
+                    <spring:message code="buy"/>
+                </a>
             <%--TODO Ask this--%>
                 <%--<c:url value="/post?postId=${post.postId}" var="postPath"/>--%>
 
