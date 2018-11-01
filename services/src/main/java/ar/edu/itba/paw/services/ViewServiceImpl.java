@@ -47,13 +47,11 @@ public class ViewServiceImpl implements ViewService {
 
     @Override
     public boolean checkAddVisit(Integer postId, Integer userId){
-        List<View> viewsList = viewDAO.findViewsByPostId(postId);
+        List<View> viewsList = viewDAO.checkAddVisit(postId, userId);
 
-        for (View v: viewsList){
-            if(v.getUserWhoVisited().getUserId() == userId)
-                return false;
-        }
-
-        return true;
+        if(viewsList.isEmpty())
+            return true;
+        else
+            return false;
     }
 }
