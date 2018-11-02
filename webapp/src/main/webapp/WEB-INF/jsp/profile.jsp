@@ -91,6 +91,9 @@
                             <form:input type="text" path="email" value="${user.email}" class="form-control"/>
                             <form:errors class="error" path="email" element="p"><br><spring:message
                                     code="email_error"/></form:errors>
+                            <c:if test="${sameEmail_error}">
+                                <p><spring:message code="sameEmail_error"/></p>
+                            </c:if>
                             <br/>
                         </div>
                     </div>
@@ -199,6 +202,7 @@
                                     <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
                                     <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
+                                    <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
                                     <c:url value="/confirmTransaction" var="transactionPath"/>
                                     <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
@@ -230,6 +234,7 @@
                                     <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
                                     <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
+                                    <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
                                 </div>
                             </c:forEach>

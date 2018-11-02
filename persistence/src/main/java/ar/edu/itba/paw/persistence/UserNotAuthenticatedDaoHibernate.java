@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.DAO.UserNotAuthenticatedDAO;
+import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,7 @@ public class UserNotAuthenticatedDaoHibernate implements UserNotAuthenticatedDAO
         final TypedQuery<UserNotAuthenticated> query = em.createQuery("from UserNotAuthenticated as u where u.username = :username", UserNotAuthenticated.class);
         query.setParameter("username", username);
         final List<UserNotAuthenticated> list = query.getResultList();
-        return list.isEmpty() ? null : Optional.ofNullable(list.get(0));
+        return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(0));
     }
 
     @Override
@@ -64,7 +65,7 @@ public class UserNotAuthenticatedDaoHibernate implements UserNotAuthenticatedDAO
         final TypedQuery<UserNotAuthenticated> query = em.createQuery("from UserNotAuthenticated as u where u.code = :code", UserNotAuthenticated.class);
         query.setParameter("code", code);
         final List<UserNotAuthenticated> list = query.getResultList();
-        return list.isEmpty() ? null : Optional.ofNullable(list.get(0));
+        return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(0));
     }
 
     @Override
@@ -80,6 +81,23 @@ public class UserNotAuthenticatedDaoHibernate implements UserNotAuthenticatedDAO
     public boolean checkUsername(String username) {
         final TypedQuery<UserNotAuthenticated> query = em.createQuery("from UserNotAuthenticated as u where u.username = :username", UserNotAuthenticated.class);
         query.setParameter("username", username);
+        final List<UserNotAuthenticated> list = query.getResultList();
+
+        return list.isEmpty();
+    }
+
+    @Override
+    public Optional<UserNotAuthenticated> findUserByEmail(String email) {
+        final TypedQuery<UserNotAuthenticated> query = em.createQuery("from UserNotAuthenticated as u where u.email = :email", UserNotAuthenticated.class);
+        query.setParameter("email", email);
+        final List<UserNotAuthenticated> list = query.getResultList();
+        return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(0));
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        final TypedQuery<UserNotAuthenticated> query = em.createQuery("from UserNotAuthenticated as u where u.email = :email", UserNotAuthenticated.class);
+        query.setParameter("email", email);
         final List<UserNotAuthenticated> list = query.getResultList();
 
         return list.isEmpty();

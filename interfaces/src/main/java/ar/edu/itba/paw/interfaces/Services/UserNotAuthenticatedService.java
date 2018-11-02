@@ -21,4 +21,8 @@ public interface UserNotAuthenticatedService {
     Integer generateCode();
 
     boolean checkUsername(final String username);
+
+    Optional<UserNotAuthenticated> findUserByEmail(String email);
+
+    boolean checkEmail(String email);
 }

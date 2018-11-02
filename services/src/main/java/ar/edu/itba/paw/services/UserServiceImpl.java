@@ -138,9 +138,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.checkUsername(username);
     }
 
-//    public boolean addFundsToUserId(final Double funds, final Integer userId) {
-//        return userDAO.addFundsToUserId(funds, userId);
-//    }
 
     @Override
     public String getTodayDate(){
@@ -168,5 +165,15 @@ public class UserServiceImpl implements UserService {
         } else {
             LOGGER.info("User not found with userId = {}", userId);
         }
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return userDAO.checkEmail(email);
     }
 }

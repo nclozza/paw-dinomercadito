@@ -98,6 +98,16 @@ public class UserDaoJDBC implements UserDAO {
 
     }
 
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return false;
+    }
+
 //    @Override
 //    public boolean addFundsToUserId(final Double funds, final Integer userId) {
 //        final Integer updatedRows = jdbcTemplate.update("UPDATE users SET funds = ? WHERE userId = ?", funds, userId);

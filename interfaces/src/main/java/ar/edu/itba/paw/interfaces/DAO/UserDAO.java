@@ -54,5 +54,8 @@ public interface UserDAO {
 
     void addRating(User userId, Double rating);
 
-    //boolean addFundsToUserId(final Double funds, final Integer userId);
+    Optional<User> findUserByEmail(String email);
+
+    boolean checkEmail(String email);
+
 }

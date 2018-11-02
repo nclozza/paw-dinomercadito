@@ -52,6 +52,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoAsk")
     private List<Question> questionList;
 
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userForgot")
+    private List<ForgotPassword> forgotPasswordList;
+
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
         this.username = username;
@@ -195,5 +198,13 @@ public class User {
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
+    }
+
+    public List<ForgotPassword> getForgotPasswordList() {
+        return forgotPasswordList;
+    }
+
+    public void setForgotPasswordList(List<ForgotPassword> forgotPasswordList) {
+        this.forgotPasswordList = forgotPasswordList;
     }
 }

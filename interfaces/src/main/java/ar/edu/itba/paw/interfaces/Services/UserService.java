@@ -38,9 +38,12 @@ public interface UserService {
 
     boolean checkUsername(final String username);
 
-    //boolean addFundsToUserId(final Double funds, final Integer userId);
 
     String getTodayDate();
 
     void addRating(Integer userId, Integer rating);
+
+    Optional<User> findUserByEmail(String email);
+
+    boolean checkEmail(String email);
 }

@@ -70,14 +70,6 @@
                 <h3 class="value"><c:out value="${user.rating}"/>   </h3>
                 <br>
                 <br>
-                <h3 class="label"><spring:message code="email_"/></h3>
-                <h3 class="value"><c:out value="${user.email}"/></h3>
-                <br>
-                <br>
-                <h3 class="label"><spring:message code="phone_"/></h3>
-                <h3 class="value"><c:out value="${user.phone}"/></h3>
-                <br>
-                <br>
                 <c:if test="${!same_user}">
                     <a class="btn btn btn-success button-margin" role="button" href="<c:url value="/buy?filter=${filter}&&postId=${post.postId}&&profile=${profile}" />">
                         <spring:message code="buy"/>

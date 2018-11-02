@@ -50,6 +50,9 @@ public class UserController {
     private QuestionService questionService;
 
     @Autowired
+    private ForgotPasswordService forgotPasswordService;
+
+    @Autowired
     @Qualifier("userNotAuthenticatedServiceImpl")
     private UserNotAuthenticatedService usn;
 
@@ -78,6 +81,10 @@ public class UserController {
 
         if (!userService.checkUsername(form.getUsername()) || !usn.checkUsername(form.getUsername())) {
             return signUp(form).addObject("sameUsername_error", true);
+        }
+
+        if (!userService.checkEmail(form.getEmail()) || !usn.checkEmail(form.getEmail())){
+            return signUp(form).addObject("sameEmail_error", true);
         }
 
         String date = userService.getTodayDate();
@@ -139,6 +146,10 @@ public class UserController {
 
         if (errors.hasErrors()) {
             return profile(form).addObject("form_error", true);
+        }
+
+        if (!userService.checkEmail(form.getEmail()) || !usn.checkEmail(form.getEmail())){
+            return profile(form).addObject("sameEmail_error", true);
         }
 
         User user = getLoggedUser();
@@ -344,4 +355,58 @@ public class UserController {
 
         return new ModelAndView("redirect:/profile");
     }
+
+    @RequestMapping(value = "/forgotPassword", method = {RequestMethod.GET})
+    public ModelAndView forgotPassword(@ModelAttribute("forgotPassword") final ForgotPasswordForm form) {
+
+        return new ModelAndView("forgotPassword");
+    }
+
+    @RequestMapping(value = "/forgotPassword", method = {RequestMethod.POST})
+    public ModelAndView forgotPasswordRequest(@Valid @ModelAttribute("forgotPassword") final ForgotPasswordForm form,
+                                       final BindingResult errors) {
+
+        if(errors.hasErrors())
+            return forgotPassword(form);
+
+        Optional<User> user = userService.findUserByEmail(form.getEmail());
+
+        if(!user.isPresent())
+            return forgotPassword(form).addObject("wrong_email", true);
+
+        forgotPasswordService.createNewRequest(user.get(), userService.getTodayDate());
+
+        return new ModelAndView("checkEmail");
+    }
+
+
+    @RequestMapping(value = "/changePassword", method = {RequestMethod.GET})
+    public ModelAndView changePassword(@ModelAttribute("changePassword") final ChangePasswordForm form,
+                                       @RequestParam(value = "code") final String code) {
+
+        return new ModelAndView("changePassword").addObject("code", code);
+    }
+
+    @RequestMapping(value = "/changePassword", method = {RequestMethod.POST})
+    public ModelAndView changePasswordRequest(@Valid @ModelAttribute("changePassword") final ChangePasswordForm form,
+                                              final BindingResult errors) {
+        if (errors.hasErrors())
+            return changePassword(form, form.getCode());
+
+        if (!form.checkPassword())
+            return changePassword(form, form.getCode()).addObject("different_password", true);
+
+        Optional<ForgotPassword> forgotPassword = forgotPasswordService.findRequestByCode(forgotPasswordService.encrypt(form.getCode()));
+        String date = userService.getTodayDate();
+
+        if (!forgotPassword.isPresent() || !date.equals(forgotPassword.get().getRequestDate()))
+            return changePassword(form, form.getCode()).addObject("invalid_code", true);
+
+        User user = forgotPassword.get().getUserForgot();
+        userService.updateUser(user.getUserId(), form.getPassword(), user.getEmail(), user.getPhone(), user.getBirthdate());
+        forgotPasswordService.deleteRequestById(forgotPassword.get().getForgotPasswordId());
+
+        return new ModelAndView("redirect:/login");
+    }
+
 }

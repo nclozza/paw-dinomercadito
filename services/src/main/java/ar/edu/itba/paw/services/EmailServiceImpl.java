@@ -116,4 +116,19 @@ public class EmailServiceImpl implements EmailService {
 
         return status;
     }
+
+    @Override
+    public void sendChangePasswordEmail(final String to, final String code){
+
+        String text = "<h2>Go to this link to change your password</h2>\n" +
+                "<h3>http://pawserver.it.itba.edu.ar/paw-2018b-07/changePassword?code="+code+"</h3>";
+
+        boolean status = sendSimpleMessage(to, "Change your password", text);
+        if (!status) {
+            LOGGER.info("Unsuccessful attempt to send email with code {}", code);
+
+        } else {
+            LOGGER.info("Authentication email sent with code {}", code);
+        }
+    }
 }

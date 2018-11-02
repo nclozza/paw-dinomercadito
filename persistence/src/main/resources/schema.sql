@@ -86,3 +86,10 @@ CREATE TABLE IF NOT EXISTS questions (
    question VARCHAR(128) NOT NULL,
    answer VARCHAR(128)
 );
+
+CREATE TABLE IF NOT EXISTS forgotPasswords (
+  forgotPasswordId SERIAL PRIMARY KEY,
+   userForgot_userId INT REFERENCES users(userId) NOT NULL,
+   requestDate VARCHAR(10),
+   code VARCHAR(64) NOT NULL
+);
