@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.Services;
 
+import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.Transaction;
 
 import java.util.List;
@@ -21,5 +22,13 @@ public interface TransactionService {
     Optional<Transaction> changeTransactionStatus(Integer transactionId, String status);
 
     Boolean findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId);
+
+    List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status);
+
+    List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status);
+
+    Boolean isValidTransaction(Transaction transaction);
+
+    void confirmTransaction(Transaction transaction);
 }
 

@@ -42,30 +42,18 @@
                         <spring:message code="questions"/>
                     </button>
                 </li>
+                <li>
+                    <button id="sells-button" class="btn btn-primary button">
+                        <spring:message code="sells"/>
+                    </button>
+                </li>
+                <li>
+                    <button id="buys-button" class="btn btn-primary button">
+                        <spring:message code="buys"/>
+                    </button>
+                </li>
             </ul>
         </div>
-
-        <%-- TRANSACTIONS --%>
-        <%--<div class="right-container">--%>
-            <%--<div id="transactions">--%>
-                <%--<h2><spring:message code="show_transactions"/></h2>--%>
-                <%--<br>--%>
-                <%--<c:choose>--%>
-                    <%--<c:when test="${empty transactions}">--%>
-                        <%--<p><spring:message code="no_transactions"/></p>--%>
-                    <%--</c:when>--%>
-                    <%--<c:otherwise>--%>
-                        <%--<c:forEach items="${transactions}" var="transaction" varStatus="loop">--%>
-                            <%--<div class="post">--%>
-                                <%--<p><spring:message code="product_name"/><c:out value="${transaction.productName}"/></p>--%>
-                                <%--<p><spring:message code="visits"/><c:out value="${transaction.visits}"/></p>--%>
-                                <%--<p><spring:message code="price_"/><c:out value="${transaction.price}"/></p>--%>
-                            <%--</div>--%>
-                        <%--</c:forEach>--%>
-                    <%--</c:otherwise>--%>
-                <%--</c:choose>--%>
-            <%--</div>--%>
-        <%--</div>--%>
 
         <%-- EDIT PROFILE --%>
         <div class="right-container">
@@ -73,7 +61,7 @@
                 <h2><spring:message code="edit_profile"/></h2>
                 <br>
                 <c:url value="/profile" var="postPath"/>
-                <form:form class="form" modelAttribute="updateUserForm" action="${postPath}" method="post">
+                <form:form class="form" modelAttribute="updateProfileForm" action="${postPath}" method="post">
                     <div>
                         <div class="form-group">
                             <form:label class="label" path="password"><spring:message code="password"/></form:label>
@@ -184,6 +172,128 @@
                 </c:choose>
             </div>
         </div>
+
+        <%-- SELLS --%>
+        <div class="right-container">
+            <div id="sells">
+                <div class="tab" id="navbar">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li id="pending-sells-button" class="active">
+                            <a><spring:message code="pending"/></a>
+                        </li>
+                        <li id="confirmed-sells-button">
+                            <a><spring:message code="confirmed"/></a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="pending-sells" class="tab-container">
+                    <c:choose>
+                        <c:when test="${empty pendingSells}">
+                            <br/>
+                            <p><spring:message code="no_pending_sells"/></p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${pendingSells}" var="sell" varStatus="loop">
+                                <div class="post">
+                                    <p><spring:message code="product_name"/><c:out value="${sell.productName}"/></p>
+                                    <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
+                                    <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
+                                    <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
+                                    <c:url value="/confirmTransaction" var="transactionPath"/>
+                                    <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
+                                        <form:hidden path="transactionId" value="${sell.transactionId}"/>
+                                        <button class="registerButton btn btn-primary" type="submit"><spring:message
+                                                code="confirm"/></button>
+                                    </form:form>
+                                    <c:url value="/declineTransaction" var="transactionPath"/>
+                                    <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
+                                        <form:hidden path="transactionId" value="${sell.transactionId}"/>
+                                        <button class="registerButton btn btn-primary" type="submit"><spring:message
+                                                code="decline"/></button>
+                                    </form:form>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <br>
+                <div id="confirmed-sells" class="tab-container">
+                    <c:choose>
+                        <c:when test="${empty confirmedSells}">
+                            <p><spring:message code="no_confirmed_sells"/></p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${confirmedSells}" var="sell" varStatus="loop">
+                                <div class="post">
+                                    <p><spring:message code="product_name"/><c:out value="${sell.productName}"/></p>
+                                    <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
+                                    <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
+                                    <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </div>
+
+        <%-- BUYS --%>
+        <div class="right-container">
+            <div id="buys">
+                <div class="tab">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li id="pending-buys-button" class="active">
+                            <a><spring:message code="pending"/></a>
+                        </li>
+                        <li id="confirmed-buys-button">
+                            <a><spring:message code="confirmed"/></a>
+                        </li>
+                    </ul>
+                </div>
+                <br>
+                <div id="pending-buys" class="tab-container">
+                    <c:choose>
+                        <c:when test="${empty pendingBuys}">
+                            <p><spring:message code="no_pending_buys"/></p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${pendingBuys}" var="buy" varStatus="loop">
+                                <div class="post">
+                                    <p><spring:message code="product_name"/><c:out value="${buy.productName}"/></p>
+                                    <p><spring:message code="price_"/><c:out value="${buy.price}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out value="${buy.productQuantity}"/></p>
+                                    <c:url value="/declineTransaction" var="transactionPath"/>
+                                    <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
+                                        <form:hidden path="transactionId" value="${buy.transactionId}"/>
+                                        <button class="registerButton btn btn-primary" type="submit"><spring:message
+                                                code="decline"/></button>
+                                    </form:form>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div id="confirmed-buys" class="tab-container">
+                    <c:choose>
+                        <c:when test="${empty confirmedBuys}">
+                            <p><spring:message code="no_confirmed_buys"/></p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${confirmedBuys}" var="buy" varStatus="loop">
+                                <div class="post">
+                                    <p><spring:message code="product_name"/><c:out value="${buy.productName}"/></p>
+                                    <p><spring:message code="price_"/><c:out value="${buy.price}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out value="${buy.productQuantity}"/></p>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -194,35 +304,86 @@
         if (${formError} || ${repeat_password} || ${password_error}) {
             $("#posts").hide();
             $("#questions").hide();
+            $("#sells").hide();
+            $("#confirmed-sells").hide();
+            $("#buys").hide();
+            $("#confirmed-buys").hide();
         } else {
             $("#posts").hide();
             $("#questions").hide();
+            $("#sells").hide();
+            $("#confirmed-sells").hide();
+            $("#buys").hide();
+            $("#confirmed-buys").hide();
         }
 
-        // $("#transactions-button").click(function () {
-        //     $("#edit-profile, #posts").hide();
-        //     $("#transactions").show();
-        // });
+        $("#sells-button").click(function () {
+            $("#edit-profile, #posts ,#questions, #buys").hide();
+            $("#sells").show();
+        });
+
+        $("#buys-button").click(function () {
+            $("#edit-profile, #posts ,#questions, #sells").hide();
+            $("#buys").show();
+        });
 
         $("#edit-profile-button").click(function () {
             $("#posts").hide();
             $("#questions").hide();
+            $("#sells").hide();
+            $("#buys").hide();
             $("#edit-profile").show();
         });
 
         $("#posts-button").click(function () {
             $("#edit-profile").hide();
             $("#questions").hide();
+            $("#sells").hide();
+            $("#buys").hide();
             $("#posts").show();
         });
 
         $("#questions-button").click(function () {
             $("#posts").hide();
             $("#edit-profile").hide();
+            $("#sells").hide();
+            $("#buys").hide();
             $("#questions").show();
         });
 
+        $("#confirmed-sells-button").click(function () {
+            $("#pending-sells").hide();
+            $("#pending-sells-button").removeClass("active");
+            $("#confirmed-sells-button").addClass("active");
+            $("#confirmed-sells").show();
+        });
+
+        $("#pending-sells-button").click(function () {
+            $("#confirmed-sells").hide();
+            $("#confirmed-sells-button").removeClass("active");
+            $("#pending-sells-button").addClass("active");
+            $("#pending-sells").show();
+        });
+
+        $("#confirmed-buys-button").click(function () {
+            $("#pending-buys").hide();
+            $("#pending-buys-button").removeClass("active");
+            $("#confirmed-buys-button").addClass("active");
+            $("#confirmed-buys").show();
+        });
+
+        $("#pending-buys-button").click(function () {
+            $("#confirmed-buys").hide();
+            $("#confirmed-buys-button").removeClass("active");
+            $("#pending-buys-button").addClass("active");
+            $("#pending-buys").show();
+        });
+
         date();
+
+        if (${invalid_transaction}){
+            alert("<spring:message code="invalid_transaction"/>");
+        }
     });
 
     //Set max date for today

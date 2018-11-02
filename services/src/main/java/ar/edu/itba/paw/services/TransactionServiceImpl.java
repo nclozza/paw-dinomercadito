@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,7 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status) {
-        return changeTransactionStatus(transactionId, status);
+        return transactionDAO.changeTransactionStatus(transactionId, status);
     }
 
     @Override
@@ -100,5 +101,32 @@ public class TransactionServiceImpl implements TransactionService {
             return true;
         else
             return false;
+    }
+
+    @Override
+    public List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status) {
+        return transactionDAO.findBuysByUserIdAndStatus(userId, status);
+    }
+
+    @Override
+    public List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status) {
+        return  transactionDAO.findSellsByUserIdAndStatus(userId, status);
+    }
+
+    @Override
+    public Boolean isValidTransaction(Transaction transaction){
+
+        if(transaction.getProductQuantity() > transaction.getPostBuyed().getProductQuantity())
+            return false;
+        else
+            return true;
+    }
+
+    @Override
+    public void confirmTransaction(Transaction transaction){
+        postService.updatePostProductQuantity(transaction.getPostBuyed().getPostId(),
+                transaction.getPostBuyed().getProductQuantity() - transaction.getProductQuantity());
+
+        transactionDAO.changeTransactionStatus(transaction.getTransactionId(), Transaction.CONFIRMED);
     }
 }

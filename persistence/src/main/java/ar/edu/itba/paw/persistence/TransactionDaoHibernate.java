@@ -91,4 +91,31 @@ public class TransactionDaoHibernate implements TransactionDAO {
 
         return query.getResultList();
     }
+
+    @Override
+    public List<Transaction> findBuysByUserIdAndStatus(final Integer userId, final String status){
+        final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
+                "WHERE t.buyerUser.userId = :userId " +
+                "AND t.status = :status", Transaction.class);
+
+        query.setParameter("userId", userId);
+        query.setParameter("status", status);
+
+        return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public List<Transaction> findSellsByUserIdAndStatus(final Integer userId, final String status){
+        final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
+                "INNER JOIN Post p " +
+                "ON p.postId = t.postBuyed.postId " +
+                "WHERE p.userSeller.userId = :userId " +
+                "AND t.status = :status", Transaction.class);
+
+        query.setParameter("userId", userId);
+        query.setParameter("status", status);
+
+        return query.getResultList();
+    }
 }

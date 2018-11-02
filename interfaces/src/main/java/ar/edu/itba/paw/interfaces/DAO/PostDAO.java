@@ -71,4 +71,6 @@ public interface PostDAO {
     Optional<Post> addVisit(final Integer postId);
 
     List<Post> findMostVisitedPosts();
+
+    Optional<Post> updatePostProductQuantity(Integer postId ,Integer productQuantity);
 }

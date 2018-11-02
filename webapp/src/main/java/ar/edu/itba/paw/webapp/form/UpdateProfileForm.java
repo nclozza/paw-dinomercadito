@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UpdateUserForm {
+public class UpdateProfileForm {
 
     private String password;
 
@@ -20,6 +20,8 @@ public class UpdateUserForm {
 
     @Size(min = 10, max = 10)
     private String birthdate;
+
+    private Integer transactionId;
 
     public String getPassword() {
         return password;
@@ -63,5 +65,13 @@ public class UpdateUserForm {
 
     public void setBirthdate(final String birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public Integer getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 }

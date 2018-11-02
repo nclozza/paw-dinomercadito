@@ -105,12 +105,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
-    public ModelAndView profile(@ModelAttribute("updateUserForm") final UpdateUserForm form) {
+    public ModelAndView profile(@ModelAttribute("updateProfileForm") final UpdateProfileForm form) {
         ModelAndView mav = new ModelAndView("profile");
 
         User user = getLoggedUser();
         Integer userId = user.getUserId();
-        //List<Transaction> transactionList = transactionService.findTransactionsByBuyerUserId(userId);
+        List<Transaction> buyListPending = transactionService.findBuysByUserIdAndStatus(userId, Transaction.PENDING);
+        List<Transaction> buyListConfirmed = transactionService.findBuysByUserIdAndStatus(userId, Transaction.CONFIRMED);
+        List<Transaction> sellListPending = transactionService.findSellsByUserIdAndStatus(userId, Transaction.PENDING);
+        List<Transaction> sellListConfirmed = transactionService.findSellsByUserIdAndStatus(userId, Transaction.CONFIRMED);
         List<Post> postList = postService.findPostsByUserId(userId);
         postList.sort(Comparator.comparing(Post::getVisits).reversed());
         List<Question> questionList = questionService.findPendingQuestionsByUserId(userId);
@@ -118,17 +121,20 @@ public class UserController {
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
         mav.addObject("password_error", false);
+        mav.addObject("invalid_transaction", false);
         mav.addObject("user", user);
         mav.addObject("questions", questionList);
-
-        //mav.addObject("transactions", transactionList);
+        mav.addObject("pendingSells", sellListPending);
+        mav.addObject("pendingBuys", buyListPending);
+        mav.addObject("confirmedSells", sellListConfirmed);
+        mav.addObject("confirmedBuys", buyListConfirmed);
         mav.addObject("posts", postList);
 
         return mav;
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.POST})
-    public ModelAndView updateUser(@Valid @ModelAttribute("updateUserForm") final UpdateUserForm form,
+    public ModelAndView updateUser(@Valid @ModelAttribute("updateProfileForm") final UpdateProfileForm form,
                                    final BindingResult errors) {
 
         if (errors.hasErrors()) {
@@ -158,6 +164,31 @@ public class UserController {
 
         return new ModelAndView("redirect:/profile");
     }
+
+    @RequestMapping(value = "/confirmTransaction", method = {RequestMethod.POST})
+    public ModelAndView confirmTransaction(@Valid @ModelAttribute("updateProfileForm") final UpdateProfileForm form,
+                                           final BindingResult errors) {
+
+        Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(form.getTransactionId());
+
+        if(!transactionService.isValidTransaction(transaction.get())){
+            return profile(form).addObject("invalid_transaction", true);
+        }
+
+        transactionService.confirmTransaction(transaction.get());
+
+        return new ModelAndView("redirect:/profile");
+    }
+
+    @RequestMapping(value = "/declineTransaction", method = {RequestMethod.POST})
+    public ModelAndView declineTransaction(@Valid @ModelAttribute("updateProfileForm") final UpdateProfileForm form,
+                                           final BindingResult errors) {
+
+        transactionService.changeTransactionStatus(form.getTransactionId(), Transaction.DECLINED);
+
+        return new ModelAndView("redirect:/profile");
+    }
+
 
     @RequestMapping(value = "/authentication", method = {RequestMethod.GET})
     public ModelAndView authentication(@ModelAttribute("authenticationForm") final AuthenticationForm form) {

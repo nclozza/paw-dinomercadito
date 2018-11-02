@@ -9,6 +9,9 @@ public class Transaction {
     public static final Integer SAME_USER = -3;
     public static final Integer INCOMPLETE = -2;
     public static final Integer WRONG_PARAMETERS = -1;
+    public static final String PENDING = "Pending";
+    public static final String CONFIRMED = "Confirmed";
+    public static final String DECLINED = "Declined";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_transactionId_seq")
@@ -51,7 +54,7 @@ public class Transaction {
         this.productQuantity = productQuantity;
         this.price = price;
         this.productName = productName;
-        this.status = "Pending";
+        this.status = Transaction.PENDING;
     }
 
     public Transaction(){

@@ -96,4 +96,14 @@ public class TransactionDaoJDBC implements TransactionDAO {
         return null;
     }
 
+    @Override
+    public List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status) {
+        return null;
+    }
+
+    @Override
+    public List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status) {
+        return null;
+    }
+
 }
