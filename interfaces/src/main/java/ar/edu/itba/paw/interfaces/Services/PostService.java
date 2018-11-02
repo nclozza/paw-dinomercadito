@@ -26,4 +26,6 @@ public interface PostService {
     List<Post> filterByAvailablePosts(final List<Post> postList);
 
     List<Post> findMostVisitedPosts();
+
+    Optional<Post> updatePostProductQuantity(Integer postId ,Integer productQuantity);
 }

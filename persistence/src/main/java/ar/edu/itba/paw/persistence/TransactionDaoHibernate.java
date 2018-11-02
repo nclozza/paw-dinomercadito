@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +61,61 @@ public class TransactionDaoHibernate implements TransactionDAO {
         User user = em.find(User.class, buyerUserId);
         Hibernate.initialize(user.getTransactionsList());
         return user.getTransactionsList();
+    }
+
+    @Transactional
+    @Override
+    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status){
+        Transaction transaction = em.find(Transaction.class, transactionId);
+
+        if(transaction != null){
+            transaction.setStatus(status);
+            em.merge(transaction);
+            LOGGER.info("Transaction updated with transactionId = {}", transactionId);
+        }else {
+            LOGGER.info("Transaction not found with transactionId = {}", transactionId);
+        }
+
+        return Optional.ofNullable(transaction);
+    }
+
+    @Override
+    public List<Transaction> findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId){
+        final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
+                "WHERE t.postBuyed.postId = :postId " +
+                "AND t.buyerUser.userId = :userId", Transaction.class);
+
+        query.setParameter("postId", postId);
+        query.setParameter("userId", userId);
+        query.setMaxResults(1);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Transaction> findBuysByUserIdAndStatus(final Integer userId, final String status){
+        final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
+                "WHERE t.buyerUser.userId = :userId " +
+                "AND t.status = :status", Transaction.class);
+
+        query.setParameter("userId", userId);
+        query.setParameter("status", status);
+
+        return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public List<Transaction> findSellsByUserIdAndStatus(final Integer userId, final String status){
+        final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
+                "INNER JOIN Post p " +
+                "ON p.postId = t.postBuyed.postId " +
+                "WHERE p.userSeller.userId = :userId " +
+                "AND t.status = :status", Transaction.class);
+
+        query.setParameter("userId", userId);
+        query.setParameter("status", status);
+
+        return query.getResultList();
     }
 }

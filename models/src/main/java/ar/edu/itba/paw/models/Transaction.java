@@ -6,11 +6,12 @@ import javax.persistence.*;
 @Table(name = "transactions")
 public class Transaction {
 
-    public static final Integer SAME_USER = -5;
-    public static final Integer INCOMPLETE = -4;
-    public static final Integer WRONG_PARAMETERS = -3;
-    public static final Integer OUT_OF_STOCK_FAIL = -2;
-    public static final Integer INSUFFICIENT_FUNDS_FAIL = -1;
+    public static final Integer SAME_USER = -3;
+    public static final Integer INCOMPLETE = -2;
+    public static final Integer WRONG_PARAMETERS = -1;
+    public static final String PENDING = "Pending";
+    public static final String CONFIRMED = "Confirmed";
+    public static final String DECLINED = "Declined";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_transactionId_seq")
@@ -26,6 +27,9 @@ public class Transaction {
 
     @Column(nullable = false, length = 32)
     private String productName;
+
+    @Column(nullable = false, length = 16)
+    private String status;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User buyerUser;
@@ -50,6 +54,7 @@ public class Transaction {
         this.productQuantity = productQuantity;
         this.price = price;
         this.productName = productName;
+        this.status = Transaction.PENDING;
     }
 
     public Transaction(){
@@ -102,5 +107,13 @@ public class Transaction {
 
     public void setBuyerUser(User buyerUser) {
         this.buyerUser = buyerUser;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -109,3 +109,24 @@ body {
     color: black;
     font-size: 24px;
 }
+
+.buy-container {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 23%;
+    height: 32%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 10px;
+    overflow: auto;
+    padding: 8px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.buy-button {
+    width: 20%;
+    height: 20%;
+}

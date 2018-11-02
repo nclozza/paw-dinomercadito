@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
@@ -83,4 +85,25 @@ public class TransactionDaoJDBC implements TransactionDAO {
 
         return transactionList;
     }
+
+    @Override
+    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Transaction> findTransactionsByUserIdAndPostId(Integer userId, Integer postId) {
+        return null;
+    }
+
+    @Override
+    public List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status) {
+        return null;
+    }
+
+    @Override
+    public List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status) {
+        return null;
+    }
+
 }

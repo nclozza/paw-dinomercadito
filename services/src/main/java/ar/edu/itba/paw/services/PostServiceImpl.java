@@ -107,4 +107,9 @@ public class PostServiceImpl implements PostService {
 
         return resultList;
     }
+
+    @Override
+    public Optional<Post> updatePostProductQuantity(Integer postId, Integer productQuantity) {
+        return postDAO.updatePostProductQuantity(postId, productQuantity);
+    }
 }

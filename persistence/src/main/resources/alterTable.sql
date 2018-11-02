@@ -12,6 +12,8 @@ ALTER TABLE transactions
 RENAME COLUMN postId TO postBuyed_postId;
 ALTER TABLE transactions
 RENAME COLUMN buyerUserId TO buyerUser_userId;
+ALTER TABLE transactions
+ADD COLUMN status VARCHAR(16) NOT NULL DEFAULT 'Confirmed';
 
 ALTER TABLE users
 DROP COLUMN funds;

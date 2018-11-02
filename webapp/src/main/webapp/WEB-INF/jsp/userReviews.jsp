@@ -50,9 +50,11 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <a class="btn btn btn-success button-margin button-position" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${userReview.postId}&&profile=${profile}&&userId=${userReview.userId}" />">
-            <spring:message code="add_review"/>
-        </a>
+        <c:if test="${alreadyBuy}">
+            <a class="btn btn btn-success button-margin button-position" role="button" href="<c:url value="/userReview?filter=${filter}&&postId=${userReview.postId}&&profile=${profile}&&userId=${userReview.userId}" />">
+                <spring:message code="add_review"/>
+            </a>
+        </c:if>
     </div>
 </div>
 </body>

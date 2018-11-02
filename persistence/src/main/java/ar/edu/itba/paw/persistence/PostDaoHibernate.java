@@ -115,4 +115,20 @@ public class PostDaoHibernate implements PostDAO {
         query.setMaxResults(50);
         return query.getResultList();
     }
+
+    @Transactional
+    @Override
+    public Optional<Post> updatePostProductQuantity(Integer postId ,Integer productQuantity) {
+        Post post = em.find(Post.class, postId);
+
+        if (post != null){
+            post.setProductQuantity(productQuantity);
+            em.merge(post);
+            LOGGER.info("Post updated with postId = {}", postId);
+        } else {
+            LOGGER.info("Post not found with postId = {}", postId);
+        }
+
+        return Optional.ofNullable(post);
+    }
 }

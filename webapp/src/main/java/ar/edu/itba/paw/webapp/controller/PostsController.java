@@ -1,16 +1,14 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.Services.*;
-import ar.edu.itba.paw.models.Post;
-import ar.edu.itba.paw.models.Product;
-import ar.edu.itba.paw.models.Question;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.form.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +31,9 @@ public class PostsController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TransactionService transactionService;
 
     @Autowired
     QuestionService questionService;
@@ -86,8 +87,7 @@ public class PostsController {
     @RequestMapping(value = "/post", method = {RequestMethod.GET})
     public ModelAndView post(@RequestParam(value = "filter", required = false) final String filter,
                              @RequestParam(value = "postId") final Integer postId,
-                             @RequestParam(value = "profile", required = false) final Boolean profile,
-                             @ModelAttribute("transactionForm") final TransactionForm form) {
+                             @RequestParam(value = "profile", required = false) final Boolean profile) {
         ModelAndView mav = new ModelAndView("post");
         Optional<Post> post = postService.findPostByPostId(postId);
 
@@ -111,10 +111,14 @@ public class PostsController {
         mav.addObject("user", user.get());
         mav.addObject("product", product.get());
         mav.addObject("filter", filter);
+        mav.addObject("alreadyBuy", transactionService.findTransactionsByUserIdAndPostId(getLoggedUser().get().getUserId(), postId));
         if(profile != null)
             mav.addObject("profile", profile);
         else
             mav.addObject("profile", false);
+
+        if(getLoggedUser().get().getUserId() == user.get().getUserId())
+            mav.addObject("same_user", true);
 
         return mav;
     }
@@ -126,60 +130,53 @@ public class PostsController {
         return authentication.isAuthenticated() ? user : null;
     }
 
-//    @RequestMapping(value = "/post", method = {RequestMethod.POST})
-//    public ModelAndView buy(@Valid @ModelAttribute("transactionForm") final TransactionForm form,
-//                               final BindingResult errors) {
-//
-//        if (errors.hasErrors()) {
-//            return post(form.getPostId(), form);
-//        }
-//
-//        User user = getLoggedUser();
-//
-//
-//        Integer status = transactionService.makeTransaction(user.getUserId(), form.getPostId(), form.getProductQuantity());
-//
-//        if (status.equals(Transaction.SAME_USER)){
-//            errors.addError(new FieldError("transactionForm", "postId", ""));
-//            return post(form.getPostId(), form);
-//        }
-//        else if (status.equals(Transaction.INCOMPLETE)) {
-//            return new ModelAndView("redirect:/500");
-//
-//        } else if (status.equals(Transaction.WRONG_PARAMETERS)) {
-//            return new ModelAndView("redirect:/400");
-//
-//        } else if (status.equals(Transaction.OUT_OF_STOCK_FAIL)) {
-//            errors.addError(new FieldError("transactionForm", "productQuantity", ""));
-//            return post(form.getPostId(), form);
-//
-//        } else if (status.equals(Transaction.INSUFFICIENT_FUNDS_FAIL)) {
-//            return post(form.getPostId(), form).addObject("funds_error", true);
-//        }
-//
-//        Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(status);
-//
-//        if (!transaction.isPresent()) {
-//            return new ModelAndView("redirect:/500");
-//        }
-//
-//        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostId());
-//
-//        if (!post.isPresent()) {
-//            return new ModelAndView("redirect:/400");
-//        }
-//
-//        Optional<User> seller = userService.findUserByUserId(post.get().getUserId());
-//
-//        if (!seller.isPresent()) {
-//            return new ModelAndView("redirect:/404");
-//        }
-//
-//        emailService.sendSuccessfulPurchaseEmail(user.getEmail(), transaction.get().getProductName(), form.getPostId());
-//        emailService.sendSuccessfulSaleEmail(seller.get().getEmail(), transaction.get().getProductName(), form.getPostId());
-//
-//        return new ModelAndView("redirect:/sellerInformation?transactionId=" + transaction.get().getTransactionId());
-//    }
+
+    @RequestMapping(value = "/buy", method = {RequestMethod.GET})
+    public ModelAndView buy(@RequestParam(value = "filter", required = false) final String filter,
+                             @RequestParam(value = "postId") final Integer postId,
+                             @RequestParam(value = "profile", required = false) final Boolean profile,
+                             @ModelAttribute("transactionForm") final TransactionForm form) {
+
+        ModelAndView mav = new ModelAndView("buy");
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if (!post.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        return mav.addObject("filter", filter)
+                .addObject("post", post.get())
+                .addObject("profile", profile);
+    }
+
+
+    @RequestMapping(value = "/buy", method = {RequestMethod.POST})
+    public ModelAndView createTransaction(@Valid @ModelAttribute("transactionForm") final TransactionForm form,
+                               final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return buy(form.getFilter(), form.getPostId(), form.getProfile(), form);
+        }
+
+        Optional<User> user = getLoggedUser();
+
+
+        Integer status = transactionService.makeTransaction(user.get().getUserId(), form.getPostId(), form.getProductQuantity());
+
+        if (status.equals(Transaction.SAME_USER)){
+            errors.addError(new FieldError("transactionForm", "postId", ""));
+            return buy(form.getFilter(), form.getPostId(), form.getProfile(), form).addObject("same_user", true);
+        }
+        else if (status.equals(Transaction.INCOMPLETE)) {
+            return new ModelAndView("redirect:/500");
+
+        } else if (status.equals(Transaction.WRONG_PARAMETERS))
+            return new ModelAndView("redirect:/400");
+
+
+        return new ModelAndView("redirect:/post?filter="+form.getFilter()+"&&postId="+form.getPostId()+
+                "&&profile="+form.getProfile());
+    }
 
     @RequestMapping(value = "/editPost", method = {RequestMethod.GET})
     public ModelAndView edit(@RequestParam(value = "postId") final Integer postId,

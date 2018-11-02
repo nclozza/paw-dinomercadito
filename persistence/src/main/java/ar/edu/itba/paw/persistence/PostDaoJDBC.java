@@ -103,4 +103,9 @@ public class PostDaoJDBC implements PostDAO {
     public List<Post> findMostVisitedPosts() {
         return null;
     }
+
+    @Override
+    public Optional<Post> updatePostProductQuantity(Integer postId, Integer productQuantity) {
+        return Optional.empty();
+    }
 }

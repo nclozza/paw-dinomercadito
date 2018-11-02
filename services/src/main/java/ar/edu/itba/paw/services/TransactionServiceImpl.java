@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,25 +82,51 @@ public class TransactionServiceImpl implements TransactionService {
             return Transaction.INCOMPLETE;
         }
 
-//        if (post.get().getProductQuantity() < productQuantity) {
-//            LOGGER.error("The product amount selected for this post is bigger than the available stock");
-//            return Transaction.OUT_OF_STOCK_FAIL;
-//        }
-
-//        if (buyerUser.get().getFunds() < (post.get().getPrice() * productQuantity)) {
-//            LOGGER.error("The user has not enough funds to make the transaction");
-//            return Transaction.INSUFFICIENT_FUNDS_FAIL;
-//        }
-
-        userService.updateUserWithoutPasswordEncoder(buyerUser.get().getUserId(), buyerUser.get().getPassword(), buyerUser.get().getEmail(),
-                buyerUser.get().getPhone(), buyerUser.get().getBirthdate());
-
-        postService.updatePost(post.get().getPostId(), post.get().getProductPosted().getProductId(), post.get().getPrice(),
-                post.get().getDescription(), post.get().getProductQuantity(), post.get().getVisits());
-
         Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),
                 product.get().getProductName());
 
         return transaction.getTransactionId();
+    }
+
+    @Override
+    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status) {
+        return transactionDAO.changeTransactionStatus(transactionId, status);
+    }
+
+    @Override
+    public Boolean findTransactionsByUserIdAndPostId(Integer userId, Integer postId) {
+        List<Transaction> transactionList = transactionDAO.findTransactionsByUserIdAndPostId(userId, postId);
+
+        if(!transactionList.isEmpty())
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status) {
+        return transactionDAO.findBuysByUserIdAndStatus(userId, status);
+    }
+
+    @Override
+    public List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status) {
+        return  transactionDAO.findSellsByUserIdAndStatus(userId, status);
+    }
+
+    @Override
+    public Boolean isValidTransaction(Transaction transaction){
+
+        if(transaction.getProductQuantity() > transaction.getPostBuyed().getProductQuantity())
+            return false;
+        else
+            return true;
+    }
+
+    @Override
+    public void confirmTransaction(Transaction transaction){
+        postService.updatePostProductQuantity(transaction.getPostBuyed().getPostId(),
+                transaction.getPostBuyed().getProductQuantity() - transaction.getProductQuantity());
+
+        transactionDAO.changeTransactionStatus(transaction.getTransactionId(), Transaction.CONFIRMED);
     }
 }
