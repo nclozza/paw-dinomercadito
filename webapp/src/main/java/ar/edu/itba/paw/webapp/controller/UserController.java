@@ -123,14 +123,16 @@ public class UserController {
         List<Transaction> sellListConfirmed = transactionService.findSellsByUserIdAndStatus(userId, Transaction.CONFIRMED);
         List<Post> postList = postService.findPostsByUserId(userId);
         postList.sort(Comparator.comparing(Post::getVisits).reversed());
-        List<Question> questionList = questionService.findPendingQuestionsByUserId(userId);
+        List<Question> pendigQuestionList = questionService.findPendingQuestionsByUserId(userId);
+        List<Question> myQuestionList = questionService.findQuestionsByUserWhoAskId(userId);
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
         mav.addObject("password_error", false);
         mav.addObject("invalid_transaction", false);
         mav.addObject("user", user);
-        mav.addObject("questions", questionList);
+        mav.addObject("pendingQuestions", pendigQuestionList);
+        mav.addObject("myQuestions", myQuestionList);
         mav.addObject("pendingSells", sellListPending);
         mav.addObject("pendingBuys", buyListPending);
         mav.addObject("confirmedSells", sellListConfirmed);
@@ -214,10 +216,14 @@ public class UserController {
         }
 
         Optional<UserNotAuthenticated> user = usn.findUserByCode(form.getCode());
+        String date = userService.getTodayDate();
 
         if (!user.isPresent()) {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
+
+        } else if(!user.get().getSignUpDate().equals(date)){
+            return authentication(form).addObject("code_expired", true);
 
         } else {
             User userAuthenticated = userService.createUser(user.get().getUsername(), user.get().getPassword(),
@@ -351,6 +357,13 @@ public class UserController {
         if(errors.hasErrors())
             return answer(form, form.getQuestionId());
 
+        Optional<Question> question = questionService.findQuestionsByQuestionId(form.getQuestionId());
+        User userLogged = getLoggedUser();
+
+        if(!question.isPresent() || userLogged.getUserId() != question.get().getPostAsked().getUserSeller().getUserId()){
+            return answer(form, form.getQuestionId()).addObject("answer_error", true);
+        }
+
         questionService.addAnswer(form.getQuestionId(), form.getAnswer());
 
         return new ModelAndView("redirect:/profile");
@@ -396,7 +409,8 @@ public class UserController {
         if (!form.checkPassword())
             return changePassword(form, form.getCode()).addObject("different_password", true);
 
-        Optional<ForgotPassword> forgotPassword = forgotPasswordService.findRequestByCode(forgotPasswordService.encrypt(form.getCode()));
+        Integer code = form.getCode().hashCode();
+        Optional<ForgotPassword> forgotPassword = forgotPasswordService.findRequestByCode(code.toString());
         String date = userService.getTodayDate();
 
         if (!forgotPassword.isPresent() || !date.equals(forgotPassword.get().getRequestDate()))

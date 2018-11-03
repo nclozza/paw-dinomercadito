@@ -29,19 +29,19 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     public ForgotPassword createNewRequest(User user, String requestDate) {
         boolean check = true;
         String stringToEncrypt = "";
-        String encryptedString = "";
+        Integer encryptedString = 0;
 
         do{
             stringToEncrypt = randomStringGenerator();
-            encryptedString = encrypt(stringToEncrypt);
+            encryptedString = stringToEncrypt.hashCode();
 
-            if(forgotPasswordDAO.checkCode(encryptedString))
+            if(forgotPasswordDAO.checkCode(encryptedString.toString()))
                 check = false;
         } while (check);
 
         emailService.sendChangePasswordEmail(user.getEmail(), stringToEncrypt);
 
-        return forgotPasswordDAO.createNewRequest(user.getUserId(), requestDate, encryptedString);
+        return forgotPasswordDAO.createNewRequest(user.getUserId(), requestDate, encryptedString.toString());
     }
 
     @Override

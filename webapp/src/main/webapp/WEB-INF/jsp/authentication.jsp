@@ -31,6 +31,11 @@
                 <form:input path="code" type="text" class="form-control"/>
                 <form:errors path="code" element="p"><br><spring:message
                         code="code_error"/></form:errors>
+
+                <c:if test="${code_expired}">
+                    <br>
+                    <spring:message code="code_expired"/>
+                </c:if>
             </div>
             <div>
                 <a href="<c:url value="/index"/>" class="btn-lg btn"><spring:message code="cancel"/></a>
