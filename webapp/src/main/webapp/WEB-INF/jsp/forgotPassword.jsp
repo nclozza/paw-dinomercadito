@@ -22,11 +22,21 @@
         </c:otherwise>
     </c:choose>
 
-    <div class="buy-container">
-        <h1><spring:message code="enter_email"/></h1>
+    <div class="forgot-password-container">
+        <h1><spring:message code="forgot_password"/></h1>
         <br>
         <form:form modelAttribute="forgotPassword" action="${postPath}" method="post" autocomplete="off">
         <div class="form-group">
+            <form:label class="label" path="username"><spring:message code="username"/></form:label>
+            <form:input type="text" path="username" class="form-control"/>
+            <form:errors path="username" element="p"><br><spring:message
+                    code="username_error"/><br></form:errors>
+            <c:if test="${wrong_user}">
+                <p><spring:message code="username_not_found"/></p>
+            </c:if>
+        </div>
+        <div class="form-group">
+            <form:label class="label" path="email"><spring:message code="email"/></form:label>
             <form:input type="text" path="email" class="form-control"/>
             <form:errors class="error" path="email" element="p"><br><spring:message
                     code="email_error"/><br></form:errors>

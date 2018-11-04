@@ -270,22 +270,6 @@ public class UserController {
         return mav;
     }
 
-//    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.GET})
-//    public ModelAndView addFunds(@ModelAttribute("addFundsForm") final AddFundsForm form) {
-//        return new ModelAndView("addFunds");
-//    }
-
-//    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.POST})
-//    public ModelAndView addFundsPost(@Valid @ModelAttribute("addFundsForm") final AddFundsForm form) {
-//
-//        User user = getLoggedUser();
-//
-//        if (!userService.addFundsToUserId(Double.valueOf(form.getFunds()), user.getUserId())) {
-//            return new ModelAndView("redirect:/500");
-//        }
-//
-//        return new ModelAndView("redirect:/profile");
-//    }
 
     @RequestMapping(value = "/userReview", method = {RequestMethod.GET})
     public ModelAndView userReview(@ModelAttribute("userReview") final UserReviewForm form,
@@ -293,6 +277,19 @@ public class UserController {
                                    @RequestParam(value = "postId") final Integer postId,
                                    @RequestParam(value = "profile") final Boolean profile,
                                    @RequestParam(value = "userId") final Integer userId) {
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if(!post.isPresent()){
+            LOGGER.error("PostId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+        Optional<User> user = userService.findUserByUserId(userId);
+
+        if(!user.isPresent()){
+            LOGGER.error("UserId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         return new ModelAndView("userReview").addObject("userId", userId)
                 .addObject("filter", filter)
                 .addObject("postId", postId)
@@ -330,6 +327,21 @@ public class UserController {
                              @RequestParam(value = "userId") final Integer userId,
                              @ModelAttribute("userReview") final UserReviewForm form) {
 
+
+        Optional<User> user = userService.findUserByUserId(userId);
+
+        if(!user.isPresent()){
+            LOGGER.error("UserId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if(!post.isPresent()){
+            LOGGER.error("PostId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         List<UserReview> userReviewList = userReviewService.findReviewsByUserReviewedId(userId);
 
         ModelAndView mav = new ModelAndView("userReviews").addObject("userId", userId)
@@ -347,6 +359,11 @@ public class UserController {
                                @RequestParam(value = "questionId") final Integer questionId) {
 
         Optional<Question> question = questionService.findQuestionsByQuestionId(questionId);
+
+        if(!question.isPresent()){
+            LOGGER.error("QuestionId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
 
         return new ModelAndView("answer").addObject("question", question.get());
     }
@@ -382,9 +399,12 @@ public class UserController {
         if(errors.hasErrors())
             return forgotPassword(form);
 
-        Optional<User> user = userService.findUserByEmail(form.getEmail());
+        Optional<User> user = userService.findUserByUsername(form.getUsername());
 
         if(!user.isPresent())
+            return forgotPassword(form).addObject("wrong_user", true);
+
+        if(!user.get().getEmail().equals(form.getEmail()))
             return forgotPassword(form).addObject("wrong_email", true);
 
         forgotPasswordService.createNewRequest(user.get(), userService.getTodayDate());
