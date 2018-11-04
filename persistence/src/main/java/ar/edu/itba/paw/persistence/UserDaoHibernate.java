@@ -75,7 +75,7 @@ public class UserDaoHibernate implements UserDAO {
         final TypedQuery<User> query = em.createQuery("from User as u where u.username = :username", User.class);
         query.setParameter("username", username);
         final List<User> list = query.getResultList();
-        return list.isEmpty() ? null : Optional.ofNullable(list.get(0));
+        return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(0));
     }
 
     @Override
@@ -96,20 +96,22 @@ public class UserDaoHibernate implements UserDAO {
         LOGGER.info("User rating = {} updated with userId = {}", rating, user);
     }
 
-//    @Transactional
-//    @Override
-//    public boolean addFundsToUserId(Double funds, Integer userId) {
-//
-//        User user = em.find(User.class, userId);
-//
-//        if (user != null) {
-//            user.setFunds(funds);
-//            em.merge(user);
-//            LOGGER.info("Add funds = {} to userId = {}", funds, userId);
-//            return true;
-//        }
-//        LOGGER.info("User not found with userId = {}", userId);
-//
-//        return false;
-//    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        final TypedQuery<User> query = em.createQuery("from User as u where u.email = :email", User.class);
+        query.setParameter("email", email);
+        final List<User> list = query.getResultList();
+        return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(0));
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        final TypedQuery<User> query = em.createQuery("from User as u where u.email = :email", User.class);
+        query.setParameter("email", email);
+        final List<User> list = query.getResultList();
+
+        return list.isEmpty();
+
+    }
 }

@@ -70,4 +70,14 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
     public boolean checkUsername(final String username) {
         return userDAO.checkUsername(username);
     }
+
+    @Override
+    public Optional<UserNotAuthenticated> findUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return userDAO.checkEmail(email);
+    }
 }

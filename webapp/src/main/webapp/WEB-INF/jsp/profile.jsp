@@ -91,6 +91,9 @@
                             <form:input type="text" path="email" value="${user.email}" class="form-control"/>
                             <form:errors class="error" path="email" element="p"><br><spring:message
                                     code="email_error"/></form:errors>
+                            <c:if test="${sameEmail_error}">
+                                <p><spring:message code="sameEmail_error"/></p>
+                            </c:if>
                             <br/>
                         </div>
                     </div>
@@ -150,26 +153,58 @@
         <%-- QUESTIONS --%>
         <div class="right-container">
             <div id="questions">
-                <h2><spring:message code="questions"/></h2>
-                <br>
-                <c:choose>
-                    <c:when test="${empty questions}">
-                        <p><spring:message code="no_questions"/></p>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach items="${questions}" var="question" varStatus="loop">
-                            <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${question.postAsked.productPosted.productName}"/></p>
-                                <p><spring:message code="description_"/><c:out value="${question.postAsked.description}"/></p>
-                                <p><spring:message code="from_"/><c:out value="${question.userWhoAsk.username}"/></p>
-                                <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
-                                <a class="btn btn-primary" role="button" href="<c:url value="/answer?questionId=${question.questionId}" />">
-                                    <spring:message code="answer"/>
-                                </a>
-                            </div>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
+                <div class="tab" id="navbar">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li id="pending-questions-button" class="active">
+                            <a><spring:message code="pending"/></a>
+                        </li>
+                        <li id="my-question-button">
+                            <a><spring:message code="my_questions"/></a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="pending-questions" class="tab-container">
+                    <br>
+                    <c:choose>
+                        <c:when test="${empty pendingQuestions}">
+                            <p><spring:message code="no_pending_questions"/></p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${pendingQuestions}" var="question" varStatus="loop">
+                                <div class="post">
+                                    <p><spring:message code="product_name"/><c:out value="${question.postAsked.productPosted.productName}"/></p>
+                                    <p><spring:message code="description_"/><c:out value="${question.postAsked.description}"/></p>
+                                    <p><spring:message code="from_"/><c:out value="${question.userWhoAsk.username}"/></p>
+                                    <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
+                                    <a class="btn btn-primary" role="button" href="<c:url value="/answer?questionId=${question.questionId}" />">
+                                        <spring:message code="answer"/>
+                                    </a>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div id="my-questions" class="tab-container">
+                    <br>
+                    <c:choose>
+                        <c:when test="${empty myQuestions}">
+                            <p><spring:message code="no_my_questions"/></p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${myQuestions}" var="question" varStatus="loop">
+                                <div class="post">
+                                    <p><spring:message code="product_name"/><c:out value="${question.postAsked.productPosted.productName}"/></p>
+                                    <p><spring:message code="description_"/><c:out value="${question.postAsked.description}"/></p>
+                                    <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
+                                    <p><spring:message code="answer_"/><c:out value="${question.answer}"/></p>
+                                    <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${question.postAsked.postId}&&profile=true" />">
+                                        <spring:message code="view_post"/>
+                                    </a>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
         </div>
 
@@ -199,6 +234,7 @@
                                     <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
                                     <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
+                                    <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
                                     <c:url value="/confirmTransaction" var="transactionPath"/>
                                     <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
@@ -230,6 +266,7 @@
                                     <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
                                     <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
+                                    <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
                                 </div>
                             </c:forEach>
@@ -308,6 +345,7 @@
             $("#confirmed-sells").hide();
             $("#buys").hide();
             $("#confirmed-buys").hide();
+            $("#my-questions").hide();
         } else {
             $("#posts").hide();
             $("#questions").hide();
@@ -315,6 +353,7 @@
             $("#confirmed-sells").hide();
             $("#buys").hide();
             $("#confirmed-buys").hide();
+            $("#my-questions").hide();
         }
 
         $("#sells-button").click(function () {
@@ -377,6 +416,20 @@
             $("#confirmed-buys-button").removeClass("active");
             $("#pending-buys-button").addClass("active");
             $("#pending-buys").show();
+        });
+
+        $("#pending-questions-button").click(function () {
+            $("#my-questions").hide();
+            $("#pending-questions-button").addClass("active");
+            $("#my-question-button").removeClass("active");
+            $("#pending-questions").show();
+        });
+
+        $("#my-question-button").click(function () {
+            $("#pending-questions").hide();
+            $("#pending-questions-button").removeClass("active");
+            $("#my-question-button").addClass("active");
+            $("#my-questions").show();
         });
 
         date();

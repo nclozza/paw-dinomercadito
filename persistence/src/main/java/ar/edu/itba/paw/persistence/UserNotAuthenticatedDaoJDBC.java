@@ -101,4 +101,14 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
 
         return userList.isEmpty();
     }
+
+    @Override
+    public Optional<UserNotAuthenticated> findUserByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return false;
+    }
 }

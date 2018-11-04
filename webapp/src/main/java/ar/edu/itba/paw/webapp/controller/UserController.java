@@ -50,6 +50,9 @@ public class UserController {
     private QuestionService questionService;
 
     @Autowired
+    private ForgotPasswordService forgotPasswordService;
+
+    @Autowired
     @Qualifier("userNotAuthenticatedServiceImpl")
     private UserNotAuthenticatedService usn;
 
@@ -78,6 +81,10 @@ public class UserController {
 
         if (!userService.checkUsername(form.getUsername()) || !usn.checkUsername(form.getUsername())) {
             return signUp(form).addObject("sameUsername_error", true);
+        }
+
+        if (!userService.checkEmail(form.getEmail()) || !usn.checkEmail(form.getEmail())){
+            return signUp(form).addObject("sameEmail_error", true);
         }
 
         String date = userService.getTodayDate();
@@ -116,14 +123,16 @@ public class UserController {
         List<Transaction> sellListConfirmed = transactionService.findSellsByUserIdAndStatus(userId, Transaction.CONFIRMED);
         List<Post> postList = postService.findPostsByUserId(userId);
         postList.sort(Comparator.comparing(Post::getVisits).reversed());
-        List<Question> questionList = questionService.findPendingQuestionsByUserId(userId);
+        List<Question> pendigQuestionList = questionService.findPendingQuestionsByUserId(userId);
+        List<Question> myQuestionList = questionService.findQuestionsByUserWhoAskId(userId);
 
         mav.addObject("formError", false);
         mav.addObject("repeat_password", false);
         mav.addObject("password_error", false);
         mav.addObject("invalid_transaction", false);
         mav.addObject("user", user);
-        mav.addObject("questions", questionList);
+        mav.addObject("pendingQuestions", pendigQuestionList);
+        mav.addObject("myQuestions", myQuestionList);
         mav.addObject("pendingSells", sellListPending);
         mav.addObject("pendingBuys", buyListPending);
         mav.addObject("confirmedSells", sellListConfirmed);
@@ -139,6 +148,10 @@ public class UserController {
 
         if (errors.hasErrors()) {
             return profile(form).addObject("form_error", true);
+        }
+
+        if (!userService.checkEmail(form.getEmail()) || !usn.checkEmail(form.getEmail())){
+            return profile(form).addObject("sameEmail_error", true);
         }
 
         User user = getLoggedUser();
@@ -203,10 +216,14 @@ public class UserController {
         }
 
         Optional<UserNotAuthenticated> user = usn.findUserByCode(form.getCode());
+        String date = userService.getTodayDate();
 
         if (!user.isPresent()) {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
+
+        } else if(!user.get().getSignUpDate().equals(date)){
+            return authentication(form).addObject("code_expired", true);
 
         } else {
             User userAuthenticated = userService.createUser(user.get().getUsername(), user.get().getPassword(),
@@ -253,22 +270,6 @@ public class UserController {
         return mav;
     }
 
-//    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.GET})
-//    public ModelAndView addFunds(@ModelAttribute("addFundsForm") final AddFundsForm form) {
-//        return new ModelAndView("addFunds");
-//    }
-
-//    @RequestMapping(value = "/profile/addFunds", method = {RequestMethod.POST})
-//    public ModelAndView addFundsPost(@Valid @ModelAttribute("addFundsForm") final AddFundsForm form) {
-//
-//        User user = getLoggedUser();
-//
-//        if (!userService.addFundsToUserId(Double.valueOf(form.getFunds()), user.getUserId())) {
-//            return new ModelAndView("redirect:/500");
-//        }
-//
-//        return new ModelAndView("redirect:/profile");
-//    }
 
     @RequestMapping(value = "/userReview", method = {RequestMethod.GET})
     public ModelAndView userReview(@ModelAttribute("userReview") final UserReviewForm form,
@@ -276,6 +277,19 @@ public class UserController {
                                    @RequestParam(value = "postId") final Integer postId,
                                    @RequestParam(value = "profile") final Boolean profile,
                                    @RequestParam(value = "userId") final Integer userId) {
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if(!post.isPresent()){
+            LOGGER.error("PostId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+        Optional<User> user = userService.findUserByUserId(userId);
+
+        if(!user.isPresent()){
+            LOGGER.error("UserId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         return new ModelAndView("userReview").addObject("userId", userId)
                 .addObject("filter", filter)
                 .addObject("postId", postId)
@@ -313,6 +327,21 @@ public class UserController {
                              @RequestParam(value = "userId") final Integer userId,
                              @ModelAttribute("userReview") final UserReviewForm form) {
 
+
+        Optional<User> user = userService.findUserByUserId(userId);
+
+        if(!user.isPresent()){
+            LOGGER.error("UserId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if(!post.isPresent()){
+            LOGGER.error("PostId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         List<UserReview> userReviewList = userReviewService.findReviewsByUserReviewedId(userId);
 
         ModelAndView mav = new ModelAndView("userReviews").addObject("userId", userId)
@@ -331,6 +360,11 @@ public class UserController {
 
         Optional<Question> question = questionService.findQuestionsByQuestionId(questionId);
 
+        if(!question.isPresent()){
+            LOGGER.error("QuestionId does not exits");
+            return new ModelAndView("redirect:/400");
+        }
+
         return new ModelAndView("answer").addObject("question", question.get());
     }
 
@@ -340,8 +374,73 @@ public class UserController {
         if(errors.hasErrors())
             return answer(form, form.getQuestionId());
 
+        Optional<Question> question = questionService.findQuestionsByQuestionId(form.getQuestionId());
+        User userLogged = getLoggedUser();
+
+        if(!question.isPresent() || userLogged.getUserId() != question.get().getPostAsked().getUserSeller().getUserId()){
+            return answer(form, form.getQuestionId()).addObject("answer_error", true);
+        }
+
         questionService.addAnswer(form.getQuestionId(), form.getAnswer());
 
         return new ModelAndView("redirect:/profile");
     }
+
+    @RequestMapping(value = "/forgotPassword", method = {RequestMethod.GET})
+    public ModelAndView forgotPassword(@ModelAttribute("forgotPassword") final ForgotPasswordForm form) {
+
+        return new ModelAndView("forgotPassword");
+    }
+
+    @RequestMapping(value = "/forgotPassword", method = {RequestMethod.POST})
+    public ModelAndView forgotPasswordRequest(@Valid @ModelAttribute("forgotPassword") final ForgotPasswordForm form,
+                                       final BindingResult errors) {
+
+        if(errors.hasErrors())
+            return forgotPassword(form);
+
+        Optional<User> user = userService.findUserByUsername(form.getUsername());
+
+        if(!user.isPresent())
+            return forgotPassword(form).addObject("wrong_user", true);
+
+        if(!user.get().getEmail().equals(form.getEmail()))
+            return forgotPassword(form).addObject("wrong_email", true);
+
+        forgotPasswordService.createNewRequest(user.get(), userService.getTodayDate());
+
+        return new ModelAndView("checkEmail");
+    }
+
+
+    @RequestMapping(value = "/changePassword", method = {RequestMethod.GET})
+    public ModelAndView changePassword(@ModelAttribute("changePassword") final ChangePasswordForm form,
+                                       @RequestParam(value = "code") final String code) {
+
+        return new ModelAndView("changePassword").addObject("code", code);
+    }
+
+    @RequestMapping(value = "/changePassword", method = {RequestMethod.POST})
+    public ModelAndView changePasswordRequest(@Valid @ModelAttribute("changePassword") final ChangePasswordForm form,
+                                              final BindingResult errors) {
+        if (errors.hasErrors())
+            return changePassword(form, form.getCode());
+
+        if (!form.checkPassword())
+            return changePassword(form, form.getCode()).addObject("different_password", true);
+
+        Integer code = form.getCode().hashCode();
+        Optional<ForgotPassword> forgotPassword = forgotPasswordService.findRequestByCode(code.toString());
+        String date = userService.getTodayDate();
+
+        if (!forgotPassword.isPresent() || !date.equals(forgotPassword.get().getRequestDate()))
+            return changePassword(form, form.getCode()).addObject("invalid_code", true);
+
+        User user = forgotPassword.get().getUserForgot();
+        userService.updateUser(user.getUserId(), form.getPassword(), user.getEmail(), user.getPhone(), user.getBirthdate());
+        forgotPasswordService.deleteRequestById(forgotPassword.get().getForgotPasswordId());
+
+        return new ModelAndView("redirect:/login");
+    }
+
 }

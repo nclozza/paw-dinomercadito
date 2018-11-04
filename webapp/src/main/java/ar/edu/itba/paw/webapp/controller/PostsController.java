@@ -227,6 +227,9 @@ public class PostsController {
 
         Optional<Post> post = postService.findPostByPostId(postId);
 
+        if(!post.isPresent())
+            return new ModelAndView("redirect:/400");
+
         return new ModelAndView("question").addObject("post", post.get())
                 .addObject("filter", filter)
                 .addObject("profile", profile);
@@ -254,6 +257,11 @@ public class PostsController {
                                   @RequestParam(value = "filter", required = false) final String filter,
                                   @RequestParam(value = "profile", required = false) final Boolean profile,
                                   @RequestParam(value = "postId") final Integer postId){
+
+        Optional<Post> post = postService.findPostByPostId(postId);
+
+        if(!post.isPresent())
+            return new ModelAndView("redirect:/400");
 
         List<Question> questionList = questionService.findQuestionsByPostId(postId);
 

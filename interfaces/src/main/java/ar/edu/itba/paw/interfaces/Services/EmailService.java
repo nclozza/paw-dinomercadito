@@ -12,4 +12,5 @@ public interface EmailService {
 
     boolean sendCodeEmail(final String to, final Integer code);
 
+    void sendChangePasswordEmail(final String to, final String code);
 }

@@ -46,7 +46,9 @@
                                 <p class="label"><spring:message code="price_"/></p><p class="value"><c:out value="${post.price}"/></p>
                                 <br>
                                 <p class="label"><spring:message code="visits"/></p><p class="value"><c:out value="${post.visits}"/></p>
-                                    <br>
+                                <br>
+                                <p class="label"><spring:message code="user_rating_"/></p><p class="value"><c:out value="${post.userSeller.rating}"/></p>
+                                <br>
                                 <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
                                 <br>
                                 <br>

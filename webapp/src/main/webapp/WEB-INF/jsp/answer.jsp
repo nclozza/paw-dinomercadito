@@ -32,6 +32,10 @@
                 <form:textarea path="answer" class="form-control input-size"/>
                 <form:errors class="error" path="answer" element="p"><br><spring:message
                         code="question_error"/><br></form:errors>
+                <br>
+                <c:if test="${answer_error}">
+                    <spring:message code="answer_error"/>
+                </c:if>
                 <br/>
                 <br/>
             </div>

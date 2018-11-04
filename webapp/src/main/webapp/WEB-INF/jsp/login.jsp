@@ -47,6 +47,7 @@
                     </div>
                     <br>
                     <div>
+                        <a href="<c:url value="/forgotPassword"/>"><spring:message code="forgot_password"/></a><br>
                         <a href="<c:url value="/signUp"/>"><spring:message code="signup_redirect"/></a><br>
                         <a href="<c:url value="/authentication"/>"><spring:message code="auth_redirect"/></a>
                     </div>

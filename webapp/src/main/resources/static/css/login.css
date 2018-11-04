@@ -120,3 +120,35 @@ input[type=text], [type=password],[type=date] {
 .login{
     margin-top:10%;
 }
+
+.change-password-container {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 47%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 10px;
+    overflow: auto;
+    padding: 8px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.forgot-password-container {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 23%;
+    height: 48%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 10px;
+    overflow: auto;
+    padding: 8px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

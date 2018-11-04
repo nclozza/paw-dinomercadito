@@ -53,6 +53,9 @@
                 <form:input type="text" path="email" class="form-control"/>
                 <form:errors class="error" path="email" element="p"><br><spring:message
                         code="email_error"/><br></form:errors>
+                <c:if test="${sameEmail_error}">
+                    <p><spring:message code="sameEmail_error"/></p>
+                </c:if>
             </div>
             <div class="form-group">
                 <form:label class="label" path="phone"><spring:message code="phone"/></form:label>
