@@ -62,10 +62,61 @@
             </div>
         </div>
     </div>
-    <!-- Second Container -->
+    <!-- User last visited posts -->
+    <c:if test="${userVisit}">
+        <div class="container">
+            <h1 class="carousel-title" ><spring:message code="last_visited"/></h1>
+            <div id="viewCarousel" class="carousel slide carousel-container" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <c:forEach items="${userLastVisitedViews}" var="product" varStatus="loop">
+                        <li data-target="#myCarousel" data-slide-to="${loop.index + 1}"></li>
+                    </c:forEach>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <a href="<c:url value="/post?postId=${userLastVisited.postVisited.postId}"/>">
+                            <img class="product img-responsive"
+                                 src="<c:url value="/images/${userLastVisited.postVisited.productPosted.productName}.png"/>"
+                                 alt="${userLastVisited.postVisited.productPosted.productName}">
+                        </a>
+                        <div class="carousel-caption">
+                            <h2>${userLastVisited.postVisited.productPosted.productName}</h2>
+                            <h3>${userLastVisited.postVisited.visits} <spring:message code="visits_"/></h3>
+                        </div>
+                    </div>
+                    <c:forEach items="${userLastVisitedViews}" var="view" varStatus="loop">
+                        <div class="item">
+                            <a href="<c:url value="/post?postId=${view.postVisited.postId}"/>">
+                                <img class="product img-responsive"
+                                     src="<c:url value="/images/${view.postVisited.productPosted.productName}.png" />"
+                                     alt="${view.postVisited.productPosted.productName}">
+                            </a>
+                            <div class="carousel-caption">
+                                <h2>${view.postVisited.productPosted.productName}</h2>
+                                <h3>${view.postVisited.visits} <spring:message code="visits_"/></h3>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#viewCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#viewCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </c:if>
+    <!-- Most visited posts -->
     <div class="container">
         <h1 class="carousel-title" ><spring:message code="top_visited"/></h1>
-        <div id="myCarousel" class="carousel slide carousel-container" data-ride="carousel">
+        <div id="postCarousel" class="carousel slide carousel-container" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -101,11 +152,11 @@
                 </c:forEach>
             </div>
             <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <a class="left carousel-control" href="#postCarousel" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <a class="right carousel-control" href="#postCarousel" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right"></span>
                 <span class="sr-only">Next</span>
             </a>

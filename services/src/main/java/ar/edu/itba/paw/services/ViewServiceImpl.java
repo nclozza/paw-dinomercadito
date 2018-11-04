@@ -54,4 +54,9 @@ public class ViewServiceImpl implements ViewService {
         else
             return false;
     }
+
+    @Override
+    public List<View> findLastViewsByUserId(Integer userId) {
+        return viewDAO.findLastViewsByUserId(userId);
+    }
 }

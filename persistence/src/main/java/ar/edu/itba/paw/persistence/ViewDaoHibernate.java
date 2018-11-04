@@ -67,4 +67,16 @@ public class ViewDaoHibernate implements ViewDAO {
 
         return query.getResultList();
     }
+
+    @Transactional
+    @Override
+    public List<View> findLastViewsByUserId(Integer userId) {
+        final TypedQuery<View> query = em.createQuery("FROM View v " +
+                "WHERE v.userWhoVisited.userId = :userId " +
+                "ORDER BY v.viewId DESC", View.class);
+        query.setParameter("userId", userId);
+        query.setMaxResults(5);
+
+        return query.getResultList();
+    }
 }

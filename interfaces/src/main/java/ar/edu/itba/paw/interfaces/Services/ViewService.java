@@ -16,4 +16,6 @@ public interface ViewService {
     List<View> findViewsByPostId(Integer postId);
 
     boolean checkAddVisit(Integer postId, Integer userId);
+
+    List<View> findLastViewsByUserId(Integer userId);
 }
