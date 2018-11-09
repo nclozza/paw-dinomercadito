@@ -91,9 +91,6 @@
                             <form:input type="text" path="email" value="${user.email}" class="form-control"/>
                             <form:errors class="error" path="email" element="p"><br><spring:message
                                     code="email_error"/></form:errors>
-                            <c:if test="${sameEmail_error}">
-                                <p><spring:message code="sameEmail_error"/></p>
-                            </c:if>
                             <br/>
                         </div>
                     </div>

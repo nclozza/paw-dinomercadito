@@ -83,10 +83,6 @@ public class UserController {
             return signUp(form).addObject("sameUsername_error", true);
         }
 
-        if (!userService.checkEmail(form.getEmail()) || !usn.checkEmail(form.getEmail())){
-            return signUp(form).addObject("sameEmail_error", true);
-        }
-
         String date = userService.getTodayDate();
 
         Integer code = usn.generateCode();
@@ -148,10 +144,6 @@ public class UserController {
 
         if (errors.hasErrors()) {
             return profile(form).addObject("form_error", true);
-        }
-
-        if (!userService.checkEmail(form.getEmail()) || !usn.checkEmail(form.getEmail())){
-            return profile(form).addObject("sameEmail_error", true);
         }
 
         User user = getLoggedUser();
