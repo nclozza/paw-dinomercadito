@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 <html>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <title><spring:message code="DinoMercadito"/></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -37,7 +37,7 @@
         <div class="posts-right">
             <c:choose>
                 <c:when test="${empty posts}">
-                    <p class="label"><spring:message code="no_posts_available"/></p>
+                    <p class="no-posts-label"><spring:message code="no_posts_available"/></p>
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${posts}" var="post" varStatus="loop">

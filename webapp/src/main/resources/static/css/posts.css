@@ -40,6 +40,12 @@ body {
     font-size: 24px;
 }
 
+.no-posts-label {
+    font-weight: bold;
+    color: black;
+    font-size: 2vw;
+}
+
 .posts-center {
     margin: auto;
     position: absolute;
