@@ -7,7 +7,6 @@ import ar.edu.itba.paw.interfaces.Services.UserService;
 import ar.edu.itba.paw.interfaces.Services.ViewService;
 import ar.edu.itba.paw.models.Post;
 import ar.edu.itba.paw.models.User;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +78,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> filterByAvailablePosts(final List<Post> postList){
+    public List<Post> filterByAvailablePosts(final List<Post> postList) {
         List<Post> resultList = new LinkedList<Post>();
 
         for(Post p : postList){
@@ -97,7 +96,7 @@ public class PostServiceImpl implements PostService {
         List<Post> resultList = new LinkedList<Post>();
 
         for(Post p: postList){
-            if (!productIdList.contains(p.getProductPosted().getProductId()) && p.getProductQuantity() > 0){
+            if (!productIdList.contains(p.getProductPosted().getProductId()) && p.getProductQuantity() > 0 && p.getVisits() > 0) {
                 productIdList.add(p.getProductPosted().getProductId());
                 resultList.add(p);
                 if(resultList.size() == Post.MAX_TOP_VISITED)
