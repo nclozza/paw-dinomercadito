@@ -33,7 +33,7 @@
                 <c:when test="${empty questions}">
                     <br/>
                     <br/>
-                    <p class="label"><spring:message code="no_questions_available"/></p>
+                    <p class="responsive-label"><spring:message code="no_questions_available"/></p>
                     <br/>
                     <br/>
                 </c:when>

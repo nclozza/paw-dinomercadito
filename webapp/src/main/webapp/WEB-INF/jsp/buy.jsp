@@ -34,7 +34,8 @@
                 <form:hidden path="filter" value="${filter}"/>
                 <form:hidden path="profile" value="${profile}"/>
 
-                <form:label path="productQuantity" class="label"><spring:message code="productQuantity"/></form:label>
+                <form:label path="productQuantity" class="responsive-label"><spring:message code="productQuantity"/></form:label>
+                <br>
                 <form:select path="productQuantity" class="form-control input-size">
                     <c:forEach var = "cant" begin = "1" end = "${post.productQuantity}">
                         <option value="${cant}">${cant}</option>

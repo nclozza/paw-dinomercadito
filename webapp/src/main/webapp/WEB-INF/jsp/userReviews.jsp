@@ -34,7 +34,7 @@
                 <c:when test="${empty userReviews}">
                     <br/>
                     <br/>
-                    <p class="label"><spring:message code="no_reviews_available"/></p>
+                    <p class="responsive-label"><spring:message code="no_reviews_available"/></p>
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${userReviews}" var="userReview" varStatus="loop">
