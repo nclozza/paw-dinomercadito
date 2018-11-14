@@ -1,6 +1,5 @@
-package ar.edu.itba.paw.persistence.hibernate;//package ar.edu.itba.paw.persistence;
+//package ar.edu.itba.paw.persistence.hibernate;
 //
-//import ar.edu.itba.paw.interfaces.DAO.TransactionDAO;
 //import ar.edu.itba.paw.models.Transaction;
 //import org.junit.After;
 //import org.junit.Before;
