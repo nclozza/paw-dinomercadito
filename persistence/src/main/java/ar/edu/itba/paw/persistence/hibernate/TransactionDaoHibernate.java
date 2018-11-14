@@ -82,7 +82,7 @@ public class TransactionDaoHibernate implements TransactionDAO {
     @Override
     public List<Transaction> findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId){
         final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
-                "WHERE t.postBuyed.postId = :postId " +
+                "WHERE t.postBought.postId = :postId " +
                 "AND t.buyerUser.userId = :userId", Transaction.class);
 
         query.setParameter("postId", postId);
@@ -93,7 +93,7 @@ public class TransactionDaoHibernate implements TransactionDAO {
     }
 
     @Override
-    public List<Transaction> findBuysByUserIdAndStatus(final Integer userId, final String status){
+    public List<Transaction> findPurchasesByUserIdAndStatus(final Integer userId, final String status){
         final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
                 "WHERE t.buyerUser.userId = :userId " +
                 "AND t.status = :status", Transaction.class);
@@ -106,10 +106,10 @@ public class TransactionDaoHibernate implements TransactionDAO {
 
     @Transactional
     @Override
-    public List<Transaction> findSellsByUserIdAndStatus(final Integer userId, final String status){
+    public List<Transaction> findSalesByUserIdAndStatus(final Integer userId, final String status){
         final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
                 "INNER JOIN Post p " +
-                "ON p.postId = t.postBuyed.postId " +
+                "ON p.postId = t.postBought.postId " +
                 "WHERE p.userSeller.userId = :userId " +
                 "AND t.status = :status", Transaction.class);
 

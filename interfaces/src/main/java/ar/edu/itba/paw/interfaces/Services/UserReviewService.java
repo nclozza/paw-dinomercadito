@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface UserReviewService {
 
-    UserReview createUserReview(Integer userReviewedId, Integer userWhoReviewId, Integer rating, String description);
+    UserReview createUserReview(Integer reviewedUserId, Integer reviewerId, Integer rating, String description);
 
-    List<UserReview> findReviewsByUserReviewedId(Integer userReviewedId);
+    List<UserReview> findReviewsByReviewedUserId(Integer reviewedUserId);
 
     Optional<UserReview> findReviewByUserReviewId(Integer userReviewId);
 
-    List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId);
+    List<UserReview> findReviewsByReviewerId(Integer reviewerId);
 
-    boolean checkUserWhoReview(Integer userWhoReviewId, Integer userReviewed);
+    boolean checkReviewer(Integer reviewerId, Integer reviewedUser);
 }

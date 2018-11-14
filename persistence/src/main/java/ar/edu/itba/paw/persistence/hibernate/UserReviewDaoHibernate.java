@@ -24,10 +24,10 @@ public class UserReviewDaoHibernate implements UserReviewDAO {
 
     @Transactional
     @Override
-    public UserReview createUserReview(Integer userReviewedId, Integer userWhoReviewId, Integer rating, String description) {
-        User userReviewed = em.find(User.class, userReviewedId);
-        User userWhoReview = em.find(User.class, userWhoReviewId);
-        UserReview userReview = new UserReview(userReviewed, userWhoReview, rating, description);
+    public UserReview createUserReview(Integer reviewedUserId, Integer reviewerId, Integer rating, String description) {
+        User reviewedUser = em.find(User.class, reviewedUserId);
+        User reviewer = em.find(User.class, reviewerId);
+        UserReview userReview = new UserReview(reviewedUser, reviewer, rating, description);
         em.persist(userReview);
         LOGGER.info("UserReview inserted with userReviewId = {}", userReview.getUserReviewId().intValue());
         return userReview;
@@ -35,18 +35,18 @@ public class UserReviewDaoHibernate implements UserReviewDAO {
 
     @Transactional
     @Override
-    public List<UserReview> findReviewsByUserReviewedId(Integer userReviewedId){
-        User userReviewed = em.find(User.class, userReviewedId);
-        Hibernate.initialize(userReviewed.getUserReviewedList());
-        return userReviewed.getUserReviewedList();
+    public List<UserReview> findReviewsByReviewedUserId(Integer reviewedUserId){
+        User reviewedUser = em.find(User.class, reviewedUserId);
+        Hibernate.initialize(reviewedUser.getReviewedUserList());
+        return reviewedUser.getReviewedUserList();
     }
 
     @Transactional
     @Override
-    public List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId){
-        User userWhoReview = em.find(User.class, userWhoReviewId);
-        Hibernate.initialize(userWhoReview.getUserWhoReviewList());
-        return userWhoReview.getUserWhoReviewList();
+    public List<UserReview> findReviewsByReviewerId(Integer reviewerId){
+        User reviewer = em.find(User.class, reviewerId);
+        Hibernate.initialize(reviewer.getReviewerList());
+        return reviewer.getReviewerList();
     }
 
     @Override

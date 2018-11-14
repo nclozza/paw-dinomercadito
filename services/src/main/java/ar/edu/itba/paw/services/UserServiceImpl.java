@@ -146,13 +146,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addRating(Integer userId, Integer rating){
         Optional<User> user = userDAO.findUserByUserId(userId);
-        List<UserReview> listUserReviewed = userReviewService.findReviewsByUserReviewedId(userId);
+        List<UserReview> listReviewedUser = userReviewService.findReviewsByReviewedUserId(userId);
         Double newRating;
 
         if(user != null){
             Double userRating = user.get().getRating();
             if(userRating != null) {
-                Integer cant = listUserReviewed.size();
+                Integer cant = listReviewedUser.size();
                 newRating = ((cant * userRating) + rating) / (cant + 1);
             } else {
                 newRating = rating.doubleValue();

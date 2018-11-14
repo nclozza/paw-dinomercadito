@@ -33,7 +33,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User userSeller;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postBuyed")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postBought")
     private List<Transaction> transactionsList;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "postVisited")

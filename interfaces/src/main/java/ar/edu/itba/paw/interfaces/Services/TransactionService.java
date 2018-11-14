@@ -23,9 +23,9 @@ public interface TransactionService {
 
     Boolean findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId);
 
-    List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status);
+    List<Transaction> findPurchasesByUserIdAndStatus(Integer userId, String status);
 
-    List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status);
+    List<Transaction> findSalesByUserIdAndStatus(Integer userId, String status);
 
     Boolean isValidTransaction(Transaction transaction);
 

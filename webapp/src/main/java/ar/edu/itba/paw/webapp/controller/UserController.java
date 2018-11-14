@@ -113,10 +113,10 @@ public class UserController {
 
         User user = getLoggedUser();
         Integer userId = user.getUserId();
-        List<Transaction> buyListPending = transactionService.findBuysByUserIdAndStatus(userId, Transaction.PENDING);
-        List<Transaction> buyListConfirmed = transactionService.findBuysByUserIdAndStatus(userId, Transaction.CONFIRMED);
-        List<Transaction> sellListPending = transactionService.findSellsByUserIdAndStatus(userId, Transaction.PENDING);
-        List<Transaction> sellListConfirmed = transactionService.findSellsByUserIdAndStatus(userId, Transaction.CONFIRMED);
+        List<Transaction> buyListPending = transactionService.findPurchasesByUserIdAndStatus(userId, Transaction.PENDING);
+        List<Transaction> buyListConfirmed = transactionService.findPurchasesByUserIdAndStatus(userId, Transaction.CONFIRMED);
+        List<Transaction> sellListPending = transactionService.findSalesByUserIdAndStatus(userId, Transaction.PENDING);
+        List<Transaction> sellListConfirmed = transactionService.findSalesByUserIdAndStatus(userId, Transaction.CONFIRMED);
         List<Post> postList = postService.findPostsByUserId(userId);
         postList.sort(Comparator.comparing(Post::getVisits).reversed());
         List<Question> pendigQuestionList = questionService.findPendingQuestionsByUserId(userId);
@@ -238,7 +238,7 @@ public class UserController {
             return new ModelAndView("redirect:/400");
         }
 
-        Optional<Post> post = postService.findPostByPostId(transaction.get().getPostBuyed().getPostId());
+        Optional<Post> post = postService.findPostByPostId(transaction.get().getBoughtPost().getPostId());
 
         if (!post.isPresent()) {
             LOGGER.error("PostId does not exist");
@@ -300,7 +300,7 @@ public class UserController {
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("same_user_error", true);
 
 
-        if(!userReviewService.checkUserWhoReview(userLogged.getUserId(), form.getUserId()))
+        if(!userReviewService.checkReviewer(userLogged.getUserId(), form.getUserId()))
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("check_user_error", true);
 
         if(!transactionService.findTransactionsByUserIdAndPostId(userLogged.getUserId(), form.getPostId()))
@@ -334,7 +334,7 @@ public class UserController {
             return new ModelAndView("redirect:/400");
         }
 
-        List<UserReview> userReviewList = userReviewService.findReviewsByUserReviewedId(userId);
+        List<UserReview> userReviewList = userReviewService.findReviewsByReviewedUserId(userId);
 
         ModelAndView mav = new ModelAndView("userReviews").addObject("userId", userId)
                 .addObject("filter", filter)

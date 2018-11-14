@@ -104,19 +104,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> findBuysByUserIdAndStatus(Integer userId, String status) {
-        return transactionDAO.findBuysByUserIdAndStatus(userId, status);
+    public List<Transaction> findPurchasesByUserIdAndStatus(Integer userId, String status) {
+        return transactionDAO.findPurchasesByUserIdAndStatus(userId, status);
     }
 
     @Override
-    public List<Transaction> findSellsByUserIdAndStatus(Integer userId, String status) {
-        return  transactionDAO.findSellsByUserIdAndStatus(userId, status);
+    public List<Transaction> findSalesByUserIdAndStatus(Integer userId, String status) {
+        return  transactionDAO.findSalesByUserIdAndStatus(userId, status);
     }
 
     @Override
     public Boolean isValidTransaction(Transaction transaction){
 
-        if(transaction.getProductQuantity() > transaction.getPostBuyed().getProductQuantity())
+        if(transaction.getProductQuantity() > transaction.getBoughtPost().getProductQuantity())
             return false;
         else
             return true;
@@ -124,8 +124,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void confirmTransaction(Transaction transaction){
-        postService.updatePostProductQuantity(transaction.getPostBuyed().getPostId(),
-                transaction.getPostBuyed().getProductQuantity() - transaction.getProductQuantity());
+        postService.updatePostProductQuantity(transaction.getBoughtPost().getPostId(),
+                transaction.getBoughtPost().getProductQuantity() - transaction.getProductQuantity());
 
         transactionDAO.changeTransactionStatus(transaction.getTransactionId(), Transaction.CONFIRMED);
     }

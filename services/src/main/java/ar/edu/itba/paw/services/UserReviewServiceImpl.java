@@ -20,18 +20,18 @@ public class UserReviewServiceImpl implements UserReviewService {
     private UserService userService;
 
     @Override
-    public UserReview createUserReview(Integer userReviewedId, Integer userWhoReviewId, Integer rating, String description) {
-        return userReviewDAO.createUserReview(userReviewedId, userWhoReviewId, rating, description);
+    public UserReview createUserReview(Integer reviewedUserId, Integer reviewerId, Integer rating, String description) {
+        return userReviewDAO.createUserReview(reviewedUserId, reviewerId, rating, description);
     }
 
     @Override
-    public List<UserReview> findReviewsByUserReviewedId(Integer userReviewedId) {
-        return userReviewDAO.findReviewsByUserReviewedId(userReviewedId);
+    public List<UserReview> findReviewsByReviewedUserId(Integer reviewedUserId) {
+        return userReviewDAO.findReviewsByReviewedUserId(reviewedUserId);
     }
 
     @Override
-    public List<UserReview> findReviewsByUserWhoReviewId(Integer userWhoReviewId) {
-        return userReviewDAO.findReviewsByUserWhoReviewId(userWhoReviewId);
+    public List<UserReview> findReviewsByReviewerId(Integer reviewerId) {
+        return userReviewDAO.findReviewsByReviewerId(reviewerId);
     }
 
     @Override
@@ -40,11 +40,11 @@ public class UserReviewServiceImpl implements UserReviewService {
     }
 
     @Override
-    public boolean checkUserWhoReview(Integer userWhoReviewId, Integer userReviewed){
-        List<UserReview> userReviewList = userReviewDAO.findReviewsByUserWhoReviewId(userWhoReviewId);
+    public boolean checkReviewer(Integer reviewerId, Integer reviewedUser){
+        List<UserReview> userReviewList = userReviewDAO.findReviewsByReviewerId(reviewerId);
 
         for(UserReview ur : userReviewList){
-            if(ur.getUserReviewed().getUserId() == userReviewed)
+            if(ur.getReviewedUser().getUserId() == reviewedUser)
                 return false;
         }
 

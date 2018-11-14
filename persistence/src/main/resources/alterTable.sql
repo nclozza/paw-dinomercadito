@@ -9,7 +9,7 @@ ALTER TABLE posts
 ADD COLUMN visits INT NOT NULL DEFAULT 0;
 
 ALTER TABLE transactions
-RENAME COLUMN postId TO postBuyed_postId;
+RENAME COLUMN postId TO postBought_postId;
 ALTER TABLE transactions
 RENAME COLUMN buyerUserId TO buyerUser_userId;
 ALTER TABLE transactions

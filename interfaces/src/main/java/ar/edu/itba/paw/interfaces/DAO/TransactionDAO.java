@@ -48,7 +48,7 @@ public interface TransactionDAO {
 
     List<Transaction> findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId);
 
-    List<Transaction> findBuysByUserIdAndStatus(final Integer userId, final String status);
+    List<Transaction> findPurchasesByUserIdAndStatus(final Integer userId, final String status);
 
-    List<Transaction> findSellsByUserIdAndStatus(final Integer userId, final String status);
+    List<Transaction> findSalesByUserIdAndStatus(final Integer userId, final String status);
 }

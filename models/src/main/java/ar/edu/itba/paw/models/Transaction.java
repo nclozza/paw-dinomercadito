@@ -35,12 +35,12 @@ public class Transaction {
     private User buyerUser;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Post postBuyed;
+    private Post postBought;
 
     public Transaction(final Integer transactionId, final Integer postId, final Integer buyerUserId,
                        final Integer productQuantity, final Double price, final String productName) {
         this.transactionId = transactionId;
-        this.postBuyed.setPostId(postId);
+        this.postBought.setPostId(postId);
         this.buyerUser.setUserId(buyerUserId);
         this.productQuantity = productQuantity;
         this.price = price;
@@ -49,7 +49,7 @@ public class Transaction {
 
     public Transaction(final Post post, final User buyerUser,
                        final Integer productQuantity, final Double price, final String productName) {
-        this.postBuyed = post;
+        this.postBought = post;
         this.buyerUser = buyerUser;
         this.productQuantity = productQuantity;
         this.price = price;
@@ -93,12 +93,12 @@ public class Transaction {
         this.productName = productName;
     }
 
-    public Post getPostBuyed() {
-        return postBuyed;
+    public Post getBoughtPost() {
+        return postBought;
     }
 
-    public void setPostBuyed(Post postBuyed) {
-        this.postBuyed = postBuyed;
+    public void setPostBuyed(Post postBought) {
+        this.postBought = postBought;
     }
 
     public User getBuyerUser() {

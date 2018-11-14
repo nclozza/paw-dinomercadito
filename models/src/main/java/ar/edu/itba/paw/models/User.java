@@ -43,11 +43,11 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoVisited")
     private List<View> viewsList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userReviewed")
-    private List<UserReview> userReviewedList;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "reviewedUser")
+    private List<UserReview> reviewedUserList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoReview")
-    private List<UserReview> userWhoReviewList;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "reviewer")
+    private List<UserReview> reviewerList;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userWhoAsk")
     private List<Question> questionList;
@@ -168,20 +168,20 @@ public class User {
         this.viewsList = viewsList;
     }
 
-    public List<UserReview> getUserReviewedList() {
-        return userReviewedList;
+    public List<UserReview> getReviewedUserList() {
+        return reviewedUserList;
     }
 
-    public void setUserReviewedList(List<UserReview> userReviewedList) {
-        this.userReviewedList = userReviewedList;
+    public void setReviewedUserList(List<UserReview> reviewedUserList) {
+        this.reviewedUserList = reviewedUserList;
     }
 
-    public List<UserReview> getUserWhoReviewList() {
-        return userWhoReviewList;
+    public List<UserReview> getReviewerList() {
+        return reviewerList;
     }
 
-    public void setUserWhoReviewList(List<UserReview> userWhoReviewList) {
-        this.userWhoReviewList = userWhoReviewList;
+    public void setReviewerList(List<UserReview> reviewerList) {
+        this.reviewerList = reviewerList;
     }
 
     public Double getRating() {

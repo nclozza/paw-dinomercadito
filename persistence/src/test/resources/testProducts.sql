@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 INSERT INTO products (productId, productname, brand, ram, storage, operativesystem, processor, bodysize, screensize, screenratio, rearcamera, frontcamera)
-VALUES(9999, 'iPhone XI', 'Apple', '3GB', '256GB',
+VALUES(9999, 'iPhone X', 'Apple', '3GB', '256GB',
 	'iOS', 'A11 Bionic', '143.6 x 70.9 x 7.7 mm', '84.4 cm2',
 	'19.5:9', '12 MP, f/1.8, 28mm, 1.22µm, OIS, PDAF --- 12 MP, f/2.4, 52mm, 1.0µm, OIS, PDAF, 2x optical zoom',
 	'7 MP, f/2.2, 32mm');

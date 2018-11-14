@@ -38,7 +38,7 @@
                 <c:otherwise>
                     <c:forEach items="${userReviews}" var="userReview" varStatus="loop">
                         <div class="review">
-                            <p class="label"><spring:message code="username_"/></p><p class="value"><c:out value="${userReview.userWhoReview.username}"/></p>
+                            <p class="label"><spring:message code="username_"/></p><p class="value"><c:out value="${userReview.reviewer.username}"/></p>
                             <br>
                             <p class="label"><spring:message code="rating_"/></p><p class="value"><c:out value="${userReview.rating}"/></p>
                             <br>

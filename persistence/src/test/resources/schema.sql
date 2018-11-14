@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS views (
 
 CREATE TABLE IF NOT EXISTS userReviews (
    userReviewId INTEGER IDENTITY PRIMARY KEY,
-   userReviewed_userId INT REFERENCES users(userId) NOT NULL,
-   userWhoReview_userId INT REFERENCES users(userId) NOT NULL,
+   reviewedUser_userId INT REFERENCES users(userId) NOT NULL,
+   reviewer_userId INT REFERENCES users(userId) NOT NULL,
    rating INT NOT NULL,
    description VARCHAR(128)
 );

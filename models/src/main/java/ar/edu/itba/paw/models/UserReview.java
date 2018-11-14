@@ -19,14 +19,14 @@ public class UserReview {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User userReviewed;
+    private User reviewedUser;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User userWhoReview;
+    private User reviewer;
 
-    public UserReview(User userReviewed, User userWhoReview, Integer rating, String description) {
-        this.userReviewed = userReviewed;
-        this.userWhoReview = userWhoReview;
+    public UserReview(User reviewedUser, User reviewer, Integer rating, String description) {
+        this.reviewedUser = reviewedUser;
+        this.reviewer = reviewer;
         this.rating = rating;
         this.description = description;
     }
@@ -59,19 +59,19 @@ public class UserReview {
         this.description = description;
     }
 
-    public User getUserReviewed() {
-        return userReviewed;
+    public User getReviewedUser() {
+        return reviewedUser;
     }
 
-    public void setUserReviewed(User userReviewed) {
-        this.userReviewed = userReviewed;
+    public void setReviewedUser(User reviewedUser) {
+        this.reviewedUser = reviewedUser;
     }
 
-    public User getUserWhoReview() {
-        return userWhoReview;
+    public User getReviewer() {
+        return reviewer;
     }
 
-    public void setUserWhoReview(User userWhoReview) {
-        this.userWhoReview = userWhoReview;
+    public void setReviewer(User reviewer) {
+        this.reviewer = reviewer;
     }
 }

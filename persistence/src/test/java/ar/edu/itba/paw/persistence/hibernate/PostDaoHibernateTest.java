@@ -93,7 +93,7 @@ public class PostDaoHibernateTest {
     public void testFindPostsByUserId() {
         final List<Post> postList = postDao.findPostsByUserId(DUMMY_USERID);
 
-        assertTrue(!postList.isEmpty());
+        assertFalse(postList.isEmpty());
 
         for (Post post : postList)
             assertEquals(DUMMY_USERID, post.getUserSeller().getUserId().intValue());
@@ -103,7 +103,7 @@ public class PostDaoHibernateTest {
     public void testFindPostsByProductId() {
         final List<Post> postList = postDao.findPostsByProductId(DUMMY_PRODUCTID);
 
-        assertTrue(!postList.isEmpty());
+        assertFalse(postList.isEmpty());
 
         for (Post post : postList)
             assertEquals(DUMMY_PRODUCTID, post.getProductPosted().getProductId().intValue());
