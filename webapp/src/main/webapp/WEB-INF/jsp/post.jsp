@@ -68,7 +68,16 @@
                 <br>
                 <br>
                 <h3 class="label"><spring:message code="rating_"/></h3>
-                <h3 class="value"><c:out value="${user.rating}"/>   </h3>
+                <h3 class="value">
+                <c:choose>
+                    <c:when test="${post.userSeller.rating >= 0}">
+                        <c:out value="${post.userSeller.rating}"/>
+                    </c:when>
+                    <c:otherwise>
+                        -
+                    </c:otherwise>
+                </c:choose>
+                </h3>
                 <br>
                 <br>
                 <c:if test="${!same_user}">
