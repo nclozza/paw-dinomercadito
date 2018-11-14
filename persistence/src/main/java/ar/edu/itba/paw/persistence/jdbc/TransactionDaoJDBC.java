@@ -103,4 +103,9 @@ public class TransactionDaoJDBC implements TransactionDAO {
         return null;
     }
 
+    @Override
+    public Boolean findPendingTransaction(Integer postId, Integer buyerUserId) {
+        return null;
+    }
+
 }

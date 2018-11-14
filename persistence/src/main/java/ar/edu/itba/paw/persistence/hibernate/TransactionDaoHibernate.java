@@ -118,4 +118,17 @@ public class TransactionDaoHibernate implements TransactionDAO {
 
         return query.getResultList();
     }
+
+    @Override
+    public Boolean findPendingTransaction(Integer postId, Integer buyerUserId){
+        final TypedQuery<Transaction> query = em.createQuery("FROM Transaction t " +
+                "WHERE t.postBuyed.postId = :postId " +
+                "AND t.buyerUser.userId = :userId " +
+                "AND t.status = 'Pending'", Transaction.class);
+        query.setParameter("userId", buyerUserId);
+        query.setParameter("postId", postId);
+        List<Transaction> list = query.getResultList();
+
+        return list.isEmpty()? false : true;
+    }
 }

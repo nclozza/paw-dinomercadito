@@ -173,8 +173,11 @@ public class PostsController {
         if (status.equals(Transaction.SAME_USER)){
             errors.addError(new FieldError("transactionForm", "postId", ""));
             return buy(form.getFilter(), form.getPostId(), form.getProfile(), form).addObject("same_user", true);
-        }
-        else if (status.equals(Transaction.INCOMPLETE)) {
+
+        } else if (status.equals(Transaction.PENDING_BUY)){
+            return buy(form.getFilter(), form.getPostId(), form.getProfile(), form).addObject("pending_transaction", true);
+
+        } else if (status.equals(Transaction.INCOMPLETE)) {
             return new ModelAndView("redirect:/500");
 
         } else if (status.equals(Transaction.WRONG_PARAMETERS))

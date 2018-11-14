@@ -48,7 +48,16 @@
                                 <br>
                                 <p class="label"><spring:message code="visits"/></p><p class="value"><c:out value="${post.visits}"/></p>
                                 <br>
-                                <p class="label"><spring:message code="user_rating_"/></p><p class="value"><c:out value="${post.userSeller.rating}"/></p>
+                                <p class="label"><spring:message code="user_rating_"/></p><p class="value">
+                                <c:choose>
+                                    <c:when test="${post.userSeller.rating >= 0}">
+                                        <c:out value="${post.userSeller.rating}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        -
+                                    </c:otherwise>
+                                </c:choose>
+                                </p>
                                 <br>
                                 <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
                                 <br>

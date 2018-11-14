@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "transactions")
 public class Transaction {
 
+    public static final Integer PENDING_BUY = -4;
     public static final Integer SAME_USER = -3;
     public static final Integer INCOMPLETE = -2;
     public static final Integer WRONG_PARAMETERS = -1;
