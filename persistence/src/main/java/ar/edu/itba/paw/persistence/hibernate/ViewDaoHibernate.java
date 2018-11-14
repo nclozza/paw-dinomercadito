@@ -56,7 +56,7 @@ public class ViewDaoHibernate implements ViewDAO {
     }
 
     @Override
-    public List<View> checkAddVisit(Integer postId, Integer userId){
+    public List<View> checkIfUserVisitedPost(Integer postId, Integer userId){
         final TypedQuery<View> query = em.createQuery("SELECT v FROM View v " +
                 "WHERE v.postVisited.postId = :postId " +
                 "AND v.userWhoVisited.userId = :userId", View.class);

@@ -15,7 +15,7 @@ public interface ViewDAO {
 
     List<View> findViewsByPostId(Integer postId);
 
-    List<View> checkAddVisit(Integer postId, Integer userId);
+    List<View> checkIfUserVisitedPost(Integer postId, Integer userId);
 
     List<View> findLastViewsByUserId(Integer userId);
 }

@@ -36,7 +36,7 @@ public class TransactionDaoHibernateTest {
 
     @Autowired
     private TransactionDaoHibernate transactionDAO;
-    
+
     @PersistenceContext
     EntityManager em;
 
