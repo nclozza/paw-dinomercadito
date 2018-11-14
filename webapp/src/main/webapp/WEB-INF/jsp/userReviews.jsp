@@ -25,10 +25,10 @@
     <div class="reviews-center">
         <div class="return">
             <a class="btn btn-primary" href="<c:url value="/post?filter=${filter}&&postId=${postId}&&profile=${profile}"/>"><spring:message code="go_back"/></a>
+            <h1 class="title"><spring:message code="reviews"/></h1>
         </div>
-        <h1 class="title"><spring:message code="reviews"/></h1>
 
-        <div class="reviews">
+        <div class="posts">
             <c:choose>
                 <c:when test="${empty userReviews}">
                     <br/>

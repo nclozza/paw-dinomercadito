@@ -73,4 +73,12 @@ public interface PostDAO {
     List<Post> findMostVisitedPosts();
 
     Optional<Post> updatePostProductQuantity(Integer postId ,Integer productQuantity);
+
+    List<Post> findPostsByFilter(String filter);
+
+    void disablePost(Post post);
+
+    void enablePost(Post post);
+
+    List<Post> findAllPosts();
 }

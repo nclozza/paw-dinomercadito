@@ -108,4 +108,24 @@ public class PostDaoJDBC implements PostDAO {
     public Optional<Post> updatePostProductQuantity(Integer postId, Integer productQuantity) {
         return Optional.empty();
     }
+
+    @Override
+    public List<Post> findPostsByFilter(String filter) {
+        return null;
+    }
+
+    @Override
+    public void disablePost(Post post) {
+
+    }
+
+    @Override
+    public void enablePost(Post post) {
+
+    }
+
+    @Override
+    public List<Post> findAllPosts() {
+        return null;
+    }
 }

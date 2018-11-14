@@ -329,7 +329,7 @@ public class UserController {
 
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if(!post.isPresent()){
+        if(!post.isPresent()|| post.get().getDisable()){
             LOGGER.error("PostId does not exits");
             return new ModelAndView("redirect:/400");
         }

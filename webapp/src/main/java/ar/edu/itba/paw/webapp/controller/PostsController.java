@@ -91,7 +91,7 @@ public class PostsController {
         ModelAndView mav = new ModelAndView("post");
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if (!post.isPresent()) {
+        if (!post.isPresent() || post.get().getDisable()) {
             return new ModelAndView("redirect:/404");
         }
 
@@ -140,7 +140,7 @@ public class PostsController {
         ModelAndView mav = new ModelAndView("buy");
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if (!post.isPresent()) {
+        if (!post.isPresent() || post.get().getDisable()) {
             return new ModelAndView("redirect:/404");
         }
 
@@ -216,7 +216,11 @@ public class PostsController {
         postService.updatePost(form.getPostId(), form.getProductId(), Double.valueOf(form.getPrice()),
                 form.getDescription(), form.getProductQuantity(), post.get().getVisits());
 
-        return new ModelAndView("redirect:/post?postId=" + form.getPostId() + "&&profile=true");
+        if(post.get().getDisable()){
+            return new ModelAndView("redirect:/profile");
+        } else {
+            return new ModelAndView("redirect:/post?postId=" + form.getPostId() + "&&profile=true");
+        }
     }
 
     @RequestMapping(value = "/question", method = {RequestMethod.GET})
@@ -227,7 +231,7 @@ public class PostsController {
 
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if(!post.isPresent())
+        if(!post.isPresent()|| post.get().getDisable())
             return new ModelAndView("redirect:/400");
 
         return new ModelAndView("question").addObject("post", post.get())
@@ -260,7 +264,7 @@ public class PostsController {
 
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if(!post.isPresent())
+        if(!post.isPresent()|| post.get().getDisable())
             return new ModelAndView("redirect:/400");
 
         List<Question> questionList = questionService.findQuestionsByPostId(postId);

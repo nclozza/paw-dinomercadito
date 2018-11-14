@@ -135,12 +135,22 @@
                                 <p><spring:message code="product_name"/><c:out value="${post.productPosted.productName}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
                                 <p><spring:message code="visits"/><c:out value="${post.visits}"/></p>
+                                <c:choose>
+                                    <c:when test="${post.disable}">
+                                        <p><spring:message code="status_"/><spring:message code="disable"/></p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p><spring:message code="status_"/><spring:message code="enable"/></p>
+                                    </c:otherwise>
+                                </c:choose>
                                 <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
                                     <spring:message code="edit"/>
                                 </a>
-                                <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${post.postId}&&profile=true" />">
-                                    <spring:message code="view"/>
-                                </a>
+                                <c:if test="${!post.disable}">
+                                    <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${post.postId}&&profile=true" />">
+                                        <spring:message code="view"/>
+                                    </a>
+                                </c:if>
                             </div>
                         </c:forEach>
                     </c:otherwise>

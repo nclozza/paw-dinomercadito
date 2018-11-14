@@ -85,12 +85,14 @@ public class PostDaoHibernate implements PostDAO {
         return user.getPostList();
     }
 
-    @Transactional
     @Override
     public List<Post> findPostsByProductId(Integer productId) {
-        Product product = em.find(Product.class, productId);
-        Hibernate.initialize(product.getPostList());
-        return product.getPostList();
+        final TypedQuery<Post> query = em.createQuery("FROM Post p " +
+                "WHERE p.productPosted.productId = :productId " +
+                "AND p.disable = false", Post.class);
+        query.setParameter("productId", productId);
+
+        return query.getResultList();
     }
 
     @Override
@@ -111,7 +113,9 @@ public class PostDaoHibernate implements PostDAO {
 
     @Override
     public List<Post> findMostVisitedPosts() {
-        final TypedQuery<Post> query = em.createQuery("from Post order by visits desc", Post.class);
+        final TypedQuery<Post> query = em.createQuery("from Post p " +
+                "where p.disable = false " +
+                "order by visits desc", Post.class);
         query.setMaxResults(50);
         return query.getResultList();
     }
@@ -130,5 +134,43 @@ public class PostDaoHibernate implements PostDAO {
         }
 
         return Optional.ofNullable(post);
+    }
+
+    @Override
+    public List<Post> findPostsByFilter(String filter) {
+        final String filterFormatted = "%" + filter.toLowerCase() + "%";
+
+        final TypedQuery<Post> query = em.createQuery("SELECT DISTINCT p FROM Post p " +
+                "WHERE LOWER(p.description) LIKE :filter " +
+                "OR LOWER(p.productPosted.productName) LIKE :filter " +
+                "OR LOWER(p.userSeller.username) LIKE :filter", Post.class);
+        query.setParameter("filter", filterFormatted);
+        final List<Post> list = query.getResultList();
+
+        return list;
+    }
+
+    @Transactional
+    @Override
+    public void disablePost(Post post){
+        post.setDisable(true);
+        em.merge(post);
+        LOGGER.info("Post disable with postId = {}", post.getPostId());
+    }
+
+    @Transactional
+    @Override
+    public void enablePost(Post post){
+        post.setDisable(false);
+        em.merge(post);
+        LOGGER.info("Post enable with postId = {}", post.getPostId());
+    }
+
+    @Override
+    public List<Post> findAllPosts() {
+        final TypedQuery<Post> query = em.createQuery("from Post", Post.class);
+        final List<Post> list = query.getResultList();
+
+        return list;
     }
 }
