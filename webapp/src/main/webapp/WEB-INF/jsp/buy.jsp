@@ -46,6 +46,9 @@
                 <c:if test="${same_user}">
                     <p><spring:message code="post_error"/></p>
                 </c:if>
+                <c:if test="${pending_transaction}">
+                    <p><spring:message code="transaction_error"/></p>
+                </c:if>
                 <br/>
             </div>
             <div>

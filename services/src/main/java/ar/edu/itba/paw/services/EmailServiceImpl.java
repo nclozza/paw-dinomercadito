@@ -89,7 +89,7 @@ public class EmailServiceImpl implements EmailService {
 
         content = content.replace("$productName", productName);
         content = content.replace("$answer", answer);
-        boolean status = sendSimpleMessage(to, "Successful purchase", content);
+        boolean status = sendSimpleMessage(to, "Answer", content);
 
         if (!status) {
             LOGGER.info("Unsuccessful attempt to send answer email with product name {}", productName);
@@ -168,7 +168,7 @@ public class EmailServiceImpl implements EmailService {
         content = content.replace("$productName", productName);
         content = content.replace("$postDescription", postDescription);
         content = content.replace("$productQuantity", productQuantity.toString());
-        boolean couldSendMessage = sendSimpleMessage(to, "Change your password", content);
+        boolean couldSendMessage = sendSimpleMessage(to, "New sale", content);
 
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with buyer username {}", buyerUsername);
