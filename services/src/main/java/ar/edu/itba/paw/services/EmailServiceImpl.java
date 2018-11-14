@@ -111,7 +111,7 @@ public class EmailServiceImpl implements EmailService {
         content = content.replace("$productName", productName);
         content = content.replace("$description", description);
         content = content.replace("$newStatus", newStatus);
-        boolean status = sendSimpleMessage(to, "Successful purchase", content);
+        boolean status = sendSimpleMessage(to, "Post " + newStatus, content);
 
         if (!status) {
             LOGGER.info("Unsuccessful attempt to send change status email with product name {}", productName);
