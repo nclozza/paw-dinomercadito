@@ -106,7 +106,8 @@
                     <div>
                         <div class="form-group">
                             <form:label class="label" path="birthdate"><spring:message code="birthdate"/></form:label>
-                            <form:input id="dateInput" type="date" path="birthdate" value="${user.birthdate}" class="form-control"/>
+                            <form:input id="dateInput" type="date" path="birthdate" value="${user.birthdate}"
+                                        class="form-control"/>
                             <form:errors class="error" path="birthdate" element="p"><br><spring:message
                                     code="birthdate_error"/></form:errors>
                             <br/>
@@ -132,7 +133,8 @@
                     <c:otherwise>
                         <c:forEach items="${posts}" var="post" varStatus="loop">
                             <div class="post">
-                                <p><spring:message code="product_name"/><c:out value="${post.productPosted.productName}"/></p>
+                                <p><spring:message code="product_name"/><c:out
+                                        value="${post.productPosted.productName}"/></p>
                                 <p><spring:message code="description_"/><c:out value="${post.description}"/></p>
                                 <p><spring:message code="visits"/><c:out value="${post.visits}"/></p>
                                 <c:choose>
@@ -143,11 +145,13 @@
                                         <p><spring:message code="status_"/><spring:message code="enable"/></p>
                                     </c:otherwise>
                                 </c:choose>
-                                <a class="btn btn-primary" role="button" href="<c:url value="/editPost?postId=${post.postId}" />">
+                                <a class="btn btn-primary" role="button"
+                                   href="<c:url value="/editPost?postId=${post.postId}" />">
                                     <spring:message code="edit"/>
                                 </a>
                                 <c:if test="${!post.disable}">
-                                    <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${post.postId}&&profile=true" />">
+                                    <a class="btn btn-primary" role="button"
+                                       href="<c:url value="/post?postId=${post.postId}&&profile=true" />">
                                         <spring:message code="view"/>
                                     </a>
                                 </c:if>
@@ -179,11 +183,15 @@
                         <c:otherwise>
                             <c:forEach items="${pendingQuestions}" var="question" varStatus="loop">
                                 <div class="post">
-                                    <p><spring:message code="product_name"/><c:out value="${question.postAsked.productPosted.productName}"/></p>
-                                    <p><spring:message code="description_"/><c:out value="${question.postAsked.description}"/></p>
-                                    <p><spring:message code="from_"/><c:out value="${question.userWhoAsk.username}"/></p>
+                                    <p><spring:message code="product_name"/><c:out
+                                            value="${question.postAsked.productPosted.productName}"/></p>
+                                    <p><spring:message code="description_"/><c:out
+                                            value="${question.postAsked.description}"/></p>
+                                    <p><spring:message code="from_"/><c:out
+                                            value="${question.userWhoAsk.username}"/></p>
                                     <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
-                                    <a class="btn btn-primary" role="button" href="<c:url value="/answer?questionId=${question.questionId}" />">
+                                    <a class="btn btn-primary" role="button"
+                                       href="<c:url value="/answer?questionId=${question.questionId}" />">
                                         <spring:message code="answer"/>
                                     </a>
                                 </div>
@@ -200,11 +208,14 @@
                         <c:otherwise>
                             <c:forEach items="${myQuestions}" var="question" varStatus="loop">
                                 <div class="post">
-                                    <p><spring:message code="product_name"/><c:out value="${question.postAsked.productPosted.productName}"/></p>
-                                    <p><spring:message code="description_"/><c:out value="${question.postAsked.description}"/></p>
+                                    <p><spring:message code="product_name"/><c:out
+                                            value="${question.postAsked.productPosted.productName}"/></p>
+                                    <p><spring:message code="description_"/><c:out
+                                            value="${question.postAsked.description}"/></p>
                                     <p><spring:message code="question_"/><c:out value="${question.question}"/></p>
                                     <p><spring:message code="answer_"/><c:out value="${question.answer}"/></p>
-                                    <a class="btn btn-primary" role="button" href="<c:url value="/post?postId=${question.postAsked.postId}&&profile=true" />">
+                                    <a class="btn btn-primary" role="button"
+                                       href="<c:url value="/post?postId=${question.postAsked.postId}&&profile=true" />">
                                         <spring:message code="view_post"/>
                                     </a>
                                 </div>
@@ -239,22 +250,31 @@
                                 <div class="post">
                                     <p><spring:message code="product_name"/><c:out value="${sell.productName}"/></p>
                                     <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
-                                    <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out
+                                            value="${sell.productQuantity}"/></p>
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
                                     <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
-                                    <c:url value="/confirmTransaction" var="transactionPath"/>
-                                    <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
-                                        <form:hidden path="transactionId" value="${sell.transactionId}"/>
-                                        <button class="registerButton btn btn-primary" type="submit"><spring:message
-                                                code="confirm"/></button>
-                                    </form:form>
+                                    <c:if test="${sell.postBuyed.productQuantity >= sell.productQuantity}">
+                                        <c:url value="/confirmTransaction" var="transactionPath"/>
+                                        <form:form class="form button-container" modelAttribute="updateProfileForm"
+                                                   action="${transactionPath}" method="post">
+                                            <form:hidden path="transactionId" value="${sell.transactionId}"/>
+                                            <button class="registerButton btn btn-primary" type="submit"><spring:message
+                                                    code="confirm"/></button>
+                                        </form:form>
+                                    </c:if>
                                     <c:url value="/declineTransaction" var="transactionPath"/>
-                                    <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
+                                    <form:form class="form button-container" modelAttribute="updateProfileForm"
+                                               action="${transactionPath}" method="post">
                                         <form:hidden path="transactionId" value="${sell.transactionId}"/>
                                         <button class="registerButton btn btn-primary" type="submit"><spring:message
                                                 code="decline"/></button>
                                     </form:form>
+                                    <br/>
+                                    <c:if test="${sell.postBuyed.productQuantity < sell.productQuantity}">
+                                        <spring:message code="product_quantity_error"/>
+                                    </c:if>
                                 </div>
                             </c:forEach>
                         </c:otherwise>
@@ -271,7 +291,8 @@
                                 <div class="post">
                                     <p><spring:message code="product_name"/><c:out value="${sell.productName}"/></p>
                                     <p><spring:message code="price_"/><c:out value="${sell.price}"/></p>
-                                    <p><spring:message code="product_quantity"/><c:out value="${sell.productQuantity}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out
+                                            value="${sell.productQuantity}"/></p>
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
                                     <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
@@ -307,9 +328,11 @@
                                 <div class="post">
                                     <p><spring:message code="product_name"/><c:out value="${buy.productName}"/></p>
                                     <p><spring:message code="price_"/><c:out value="${buy.price}"/></p>
-                                    <p><spring:message code="product_quantity"/><c:out value="${buy.productQuantity}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out
+                                            value="${buy.productQuantity}"/></p>
                                     <c:url value="/declineTransaction" var="transactionPath"/>
-                                    <form:form class="form button-container" modelAttribute="updateProfileForm" action="${transactionPath}" method="post">
+                                    <form:form class="form button-container" modelAttribute="updateProfileForm"
+                                               action="${transactionPath}" method="post">
                                         <form:hidden path="transactionId" value="${buy.transactionId}"/>
                                         <button class="registerButton btn btn-primary" type="submit"><spring:message
                                                 code="decline"/></button>
@@ -329,7 +352,8 @@
                                 <div class="post">
                                     <p><spring:message code="product_name"/><c:out value="${buy.productName}"/></p>
                                     <p><spring:message code="price_"/><c:out value="${buy.price}"/></p>
-                                    <p><spring:message code="product_quantity"/><c:out value="${buy.productQuantity}"/></p>
+                                    <p><spring:message code="product_quantity"/><c:out
+                                            value="${buy.productQuantity}"/></p>
                                 </div>
                             </c:forEach>
                         </c:otherwise>
@@ -440,26 +464,22 @@
         });
 
         date();
-
-        if (${invalid_transaction}){
-            alert("<spring:message code="invalid_transaction"/>");
-        }
     });
 
     //Set max date for today
     function date() {
         var today = new Date();
         var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
+        var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
-        if(dd<10){
-            dd='0'+dd
+        if (dd < 10) {
+            dd = '0' + dd
         }
-        if(mm<10){
-            mm='0'+mm
+        if (mm < 10) {
+            mm = '0' + mm
         }
 
-        today = yyyy+'-'+mm+'-'+dd;
+        today = yyyy + '-' + mm + '-' + dd;
         document.getElementById("dateInput").setAttribute("max", today);
     }
 </script>
