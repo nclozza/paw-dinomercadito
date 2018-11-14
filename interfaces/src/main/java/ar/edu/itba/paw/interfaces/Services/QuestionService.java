@@ -15,7 +15,7 @@ public interface QuestionService {
 
     List<Question> findPendingQuestionsByUserId(Integer userId);
 
-    Optional<Question> findQuestionsByQuestionId(Integer questionId);
+    Optional<Question> findQuestionByQuestionId(Integer questionId);
 
     Optional<Question> addAnswer(Integer questionId, String answer);
 }

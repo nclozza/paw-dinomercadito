@@ -37,7 +37,7 @@ public class QuestionDaoHibernate implements QuestionDAO {
     }
 
     @Override
-    public Optional<Question> findQuestionsByQuestionId(Integer questionId){
+    public Optional<Question> findQuestionByQuestionId(Integer questionId){
         return Optional.ofNullable(em.find(Question.class, questionId));
     }
 
@@ -73,13 +73,14 @@ public class QuestionDaoHibernate implements QuestionDAO {
     public Optional<Question> addAnswer(Integer questionId, String answer){
         Question question = em.find(Question.class, questionId);
 
-        if(question != null){
+        if (question != null) {
             question.setAnswer(answer);
             em.merge(question);
             LOGGER.info("Answer added with questionId = {}", questionId);
-        } else{
+        } else {
             LOGGER.info("Question not found with questionId = {}", questionId);
         }
+
         return Optional.ofNullable(question);
     }
 }

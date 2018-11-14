@@ -36,8 +36,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Optional<Question> findQuestionsByQuestionId(Integer questionId) {
-        return questionDAO.findQuestionsByQuestionId(questionId);
+    public Optional<Question> findQuestionByQuestionId(Integer questionId) {
+        return questionDAO.findQuestionByQuestionId(questionId);
     }
 
     @Override

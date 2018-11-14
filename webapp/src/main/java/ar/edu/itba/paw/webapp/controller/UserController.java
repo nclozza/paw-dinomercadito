@@ -350,7 +350,7 @@ public class UserController {
     public ModelAndView answer(@ModelAttribute("answer") final AnswerForm form,
                                @RequestParam(value = "questionId") final Integer questionId) {
 
-        Optional<Question> question = questionService.findQuestionsByQuestionId(questionId);
+        Optional<Question> question = questionService.findQuestionByQuestionId(questionId);
 
         if(!question.isPresent()){
             LOGGER.error("QuestionId does not exits");
@@ -366,7 +366,7 @@ public class UserController {
         if(errors.hasErrors())
             return answer(form, form.getQuestionId());
 
-        Optional<Question> question = questionService.findQuestionsByQuestionId(form.getQuestionId());
+        Optional<Question> question = questionService.findQuestionByQuestionId(form.getQuestionId());
         User userLogged = getLoggedUser();
 
         if(!question.isPresent() || userLogged.getUserId() != question.get().getPostAsked().getUserSeller().getUserId()){
