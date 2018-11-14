@@ -180,7 +180,7 @@ public class EmailServiceImpl implements EmailService {
         String htmlFilename = "/html/askEmail.html";
         String content = transformHtmlEmailContentIntoString(htmlFilename);
         content = content.replace("$productName", productName);
-        content = content.replace("$question", question);
+        content = content.replace("$questionMessage", question);
         content = content.replace("$questionId", questionId.toString());
         boolean couldSendMessage = sendSimpleMessage(to, "Question asked", content);
 
