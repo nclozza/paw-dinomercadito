@@ -117,7 +117,7 @@ public class Address {
         this.country = country;
     }
 
-    public User getUserAddress() {
+    public User getUser() {
         return userAddress;
     }
 

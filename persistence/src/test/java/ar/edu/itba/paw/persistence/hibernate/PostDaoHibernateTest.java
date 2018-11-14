@@ -29,10 +29,11 @@ public class PostDaoHibernateTest {
     private static final String DESCRIPTION = "esta es la descripcion";
     private static final Double PRICEUPDATE = 15000.50;
     private static final String DESCRIPTIONUPDATE = "esta es la segunda descripcion";
-    private static final Integer PRODUCTQUANTITY = 15;
+    private static final Integer PRODUCTQUANTITY = 5;
+    private static final int VISITS = 1;
     private static final Integer PRODUCTQUANTITYUPDATE = 500;
-    private static final Integer VISITS = 5;
     private static final Integer VISITSUPDATE = 20;
+    private static final String FILTER = "iPhone";
 
     // The dummy user ID is the ID set in the first per-inserted post in the testPosts.sql script
     private static final int DUMMY_USERID = 99997;
@@ -55,7 +56,7 @@ public class PostDaoHibernateTest {
     }
 
     @Test
-    public void testPostCreate() {
+    public void testCreatePost() {
         final Post post = postDao.createPost(DUMMY_PRODUCTID, PRICE, DUMMY_USERID, DESCRIPTION, PRODUCTQUANTITY,
                 VISITS);
 
@@ -65,8 +66,13 @@ public class PostDaoHibernateTest {
         assertEquals(PRICE, post.getPrice());
         assertEquals(DESCRIPTION, post.getDescription());
         assertEquals(PRODUCTQUANTITY, post.getProductQuantity());
-        assertEquals(VISITS, post.getVisits());
+        assertEquals(VISITS, post.getVisits().intValue());
         assertTrue(em.contains(post));
+    }
+
+    @Test
+    public void testDeletePost() {
+        assertTrue(postDao.deletePost(DUMMY_POSTID));
     }
 
     @Test
@@ -80,6 +86,15 @@ public class PostDaoHibernateTest {
         assertEquals(DESCRIPTIONUPDATE, post.get().getDescription());
         assertEquals(PRODUCTQUANTITYUPDATE, post.get().getProductQuantity());
         assertEquals(VISITSUPDATE, post.get().getVisits());
+    }
+
+    @Test
+    public void testUpdatePostProductQuantity() {
+        final Optional<Post> post = postDao.updatePostProductQuantity(DUMMY_POSTID, PRODUCTQUANTITYUPDATE);
+
+        assertTrue(post.isPresent());
+        assertEquals(DUMMY_POSTID, post.get().getPostId().intValue());
+        assertEquals(PRODUCTQUANTITYUPDATE, post.get().getProductQuantity());
     }
 
     @Test
@@ -110,7 +125,40 @@ public class PostDaoHibernateTest {
     }
 
     @Test
-    public void testDeletePost() {
-        assertTrue(postDao.deletePost(DUMMY_POSTID));
+    public void testFindMostVisitedPosts() {
+        final List<Post> postList = postDao.findMostVisitedPosts();
+
+        assertFalse(postList.isEmpty());
+    }
+
+    @Test
+    public void testFindPostsByFilter() {
+        final List<Post> postList = postDao.findPostsByFilter(FILTER);
+        boolean filterMatchesDescription, filterMatchesProductname, filterMatchesUsername;
+
+        assertFalse(postList.isEmpty());
+
+        for (Post p : postList) {
+            filterMatchesDescription = p.getDescription().toLowerCase().contains(FILTER.toLowerCase());
+            filterMatchesProductname = p.getProductPosted().getProductName().toLowerCase().contains(FILTER.toLowerCase());
+            filterMatchesUsername = p.getUserSeller().getUsername().toLowerCase().contains(FILTER.toLowerCase());
+            assertTrue(filterMatchesDescription || filterMatchesProductname || filterMatchesUsername);
+        }
+    }
+
+    @Test
+    public void testFindAllPosts() {
+        final List<Post> postList = postDao.findAllPosts();
+
+        assertFalse(postList.isEmpty());
+    }
+
+    @Test
+    public void testAddVisit() {
+        final Optional<Post> post = postDao.addVisit(DUMMY_POSTID);
+
+        assertTrue(post.isPresent());
+        assertEquals(DUMMY_POSTID, post.get().getPostId().intValue());
+        assertEquals(VISITS + 1, post.get().getVisits().intValue());
     }
 }

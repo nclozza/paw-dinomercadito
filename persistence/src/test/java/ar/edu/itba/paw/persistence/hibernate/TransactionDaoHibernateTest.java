@@ -24,12 +24,14 @@ import static org.junit.Assert.*;
 @Sql("classpath:testTransactions.sql")
 public class TransactionDaoHibernateTest {
 
+    private final static int USER_ID = 300;
     private final static int POST_ID = 700;
-    private final static int BUYER_USER_ID = 300;
+    private final static int BUYER_USER_ID = 1234;
     private final static int PRODUCT_QUANTITY = 10;
     private final static double PRICE = 580.00;
     private final static String PRODUCT_NAME = "OnePlus 6T";
     private final static String STATUS = "Confirmed";
+    private final static int TRANSACTION_ID = 666;
 
     private static final int DUMMY_TRANSACTION_ID = 6000;
 
@@ -84,26 +86,54 @@ public class TransactionDaoHibernateTest {
     }
 
     @Test
-    public void testFindPurchasesByUserIdAndStatus() {
-        final List<Transaction> transactionsList = transactionDAO.findPurchasesByUserIdAndStatus(BUYER_USER_ID, STATUS);
+    public void testFindTransactionsByUserIdAndPostId() {
+        final List<Transaction> transactionsList = transactionDAO.findTransactionsByUserIdAndPostId(BUYER_USER_ID, POST_ID);
 
         assertFalse(transactionsList.isEmpty());
 
         for (Transaction t : transactionsList) {
             assertEquals(BUYER_USER_ID, t.getBuyerUser().getUserId().intValue());
+            assertEquals(POST_ID, t.getBoughtPost().getPostId().intValue());
+        }
+    }
+
+    @Test
+    public void testFindPurchasesByUserIdAndStatus() {
+        final List<Transaction> transactionsList = transactionDAO.findPurchasesByUserIdAndStatus(USER_ID, STATUS);
+
+        assertFalse(transactionsList.isEmpty());
+
+        for (Transaction t : transactionsList) {
+            assertEquals(USER_ID, t.getBuyerUser().getUserId().intValue());
             assertEquals(STATUS, t.getStatus());
         }
     }
 
     @Test
     public void testFindSalesByUserIdAndStatus() {
-        final List<Transaction> transactionsList = transactionDAO.findSalesByUserIdAndStatus(BUYER_USER_ID, STATUS);
+        final List<Transaction> transactionsList = transactionDAO.findSalesByUserIdAndStatus(USER_ID, STATUS);
 
         assertFalse(transactionsList.isEmpty());
 
         for (Transaction t : transactionsList) {
-            assertEquals(BUYER_USER_ID, t.getBuyerUser().getUserId().intValue());
+            assertEquals(USER_ID, t.getBuyerUser().getUserId().intValue());
             assertEquals(STATUS, t.getStatus());
         }
+    }
+
+    @Test
+    public void testHasPendingTransactions() {
+        final boolean notPending = transactionDAO.hasNoPendingTransaction(POST_ID, USER_ID);
+
+        assertTrue(notPending);
+    }
+
+    @Test
+    public void testChangeTransactionStats() {
+        final Optional<Transaction> transaction = transactionDAO.changeTransactionStatus(TRANSACTION_ID, STATUS);
+
+        assertTrue(transaction.isPresent());
+        assertEquals(TRANSACTION_ID, transaction.get().getTransactionId().intValue());
+        assertEquals(STATUS, transaction.get().getStatus());
     }
 }

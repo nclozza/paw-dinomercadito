@@ -114,20 +114,20 @@ public class UserNotAuthenticatedDaoHibernateTest {
     }
 
     @Test
-    public void testCheckEmail() {
-        final boolean emailDoesNotExist = userNotAuthDaoHibernate.checkEmail(INEXISTENT_EMAIL);
-        final boolean emailExists = userNotAuthDaoHibernate.checkEmail(EMAIL);
-
-        assertTrue(emailDoesNotExist);
-        assertFalse(emailExists);
-    }
-
-    @Test
     public void testCheckUsername() {
         final boolean usernameDoesNotExist = userNotAuthDaoHibernate.checkUsername(INEXISTENT_USERNAME);
         final boolean usernameExists = userNotAuthDaoHibernate.checkUsername(USERNAME);
 
         assertTrue(usernameDoesNotExist);
         assertFalse(usernameExists);
+    }
+
+    @Test
+    public void testCheckEmail() {
+        final boolean emailDoesNotExist = userNotAuthDaoHibernate.checkEmail(INEXISTENT_EMAIL);
+        final boolean emailExists = userNotAuthDaoHibernate.checkEmail(EMAIL);
+
+        assertTrue(emailDoesNotExist);
+        assertFalse(emailExists);
     }
 }

@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.persistence.hibernate;
 
-import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserReview;
 import org.junit.Before;
 import org.junit.Test;

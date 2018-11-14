@@ -17,9 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -117,6 +115,13 @@ public class ProductDaoHibernateTest {
         final Optional<Product> productFound = productDao.findProductByProductId(DUMMY_PRODUCT_ID);
         assertTrue(productFound.isPresent());
         assertEquals(DUMMY_PRODUCT_ID, productFound.get().getProductId().intValue());
+    }
+
+    @Test
+    public void testFindAllProducts() {
+        final List<Product> productList = productDao.findAllProducts();
+
+        assertFalse(productList.isEmpty());
     }
 
     @Test

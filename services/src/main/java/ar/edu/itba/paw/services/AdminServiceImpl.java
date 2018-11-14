@@ -20,8 +20,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Optional<Admin> findAdminbyUserId(Integer userId) {
-        return adminDAO.findAdminbyUserId(userId);
+    public Optional<Admin> findAdminByUserId(Integer userId) {
+        return adminDAO.findAdminByUserId(userId);
     }
 
     @Override

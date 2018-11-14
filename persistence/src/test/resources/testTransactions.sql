@@ -48,6 +48,9 @@ CREATE TABLE IF NOT EXISTS transactions (
 INSERT INTO users (userId, username, password, email, phone, birthdate)
 VALUES (300, 'dinolucas', 'dinopass', 'dinolucas@gmail.com', '1123456789', '01-01-2000');
 
+INSERT INTO users (userId, username, password, email, phone, birthdate)
+VALUES (1234, 'dinonico', 'nicopass', 'dinonico@gmail.com', '1123456789', '01-01-2000');
+
 INSERT INTO products (productId, productname, brand, ram, storage, operativesystem, processor, bodysize, screensize, screenratio, rearcamera, frontcamera)
 VALUES (2222, 'iPhone 8', 'Apple', '2GB', '256GB',
 	'iOS', 'A11 Bionic', '138.4 x 67.3 x 7.3 mm', '60.9 cm2',
@@ -61,4 +64,4 @@ INSERT INTO transactions (transactionId, postBought_postId, buyerUser_userId, pr
 VALUES (6000, 700, 300, 10, 800.00, 'iPhone 8', 'Confirmed');
 
 INSERT INTO transactions (transactionId, postBought_postId, buyerUser_userId, productQuantity, price, productName, status)
-VALUES (666, 700, 300, 10, 700.00, 'iPhone 8', 'Confirmed');
+VALUES (666, 700, 1234, 10, 700.00, 'iPhone 8', 'Pending');

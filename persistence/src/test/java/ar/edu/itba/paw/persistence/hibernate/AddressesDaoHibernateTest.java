@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -36,8 +37,8 @@ public class AddressesDaoHibernateTest {
     private static final String ZIPCODEUPDATE = "5678";
     private static final String COUNTRYUPDATE = "nuevoPais";
 
-    private static final Integer DUMMY_ADDR_ID = 8888;
-    private static final Integer DUMMY_USER_ID = 9999;
+    private static final int DUMMY_ADDR_ID = 8888;
+    private static final int DUMMY_USER_ID = 9999;
 
 
     @Autowired
@@ -53,7 +54,7 @@ public class AddressesDaoHibernateTest {
     }
 
     @Test
-    public void testAddressCreate() {
+    public void testCreateAddress() {
         final Address address = addressDao.createAddress(DUMMY_USER_ID, STREET, NUMBER, CITY, PROVINCE, ZIPCODE,
                 COUNTRY);
 
@@ -68,7 +69,17 @@ public class AddressesDaoHibernateTest {
     }
 
     @Test
-    public void testAddressUpdate() {
+    public void testDeleteAddressByAddressId() {
+        assertTrue(addressDao.deleteAddressByAddressId(DUMMY_ADDR_ID));
+    }
+
+    @Test
+    public void testDeleteAddressByUserId() {
+        assertTrue(addressDao.deleteAddressByUserId(DUMMY_USER_ID));
+    }
+
+    @Test
+    public void testUpdateAddress() {
         Optional<Address> address = addressDao.updateAddress(DUMMY_ADDR_ID, STREETUPDATE, NUMBERUPDATE, CITYUPDATE,
                 PROVINCEUPDATE, ZIPCODEUPDATE, COUNTRYUPDATE);
 
@@ -83,15 +94,20 @@ public class AddressesDaoHibernateTest {
     }
 
     @Test
-    public void testAddressFind() {
+    public void testFindAddressByAddressId() {
         Optional<Address> addressFound = addressDao.findAddressByAddressId(DUMMY_ADDR_ID);
         assertTrue(addressFound.isPresent());
-        assertEquals(DUMMY_ADDR_ID, addressFound.get().getAddressId());
+        assertEquals(DUMMY_ADDR_ID, addressFound.get().getAddressId().intValue());
     }
 
     @Test
-    public void testAddressDelete() {
-        assertTrue(addressDao.deleteAddressByAddressId(DUMMY_ADDR_ID));
+    public void testFindAddressesByUserId() {
+        final List<Address> addressList = addressDao.findAddressesByUserId(DUMMY_USER_ID);
+
+        assertFalse(addressList.isEmpty());
+
+        for (Address addr : addressList)
+            assertEquals(DUMMY_USER_ID, addr.getUser().getUserId().intValue());
     }
 }
 

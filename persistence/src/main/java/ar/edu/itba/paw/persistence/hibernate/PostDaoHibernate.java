@@ -72,6 +72,22 @@ public class PostDaoHibernate implements PostDAO {
         return Optional.ofNullable(post);
     }
 
+    @Transactional
+    @Override
+    public Optional<Post> updatePostProductQuantity(Integer postId ,Integer productQuantity) {
+        Post post = em.find(Post.class, postId);
+
+        if (post != null){
+            post.setProductQuantity(productQuantity);
+            em.merge(post);
+            LOGGER.info("Post updated with postId = {}", postId);
+        } else {
+            LOGGER.info("Post not found with postId = {}", postId);
+        }
+
+        return Optional.ofNullable(post);
+    }
+
     @Override
     public Optional<Post> findPostByPostId(Integer postId) {
         return Optional.ofNullable(em.find(Post.class, postId));
@@ -96,44 +112,13 @@ public class PostDaoHibernate implements PostDAO {
     }
 
     @Override
-    @Transactional
-    public Optional<Post> addVisit(final Integer postId){
-        Post post = em.find(Post.class, postId);
-
-        if (post != null){
-            post.setVisits(post.getVisits() + 1);
-            em.merge(post);
-            LOGGER.info("Post add visit with postId = {}", postId);
-        } else {
-            LOGGER.info("Post not found with postId = {}", postId);
-        }
-
-        return Optional.ofNullable(post);
-    }
-
-    @Override
     public List<Post> findMostVisitedPosts() {
+        final int maxResults = 50;
         final TypedQuery<Post> query = em.createQuery("from Post p " +
                 "where p.disable = false " +
                 "order by visits desc", Post.class);
-        query.setMaxResults(50);
+        query.setMaxResults(maxResults);
         return query.getResultList();
-    }
-
-    @Transactional
-    @Override
-    public Optional<Post> updatePostProductQuantity(Integer postId ,Integer productQuantity) {
-        Post post = em.find(Post.class, postId);
-
-        if (post != null){
-            post.setProductQuantity(productQuantity);
-            em.merge(post);
-            LOGGER.info("Post updated with postId = {}", postId);
-        } else {
-            LOGGER.info("Post not found with postId = {}", postId);
-        }
-
-        return Optional.ofNullable(post);
     }
 
     @Override
@@ -150,6 +135,30 @@ public class PostDaoHibernate implements PostDAO {
         return list;
     }
 
+    @Override
+    public List<Post> findAllPosts() {
+        final TypedQuery<Post> query = em.createQuery("from Post", Post.class);
+        final List<Post> list = query.getResultList();
+
+        return list;
+    }
+
+    @Override
+    @Transactional
+    public Optional<Post> addVisit(final Integer postId){
+        Post post = em.find(Post.class, postId);
+
+        if (post != null){
+            post.setVisits(post.getVisits() + 1);
+            em.merge(post);
+            LOGGER.info("Post add visit with postId = {}", postId);
+        } else {
+            LOGGER.info("Post not found with postId = {}", postId);
+        }
+
+        return Optional.ofNullable(post);
+    }
+
     @Transactional
     @Override
     public void disablePost(Post post){
@@ -164,13 +173,5 @@ public class PostDaoHibernate implements PostDAO {
         post.setDisable(false);
         em.merge(post);
         LOGGER.info("Post enable with postId = {}", post.getPostId());
-    }
-
-    @Override
-    public List<Post> findAllPosts() {
-        final TypedQuery<Post> query = em.createQuery("from Post", Post.class);
-        final List<Post> list = query.getResultList();
-
-        return list;
     }
 }

@@ -25,7 +25,6 @@ import static org.junit.Assert.*;
 @Sql("classpath:testForgottenPasswords.sql")
 public class ForgotPasswordDaoHibernateTest {
 
-    private static final int FORGOT_PASS_ID = 9999;
     private static final int USER_ID = 8888;
     private static final String REQUEST_DATE = "01-01-2001";
     private static final String CODE = "code";

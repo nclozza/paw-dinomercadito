@@ -8,7 +8,7 @@ public interface AdminDAO {
 
     Admin createAdmin(Integer userAdminId);
 
-    Optional<Admin> findAdminbyUserId(Integer userId);
+    Optional<Admin> findAdminByUserId(Integer userId);
 
     Boolean isAdmin(Integer userId);
 }

@@ -33,7 +33,7 @@ public class AdminDaoHibernate implements AdminDAO {
 
     @Transactional
     @Override
-    public Optional<Admin> findAdminbyUserId(Integer userId){
+    public Optional<Admin> findAdminByUserId(Integer userId){
         User user = em.find(User.class, userId);
         Hibernate.initialize(user.getAdmin());
         return Optional.ofNullable(user.getAdmin());

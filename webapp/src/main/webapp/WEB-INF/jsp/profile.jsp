@@ -255,7 +255,7 @@
                                     <p><spring:message code="username_"/><c:out value="${sell.buyerUser.username}"/></p>
                                     <p><spring:message code="email_"/><c:out value="${sell.buyerUser.email}"/></p>
                                     <p><spring:message code="phone_"/><c:out value="${sell.buyerUser.phone}"/></p>
-                                    <c:if test="${sell.postBuyed.productQuantity >= sell.productQuantity}">
+                                    <c:if test="${sell.postBought.productQuantity >= sell.productQuantity}">
                                         <c:url value="/confirmTransaction" var="transactionPath"/>
                                         <form:form class="form button-container" modelAttribute="updateProfileForm"
                                                    action="${transactionPath}" method="post">
@@ -272,7 +272,7 @@
                                                 code="decline"/></button>
                                     </form:form>
                                     <br/>
-                                    <c:if test="${sell.postBuyed.productQuantity < sell.productQuantity}">
+                                    <c:if test="${sell.postBought.productQuantity < sell.productQuantity}">
                                         <spring:message code="product_quantity_error"/>
                                     </c:if>
                                 </div>

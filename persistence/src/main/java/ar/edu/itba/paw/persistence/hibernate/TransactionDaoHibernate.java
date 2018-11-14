@@ -63,22 +63,6 @@ public class TransactionDaoHibernate implements TransactionDAO {
         return user.getTransactionsList();
     }
 
-    @Transactional
-    @Override
-    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status){
-        Transaction transaction = em.find(Transaction.class, transactionId);
-
-        if(transaction != null){
-            transaction.setStatus(status);
-            em.merge(transaction);
-            LOGGER.info("Transaction updated with transactionId = {}", transactionId);
-        }else {
-            LOGGER.info("Transaction not found with transactionId = {}", transactionId);
-        }
-
-        return Optional.ofNullable(transaction);
-    }
-
     @Override
     public List<Transaction> findTransactionsByUserIdAndPostId(final Integer userId, final Integer postId){
         final TypedQuery<Transaction> query = em.createQuery("SELECT t FROM Transaction t " +
@@ -120,15 +104,31 @@ public class TransactionDaoHibernate implements TransactionDAO {
     }
 
     @Override
-    public Boolean findPendingTransaction(Integer postId, Integer buyerUserId){
+    public Boolean hasNoPendingTransaction(Integer postId, Integer buyerUserId){
         final TypedQuery<Transaction> query = em.createQuery("FROM Transaction t " +
-                "WHERE t.postBuyed.postId = :postId " +
+                "WHERE t.postBought.postId = :postId " +
                 "AND t.buyerUser.userId = :userId " +
                 "AND t.status = 'Pending'", Transaction.class);
         query.setParameter("userId", buyerUserId);
         query.setParameter("postId", postId);
         List<Transaction> list = query.getResultList();
 
-        return list.isEmpty()? false : true;
+        return list.isEmpty();
+    }
+
+    @Transactional
+    @Override
+    public Optional<Transaction> changeTransactionStatus(Integer transactionId, String status){
+        Transaction transaction = em.find(Transaction.class, transactionId);
+
+        if (transaction != null) {
+            transaction.setStatus(status);
+            em.merge(transaction);
+            LOGGER.info("Transaction updated with transactionId = {}", transactionId);
+        } else {
+            LOGGER.info("Transaction not found with transactionId = {}", transactionId);
+        }
+
+        return Optional.ofNullable(transaction);
     }
 }

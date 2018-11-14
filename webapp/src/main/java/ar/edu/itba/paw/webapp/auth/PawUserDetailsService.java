@@ -36,7 +36,7 @@ public class PawUserDetailsService implements UserDetailsService {
 
         final Collection<? extends GrantedAuthority> authorities;
 
-        Optional<Admin> admin = adminService.findAdminbyUserId(user.get().getUserId());
+        Optional<Admin> admin = adminService.findAdminByUserId(user.get().getUserId());
 
         if (admin.isPresent()) {
             authorities = Arrays.asList(

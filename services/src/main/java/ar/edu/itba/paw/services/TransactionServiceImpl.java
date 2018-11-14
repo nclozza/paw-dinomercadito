@@ -82,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
             return Transaction.SAME_USER;
         }
 
-        if (transactionDAO.findPendingTransaction(postId, buyerUserId)){
+        if (transactionDAO.hasNoPendingTransaction(postId, buyerUserId)){
             LOGGER.error("Buy in pending for userid = {}", buyerUserId);
             return Transaction.PENDING_BUY;
         }

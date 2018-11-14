@@ -58,7 +58,7 @@ INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, de
 VALUES (99999, 99998, 99997, 450.00, '', 5, 1, false);
 
 INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
-VALUES (99008, 99998, 5555, 150.00, '', 5, 1, false);
+VALUES (99008, 99998, 5555, 150.00, '', 5, 1, true);
 
 INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
 VALUES (99007, 6666, 5555, 1000.00, '', 5, 1, false);

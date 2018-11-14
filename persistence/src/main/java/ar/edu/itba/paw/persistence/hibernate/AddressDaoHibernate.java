@@ -66,11 +66,6 @@ public class AddressDaoHibernate implements AddressDAO {
         return false;
     }
 
-    @Override
-    public Optional<Address> findAddressByAddressId(Integer addressId) {
-        return Optional.ofNullable(em.find(Address.class, addressId));
-    }
-
     @Transactional
     @Override
     public Optional<Address> updateAddress(Integer addressId, String street, Integer number, String city, String province, String zipCode, String country) {
@@ -89,6 +84,11 @@ public class AddressDaoHibernate implements AddressDAO {
             LOGGER.info("Address not found with addressId = {}", addressId);
         }
         return Optional.ofNullable(address);
+    }
+
+    @Override
+    public Optional<Address> findAddressByAddressId(Integer addressId) {
+        return Optional.ofNullable(em.find(Address.class, addressId));
     }
 
     @Transactional
