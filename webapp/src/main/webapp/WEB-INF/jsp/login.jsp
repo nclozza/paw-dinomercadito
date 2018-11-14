@@ -33,6 +33,9 @@
                     <div class="form-group">
                         <label class="label" for="password"><spring:message code="password"/></label>
                         <input id="password" name="j_password" type="password" class="form-control"/>
+                        <c:if test="${param.error != null}">
+                            <br><p><spring:message code="login_error"/></p>
+                        </c:if>
                     </div>
                     <div class="checkbox">
                         <label class="checkbox-label">
