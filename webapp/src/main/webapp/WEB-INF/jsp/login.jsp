@@ -6,6 +6,7 @@
     <title><spring:message code="DinoMercadito"/></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
+    <%@ include file="favicon.jsp" %>
 
 </head>
 <body>
@@ -33,6 +34,9 @@
                     <div class="form-group">
                         <label class="label" for="password"><spring:message code="password"/></label>
                         <input id="password" name="j_password" type="password" class="form-control"/>
+                        <c:if test="${param.error != null}">
+                            <br><p><spring:message code="login_error"/></p>
+                        </c:if>
                     </div>
                     <div class="checkbox">
                         <label class="checkbox-label">

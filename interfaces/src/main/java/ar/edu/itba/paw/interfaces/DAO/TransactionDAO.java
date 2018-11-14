@@ -50,5 +50,7 @@ public interface TransactionDAO {
 
     List<Transaction> findPurchasesByUserIdAndStatus(final Integer userId, final String status);
 
-    List<Transaction> findSalesByUserIdAndStatus(final Integer userId, final String status);
+    List<Transaction> findSellsByUserIdAndStatus(final Integer userId, final String status);
+
+    Boolean findPendingTransaction(Integer postId, Integer buyerUserId);
 }

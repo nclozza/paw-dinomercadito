@@ -3,11 +3,12 @@
 
 <!DOCTYPE html>
 <html>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <title><spring:message code="DinoMercadito"/></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 <div class="central-wrapper">
@@ -37,7 +38,7 @@
         <div class="posts-right">
             <c:choose>
                 <c:when test="${empty posts}">
-                    <p class="label"><spring:message code="no_posts_available"/></p>
+                    <p class="responsive-label"><spring:message code="no_posts_available"/></p>
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${posts}" var="post" varStatus="loop">
@@ -47,7 +48,16 @@
                                 <br>
                                 <p class="label"><spring:message code="visits"/></p><p class="value"><c:out value="${post.visits}"/></p>
                                 <br>
-                                <p class="label"><spring:message code="user_rating_"/></p><p class="value"><c:out value="${post.userSeller.rating}"/></p>
+                                <p class="label"><spring:message code="user_rating_"/></p><p class="value">
+                                <c:choose>
+                                    <c:when test="${post.userSeller.rating >= 0}">
+                                        <c:out value="${post.userSeller.rating}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        -
+                                    </c:otherwise>
+                                </c:choose>
+                                </p>
                                 <br>
                                 <p class="label"><spring:message code="product_quantity"/></p><p class="value"><c:out value="${post.productQuantity}"/></p>
                                 <br>

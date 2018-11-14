@@ -176,11 +176,15 @@ public class UserController {
 
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(form.getTransactionId());
 
-        if(!transactionService.isValidTransaction(transaction.get())){
+        if (!transactionService.isValidTransaction(transaction.get())) {
             return profile(form).addObject("invalid_transaction", true);
         }
 
         transactionService.confirmTransaction(transaction.get());
+
+        emailService.sendSuccessfulPurchaseEmail(transaction.get().getBuyerUser().getEmail(),
+                transaction.get().getProductName(), transaction.get().getPostBuyed().getPostId(),
+                transaction.get().getPostBuyed().getUserSeller().getUserId());
 
         return new ModelAndView("redirect:/profile");
     }
@@ -189,7 +193,26 @@ public class UserController {
     public ModelAndView declineTransaction(@Valid @ModelAttribute("updateProfileForm") final UpdateProfileForm form,
                                            final BindingResult errors) {
 
+        User user = getLoggedUser();
+        Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(form.getTransactionId());
+
+        if (!transaction.isPresent() || user == null
+                || (!user.getUserId().equals(transaction.get().getPostBuyed().getUserSeller().getUserId())
+                    && !user.getUserId().equals(transaction.get().getBuyerUser().getUserId()))) {
+            return new ModelAndView("redirect:/400");
+        }
+
         transactionService.changeTransactionStatus(form.getTransactionId(), Transaction.DECLINED);
+
+        if (user.getUserId().equals(transaction.get().getBuyerUser().getUserId())) {
+            String sellerUserEmail = transaction.get().getPostBuyed().getUserSeller().getEmail();
+            emailService.sendDeclinedTransaction(sellerUserEmail, user.getUsername(),
+                    transaction.get().getProductName());
+        }
+        else {
+            emailService.sendDeclinedTransaction(transaction.get().getBuyerUser().getEmail(), user.getUsername(),
+                    transaction.get().getProductName());
+        }
 
         return new ModelAndView("redirect:/profile");
     }
@@ -214,7 +237,7 @@ public class UserController {
             errors.addError(new FieldError("authenticationForm", "code", ""));
             return authentication(form);
 
-        } else if(!user.get().getSignUpDate().equals(date)){
+        } else if (!user.get().getSignUpDate().equals(date)) {
             return authentication(form).addObject("code_expired", true);
 
         } else {
@@ -271,13 +294,13 @@ public class UserController {
                                    @RequestParam(value = "userId") final Integer userId) {
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if(!post.isPresent()){
+        if (!post.isPresent()) {
             LOGGER.error("PostId does not exits");
             return new ModelAndView("redirect:/400");
         }
         Optional<User> user = userService.findUserByUserId(userId);
 
-        if(!user.isPresent()){
+        if (!user.isPresent()) {
             LOGGER.error("UserId does not exits");
             return new ModelAndView("redirect:/400");
         }
@@ -291,45 +314,56 @@ public class UserController {
     @RequestMapping(value = "/userReview", method = {RequestMethod.POST})
     public ModelAndView createUserReview(@Valid @ModelAttribute("userReview") final UserReviewForm form,
                                          final BindingResult errors) {
-        if(errors.hasErrors())
+        if (errors.hasErrors())
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId());
 
         User userLogged = getLoggedUser();
 
-        if(userLogged.getUserId() == form.getUserId())
-            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("same_user_error", true);
+        if (userLogged.getUserId().equals(form.getUserId()))
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(),
+                    form.getUserId()).addObject("same_user_error", true);
 
+        if (!userReviewService.checkUserWhoReview(userLogged.getUserId(), form.getUserId()))
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(),
+                    form.getUserId()).addObject("check_user_error", true);
 
-        if(!userReviewService.checkReviewer(userLogged.getUserId(), form.getUserId()))
-            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("check_user_error", true);
+        if (!transactionService.findTransactionsByUserIdAndPostId(userLogged.getUserId(), form.getPostId()))
+            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(),
+                    form.getUserId()).addObject("already_buyer_error", true);
 
-        if(!transactionService.findTransactionsByUserIdAndPostId(userLogged.getUserId(), form.getPostId()))
-            return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId()).addObject("already_buyer_error", true);
-
-        userService.addRating(form.getUserId() ,form.getRating());
+        userService.addRating(form.getUserId(), form.getRating());
         userReviewService.createUserReview(form.getUserId(), userLogged.getUserId(), form.getRating(), form.getDescription());
+
+        Optional<Post> post = postService.findPostByPostId(form.getPostId());
+
+        if (!post.isPresent()) {
+            return new ModelAndView("redirect:/400");
+        }
+
+        emailService.sendReviewEmail(post.get().getUserSeller().getEmail(), userLogged.getUsername(),
+                form.getDescription(), form.getRating());
 
         return userReviews(form.getFilter(), form.getPostId(), form.getProfile(), form.getUserId(), form);
     }
 
     @RequestMapping(value = "/userReviews", method = {RequestMethod.GET})
     public ModelAndView userReviews(@RequestParam(value = "filter", required = false) final String filter,
-                             @RequestParam(value = "postId") final Integer postId,
-                             @RequestParam(value = "profile", required = false) final Boolean profile,
-                             @RequestParam(value = "userId") final Integer userId,
-                             @ModelAttribute("userReview") final UserReviewForm form) {
+                                    @RequestParam(value = "postId") final Integer postId,
+                                    @RequestParam(value = "profile", required = false) final Boolean profile,
+                                    @RequestParam(value = "userId") final Integer userId,
+                                    @ModelAttribute("userReview") final UserReviewForm form) {
 
 
         Optional<User> user = userService.findUserByUserId(userId);
 
-        if(!user.isPresent()){
+        if (!user.isPresent()) {
             LOGGER.error("UserId does not exits");
             return new ModelAndView("redirect:/400");
         }
 
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if(!post.isPresent()){
+        if (!post.isPresent()) {
             LOGGER.error("PostId does not exits");
             return new ModelAndView("redirect:/400");
         }
@@ -352,7 +386,7 @@ public class UserController {
 
         Optional<Question> question = questionService.findQuestionByQuestionId(questionId);
 
-        if(!question.isPresent()){
+        if (!question.isPresent()) {
             LOGGER.error("QuestionId does not exits");
             return new ModelAndView("redirect:/400");
         }
@@ -363,17 +397,20 @@ public class UserController {
     @RequestMapping(value = "/answer", method = {RequestMethod.POST})
     public ModelAndView answerQuestion(@Valid @ModelAttribute("answer") final AnswerForm form,
                                        final BindingResult errors) {
-        if(errors.hasErrors())
+        if (errors.hasErrors())
             return answer(form, form.getQuestionId());
 
         Optional<Question> question = questionService.findQuestionByQuestionId(form.getQuestionId());
         User userLogged = getLoggedUser();
 
-        if(!question.isPresent() || userLogged.getUserId() != question.get().getPostAsked().getUserSeller().getUserId()){
+        if (!question.isPresent() || !userLogged.getUserId().equals(question.get().getPostAsked().getUserSeller().getUserId())) {
             return answer(form, form.getQuestionId()).addObject("answer_error", true);
         }
 
         questionService.addAnswer(form.getQuestionId(), form.getAnswer());
+
+        emailService.sendAnswerEmail(question.get().getUserWhoAsk().getEmail(),
+                question.get().getPostAsked().getProductPosted().getProductName(), form.getAnswer());
 
         return new ModelAndView("redirect:/profile");
     }
@@ -386,17 +423,17 @@ public class UserController {
 
     @RequestMapping(value = "/forgotPassword", method = {RequestMethod.POST})
     public ModelAndView forgotPasswordRequest(@Valid @ModelAttribute("forgotPassword") final ForgotPasswordForm form,
-                                       final BindingResult errors) {
+                                              final BindingResult errors) {
 
-        if(errors.hasErrors())
+        if (errors.hasErrors())
             return forgotPassword(form);
 
         Optional<User> user = userService.findUserByUsername(form.getUsername());
 
-        if(!user.isPresent())
+        if (!user.isPresent())
             return forgotPassword(form).addObject("wrong_user", true);
 
-        if(!user.get().getEmail().equals(form.getEmail()))
+        if (!user.get().getEmail().equals(form.getEmail()))
             return forgotPassword(form).addObject("wrong_email", true);
 
         forgotPasswordService.createNewRequest(user.get(), userService.getTodayDate());

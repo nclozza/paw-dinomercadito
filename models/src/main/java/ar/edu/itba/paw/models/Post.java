@@ -27,6 +27,9 @@ public class Post {
     @Column(nullable = false)
     private Integer visits;
 
+    @Column(nullable = false)
+    private Boolean disable;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Product productPosted;
 
@@ -70,6 +73,7 @@ public class Post {
         this.description = description;
         this.productQuantity = productQuantity;
         this.visits = visits;
+        this.disable = false;
     }
 
     public Post(){
@@ -154,5 +158,13 @@ public class Post {
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
+    }
+
+    public Boolean getDisable() {
+        return disable;
+    }
+
+    public void setDisable(Boolean disable) {
+        this.disable = disable;
     }
 }

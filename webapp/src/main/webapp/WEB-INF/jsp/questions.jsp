@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/question.css'/>">
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 <div class="central-wrapper">
@@ -32,7 +33,7 @@
                 <c:when test="${empty questions}">
                     <br/>
                     <br/>
-                    <p class="label"><spring:message code="no_questions_available"/></p>
+                    <p class="responsive-label"><spring:message code="no_questions_available"/></p>
                     <br/>
                     <br/>
                 </c:when>

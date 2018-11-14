@@ -55,6 +55,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userForgot")
     private List<ForgotPassword> forgotPasswordList;
 
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "userAdmin")
+    private Admin admin;
+
     public User(final String username, final String password, final String email,
                 final String phone, final String birthdate) {
         this.username = username;
@@ -206,5 +209,13 @@ public class User {
 
     public void setForgotPasswordList(List<ForgotPassword> forgotPasswordList) {
         this.forgotPasswordList = forgotPasswordList;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }

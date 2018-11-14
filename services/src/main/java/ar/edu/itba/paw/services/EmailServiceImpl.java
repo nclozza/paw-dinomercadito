@@ -4,23 +4,21 @@ import ar.edu.itba.paw.interfaces.Services.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
-//    private static final int PURCHASE = 0;
-//    private static final int SALE = 1;
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Autowired
@@ -28,16 +26,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendSimpleMessage(final String to, String subject, String text) {
-
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(to);
-//        message.setSubject(subject);
-//        message.setText(text);
-//        try {
-//            emailSender.send(message);
-//        } catch (Exception e) {
-//            return false;
-//        }
 
         MimeMessage mimeMessage = emailSender.createMimeMessage();
 
@@ -54,24 +42,13 @@ public class EmailServiceImpl implements EmailService {
         return true;
     }
 
-//    @Override
-//    public boolean sendSuccessfulPurchaseEmail(final String to, final String productModel, final Integer postId) {
-//        return sendSuccessfulTransactionEmail(to, productModel, postId, PURCHASE);
-//    }
-//    @Override
-//    public boolean sendSuccessfulSaleEmail(final String to, final String productModel, final Integer postId) {
-//        return sendSuccessfulTransactionEmail(to, productModel, postId, SALE);
-//    }
-
     @Override
     public boolean sendSuccessfulRegistrationEmail(final String to, final String username) {
-        String text = "<h2>Hi there " + username + ", we want to welcome " +
-                "you to Dinomercadito!</h2>" +
-                "<h3>As a registered user you'll be able to contact sellers or create posts.</h3>" +
-                "<h3>Go find some products!</h3>" +
-                "<p>http://pawserver.it.itba.edu.ar/paw-2018b-07/index</p>";
+        String htmlFilename = "/html/welcomeEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
 
-        boolean status = sendSimpleMessage(to, "Welcome to Dinomercadito", text);
+        content = content.replace("$username", username);
+        boolean status = sendSimpleMessage(to, "Welcome to Dinomercadito", content);
 
         if (!status) {
             LOGGER.info("Unsuccessful attempt to send registration email with username {}", username);
@@ -83,32 +60,71 @@ public class EmailServiceImpl implements EmailService {
         return status;
     }
 
-//    private boolean sendSuccessfulTransactionEmail(final String to, final String productModel, final Integer postId,
-//                                                   final int transactionType) {
-//        boolean status = sendSimpleMessage(to, "Congratulations on your " + (transactionType == PURCHASE ? "purchase" : "sale") +
-//                "!", "You have successfully " + (transactionType == PURCHASE ? "purchased " : "sold ") +
-//                "a brand new " + productModel + " from the post #" + postId.toString() + ".");
-//
-//        if (!status) {
-//            LOGGER.info("Unsuccessful attempt to send transaction email with postId {}", postId);
-//
-//        } else {
-//            LOGGER.info("Successful transaction email sent with postId = {}", postId);
-//        }
-//
-//        return status;
-//
-//    }
+    @Override
+    public boolean sendSuccessfulPurchaseEmail(String to, String productModel, Integer postId, Integer userId) {
+
+        String htmlFilename = "/html/successfulPurchaseEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+
+        content = content.replace("$productModel", productModel);
+        content = content.replace("$postId", postId.toString());
+        content = content.replace("$userId", userId.toString());
+        boolean status = sendSimpleMessage(to, "Successful purchase", content);
+
+        if (!status) {
+            LOGGER.info("Unsuccessful attempt to send successful purchase email with postId {}", postId);
+
+        } else {
+            LOGGER.info("Successful purchase email with postId {}", postId);
+        }
+
+        return status;
+    }
+
+    @Override
+    public boolean sendAnswerEmail(final String to, final String productName, final String answer) {
+
+        String htmlFilename = "/html/answerEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+
+        content = content.replace("$productName", productName);
+        content = content.replace("$answer", answer);
+        boolean status = sendSimpleMessage(to, "Answer", content);
+
+        if (!status) {
+            LOGGER.info("Unsuccessful attempt to send answer email with product name {}", productName);
+
+        } else {
+            LOGGER.info("Successful send answer email with product name {}", productName);
+        }
+
+        return status;
+    }
+
+    @Override
+    public boolean sendChangePostStatusEmail(final String to, final String productName, final String description,
+                                             final String newStatus) {
+
+        String htmlFilename = "/html/changePostStatusEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+
+        content = content.replace("$productName", productName);
+        content = content.replace("$description", description);
+        content = content.replace("$newStatus", newStatus);
+        boolean status = sendSimpleMessage(to, "Successful purchase", content);
+
+        if (!status) {
+            LOGGER.info("Unsuccessful attempt to send change status email with product name {}", productName);
+
+        } else {
+            LOGGER.info("Successful send change status email with product name {}", productName);
+        }
+
+        return status;
+    }
 
     @Override
     public boolean sendCodeEmail(final String to, final Integer code) {
-
-       // boolean status = sendSimpleMessage(to, "Authentication code", "Here is your authentication code: " + code);
-//        String text = "<h2>Here is your authentication code: "+code+"</h2>\n" +
-//                "<br>\n" +
-//                "<h3>Authentication link: http://pawserver.it.itba.edu.ar/paw-2018b-07/authentication?loggedIn=false</h3>";
-
-//        String htmlPath = "services/src/main/resources/html/authCodeEmail.html";
         String htmlFilename = "/html/authCodeEmail.html";
         String content = transformHtmlEmailContentIntoString(htmlFilename);
 
@@ -124,12 +140,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendChangePasswordEmail(final String to, final String code){
+    public boolean sendChangePasswordEmail(final String to, final String code) {
 
-        //String text = "<h2>Go to this link to change your password</h2>\n" +
-        //        "<h3>http://pawserver.it.itba.edu.ar/paw-2018b-07/changePassword?code="+code+"</h3>";
-
-//        String htmlPath = "services/src/main/resources/html/changePasswordEmail.html";
         String htmlFilename = "/html/changePasswordEmail.html";
         String content = transformHtmlEmailContentIntoString(htmlFilename);
         content = content.replace("$code", code);
@@ -139,6 +151,87 @@ public class EmailServiceImpl implements EmailService {
             LOGGER.info("Unsuccessful attempt to send email with code {}", code);
         else
             LOGGER.info("Authentication email sent with code {}", code);
+
+        return couldSendMessage;
+    }
+
+    @Override
+    public boolean sendPurchaseEmail(final String to, final String buyerUsername, final String buyerEmail,
+                                     final String buyerPhoneNumber, final String productName,
+                                     final String postDescription, final Integer productQuantity) {
+
+        String htmlFilename = "/html/purchaseEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+        content = content.replace("$buyerUsername", buyerUsername);
+        content = content.replace("$buyerEmail", buyerEmail);
+        content = content.replace("$buyerPhoneNumber", buyerPhoneNumber);
+        content = content.replace("$productName", productName);
+        content = content.replace("$postDescription", postDescription);
+        content = content.replace("$productQuantity", productQuantity.toString());
+        boolean couldSendMessage = sendSimpleMessage(to, "New sale", content);
+
+        if (!couldSendMessage)
+            LOGGER.info("Unsuccessful attempt to send email with buyer username {}", buyerUsername);
+        else
+            LOGGER.info("Authentication email sent with buyer username {}", buyerUsername);
+
+        return couldSendMessage;
+    }
+
+    @Override
+    public boolean sendDeclinedTransaction(final String to, final String buyerUsername, final String productName) {
+
+        String htmlFilename = "/html/declinedTransactionEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+        content = content.replace("$buyerUsername", buyerUsername);
+        content = content.replace("$productName", productName);
+        boolean couldSendMessage = sendSimpleMessage(to, "Declined transaction", content);
+
+        if (!couldSendMessage)
+            LOGGER.info("Unsuccessful attempt to send email with declined transaction by {}", buyerUsername);
+        else
+            LOGGER.info("Authentication email sent with declined transaction by {}", buyerUsername);
+
+        return couldSendMessage;
+    }
+
+    @Override
+    public boolean sendAskEmail(final String to, final String productName, final String question,
+                                final Integer questionId) {
+
+        String htmlFilename = "/html/askEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+        content = content.replace("$productName", productName);
+        content = content.replace("$questionMessage", question);
+        content = content.replace("$questionId", questionId.toString());
+        boolean couldSendMessage = sendSimpleMessage(to, "Question asked", content);
+
+        if (!couldSendMessage)
+            LOGGER.info("Unsuccessful attempt to send email with questionId {}", questionId);
+        else
+            LOGGER.info("Authentication email sent with questionId {}", questionId);
+
+        return couldSendMessage;
+    }
+
+    @Override
+    public boolean sendReviewEmail(final String to, final String buyerUsername, final String description,
+                                   final Integer rating) {
+
+        String htmlFilename = "/html/reviewEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+        content = content.replace("$buyerUsername", buyerUsername);
+        content = content.replace("$description", description);
+        content = content.replace("$rating", rating.toString());
+
+        boolean couldSendMessage = sendSimpleMessage(to, "Review made", content);
+
+        if (!couldSendMessage)
+            LOGGER.info("Unsuccessful attempt to send email with review made by {}", buyerUsername);
+        else
+            LOGGER.info("Authentication email sent with review made by {}", buyerUsername);
+
+        return couldSendMessage;
     }
 
     private String transformHtmlEmailContentIntoString(final String htmlFilename) {

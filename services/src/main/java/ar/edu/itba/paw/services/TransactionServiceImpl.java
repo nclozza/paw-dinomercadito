@@ -65,11 +65,6 @@ public class TransactionServiceImpl implements TransactionService {
         Optional<User> buyerUser = userService.findUserByUserId(buyerUserId);
         Optional<Post> post = postService.findPostByPostId(postId);
 
-        if (buyerUserId == post.get().getUserSeller().getUserId()){
-            LOGGER.error("BuyerUser and SellerUser are the same");
-            return Transaction.SAME_USER;
-        }
-
         if (!post.isPresent()) {
             LOGGER.error("Wrong information to make the transaction");
             return Transaction.WRONG_PARAMETERS;
@@ -80,6 +75,16 @@ public class TransactionServiceImpl implements TransactionService {
         if (!buyerUser.isPresent() || !product.isPresent()) {
             LOGGER.error("Wrong information to make the transaction");
             return Transaction.INCOMPLETE;
+        }
+
+        if (buyerUserId == post.get().getUserSeller().getUserId()){
+            LOGGER.error("BuyerUser and SellerUser are the same");
+            return Transaction.SAME_USER;
+        }
+
+        if (transactionDAO.findPendingTransaction(postId, buyerUserId)){
+            LOGGER.error("Buy in pending for userid = {}", buyerUserId);
+            return Transaction.PENDING_BUY;
         }
 
         Transaction transaction = createTransaction(postId, buyerUserId, productQuantity, post.get().getPrice(),
