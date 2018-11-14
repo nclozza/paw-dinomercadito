@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS posts (
    price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128),
    productQuantity INT NOT NULL,
-   visits INT NOT NULL
+   visits INT NOT NULL,
+   disable BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transactions (
@@ -52,8 +53,8 @@ VALUES (2222, 'iPhone 8', 'Apple', '2GB', '256GB',
 	'iOS', 'A11 Bionic', '138.4 x 67.3 x 7.3 mm', '60.9 cm2',
 	'16:9', '12 MP, f/1.8, 28mm, OIS, PDAF', '7 MP, f/2.2');
 
-INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits)
-VALUES (700, 2222, 300, 850.00, '.', 10, 0);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (700, 2222, 300, 850.00, '.', 10, 0, false);
 
 
 INSERT INTO transactions (transactionId, postBought_postId, buyerUser_userId, productQuantity, price, productName, status)

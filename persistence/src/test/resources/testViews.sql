@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS posts (
    price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128),
    productQuantity INT NOT NULL,
-   visits INT NOT NULL
+   visits INT NOT NULL,
+   disable BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS views (
@@ -57,11 +58,11 @@ VALUES (6666, 'dinolucas', 'dinopass', 'dinolucas@gmail.com', '1123456789', '01-
 INSERT INTO users (userId, username, password, email, phone, birthdate)
 VALUES (12345, 'dinonico', 'dinopass', 'dinonico@gmail.com', '1123456789', '01-01-2000');
 
-INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits)
-VALUES (5555, 9876, 6666, 450.00, '', 5, 2);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (5555, 9876, 6666, 450.00, '', 5, 2, false);
 
-INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits)
-VALUES (45678, 4567, 12345, 150.00, '', 5, 2);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (45678, 4567, 12345, 150.00, '', 5, 2, false);
 
 INSERT INTO views (viewId, postVisited_postId, userWhoVisited_userId)
 VALUES (7777, 5555, 6666);

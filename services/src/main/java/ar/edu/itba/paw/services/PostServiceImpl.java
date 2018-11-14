@@ -55,7 +55,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Optional<Post> addVisit(Integer postId, Integer userId, Integer userIdLogged) {
 
-        if (userId != userIdLogged && viewService.checkAddVisit(postId, userIdLogged)) {
+        if (userId != userIdLogged && viewService.checkIfUserVisitedPost(postId, userIdLogged)) {
             Optional<Post> post = postDAO.addVisit(postId);
             viewService.createView(postId, userIdLogged);
             return post;

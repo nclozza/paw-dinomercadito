@@ -183,8 +183,8 @@ public class UserController {
         transactionService.confirmTransaction(transaction.get());
 
         emailService.sendSuccessfulPurchaseEmail(transaction.get().getBuyerUser().getEmail(),
-                transaction.get().getProductName(), transaction.get().getPostBuyed().getPostId(),
-                transaction.get().getPostBuyed().getUserSeller().getUserId());
+                transaction.get().getProductName(), transaction.get().getBoughtPost().getPostId(),
+                transaction.get().getBoughtPost().getUserSeller().getUserId());
 
         return new ModelAndView("redirect:/profile");
     }
@@ -197,7 +197,7 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(form.getTransactionId());
 
         if (!transaction.isPresent() || user == null
-                || (!user.getUserId().equals(transaction.get().getPostBuyed().getUserSeller().getUserId())
+                || (!user.getUserId().equals(transaction.get().getBoughtPost().getUserSeller().getUserId())
                     && !user.getUserId().equals(transaction.get().getBuyerUser().getUserId()))) {
             return new ModelAndView("redirect:/400");
         }
@@ -205,7 +205,7 @@ public class UserController {
         transactionService.changeTransactionStatus(form.getTransactionId(), Transaction.DECLINED);
 
         if (user.getUserId().equals(transaction.get().getBuyerUser().getUserId())) {
-            String sellerUserEmail = transaction.get().getPostBuyed().getUserSeller().getEmail();
+            String sellerUserEmail = transaction.get().getBoughtPost().getUserSeller().getEmail();
             emailService.sendDeclinedTransaction(sellerUserEmail, user.getUsername(),
                     transaction.get().getProductName());
         }
@@ -323,7 +323,7 @@ public class UserController {
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(),
                     form.getUserId()).addObject("same_user_error", true);
 
-        if (!userReviewService.checkUserWhoReview(userLogged.getUserId(), form.getUserId()))
+        if (!userReviewService.checkReviewer(userLogged.getUserId(), form.getUserId()))
             return userReview(form, form.getFilter(), form.getPostId(), form.getProfile(),
                     form.getUserId()).addObject("check_user_error", true);
 

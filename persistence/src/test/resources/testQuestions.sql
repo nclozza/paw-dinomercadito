@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS posts (
    price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128),
    productQuantity INT NOT NULL,
-   visits INT NOT NULL
+   visits INT NOT NULL,
+   disable BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS questions (
@@ -59,11 +60,11 @@ INSERT INTO users (userId, username, password, email, phone, birthdate)
 VALUES (5555, 'dinonico', 'dinopass', 'dinonico@gmail.com', '1123456789', '01-01-2000');
 
 
-INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits)
-VALUES (99999, 99998, 99997, 450.00, '', 5, 0);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (99999, 99998, 99997, 450.00, '', 5, 0, false);
 
-INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits)
-VALUES (99008, 6666, 5555, 150.00, '', 5, 0);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (99008, 6666, 5555, 150.00, '', 5, 0, false);
 
 
 INSERT INTO questions (questionId, postAsked_postId, userWhoAsk_userId, question, answer)
