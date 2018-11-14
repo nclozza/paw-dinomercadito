@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.jdbc;
 
 import ar.edu.itba.paw.interfaces.DAO.AddressDAO;
 import ar.edu.itba.paw.models.Address;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -98,7 +97,7 @@ public class AddressDaoJDBC implements AddressDAO {
 
     @Override
     public Optional<Address> updateAddress(final Integer addressId, final String street, final Integer number, final String city,
-                                 final String province, final String zipCode, final String country) {
+                                           final String province, final String zipCode, final String country) {
         jdbcTemplate.update("UPDATE addresses SET street = ?, number = ?, city = ?, " +
                         "province = ?, zipCode = ?, country = ? WHERE addressid = ?", street, number, city, province,
                 zipCode, country, addressId);

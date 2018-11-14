@@ -1,4 +1,4 @@
-//package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;//package ar.edu.itba.paw.persistence;
 //
 //import ar.edu.itba.paw.interfaces.DAO.TransactionDAO;
 //import ar.edu.itba.paw.models.Transaction;
@@ -13,11 +13,9 @@
 //import org.springframework.test.context.jdbc.Sql;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //import org.springframework.test.jdbc.JdbcTestUtils;
-//import org.springframework.transaction.annotation.Transactional;
 //
 //import javax.sql.DataSource;
 //
-//import java.util.List;
 //import java.util.Optional;
 //
 //import static org.junit.Assert.*;
@@ -42,7 +40,7 @@
 //    private DataSource ds;
 //
 //    @Autowired
-//    private TransactionDAO transactionDAO;
+//    private TransactionDaoHibernate transactionDAO;
 //
 //    private JdbcTemplate jdbcTemplate;
 //

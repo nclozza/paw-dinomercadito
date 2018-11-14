@@ -12,7 +12,7 @@
 <body>
 
 <div class="central-wrapper">
-<c:url value="/signUp" var="postPath"/>
+    <c:url value="/signUp" var="postPath"/>
     <!-- Navbar -->
     <c:choose>
         <c:when test="${loggedIn}">

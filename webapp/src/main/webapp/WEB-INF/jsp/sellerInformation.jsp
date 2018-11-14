@@ -24,15 +24,15 @@
     </c:choose>
 
     <div class="purchase">
-        <h1><spring:message code="successfully_purchase" /></h1>
+        <h1><spring:message code="successfully_purchase"/></h1>
         <div>
-            <h2><spring:message code="seller_information" /></h2>
-            <h3><spring:message code="username_" />
-            <c:out value="${sellerUser.username}" /></h3>
-            <h3><spring:message code="phone_" />
-            <c:out value="${sellerUser.phone}" /></h3>
-            <h3><spring:message code="email_" />
-            <c:out value="${sellerUser.email}" /></h3>
+            <h2><spring:message code="seller_information"/></h2>
+            <h3><spring:message code="username_"/>
+                <c:out value="${sellerUser.username}"/></h3>
+            <h3><spring:message code="phone_"/>
+                <c:out value="${sellerUser.phone}"/></h3>
+            <h3><spring:message code="email_"/>
+                <c:out value="${sellerUser.email}"/></h3>
         </div>
 
         <br>

@@ -34,6 +34,8 @@
 //    private static final String DESCRIPTIONUPDATE = "esta es la segunda descripcion";
 //    private static final Integer PRODUCTQUANTITY = 15;
 //    private static final Integer PRODUCTQUANTITYUPDATE = 500;
+//    private static final Integer VISITS = 5;
+//    private static final Integer VISITSUPDATE = 20;
 //
 //    // The amount of pre-inserted posts in the testPosts.sql script
 //    private static final int ROWS_PRE_INSERTED = 4;
@@ -49,7 +51,7 @@
 //    private DataSource ds;
 //
 //    @Autowired
-//    private PostDAO postDao;
+//    private PostDaoHibernate postDao;
 //
 //    private JdbcTemplate jdbcTemplate;
 //
@@ -66,7 +68,8 @@
 //
 //    @Test
 //    public void testPostCreate() {
-//        final Post post = postDao.createPost(DUMMY_PRODUCTID, PRICE, DUMMY_USERID, DESCRIPTION, PRODUCTQUANTITY);
+//        final Post post = postDao.createPost(DUMMY_PRODUCTID, PRICE, DUMMY_USERID, DESCRIPTION, PRODUCTQUANTITY,
+//                VISITS);
 //
 //        assertNotNull(post);
 //        assertEquals(DUMMY_PRODUCTID, post.getProductId().intValue());
@@ -74,19 +77,21 @@
 //        assertEquals(PRICE, post.getPrice());
 //        assertEquals(DESCRIPTION, post.getDescription());
 //        assertEquals(PRODUCTQUANTITY, post.getProductQuantity());
+//        assertEquals(VISITS, post.getVisits());
 //        assertEquals(ROWS_PRE_INSERTED + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "posts"));
 //    }
 //
 //    @Test
 //    public void testUpdatePost() {
 //        Optional<Post> post = postDao.updatePost(DUMMY_POSTID, DUMMY_PRODUCTID, PRICEUPDATE, DESCRIPTIONUPDATE,
-//                PRODUCTQUANTITYUPDATE);
+//                PRODUCTQUANTITYUPDATE, VISITSUPDATE);
 //
 //        assertTrue(post.isPresent());
 //        assertEquals(DUMMY_PRODUCTID, post.get().getProductId().intValue());
 //        assertEquals(PRICEUPDATE, post.get().getPrice());
 //        assertEquals(DESCRIPTIONUPDATE, post.get().getDescription());
 //        assertEquals(PRODUCTQUANTITYUPDATE, post.get().getProductQuantity());
+//        assertEquals(VISITSUPDATE, post.get().getVisits());
 //    }
 //
 //    @Test

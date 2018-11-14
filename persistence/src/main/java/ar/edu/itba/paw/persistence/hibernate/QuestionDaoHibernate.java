@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;
 
 import ar.edu.itba.paw.interfaces.DAO.QuestionDAO;
 import ar.edu.itba.paw.models.Post;
@@ -11,16 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class QuestionDAOHibernate implements QuestionDAO {
+public class QuestionDaoHibernate implements QuestionDAO {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuestionDAOHibernate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuestionDaoHibernate.class);
 
     @PersistenceContext
     private EntityManager em;

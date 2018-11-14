@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.jdbc;
 
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.User;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -87,7 +86,7 @@ public class UserDaoJDBC implements UserDAO {
         return findUserByUserId(userId);
     }
 
-    public boolean checkUsername(final String username){
+    public boolean checkUsername(final String username) {
         final List<User> userList = jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username);
 
         return userList.isEmpty();

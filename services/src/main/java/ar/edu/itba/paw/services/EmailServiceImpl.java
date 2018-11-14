@@ -13,6 +13,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -40,7 +43,6 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
-            helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
             helper.setSubject(subject);
             helper.setTo(to);
             helper.setText(text, true);
@@ -102,33 +104,59 @@ public class EmailServiceImpl implements EmailService {
     public boolean sendCodeEmail(final String to, final Integer code) {
 
        // boolean status = sendSimpleMessage(to, "Authentication code", "Here is your authentication code: " + code);
-        String text = "<h2>Here is your authentication code: "+code+"</h2>\n" +
-                "<br>\n" +
-                "<h3>Authentication link: http://pawserver.it.itba.edu.ar/paw-2018b-07/authentication?loggedIn=false</h3>";
+//        String text = "<h2>Here is your authentication code: "+code+"</h2>\n" +
+//                "<br>\n" +
+//                "<h3>Authentication link: http://pawserver.it.itba.edu.ar/paw-2018b-07/authentication?loggedIn=false</h3>";
 
-        boolean status = sendSimpleMessage(to, "Authentication code", text);
-        if (!status) {
+//        String htmlPath = "services/src/main/resources/html/authCodeEmail.html";
+        String htmlFilename = "/html/authCodeEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+
+        content = content.replace("$code", code.toString());
+        boolean couldSendMessage = sendSimpleMessage(to, "Authentication code", content);
+
+        if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with code {}", code);
-
-        } else {
+        else
             LOGGER.info("Authentication email sent with code {}", code);
-        }
 
-        return status;
+        return couldSendMessage;
     }
 
     @Override
     public void sendChangePasswordEmail(final String to, final String code){
 
-        String text = "<h2>Go to this link to change your password</h2>\n" +
-                "<h3>http://pawserver.it.itba.edu.ar/paw-2018b-07/changePassword?code="+code+"</h3>";
+        //String text = "<h2>Go to this link to change your password</h2>\n" +
+        //        "<h3>http://pawserver.it.itba.edu.ar/paw-2018b-07/changePassword?code="+code+"</h3>";
 
-        boolean status = sendSimpleMessage(to, "Change your password", text);
-        if (!status) {
+//        String htmlPath = "services/src/main/resources/html/changePasswordEmail.html";
+        String htmlFilename = "/html/changePasswordEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+        content = content.replace("$code", code);
+        boolean couldSendMessage = sendSimpleMessage(to, "Change your password", content);
+
+        if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with code {}", code);
-
-        } else {
+        else
             LOGGER.info("Authentication email sent with code {}", code);
+    }
+
+    private String transformHtmlEmailContentIntoString(final String htmlFilename) {
+        StringBuilder contentBuilder = new StringBuilder();
+        InputStream inputStream = EmailServiceImpl.class.getResourceAsStream(htmlFilename);
+        InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        BufferedReader reader = new BufferedReader(streamReader);
+        String str;
+
+        try {
+            while ((str = reader.readLine()) != null)
+                contentBuilder.append(str);
+
+            reader.close();
+        } catch (IOException e) {
+            LOGGER.info("Unsuccessful attempt to read {}", htmlFilename);
         }
+
+        return contentBuilder.toString();
     }
 }

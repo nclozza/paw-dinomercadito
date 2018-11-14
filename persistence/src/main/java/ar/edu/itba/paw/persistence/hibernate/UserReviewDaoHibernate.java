@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;
 
 import ar.edu.itba.paw.interfaces.DAO.UserReviewDAO;
 import ar.edu.itba.paw.models.User;
@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UserReviewDAOHibernate implements UserReviewDAO {
+public class UserReviewDaoHibernate implements UserReviewDAO {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserReviewDAOHibernate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserReviewDaoHibernate.class);
 
     @PersistenceContext
     private EntityManager em;

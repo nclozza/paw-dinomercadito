@@ -13,7 +13,6 @@
 //import org.springframework.test.context.jdbc.Sql;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //import org.springframework.test.jdbc.JdbcTestUtils;
-//import org.springframework.transaction.annotation.Transactional;
 //
 //import javax.sql.DataSource;
 //import java.util.Arrays;
@@ -68,7 +67,7 @@
 //    private DataSource ds;
 //
 //    @Autowired
-//    private ProductDaoJDBC productDao;
+//    private ProductDaoHibernate productDao;
 //
 //    private JdbcTemplate jdbcTemplate;
 //

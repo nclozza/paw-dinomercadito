@@ -41,17 +41,13 @@ public class PostServiceImpl implements PostService {
     @Transactional (readOnly = true)
     @Override
     public List<Post> findPostsByUserId(Integer userId) {
-        List<Post> postsList = postDAO.findPostsByUserId(userId);
-
-        return postsList;
+        return postDAO.findPostsByUserId(userId);
     }
 
     @Transactional (readOnly = true)
     @Override
     public List<Post> findPostsByProductId(Integer productId) {
-        List<Post> postsList = postDAO.findPostsByProductId(productId);
-
-        return postsList;
+        return postDAO.findPostsByProductId(productId);
     }
 
     @Override

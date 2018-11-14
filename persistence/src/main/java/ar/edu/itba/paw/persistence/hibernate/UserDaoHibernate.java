@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;
 
 import ar.edu.itba.paw.interfaces.DAO.UserDAO;
 import ar.edu.itba.paw.models.User;
@@ -85,7 +85,6 @@ public class UserDaoHibernate implements UserDAO {
         final List<User> list = query.getResultList();
 
         return list.isEmpty();
-
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;
 
 
 import ar.edu.itba.paw.interfaces.DAO.ForgotPasswordDAO;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ForgotPasswordDAOHibernate implements ForgotPasswordDAO {
+public class ForgotPasswordDaoHibernate implements ForgotPasswordDAO {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForgotPasswordDAOHibernate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForgotPasswordDaoHibernate.class);
 
     @PersistenceContext
     private EntityManager em;

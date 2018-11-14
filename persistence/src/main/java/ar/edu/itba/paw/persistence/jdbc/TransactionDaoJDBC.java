@@ -1,22 +1,19 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.jdbc;
 
 import ar.edu.itba.paw.interfaces.DAO.TransactionDAO;
 import ar.edu.itba.paw.models.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TransactionDaoJDBC implements TransactionDAO {
 
@@ -51,7 +48,7 @@ public class TransactionDaoJDBC implements TransactionDAO {
         args.put("price", price);
         args.put("productname", productName);
         final Number transactionId;
-        try{
+        try {
             transactionId = jdbcInsert.executeAndReturnKey(args);
         } catch (AssertionError e) {
             return null;

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;
 
 import ar.edu.itba.paw.interfaces.DAO.TransactionDAO;
 import ar.edu.itba.paw.models.Post;

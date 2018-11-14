@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.jdbc;
 
 import ar.edu.itba.paw.interfaces.DAO.PostDAO;
 import ar.edu.itba.paw.models.Post;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -69,7 +68,7 @@ public class PostDaoJDBC implements PostDAO {
     public Optional<Post> updatePost(final Integer postId, final Integer productId, final Double price, final String description,
                            final Integer productQuantity, final Integer Visits) {
         jdbcTemplate.update("UPDATE posts SET productId = ?, price = ?, description = ?, productQuantity = ? " +
-                        "WHERE postid = ?", productId, price, description, productQuantity, postId);
+                "WHERE postid = ?", productId, price, description, productQuantity, postId);
 
         LOGGER.info("Post updated with postId = {}", postId);
 

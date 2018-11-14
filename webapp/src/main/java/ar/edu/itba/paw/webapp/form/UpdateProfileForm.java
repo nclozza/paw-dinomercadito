@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 public class UpdateProfileForm {
 
-    private String password;
+    private String newPassword;
 
     private String repeatPassword;
 
@@ -24,11 +24,11 @@ public class UpdateProfileForm {
     private Integer transactionId;
 
     public String getPassword() {
-        return password;
+        return newPassword;
     }
 
-    public void setPassword(final String password) {
-        this.password = password;
+    public void setPassword(final String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public String getRepeatPassword() {
@@ -40,7 +40,7 @@ public class UpdateProfileForm {
     }
 
     public boolean checkPassword() {
-        return this.password != null && this.password.equals(this.repeatPassword);
+        return this.newPassword != null && this.newPassword.equals(this.repeatPassword);
     }
 
     public String getEmail() {

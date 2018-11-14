@@ -5,22 +5,22 @@ import javax.validation.constraints.Size;
 public class ChangePasswordForm {
 
     @Size(min = 6, max = 32)
-    private String password;
+    private String newPassword;
 
     private String repeatPassword;
 
     private String code;
 
     public boolean checkPassword() {
-        return this.password != null && this.repeatPassword != null && this.password.equals(this.repeatPassword);
+        return this.newPassword != null && this.newPassword.equals(this.repeatPassword);
     }
 
     public String getPassword() {
-        return password;
+        return newPassword;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.newPassword = password;
     }
 
     public String getRepeatPassword() {

@@ -49,7 +49,7 @@
 //    private DataSource ds;
 //
 //    @Autowired
-//    private AddressDaoJDBC addressDao;
+//    private AddressDaoHibernate addressDao;
 //
 //    @Autowired
 //    private UserDAO userDao;
@@ -69,7 +69,7 @@
 //
 //    @Test
 //    public void testAddressCreate() {
-//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 //
 //        final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 //
@@ -85,7 +85,7 @@
 //
 //    @Test
 //    public void testAddressUpdate(){
-//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 //        Address newAddress = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 //        Optional<Address> address = addressDao.updateAddress(newAddress.getAddressId(), STREETUPDATE, NUMBERUPDATE, CITYUPDATE, PROVINCEUPDATE, ZIPCODEUPDATE, COUNTRYUPDATE);
 //
@@ -101,7 +101,7 @@
 //
 //    @Test
 //    public void testAddressFind(){
-//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 //        final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 //
 //        Optional<Address> addressFound = addressDao.findAddressByAddressId(address.getAddressId());
@@ -111,11 +111,11 @@
 //
 //    @Test
 //    public void testAddressDelete(){
-//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE, FUNDS);
+//        final User user = userDao.createUser(USERNAME, PASSWORD, EMAIL, PHONE, BIRTHDATE);
 //        final Address address = addressDao.createAddress(user.getUserId(), STREET, NUMBER, CITY, PROVINCE, ZIPCODE, COUNTRY);
 //
 //        assertTrue(addressDao.deleteAddressByAddressId(address.getAddressId()));
 //        assertEquals(0, JdbcTestUtils.countRowsInTable(jdbcTemplate, "addresses"));
 //    }
 //}
-
+//

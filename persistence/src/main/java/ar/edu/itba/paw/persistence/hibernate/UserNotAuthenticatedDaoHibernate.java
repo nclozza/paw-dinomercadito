@@ -1,7 +1,6 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw.persistence.hibernate;
 
 import ar.edu.itba.paw.interfaces.DAO.UserNotAuthenticatedDAO;
-import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserNotAuthenticated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
