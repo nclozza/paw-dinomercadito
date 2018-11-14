@@ -197,7 +197,7 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(form.getTransactionId());
 
         if (!transaction.isPresent() || user == null
-                || !user.getUserId().equals(transaction.get().getBuyerUser().getUserId())) {
+                || !user.getUserId().equals(transaction.get().getPostBuyed().getUserSeller().getUserId()) {
             return new ModelAndView("redirect:/400");
         }
 
