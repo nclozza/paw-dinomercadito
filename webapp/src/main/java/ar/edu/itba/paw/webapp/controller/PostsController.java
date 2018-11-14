@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Controller
 public class PostsController {
@@ -37,6 +38,9 @@ public class PostsController {
 
     @Autowired
     QuestionService questionService;
+
+    @Autowired
+    EmailService emailService;
 
     @RequestMapping("/posts")
     public ModelAndView index(@RequestParam(value = "filter", required = false) final String filter, @RequestParam(value = "productId") final Integer productId) {
@@ -127,7 +131,7 @@ public class PostsController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userService.findUserByUsername(authentication.getName());
 
-        return authentication.isAuthenticated() ? user : null;
+        return authentication.isAuthenticated() ? user : Optional.empty();
     }
 
 
@@ -160,6 +164,9 @@ public class PostsController {
 
         Optional<User> user = getLoggedUser();
 
+        if(!user.isPresent()) {
+            return new ModelAndView("redirect:/400");
+        }
 
         Integer status = transactionService.makeTransaction(user.get().getUserId(), form.getPostId(), form.getProductQuantity());
 
@@ -173,6 +180,22 @@ public class PostsController {
         } else if (status.equals(Transaction.WRONG_PARAMETERS))
             return new ModelAndView("redirect:/400");
 
+        Optional<User> buyerUser = userService.findUserByUserId(user.get().getUserId());
+        Optional<Post> post = postService.findPostByPostId(form.getPostId());
+
+        if (!buyerUser.isPresent() || !post.isPresent()) {
+            return new ModelAndView("redirect:/400");
+        }
+
+        Optional<User> sellerUser = userService.findUserByUserId(post.get().getUserSeller().getUserId());
+
+        if (!sellerUser.isPresent()) {
+            return new ModelAndView("redirect:/400");
+        }
+
+        emailService.sendPurchaseEmail(sellerUser.get().getEmail(), buyerUser.get().getUsername(),
+                buyerUser.get().getEmail(), buyerUser.get().getPhone(), post.get().getProductPosted().getProductName(),
+                post.get().getDescription(), form.getProductQuantity());
 
         return new ModelAndView("redirect:/post?filter="+form.getFilter()+"&&postId="+form.getPostId()+
                 "&&profile="+form.getProfile());
@@ -244,10 +267,18 @@ public class PostsController {
         Optional<Post> post = postService.findPostByPostId(form.getPostId());
         Optional<User> userLogged = getLoggedUser();
 
-        if(userLogged.get().getUserId() == post.get().getUserSeller().getUserId())
-            return ask(form, form.getPostId(), form.getFilter(), form.getProfile()).addObject("same_user_question", true);
+        if (!userLogged.isPresent() || !post.isPresent()) {
+            return new ModelAndView("redirect:/400");
+        }
+
+        if(userLogged.get().getUserId().equals(post.get().getUserSeller().getUserId()))
+            return ask(form, form.getPostId(), form.getFilter(),
+                    form.getProfile()).addObject("same_user_question", true);
 
         Question question = questionService.createQuestion(post.get().getPostId(), userLogged.get().getUserId(), form.getQuestion());
+
+        emailService.sendAskEmail(post.get().getUserSeller().getEmail(), post.get().getProductPosted().getProductName(),
+                question.getQuestion(), question.getQuestionId());
 
         return questions(form, form.getFilter(), form.getProfile(), form.getPostId());
     }
