@@ -18,7 +18,7 @@ public interface UserNotAuthenticatedDAO {
 
     Optional<UserNotAuthenticated> findUserByCode(final Integer code);
 
-    boolean checkCode(final Integer code);
+    boolean checkCodeDoesNotExist(final Integer code);
 
     boolean checkUsername(final String username);
 

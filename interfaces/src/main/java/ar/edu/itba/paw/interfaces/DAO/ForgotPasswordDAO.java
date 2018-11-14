@@ -11,7 +11,7 @@ public interface ForgotPasswordDAO {
 
     Optional<User> findUserByCode(String code);
 
-    Boolean checkCode(String code);
+    boolean checkCodeDoesNotExist(String code);
 
     void deleteRequestById(Integer forgetPasswordId);
 

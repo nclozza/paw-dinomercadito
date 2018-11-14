@@ -11,7 +11,7 @@ public interface ForgotPasswordService {
 
     Optional<User> findUserByCode(String code);
 
-    Boolean checkCode(String code);
+    Boolean checkCodeDoesNotExist(String code);
 
     void deleteRequestById(Integer forgetPasswordId);
 

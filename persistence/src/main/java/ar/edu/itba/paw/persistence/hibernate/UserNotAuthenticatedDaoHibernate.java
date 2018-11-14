@@ -68,7 +68,7 @@ public class UserNotAuthenticatedDaoHibernate implements UserNotAuthenticatedDAO
     }
 
     @Override
-    public boolean checkCode(Integer code) {
+    public boolean checkCodeDoesNotExist(Integer code) {
         final TypedQuery<UserNotAuthenticated> query = em.createQuery("from UserNotAuthenticated as u where u.code = :code", UserNotAuthenticated.class);
         query.setParameter("code", code);
         final List<UserNotAuthenticated> list = query.getResultList();

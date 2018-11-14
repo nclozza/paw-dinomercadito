@@ -35,7 +35,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             stringToEncrypt = randomStringGenerator();
             encryptedString = stringToEncrypt.hashCode();
 
-            if(forgotPasswordDAO.checkCode(encryptedString.toString()))
+            if(forgotPasswordDAO.checkCodeDoesNotExist(encryptedString.toString()))
                 check = false;
         } while (check);
 
@@ -50,8 +50,8 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     }
 
     @Override
-    public Boolean checkCode(String code) {
-        return forgotPasswordDAO.checkCode(code);
+    public Boolean checkCodeDoesNotExist(String code) {
+        return forgotPasswordDAO.checkCodeDoesNotExist(code);
     }
 
     @Override

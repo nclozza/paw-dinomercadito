@@ -86,7 +86,7 @@ public class UserNotAuthenticatedDaoJDBC implements UserNotAuthenticatedDAO {
                 ROW_MAPPER, code).stream().findFirst();
     }
 
-    public boolean checkCode(final Integer code) {
+    public boolean checkCodeDoesNotExist(final Integer code) {
 
         final List<UserNotAuthenticated> userList = jdbcTemplate.query("SELECT * FROM usersNotAuthenticated WHERE code = ?",
                 ROW_MAPPER, code);

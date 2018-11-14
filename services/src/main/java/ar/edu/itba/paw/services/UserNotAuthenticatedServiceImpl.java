@@ -59,7 +59,7 @@ public class UserNotAuthenticatedServiceImpl implements UserNotAuthenticatedServ
             Random rand = new Random();
             code = rand.nextInt(900000) + 100000;
 
-            if (userDAO.checkCode(code))
+            if (userDAO.checkCodeDoesNotExist(code))
                 check = false;
         } while (check);
 

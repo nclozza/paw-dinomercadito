@@ -44,13 +44,13 @@ public class ForgotPasswordDaoHibernate implements ForgotPasswordDAO {
     }
 
     @Override
-    public Boolean checkCode(String code){
+    public boolean checkCodeDoesNotExist(String code){
         final TypedQuery<ForgotPassword> query = em.createQuery("FROM ForgotPassword f " +
                 "WHERE f.code = :code", ForgotPassword.class);
 
         query.setParameter("code", code);
         final List<ForgotPassword> list = query.getResultList();
-        return list.isEmpty()? true : false;
+        return list.isEmpty();
     }
 
 
@@ -59,7 +59,7 @@ public class ForgotPasswordDaoHibernate implements ForgotPasswordDAO {
     public void deleteRequestById(Integer forgetPasswordId){
         ForgotPassword forgetPassword = em.find(ForgotPassword.class, forgetPasswordId);
 
-        if(forgetPassword != null){
+        if (forgetPassword != null){
             em.remove(forgetPassword);
             LOGGER.info("Forgot password request deleted with ForgotPasswordId = {}", forgetPasswordId);
         } else {
