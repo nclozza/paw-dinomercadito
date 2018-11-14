@@ -25,4 +25,7 @@ public interface EmailService {
                                         final Integer userId);
 
     boolean sendAnswerEmail(final String to, final String productName, final String answer);
+
+    boolean sendChangePostStatusEmail(final String to, final String productName, final String description,
+                                      final String newStatus);
 }

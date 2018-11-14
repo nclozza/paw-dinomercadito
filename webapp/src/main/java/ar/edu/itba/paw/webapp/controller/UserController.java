@@ -197,15 +197,22 @@ public class UserController {
         Optional<Transaction> transaction = transactionService.findTransactionByTransactionId(form.getTransactionId());
 
         if (!transaction.isPresent() || user == null
-                || !user.getUserId().equals(transaction.get().getPostBuyed().getUserSeller().getUserId()) {
+                || (!user.getUserId().equals(transaction.get().getPostBuyed().getUserSeller().getUserId())
+                    && !user.getUserId().equals(transaction.get().getBuyerUser().getUserId()))) {
             return new ModelAndView("redirect:/400");
         }
 
         transactionService.changeTransactionStatus(form.getTransactionId(), Transaction.DECLINED);
 
-        String sellerUserEmail = transaction.get().getPostBuyed().getUserSeller().getEmail();
-
-        emailService.sendDeclinedTransaction(sellerUserEmail, user.getUsername(), transaction.get().getProductName());
+        if (user.getUserId().equals(transaction.get().getBuyerUser().getUserId())) {
+            String sellerUserEmail = transaction.get().getPostBuyed().getUserSeller().getEmail();
+            emailService.sendDeclinedTransaction(sellerUserEmail, user.getUsername(),
+                    transaction.get().getProductName());
+        }
+        else {
+            emailService.sendDeclinedTransaction(transaction.get().getBuyerUser().getEmail(), user.getUsername(),
+                    transaction.get().getProductName());
+        }
 
         return new ModelAndView("redirect:/profile");
     }

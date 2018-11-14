@@ -65,7 +65,7 @@
     bottom: 0;
     right: 0;
     width: 40%;
-    height: 80%;
+    height: 85%;
     background-color: rgba(230, 224, 224, 0.61);
     border-radius: 4px;
     overflow-x: hidden;
@@ -95,3 +95,9 @@
     margin: auto;
 }
 
+.posts{
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: 3%;
+    height: 79%;
+}

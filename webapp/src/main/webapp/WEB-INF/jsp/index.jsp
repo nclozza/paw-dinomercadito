@@ -13,7 +13,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/index.css'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/products.css'/>">
-
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 

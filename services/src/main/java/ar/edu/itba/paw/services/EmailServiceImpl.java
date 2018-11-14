@@ -102,6 +102,28 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public boolean sendChangePostStatusEmail(final String to, final String productName, final String description,
+                                             final String newStatus) {
+
+        String htmlFilename = "/html/changePostStatusEmail.html";
+        String content = transformHtmlEmailContentIntoString(htmlFilename);
+
+        content = content.replace("$productName", productName);
+        content = content.replace("$description", description);
+        content = content.replace("$newStatus", newStatus);
+        boolean status = sendSimpleMessage(to, "Successful purchase", content);
+
+        if (!status) {
+            LOGGER.info("Unsuccessful attempt to send change status email with product name {}", productName);
+
+        } else {
+            LOGGER.info("Successful send change status email with product name {}", productName);
+        }
+
+        return status;
+    }
+
+    @Override
     public boolean sendCodeEmail(final String to, final Integer code) {
         String htmlFilename = "/html/authCodeEmail.html";
         String content = transformHtmlEmailContentIntoString(htmlFilename);

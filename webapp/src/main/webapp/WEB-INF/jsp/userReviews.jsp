@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/review.css'/>">
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 <div class="central-wrapper">
@@ -25,10 +26,10 @@
     <div class="reviews-center">
         <div class="return">
             <a class="btn btn-primary" href="<c:url value="/post?filter=${filter}&&postId=${postId}&&profile=${profile}"/>"><spring:message code="go_back"/></a>
+            <h1 class="title"><spring:message code="reviews"/></h1>
         </div>
-        <h1 class="title"><spring:message code="reviews"/></h1>
 
-        <div class="reviews">
+        <div class="posts">
             <c:choose>
                 <c:when test="${empty userReviews}">
                     <br/>
