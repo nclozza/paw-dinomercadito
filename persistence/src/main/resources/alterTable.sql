@@ -7,6 +7,8 @@ ALTER TABLE posts
 RENAME COLUMN userId TO userSeller_userId;
 ALTER TABLE posts
 ADD COLUMN visits INT NOT NULL DEFAULT 0;
+ALTER TABLE posts
+ADD COLUMN "disable" BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE transactions
 RENAME COLUMN postId TO postBuyed_postId;

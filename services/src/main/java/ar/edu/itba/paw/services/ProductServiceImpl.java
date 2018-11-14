@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     public Product createProduct(String productName, String brand, String ram, String storage, String operativeSystem,
                                  String processor, String bodySize, String screenSize, String screenRatio,
                                  String rearCamera, String frontCamera) {
-        return productDAO.createProduct(productName,brand, ram, storage, operativeSystem, processor, bodySize,
+        return productDAO.createProduct(productName, brand, ram, storage, operativeSystem, processor, bodySize,
                 screenSize, screenRatio, rearCamera, frontCamera);
     }
 
@@ -42,9 +42,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> updateProduct(final Integer productId, final String productName, final String brand, final String ram,
-                                 final String storage, final String operativeSystem, final String processor,
-                                 final String bodySize, final String screenSize, final String screenRatio,
-                                 final String rearCamera, final String frontCamera) {
+                                           final String storage, final String operativeSystem, final String processor,
+                                           final String bodySize, final String screenSize, final String screenRatio,
+                                           final String rearCamera, final String frontCamera) {
         return productDAO.updateProduct(productId, productName, brand, ram, storage, operativeSystem, processor,
                 bodySize, screenSize, screenRatio, rearCamera, frontCamera);
     }

@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import ar.edu.itba.paw.interfaces.Services.UserService;
-import ar.edu.itba.paw.models.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;

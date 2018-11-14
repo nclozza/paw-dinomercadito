@@ -7,12 +7,12 @@
     <title><spring:message code="DinoMercadito"/></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
-
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 
 <div class="central-wrapper">
-<c:url value="/signUp" var="postPath"/>
+    <c:url value="/signUp" var="postPath"/>
     <!-- Navbar -->
     <c:choose>
         <c:when test="${loggedIn}">
@@ -53,9 +53,6 @@
                 <form:input type="text" path="email" class="form-control"/>
                 <form:errors class="error" path="email" element="p"><br><spring:message
                         code="email_error"/><br></form:errors>
-                <c:if test="${sameEmail_error}">
-                    <p><spring:message code="sameEmail_error"/></p>
-                </c:if>
             </div>
             <div class="form-group">
                 <form:label class="label" path="phone"><spring:message code="phone"/></form:label>

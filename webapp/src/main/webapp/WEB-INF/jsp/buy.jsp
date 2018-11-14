@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 <c:url value="/buy" var="postPath"/>
@@ -45,6 +46,9 @@
                 <br/>
                 <c:if test="${same_user}">
                     <p><spring:message code="post_error"/></p>
+                </c:if>
+                <c:if test="${pending_transaction}">
+                    <p><spring:message code="transaction_error"/></p>
                 </c:if>
                 <br/>
             </div>

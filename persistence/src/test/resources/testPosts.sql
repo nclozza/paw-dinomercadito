@@ -20,17 +20,20 @@ CREATE TABLE IF NOT EXISTS users (
    email VARCHAR(32),
    phone VARCHAR(16),
    birthdate VARCHAR(10),
-   funds NUMERIC(10, 2)
+   rating NUMERIC(10, 2)
 );
 
 CREATE TABLE IF NOT EXISTS posts (
    postId INTEGER IDENTITY PRIMARY KEY,
-   productId INTEGER REFERENCES products(productId) NOT NULL,
-   userId INTEGER REFERENCES users(userId) NOT NULL,
+   productPosted_productId INTEGER REFERENCES products(productId) NOT NULL,
+   userSeller_userId INTEGER REFERENCES users(userId) NOT NULL,
    price NUMERIC(10, 2) NOT NULL,
    description VARCHAR(128),
-   visits INT NOT NULL
+   productQuantity INT NOT NULL,
+   visits INT NOT NULL,
+   disable BOOLEAN NOT NULL
 );
+
 
 
 INSERT INTO products (productid, productname, brand, ram, storage, operativesystem, processor, bodysize, screensize, screenratio, rearcamera, frontcamera)
@@ -44,21 +47,21 @@ VALUES(6666, 'iPhone 8', 'Apple', '2GB', '256GB',
 	'iOS', 'A11 Bionic', '138.4 x 67.3 x 7.3 mm', '60.9 cm2',
 	'16:9', '12 MP, f/1.8, 28mm, OIS, PDAF', '7 MP, f/2.2');
 
-INSERT INTO users (userId, username, password, email, phone, birthdate, funds)
-VALUES (99997, 'dinolucas', 'dinopass', 'dinolucas@gmail.com', '1123456789', '01-01-2000', 50000.00);
+INSERT INTO users (userId, username, password, email, phone, birthdate)
+VALUES (99997, 'dinolucas', 'dinopass', 'dinolucas@gmail.com', '1123456789', '01-01-2000');
 
-INSERT INTO users (userId, username, password, email, phone, birthdate, funds)
-VALUES (5555, 'dinonico', 'dinopass', 'dinonico@gmail.com', '1123456789', '01-01-2000', 50000.00);
+INSERT INTO users (userId, username, password, email, phone, birthdate)
+VALUES (5555, 'dinonico', 'dinopass', 'dinonico@gmail.com', '1123456789', '01-01-2000');
 
 
-INSERT INTO posts (postId, productId, userId, price, description, visits)
-VALUES (99999, 99998, 99997, 450.00, '', 5);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (99999, 99998, 99997, 450.00, '', 5, 1, false);
 
-INSERT INTO posts (postId, productId, userId, price, description, visits)
-VALUES (99008, 99998, 5555, 150.00, '', 5);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (99008, 99998, 5555, 150.00, '', 5, 1, false);
 
-INSERT INTO posts (postId, productId, userId, price, description, visits)
-VALUES (99007, 6666, 5555, 1000.00, '', 5);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (99007, 6666, 5555, 1000.00, '', 5, 1, false);
 
-INSERT INTO posts (postId, productId, userId, price, description, visits)
-VALUES (99006, 6666, 99997, 580.00, '', 5);
+INSERT INTO posts (postId, productPosted_productId, userSeller_userId, price, description, productQuantity, visits, disable)
+VALUES (99006, 6666, 99997, 580.00, '', 5, 1, false);

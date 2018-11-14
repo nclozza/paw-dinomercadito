@@ -93,3 +93,8 @@ CREATE TABLE IF NOT EXISTS forgotPasswords (
    requestDate VARCHAR(10),
    code VARCHAR(64) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS admins (
+   adminId SERIAL PRIMARY KEY,
+   userAdmin_userId INT REFERENCES users(userId) NOT NULL
+);

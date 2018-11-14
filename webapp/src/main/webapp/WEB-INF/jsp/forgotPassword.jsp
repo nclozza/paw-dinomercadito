@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/login.css'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/posts.css'/>">
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 <c:url value="/forgotPassword" var="postPath"/>

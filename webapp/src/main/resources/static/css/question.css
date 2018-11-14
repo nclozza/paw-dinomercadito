@@ -72,3 +72,27 @@
     margin-bottom: 3%;
     height: 70%;
 }
+
+.search-container {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    height: 28%;
+    background-color: rgba(230, 224, 224, 0.61);
+    border-radius: 10px;
+    overflow: auto;
+    padding: 8px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.input-group .form-control {
+    position: absolute;
+    z-index: 2;
+    margin: auto;
+    margin-left: 10%;
+    width: 70%;
+}

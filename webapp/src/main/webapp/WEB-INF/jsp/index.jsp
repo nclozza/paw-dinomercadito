@@ -13,7 +13,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/index.css'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/css/products.css'/>">
-
+    <%@ include file="favicon.jsp" %>
 </head>
 <body>
 
@@ -32,7 +32,9 @@
     <div class="container-fluid full-height text-center bg-1">
         <div class="vertical-align">
             <div class="horizontal-align">
-                <h1><spring:message code="search_products"/></h1>
+                <img style="width: 300px;"
+                     src="<c:url value="/images/logo.png"/>" alt="logo">
+                <h1 id="search-tittle"><spring:message code="search_products"/></h1>
                 <h4><spring:message code="products_types"/></h4>
                 <div class="wrap">
                     <c:url value="/index" var="searchUrl"/>
