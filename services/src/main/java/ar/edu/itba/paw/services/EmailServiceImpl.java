@@ -134,7 +134,7 @@ public class EmailServiceImpl implements EmailService {
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with code {}", code);
         else
-            LOGGER.info("Authentication email sent with code {}", code);
+            LOGGER.info("Email sent with code {}", code);
 
         return couldSendMessage;
     }
@@ -150,7 +150,7 @@ public class EmailServiceImpl implements EmailService {
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with code {}", code);
         else
-            LOGGER.info("Authentication email sent with code {}", code);
+            LOGGER.info("Email sent with code {}", code);
 
         return couldSendMessage;
     }
@@ -173,7 +173,7 @@ public class EmailServiceImpl implements EmailService {
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with buyer username {}", buyerUsername);
         else
-            LOGGER.info("Authentication email sent with buyer username {}", buyerUsername);
+            LOGGER.info("Email sent with buyer username {}", buyerUsername);
 
         return couldSendMessage;
     }
@@ -190,7 +190,7 @@ public class EmailServiceImpl implements EmailService {
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with declined transaction by {}", buyerUsername);
         else
-            LOGGER.info("Authentication email sent with declined transaction by {}", buyerUsername);
+            LOGGER.info("Email sent with declined transaction by {}", buyerUsername);
 
         return couldSendMessage;
     }
@@ -209,7 +209,7 @@ public class EmailServiceImpl implements EmailService {
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with questionId {}", questionId);
         else
-            LOGGER.info("Authentication email sent with questionId {}", questionId);
+            LOGGER.info("Email sent with questionId {}", questionId);
 
         return couldSendMessage;
     }
@@ -229,7 +229,7 @@ public class EmailServiceImpl implements EmailService {
         if (!couldSendMessage)
             LOGGER.info("Unsuccessful attempt to send email with review made by {}", buyerUsername);
         else
-            LOGGER.info("Authentication email sent with review made by {}", buyerUsername);
+            LOGGER.info("Email sent with review made by {}", buyerUsername);
 
         return couldSendMessage;
     }

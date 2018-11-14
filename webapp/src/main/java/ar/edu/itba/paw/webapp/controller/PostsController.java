@@ -177,6 +177,7 @@ public class PostsController {
         } else if (status.equals(Transaction.PENDING_BUY)){
             return buy(form.getFilter(), form.getPostId(), form.getProfile(), form).addObject("pending_transaction", true);
 
+
         } else if (status.equals(Transaction.INCOMPLETE)) {
             return new ModelAndView("redirect:/500");
 
