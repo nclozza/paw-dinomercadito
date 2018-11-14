@@ -29,7 +29,7 @@
             <h1 class="title"><spring:message code="reviews"/></h1>
         </div>
 
-        <div class="posts">
+        <div class="reviews-container">
             <c:choose>
                 <c:when test="${empty userReviews}">
                     <br/>
