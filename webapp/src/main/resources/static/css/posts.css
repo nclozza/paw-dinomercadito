@@ -40,12 +40,6 @@ body {
     font-size: 24px;
 }
 
-.no-posts-label {
-    font-weight: bold;
-    color: black;
-    font-size: 2vw;
-}
-
 .posts-center {
     margin: auto;
     position: absolute;
@@ -98,6 +92,12 @@ body {
     border-radius: 4px;
     overflow: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.responsive-label {
+    font-weight: bold;
+    color: black;
+    font-size: 2vw;
 }
 
 .return {

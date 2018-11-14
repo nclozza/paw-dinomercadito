@@ -37,7 +37,7 @@
         <div class="posts-right">
             <c:choose>
                 <c:when test="${empty posts}">
-                    <p class="no-posts-label"><spring:message code="no_posts_available"/></p>
+                    <p class="responsive-label"><spring:message code="no_posts_available"/></p>
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${posts}" var="post" varStatus="loop">
